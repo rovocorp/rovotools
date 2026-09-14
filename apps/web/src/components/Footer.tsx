@@ -31,6 +31,10 @@ const LEGAL_LINKS = [
 
 const SOCIAL_ICONS = [Linkedin, Twitter, Facebook, Instagram];
 
+// Signature logo gradient underline: grows left -> right on hover/focus.
+const FOOTER_UNDERLINE =
+  "relative inline-block w-fit after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-[linear-gradient(90deg,#0066FF_0%,#00D2FF_28%,#00E676_48%,#FFB300_74%,#F44336_100%)] after:transition-transform after:duration-300 motion-safe:after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100";
+
 export default function Footer(): React.ReactElement {
   return (
     <footer className="relative overflow-hidden border-t border-slate-200/70 bg-gradient-to-b from-indigo-50/60 via-white to-white dark:border-white/10 dark:from-indigo-950/30 dark:via-[#0B132B] dark:to-[#0B132B]">
@@ -72,7 +76,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {TOOL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF]">
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -86,7 +90,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {COMPANY_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF]">
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -100,7 +104,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF]">
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -113,12 +117,12 @@ export default function Footer(): React.ReactElement {
           </p>
           <ul className="mt-3 space-y-2 text-sm text-[#5B6B82] dark:text-[#93A1B8]">
             <li>
-              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF]">
+              <a href={`mailto:${SUPPORT_EMAIL}`} className={`font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                 {SUPPORT_EMAIL}
               </a>
             </li>
             <li>
-              <a href={WEB_URL} className="font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF]">
+              <a href={WEB_URL} className={`font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                 {WEB_URL}
               </a>
             </li>
