@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import { COMPANY_NAME, SOCIAL_LINKS, SUPPORT_EMAIL, WEB_URL } from "@rovotools/config";
+import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { COMPANY_NAME, SOCIAL_LINKS } from "@rovotools/config";
 import { t } from "@rovotools/localization";
 import { RovoToolsImageLogo } from "@/components/RovoToolsLogo";
 
@@ -115,18 +115,16 @@ export default function Footer(): React.ReactElement {
           <p className="text-xs font-bold uppercase tracking-wider text-[#0A1A33] dark:text-[#F1F5F9]">
             {t("en", "footer.contact")}
           </p>
-          <ul className="mt-3 space-y-2 text-sm text-[#5B6B82] dark:text-[#93A1B8]">
-            <li>
-              <a href={`mailto:${SUPPORT_EMAIL}`} className={`font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
-                {SUPPORT_EMAIL}
-              </a>
-            </li>
-            <li>
-              <a href={WEB_URL} className={`font-medium hover:text-[#0066FF] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
-                {WEB_URL}
-              </a>
-            </li>
-          </ul>
+          <p className="mt-3 text-sm text-[#5B6B82] dark:text-[#93A1B8]">
+            Questions, bug reports or suggestions? We usually reply within a few business days.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-px hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+          >
+            Contact us
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </div>
       <div className="border-t border-[#E1E8F2] dark:border-[#1E2F52]">

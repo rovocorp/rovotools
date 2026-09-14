@@ -6,22 +6,58 @@ import { SUPPORT_EMAIL } from "@rovotools/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+
+const TOPICS = [
+  "General enquiry",
+  "Support",
+  "Bug report",
+  "Feature request",
+  "Business",
+  "Privacy",
+  "Other",
+] as const;
+
+const MAX_MESSAGE = 5000;
 
 const contactSchema = z.object({
-  name: z.string().trim().min(2, "Enter your name."),
-  email: z.string().trim().email("Enter a valid email address."),
-  subject: z.string().trim().min(3, "Enter a subject."),
-  message: z.string().trim().min(10, "Message must be at least 10 characters."),
+  name: z.string().trim().min(2, "Enter your name.").max(120),
+  email: z.string().trim().email("Enter a valid email address.").max(320),
+  topic: z.enum(TOPICS, { errorMap: () => ({ message: "Choose a topic." }) }),
+  company: z.string().trim().max(160).optional(),
+  phone: z
+    .string()
+    .trim()
+    .max(40)
+    .refine((value) => value === "" || /^[+()\-.\s\d]+$/.test(value), "Enter a valid phone number.")
+    .optional(),
+  subject: z.string().trim().min(3, "Enter a subject.").max(200),
+  message: z.string().trim().min(10, "Message must be at least 10 characters.").max(MAX_MESSAGE),
+  consent: z.literal(true, { errorMap: () => ({ message: "Please accept the privacy policy." }) }),
+  // Honeypot — must stay empty. Bots fill it; humans never see it.
+  website: z.string().max(0, "Invalid submission."),
 });
 
 type ContactInput = z.infer<typeof contactSchema>;
 
+const EMPTY: ContactInput = {
+  name: "",
+  email: "",
+  topic: "General enquiry",
+  company: "",
+  phone: "",
+  subject: "",
+  message: "",
+  consent: false as unknown as true,
+  website: "",
+};
+
 export default function ContactForm(): React.ReactElement {
-  const [values, setValues] = useState<ContactInput>({ name: "", email: "", subject: "", message: "" });
+  const [values, setValues] = useState<ContactInput>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactInput, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
-  function set<K extends keyof ContactInput>(key: K, value: string): void {
+  function set<K extends keyof ContactInput>(key: K, value: ContactInput[K]): void {
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
@@ -40,12 +76,19 @@ export default function ContactForm(): React.ReactElement {
       return;
     }
     setErrors({});
+    // Honeypot filled — pretend success without storing anything.
+    if (parsed.data.website !== "") {
+      setStatus("sent");
+      return;
+    }
     setStatus("sending");
     try {
+      const { website: _trap, ...payload } = parsed.data;
+      void _trap;
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify(payload),
       });
       setStatus(res.ok ? "sent" : "failed");
     } catch {
@@ -61,36 +104,96 @@ export default function ContactForm(): React.ReactElement {
     );
   }
 
+  const messageLength = values.message.length;
+
   return (
     <form onSubmit={(event) => void onSubmit(event)} className="space-y-4" noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
-          <Label htmlFor="contact-name">Name</Label>
-          <Input id="contact-name" value={values.name} onChange={(e) => set("name", e.target.value)} autoComplete="name" />
+          <Label htmlFor="contact-name">Name *</Label>
+          <Input id="contact-name" value={values.name} onChange={(e) => set("name", e.target.value)} autoComplete="name" maxLength={120} />
           {errors.name !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.name}</p> : null}
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="contact-email">Email</Label>
-          <Input id="contact-email" type="email" value={values.email} onChange={(e) => set("email", e.target.value)} autoComplete="email" />
+          <Label htmlFor="contact-email">Email *</Label>
+          <Input id="contact-email" type="email" value={values.email} onChange={(e) => set("email", e.target.value)} autoComplete="email" maxLength={320} />
           {errors.email !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.email}</p> : null}
         </div>
       </div>
-      <div className="space-y-1.5">
-        <Label htmlFor="contact-subject">Subject</Label>
-        <Input id="contact-subject" value={values.subject} onChange={(e) => set("subject", e.target.value)} />
-        {errors.subject !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.subject}</p> : null}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="contact-topic">Topic *</Label>
+          <select
+            id="contact-topic"
+            value={values.topic}
+            onChange={(e) => set("topic", e.target.value as ContactInput["topic"])}
+            className="flex h-10 w-full rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/30"
+          >
+            {TOPICS.map((topic) => (
+              <option key={topic} value={topic}>
+                {topic}
+              </option>
+            ))}
+          </select>
+          {errors.topic !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.topic}</p> : null}
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="contact-company">Company <span className="font-normal text-muted-foreground">(optional)</span></Label>
+          <Input id="contact-company" value={values.company ?? ""} onChange={(e) => set("company", e.target.value)} autoComplete="organization" maxLength={160} />
+          {errors.company !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.company}</p> : null}
+        </div>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label htmlFor="contact-phone">Phone <span className="font-normal text-muted-foreground">(optional)</span></Label>
+          <Input id="contact-phone" type="tel" value={values.phone ?? ""} onChange={(e) => set("phone", e.target.value)} autoComplete="tel" maxLength={40} />
+          {errors.phone !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.phone}</p> : null}
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="contact-subject">Subject *</Label>
+          <Input id="contact-subject" value={values.subject} onChange={(e) => set("subject", e.target.value)} maxLength={200} />
+          {errors.subject !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.subject}</p> : null}
+        </div>
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="contact-message">Message</Label>
+        <div className="flex items-baseline justify-between">
+          <Label htmlFor="contact-message">Message *</Label>
+          <span className={cn("text-xs", messageLength > MAX_MESSAGE ? "text-red-600" : "text-muted-foreground")} aria-live="polite">
+            {messageLength}/{MAX_MESSAGE}
+          </span>
+        </div>
         <textarea
           id="contact-message"
           value={values.message}
           onChange={(e) => set("message", e.target.value)}
           rows={6}
+          maxLength={MAX_MESSAGE}
           className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
         />
         {errors.message !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.message}</p> : null}
       </div>
+      {/* Honeypot — hidden from humans, catches bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input id="contact-website" type="text" value={values.website} onChange={(e) => set("website", e.target.value)} tabIndex={-1} autoComplete="off" />
+      </div>
+      <div className="flex items-start gap-2">
+        <input
+          id="contact-consent"
+          type="checkbox"
+          checked={values.consent === true}
+          onChange={(e) => set("consent", e.target.checked as unknown as true)}
+          className="mt-1 h-4 w-4 rounded border-zinc-300"
+        />
+        <Label htmlFor="contact-consent" className="text-xs font-normal">
+          I agree to the processing of my details to handle this enquiry, as described in the{" "}
+          <a href="/privacy" className="font-medium text-indigo-600 hover:underline">
+            privacy policy
+          </a>
+          . *
+        </Label>
+      </div>
+      {errors.consent !== undefined ? <p role="alert" className="text-xs text-red-600">{errors.consent}</p> : null}
       {status === "failed" ? (
         <p role="alert" className="text-sm text-red-600">
           Something went wrong. Please try again or email {SUPPORT_EMAIL}.
