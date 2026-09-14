@@ -35,6 +35,10 @@ const NAV_LINKS = [
   { label: t("en", "navigation.blog"), href: "/blog" },
 ];
 
+// Signature logo gradient underline: grows left -> right on hover/focus.
+const NAV_UNDERLINE =
+  "relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-[linear-gradient(90deg,#0066FF_0%,#00D2FF_28%,#00E676_48%,#FFB300_74%,#F44336_100%)] after:transition-transform after:duration-300 motion-safe:after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100";
+
 interface ToolsSubmenuItem {
   readonly label: string;
   readonly href: string;
@@ -140,7 +144,11 @@ function ToolsDropdown({ onNavigate }: { onNavigate?: () => void }): React.React
         aria-haspopup="true"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="group inline-flex items-center gap-1 text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300"
+        className={cn(
+          "group inline-flex items-center gap-1 text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300",
+          NAV_UNDERLINE,
+          open && "after:scale-x-100",
+        )}
       >
         {t("en", "navigation.tools")}
         <ChevronDown
@@ -247,7 +255,10 @@ export default function Header(): React.ReactElement {
         <nav aria-label={t("en", "a11y.primaryNav")} className="hidden items-center gap-6 md:flex">
           <Link
             href="/"
-            className="text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300"
+            className={cn(
+              "text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300",
+              NAV_UNDERLINE,
+            )}
           >
             {t("en", "navigation.home")}
           </Link>
@@ -256,7 +267,10 @@ export default function Header(): React.ReactElement {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300"
+              className={cn(
+                "text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300",
+                NAV_UNDERLINE,
+              )}
             >
               {link.label}
             </Link>
