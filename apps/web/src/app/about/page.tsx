@@ -21,19 +21,35 @@ export default function AboutPage(): React.ReactElement {
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">About Us</h1>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>
-          <strong>{BRAND_NAME}</strong> is a collection of free online tools for everyday work —
-          PDF utilities, image helpers, developer tools, text tools, security tools, design aids,
-          calculators and more.
+          <strong>{BRAND_NAME}</strong> is a collection of practical online tools designed to make
+          everyday digital tasks faster and easier. The platform brings together utilities for PDFs,
+          images, developers, calculators, finance, text, security, conversions and more.
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          Who it is for
+        </h2>
+        <p>
+          Students, developers, creators, professionals and everyday users — anyone who needs a
+          quick calculation, conversion or file task done without installing software or creating
+          an account.
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          Privacy-first approach
+        </h2>
+        <p>
+          Tools run client-side wherever technically possible: your files and inputs are processed
+          directly in your browser and never uploaded, logged or stored. Tools that genuinely need
+          the network say so on their page. No signup is required and no API key is needed.
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          How the tools are built
+        </h2>
+        <p>
+          Every tool shares the same audited calculation engines and works across phone, tablet
+          and desktop. We keep adding practical utilities and improving the ones people use most.
         </p>
         <p>
-          {BRAND_NAME} is built and operated by <strong>{COMPANY_NAME}</strong>. Our principles are
-          simple: tools should be fast, free, private and simple. No signup is required, no API key
-          is needed, and your files and data are processed directly in your browser whenever
-          technically possible.
-        </p>
-        <p>
-          Every tool runs client-side where practical, works across phone, tablet and desktop, and
-          respects your privacy by design.
+          {BRAND_NAME} is powered by <strong>{COMPANY_NAME}</strong>.
         </p>
       </div>
     </div>

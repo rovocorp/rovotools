@@ -9,8 +9,11 @@ const TOOL_LINKS = [
   { label: "PDF Tools", href: "/tools/category/pdf" },
   { label: "Image Tools", href: "/tools/category/image" },
   { label: "Developer Tools", href: "/tools/category/developer" },
+  { label: "Calculator Tools", href: "/tools/category/calculator" },
+  { label: "Finance Tools", href: "/tools/category/finance" },
   { label: "Text Tools", href: "/tools/category/text" },
   { label: "Security Tools", href: "/tools/category/security" },
+  { label: "SEO Tools", href: "/tools/category/seo" },
 ];
 
 const COMPANY_LINKS = [
