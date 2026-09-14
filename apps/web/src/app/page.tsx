@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import { t } from "@rovotools/localization";
+import type { ToolRegistryEntry } from "@rovotools/types";
 import ToolCard from "@/components/tools/ToolCard";
 import CategoryNav from "@/components/tools/CategoryNav";
 import RecentTools from "@/components/RecentTools";
@@ -114,7 +115,21 @@ function renderHeroTitle(title: string): React.ReactNode {
 export default function Home(): React.ReactElement {
   const registry = getToolRegistry();
   const featured = registry.featured(6);
-  const popular = registry.popular(8);
+  // Curated high-intent tools for the "Popular Online Tools" section.
+  // Every id is resolved against the registry so only real tools render.
+  const POPULAR_TOOL_IDS = [
+    "image-compressor",
+    "image-resizer",
+    "text-to-pdf",
+    "json-formatter",
+    "base64-encoder",
+    "password-generator",
+    "bmi-calculator",
+    "loan-payment-calculator",
+  ] as const;
+  const popular = POPULAR_TOOL_IDS.map((id) => registry.get(id)).filter(
+    (entry): entry is ToolRegistryEntry => entry !== undefined,
+  );
   const facets = registry.categories();
   const totalTools = facets.reduce((sum, facet) => sum + facet.count, 0);
   const heroTitle = t("en", "home.heroTitle");
