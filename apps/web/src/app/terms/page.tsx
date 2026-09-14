@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
-import { BRAND_NAME, COMPANY_NAME, SUPPORT_EMAIL } from "@rovotools/config";
+import { BRAND_NAME, COMPANY_NAME, SUPPORT_EMAIL, WEB_URL } from "@rovotools/config";
 import { t } from "@rovotools/localization";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: t("en", "seo.termsTitle"),
   description: t("en", "seo.termsDescription"),
+  alternates: { canonical: "/terms" },
+  openGraph: {
+    title: t("en", "seo.termsTitle"),
+    description: t("en", "seo.termsDescription"),
+    type: "website",
+    url: `${WEB_URL}/terms`,
+  },
 };
 
 export default function TermsPage(): React.ReactElement {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold sm:text-4xl">{t("en", "seo.termsTitle")}</h1>
+      <Breadcrumbs crumbs={[{ label: "Home", href: "/" }, { label: t("en", "seo.termsTitle") }]} />
+      <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "seo.termsTitle")}</h1>
       <p className="mt-2 text-sm text-zinc-500">{t("en", "common.lastUpdated")}</p>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>

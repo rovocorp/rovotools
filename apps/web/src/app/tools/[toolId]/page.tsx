@@ -58,6 +58,7 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
   const display = getToolDisplay("en", tool);
   const related = registry.related(tool.id, 3);
   const matrix = registry.capabilityMatrix(tool.id);
+  const runsLocally = tool.processingMode === "LOCAL" && !tool.requiresNetwork;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -125,10 +126,18 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
 
       <div className="mt-8 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">
         <WifiOff className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-        <p>
-          <strong>🔒 Your file is processed locally in your browser whenever supported.</strong>{" "}
-          This tool runs entirely on your device — nothing you type or upload is sent to a server, logged, or stored.
-        </p>
+        {runsLocally ? (
+          <p>
+            <strong>🔒 Your file is processed locally in your browser whenever supported.</strong>{" "}
+            This tool runs entirely on your device — nothing you type or upload is sent to a server, logged, or stored.
+          </p>
+        ) : (
+          <p>
+            <strong>🔒 Privacy-conscious by design.</strong>{" "}
+            This tool needs an internet connection for part of its work (for example, fetching a public resource).
+            Only the data required for that step leaves your device — nothing is logged or stored, and everything else runs locally.
+          </p>
+        )}
       </div>
 
       <section aria-labelledby="how-to-use-heading" className="mt-12 max-w-3xl">
