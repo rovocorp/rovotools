@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -25,6 +26,21 @@ import { Button } from "@/components/ui/button";
 import { getToolRegistry } from "@/lib/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { cn } from "@/lib/utils";
+import { WEB_URL } from "@rovotools/config";
+
+export const metadata: Metadata = {
+  title: "Free Online Tools for PDFs, Images, Developers & More",
+  description:
+    "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Free Online Tools for PDFs, Images, Developers & More | RovoTools",
+    description:
+      "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
+    type: "website",
+    url: WEB_URL,
+  },
+};
 
 const WHY = [
   {
@@ -152,11 +168,14 @@ export default function Home(): React.ReactElement {
             </p>
 
             {/* Hero search */}
+            <p className="mt-7 text-sm font-bold text-slate-700 dark:text-slate-200">
+              What do you need to do?
+            </p>
             <form
               action="/tools"
               method="get"
               role="search"
-              className="mt-7 flex max-w-xl items-center gap-2 rounded-2xl border border-white/60 bg-white/80 p-2 shadow-xl shadow-indigo-500/15 backdrop-blur-xl transition-shadow focus-within:shadow-indigo-500/25 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-black/40"
+              className="mt-2 flex max-w-xl items-center gap-2 rounded-2xl border border-white/60 bg-white/80 p-2 shadow-xl shadow-indigo-500/15 backdrop-blur-xl transition-shadow focus-within:shadow-indigo-500/25 dark:border-white/10 dark:bg-slate-900/70 dark:shadow-black/40"
             >
               <Search className="ml-2 h-5 w-5 shrink-0 text-indigo-500 dark:text-indigo-300" aria-hidden="true" />
               <label htmlFor="hero-search" className="sr-only">
@@ -167,7 +186,7 @@ export default function Home(): React.ReactElement {
                 name="q"
                 type="search"
                 autoComplete="off"
-                placeholder="Try “QR generator”, “JSON”, “password”…"
+                placeholder="Try “compress image”, “format JSON” or “calculate BMI”…"
                 className="h-11 w-full bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
               />
               <button

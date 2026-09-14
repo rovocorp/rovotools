@@ -12,13 +12,13 @@ export interface CategoryMetadata {
 const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; keywords: ReadonlyArray<string> }> = {
   pdf: {
     title: "PDF Tools",
-    description: "Create, convert and work with PDF files. Text to PDF runs fully in your browser — your content never leaves your device.",
-    keywords: ["pdf tools", "text to pdf", "pdf creator", "free pdf"],
+    description: "Work with PDF files quickly using tools to merge, split, compress, convert, create, protect and manage PDF documents online.",
+    keywords: ["pdf tools", "text to pdf", "pdf creator", "free pdf", "merge pdf", "compress pdf"],
   },
   image: {
     title: "Image Tools",
-    description: "Encode, decode and convert images. Base64 conversion runs locally in your browser.",
-    keywords: ["image tools", "image to base64", "base64 to image"],
+    description: "Compress, resize, convert, crop and optimize images for websites, documents, social media and everyday file sharing.",
+    keywords: ["image tools", "image to base64", "base64 to image", "compress image", "resize image", "convert image"],
   },
   document: {
     title: "Document Tools",
@@ -27,18 +27,18 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   },
   developer: {
     title: "Developer Tools",
-    description: "Format JSON, encode Base64 and URLs, decode JWTs, test regex and generate UUIDs — all locally.",
-    keywords: ["developer tools", "json formatter", "base64", "jwt decoder", "uuid"],
+    description: "Format, validate, encode, decode, compare and transform JSON, text, URLs, tokens and other developer data.",
+    keywords: ["developer tools", "json formatter", "base64", "jwt decoder", "uuid", "regex tester"],
   },
   text: {
     title: "Text Tools",
-    description: "Count, convert, clean and generate text. Fast, free and private — everything runs in your browser.",
-    keywords: ["text tools", "word counter", "character counter", "lorem ipsum"],
+    description: "Count, clean, transform and format text for writing, content creation, development, marketing and everyday work.",
+    keywords: ["text tools", "word counter", "character counter", "lorem ipsum", "case converter"],
   },
   security: {
     title: "Security Tools",
-    description: "Generate passwords and hashes locally. Nothing you type is uploaded or stored.",
-    keywords: ["security tools", "password generator", "hash generator", "sha-256"],
+    description: "Use practical browser-based security utilities for passwords, hashes, encoding, decoding and developer security tasks.",
+    keywords: ["security tools", "password generator", "hash generator", "sha-256", "uuid generator"],
   },
   design: {
     title: "Design Tools",
@@ -57,18 +57,18 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   },
   calculator: {
     title: "Calculators",
-    description: "Free calculators for health, money, and everyday maths — BMI, loans, tips, and more.",
-    keywords: ["online calculators", "free calculators", "finance calculators"],
+    description: "Calculate percentages, BMI, age, dates, ratios, units and everyday mathematical values with easy-to-use online calculators.",
+    keywords: ["online calculators", "free calculators", "finance calculators", "bmi calculator", "age calculator", "percentage calculator"],
   },
   finance: {
     title: "Finance Tools",
-    description: "Compound interest, EMI, ROI, discount and VAT calculations with transparent formulas.",
-    keywords: ["finance", "compound interest", "emi calculator", "roi", "vat"],
+    description: "Estimate loans, mortgage payments, compound interest, savings, investments, ROI and other common financial calculations.",
+    keywords: ["finance", "compound interest", "emi calculator", "roi", "vat", "loan payment calculator", "mortgage calculator"],
   },
   seo: {
     title: "SEO Tools",
-    description: "Generate slugs, meta tags and check content length for search-friendly pages.",
-    keywords: ["seo tools", "slug generator", "meta tags"],
+    description: "Create and check common SEO resources and website metadata for better search visibility and technical website management.",
+    keywords: ["seo tools", "slug generator", "meta tags", "robots.txt generator", "keyword density"],
   },
   utility: {
     title: "Utility Tools",
@@ -77,7 +77,7 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   },
   converter: {
     title: "Unit Converters",
-    description: "Convert length, weight, temperature, and more with exact, audited factors.",
+    description: "Convert common files, data formats, units, measurements and digital values quickly online.",
     keywords: ["unit converter", "measurement converter", "metric imperial"],
   },
   analytics: {
