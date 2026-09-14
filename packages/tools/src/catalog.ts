@@ -7,6 +7,7 @@
 } from "@rovotools/types";
 
 import { defineTool } from "./define-tool";
+import { FX_CURRENCY_OPTIONS, convertFromUsd, fxCurrency, resolveFxRate } from "./fx";
 import type { ToolRegistry } from "./registry";
 
 const ALL_PLATFORMS = ["WEB", "PWA", "ANDROID", "IOS"] as const;
@@ -284,7 +285,8 @@ function cleanRobotsPaths(raw: string): Array<string> {
     .map((l) => (l.startsWith("/") ? l : `/${l}`));
 }
 
-const ADSENSE_USD_TO_INR = 83;
+// Currency rates for the AdSense calculator live in ./fx (select options,
+// approximate table, live-rate fetch). No hardcoded per-currency constants.
 
 // Bundled standard rates (offline-safe by design: a live rate lookup would
 // break the offline story, and sales-tax rates change rarely enough that a
@@ -2277,13 +2279,13 @@ const SPECS: ReadonlyArray<Spec> = [
     id: "adsense-earnings-calculator",
     slug: "adsense-earnings-calculator",
     name: "AdSense Earnings Calculator",
-    description: "Estimate ad revenue from pageviews using CTR and CPC, or RPM — in USD or INR. A planning estimate, not a forecast.",
+    description: "Estimate ad revenue from pageviews using CTR and CPC, or RPM — in USD, EUR, GBP, INR and 8 more currencies. A planning estimate, not a forecast.",
     category: "finance",
     icon: "dollar-sign",
-    keywords: ["adsense calculator", "adsense earnings", "ad revenue estimator", "rpm calculator", "blog earnings calculator"],
+    keywords: ["adsense calculator", "adsense earnings", "ad revenue estimator", "rpm calculator", "blog earnings calculator", "adsense inr", "adsense usd"],
     popular: false,
     featured: false,
-    inputs: [str("pageviews", "Monthly pageviews"), str("mode", "Mode: ctr-cpc (default) or rpm", false), str("ctr", "Click-through rate % (default 1.5)", false), str("cpc", "Cost per click in USD (default 0.25)", false), str("rpm", "Revenue per 1000 views in USD (RPM mode)", false), str("currency", "Currency: USD (default) or INR", false)],
+    inputs: [str("pageviews", "Monthly pageviews"), str("mode", "Mode: ctr-cpc (default) or rpm", false), str("ctr", "Click-through rate % (default 1.5)", false), str("cpc", "Cost per click in USD (default 0.25)", false), str("rpm", "Revenue per 1000 views in USD (RPM mode)", false), { id: "currency", type: "select", labelKey: "Currency", required: false, defaultValue: "USD", options: FX_CURRENCY_OPTIONS }, str("rate", "Custom USD rate — empty uses the table rate", false)],
     outputs: [numOut("monthly", "Est. monthly earnings"), numOut("daily", "Est. daily earnings"), out("assumptions", "Assumptions used")],
     validate: (input) => {
       if (req(input, "pageviews") === "" || Number.isNaN(Number(req(input, "pageviews")))) {
@@ -2297,7 +2299,8 @@ const SPECS: ReadonlyArray<Spec> = [
         throw new RangeError("Pageviews must be zero or more.");
       }
       const mode = (req(input, "mode") || "ctr-cpc").toLowerCase();
-      const currency = (req(input, "currency") || "USD").toUpperCase() === "INR" ? "INR" : "USD";
+      const { currency, rate, source } = resolveFxRate(req(input, "currency"), req(input, "rate"));
+      const symbol = fxCurrency(currency)?.symbol ?? "$";
       let monthlyUSD: number;
       let assumptions: string;
       if (mode === "rpm") {
@@ -2320,14 +2323,16 @@ const SPECS: ReadonlyArray<Spec> = [
       } else {
         throw new RangeError(`Unknown mode "${req(input, "mode")}". Use ctr-cpc or rpm.`);
       }
-      const rate = currency === "INR" ? ADSENSE_USD_TO_INR : 1;
-      const round2 = (v: number): number => Math.round(v * 100) / 100;
-      const monthly = round2(monthlyUSD * rate);
-      const symbol = currency === "INR" ? "₹" : "$";
+      const rateLabel =
+        source === "custom"
+          ? `custom rate $1 = ${rate} ${currency}`
+          : `approximate built-in rate $1 = ${rate} ${currency}`;
+      const liveNote = req(input, "rateNote");
+      const monthly = convertFromUsd(monthlyUSD, rate);
       return {
         monthly,
-        daily: round2(monthly / 30),
-        assumptions: `${assumptions} Shown in ${currency} (${symbol}) at an approximate $${ADSENSE_USD_TO_INR} = ₹${ADSENSE_USD_TO_INR} rate. Real earnings move with country mix, season and placement — this is planning maths, not a forecast.`,
+        daily: convertFromUsd(monthlyUSD / 30, rate),
+        assumptions: `${assumptions} Shown in ${currency} (${symbol}) at ${liveNote === "" ? rateLabel : liveNote}. Real earnings move with country mix, season and placement — this is planning maths, not a forecast.`,
       };
     },
   },

@@ -63,6 +63,41 @@ const JSON_WORKFLOW: ToolWorkflow = {
 };
 
 const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
+  "adsense-earnings-calculator": {
+    description:
+      "Estimate AdSense revenue from pageviews using CTR and CPC, or RPM — in USD, EUR, GBP, INR and 8 more currencies with live rates.",
+    intro:
+      "Estimate ad revenue from pageviews using click-through rate and cost-per-click, or revenue per mille. Pick your currency from the dropdown, refresh live USD rates or enter a custom rate, and get monthly and daily estimates.",
+    benefits: [
+      "Two modes: CTR + CPC for traffic estimates, RPM for known rates",
+      "12 currencies with a dropdown — no more USD-or-INR limit",
+      "Live USD rates on tap, with a custom-rate override box",
+      "Planning estimate computed on your device — figures stay private",
+    ],
+    howTo: [
+      "Enter your monthly pageviews.",
+      "Choose CTR + CPC mode (with your click rate and cost per click) or RPM mode (with revenue per 1000 views).",
+      "Pick a currency from the dropdown and tap Refresh live rates — or type a custom USD rate.",
+      "Press Execute to see estimated monthly and daily earnings.",
+    ],
+    faqs: [
+      {
+        question: "Where do the currency rates come from?",
+        answer:
+          "Tap Refresh live rates to fetch current USD rates (via open.er-api.com), or type your own rate. Without a refresh the tool uses built-in approximate rates — check the assumptions line to see which rate applied.",
+      },
+      {
+        question: "Are these earnings guaranteed?",
+        answer:
+          "No. Real AdSense earnings move with country mix, season, niche and ad placement. Treat the result as planning maths, not a forecast.",
+      },
+      {
+        question: "Is my traffic data uploaded?",
+        answer: "No. The estimate is computed on your device; only a rate refresh contacts the rate service.",
+      },
+    ],
+    related: ["roi-calculator", "compound-interest-calculator", "loan-payment-calculator", "percentage-calculator"],
+  },
   "image-compressor": {
     title: "Image Compressor — Compress Images Online | RovoTools",
     description:

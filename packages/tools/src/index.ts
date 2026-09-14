@@ -6,6 +6,7 @@ export * from "./deeplinks";
 export * from "./discovery";
 export * from "./display";
 export * from "./history";     
+export * from "./fx";
 export * from "./images";
 export * from "./monetization";
 export * from "./privacy";

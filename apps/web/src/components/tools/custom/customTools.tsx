@@ -3,11 +3,12 @@
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 
-// Browser-only tools (canvas/file APIs) render a custom component instead of
-// the generic ToolRunner, which cannot do file pickers, live previews or
-// image downloads. Each entry is dynamically imported so tool pages only load
-// the code they need.
+// Tools with enhanced browser UIs render a custom component instead of the
+// generic ToolRunner: browser-only tools need file pickers, live previews and
+// downloads, while adsense-earnings-calculator adds live FX rates. Each entry
+// is dynamically imported so tool pages only load the code they need.
 const customToolComponents: Record<string, ComponentType> = {
+  "adsense-earnings-calculator": dynamic(() => import("./AdsenseCalculator"), { ssr: false }),
   "image-converter": dynamic(() => import("./ImageConverter"), { ssr: false }),
   "image-resizer": dynamic(() => import("./ImageResizer"), { ssr: false }),
   "image-compressor": dynamic(() => import("./ImageCompressor"), { ssr: false }),

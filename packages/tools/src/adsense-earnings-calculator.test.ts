@@ -21,10 +21,21 @@ describe("adsense-earnings-calculator behavior", () => {
     expect(out["daily"]).toBe(12.5);
   });
 
-  it("computes rpm earnings and converts to INR", async () => {
+  it("computes rpm earnings and converts to INR at the table rate", async () => {
     const out = await run({ ...base, mode: "rpm", rpm: "4", currency: "INR" });
-    expect(out["monthly"]).toBe(33200);
+    expect(out["monthly"]).toBe(38200);
     expect(String(out["assumptions"])).toContain("INR");
+    expect(String(out["assumptions"])).toContain("approximate built-in rate");
+  });
+
+  it("supports more currencies and custom rate overrides", async () => {
+    const eur = await run({ ...base, currency: "EUR" });
+    expect(eur["monthly"]).toBe(322.5);
+    const custom = await run({ ...base, currency: "INR", rate: "90" });
+    expect(custom["monthly"]).toBe(33750);
+    expect(String(custom["assumptions"])).toContain("custom rate");
+    const unknown = await run({ ...base, currency: "XX" });
+    expect(unknown["monthly"]).toBe(375);
   });
 
   it("rejects bad input", async () => {
@@ -32,5 +43,6 @@ describe("adsense-earnings-calculator behavior", () => {
     expect(entry.definition.validate({ ...base, pageviews: "" }).valid).toBe(false);
     await expect(run({ ...base, mode: "rpm", rpm: "" })).rejects.toThrow();
     await expect(run({ ...base, mode: "cpm" })).rejects.toThrow();
+    await expect(run({ ...base, currency: "INR", rate: "-2" })).rejects.toThrow();
   });
 });
