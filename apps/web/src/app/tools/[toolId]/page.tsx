@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Wifi, WifiOff } from "lucide-react";
-import { buildCustomSchemeUrl, getToolDisplay } from "@rovotools/tools";
+import { buildCustomSchemeUrl, getToolDisplay, getToolPageCopy } from "@rovotools/tools";
 import { t } from "@rovotools/localization";
 import { WEB_URL } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -56,7 +56,13 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
   }
   const tool = entry.definition;
   const display = getToolDisplay("en", tool);
-  const related = registry.related(tool.id, 3);
+  const copy = getToolPageCopy(tool);
+  const related =
+    copy.related.length > 0
+      ? copy.related
+          .map((id) => registry.get(id))
+          .filter((relatedEntry) => relatedEntry !== undefined)
+      : registry.related(tool.id, 3);
   const matrix = registry.capabilityMatrix(tool.id);
   const runsLocally = tool.processingMode === "LOCAL" && !tool.requiresNetwork;
 
@@ -71,9 +77,37 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
     offers: { "@type": "Offer", price: "0" },
   };
 
+  const faqJsonLd =
+    copy.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: copy.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
+        }
+      : null;
+
+  const howToJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to use ${display.name}`,
+    step: copy.howTo.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      text: step,
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      {faqJsonLd !== null ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      ) : null}
       <Breadcrumbs
         crumbs={[
           { label: t("en", "navigation.home"), href: "/" },
@@ -110,7 +144,7 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
       </div>
 
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">{display.name}</h1>
-      <p className="mt-2 max-w-2xl text-zinc-500">{display.description}</p>
+      <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-300">{copy.intro}</p>
       <p className="mt-3 text-sm">
         <a
           href={buildCustomSchemeUrl({ kind: "tool", slug: tool.slug }) ?? `/tools/${tool.slug}`}
@@ -140,24 +174,76 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
         )}
       </div>
 
+      <section aria-labelledby="benefits-heading" className="mt-8 max-w-3xl">
+        <h2 id="benefits-heading" className="text-xl font-bold sm:text-2xl">
+          Why use {display.name}?
+        </h2>
+        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
+          {copy.benefits.map((benefit) => (
+            <li key={benefit}>{benefit}</li>
+          ))}
+        </ul>
+      </section>
+
       <section aria-labelledby="how-to-use-heading" className="mt-12 max-w-3xl">
         <h2 id="how-to-use-heading" className="text-xl font-bold sm:text-2xl">
           How to use {display.name}
         </h2>
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-          <li>Enter your details in the {t("en", "tool.inputs").toLowerCase()} panel above.</li>
-          <li>Press {t("en", "tool.execute")} to compute the result instantly on your device.</li>
-          <li>Copy, download or share the result — or reset to start over.</li>
+          {copy.howTo.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
         </ol>
-        <h3 className="mt-6 font-semibold">What this tool does</h3>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{display.description}</p>
-        <h3 className="mt-6 font-semibold">Tips</h3>
-        <ul className="mt-1 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-          <li>Double-check units and number formats before calculating.</li>
-          <li>Bookmark this page or save the tool to your favourites for quick access.</li>
-          <li>Everything works offline once the page has loaded.</li>
-        </ul>
+        {tool.supportedFormats.length > 0 ? (
+          <>
+            <h3 className="mt-6 font-semibold">Supported inputs and formats</h3>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+              Accepted formats: {tool.supportedFormats.join(", ")}.
+            </p>
+          </>
+        ) : null}
       </section>
+
+      {copy.faqs.length > 0 ? (
+        <section aria-labelledby="faq-heading" className="mt-12 max-w-3xl">
+          <h2 id="faq-heading" className="text-xl font-bold sm:text-2xl">
+            Frequently asked questions
+          </h2>
+          <div className="mt-4 space-y-4">
+            {copy.faqs.map((faq) => (
+              <div key={faq.question}>
+                <h3 className="font-semibold">{faq.question}</h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {copy.workflow !== undefined ? (
+        <section aria-labelledby="workflow-heading" className="mt-12 max-w-3xl">
+          <h2 id="workflow-heading" className="text-xl font-bold sm:text-2xl">
+            Related workflow: {copy.workflow.title}
+          </h2>
+          <ol className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+            {copy.workflow.steps.map((step, index) => (
+              <li key={step.href} className="flex items-center gap-2">
+                {index > 0 ? (
+                  <span aria-hidden="true" className="font-bold text-zinc-400">
+                    →
+                  </span>
+                ) : null}
+                <Link
+                  href={step.href}
+                  className="rounded-full border border-zinc-200 px-4 py-2 font-semibold text-indigo-600 hover:border-indigo-300 hover:underline dark:border-zinc-700 dark:text-indigo-400"
+                >
+                  {step.label}
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
 
       <FeedbackWidget toolId={tool.id} />
 

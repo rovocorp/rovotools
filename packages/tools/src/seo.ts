@@ -6,6 +6,8 @@ import type {
   ToolSitemapEntry,
 } from "@rovotools/types";
 
+import { getToolPageCopy } from "./seo-copy";
+
 export const DEFAULT_TOOL_BASE_PATH = "/tools";
 
 function normalizeBasePath(basePath: string): string {
@@ -72,10 +74,12 @@ export function getToolPageMetadata(
   const definition = entry.definition;
   const canonicalPath = definition.seo?.canonicalPath ?? getToolPath(definition.slug, basePath);
   const keywords = [...(definition.seo?.keywords ?? definition.keywords)].join(", ");
+  // Hand-written SEO deck titles/descriptions take precedence over registry values.
+  const deckCopy = getToolPageCopy(definition);
 
   return {
-    title: definition.seo?.title ?? `${definition.name} | RovoTools`,
-    description: definition.seo?.description ?? definition.description,
+    title: deckCopy.title ?? definition.seo?.title ?? `${definition.name} | RovoTools`,
+    description: deckCopy.description ?? definition.seo?.description ?? definition.description,
     keywords,
     canonicalPath,
     ...(baseUrl === undefined ? {} : { canonicalUrl: getToolUrl(definition.slug, baseUrl, basePath) }),
