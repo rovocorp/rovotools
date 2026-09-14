@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "rootDirs": ["./src", "./dist"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
+}
+

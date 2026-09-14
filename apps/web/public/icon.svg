@@ -1,0 +1,33 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#0B132B"/>
+  <defs>
+    <linearGradient id="icon-loop-grad" x1="80" y1="50" x2="430" y2="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0052FF" />
+      <stop offset="45%" stop-color="#00D2FF" />
+      <stop offset="100%" stop-color="#00E676" />
+    </linearGradient>
+    <linearGradient id="icon-leg-grad" x1="230" y1="200" x2="460" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFB300" />
+      <stop offset="50%" stop-color="#FF5722" />
+      <stop offset="100%" stop-color="#F44336" />
+    </linearGradient>
+    <linearGradient id="icon-arrow-grad" x1="150" y1="180" x2="300" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0043CC" />
+      <stop offset="100%" stop-color="#0066FF" />
+    </linearGradient>
+  </defs>
+  <!-- Pixels -->
+  <rect x="50" y="215" width="36" height="36" rx="8" fill="#00D2FF" />
+  <rect x="96" y="174" width="36" height="36" rx="8" fill="#0066FF" />
+  <rect x="50" y="266" width="36" height="36" rx="8" fill="#00A3FF" />
+  <rect x="96" y="225" width="36" height="36" rx="8" fill="#00E676" />
+  <rect x="96" y="276" width="36" height="36" rx="8" fill="#FFB300" />
+  <rect x="142" y="245" width="36" height="36" rx="8" fill="#FF5722" />
+  <rect x="96" y="327" width="36" height="36" rx="8" fill="#F44336" />
+  <!-- R Loop -->
+  <path d="M158 123C158 89.3106 185.311 62 219 62H372C422.258 62 463 102.742 463 153C463 203.258 422.258 244 372 244H280L201 246.55C177.252 246.55 158 227.298 158 203.55V123Z" fill="url(#icon-loop-grad)"/>
+  <!-- R Leg -->
+  <path d="M270 224L412 417C424.7 434.8 450.1 437.3 470.4 422C485.6 409.3 483.1 386.5 465.3 368.7L341 214H270Z" fill="url(#icon-leg-grad)"/>
+  <!-- Center Arrow -->
+  <path d="M219 143L321 179L219 215L250 179L219 143Z" fill="url(#icon-arrow-grad)"/>
+</svg>

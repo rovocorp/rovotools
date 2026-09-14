@@ -1,0 +1,5 @@
+# ads.txt — RovoTools (https://rovotools.com)
+# Replace the placeholder line below with the publisher line from the AdSense
+# dashboard before enabling ads. Until then ads stay disabled (see
+# NEXT_PUBLIC_ADSENSE_* in .env.example) and this file authorizes nobody.
+# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

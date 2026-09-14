@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "paths": {
+      "@rovotools/core": ["../../../packages/core/src/index.ts"],
+      "@rovotools/calculations": ["../../../packages/calculations/src/index.ts"],
+      "@rovotools/validation": ["../../../packages/validation/src/index.ts"],
+      "@rovotools/localization": ["../../../packages/localization/src/index.ts"],
+      "@rovotools/tools": ["../../../packages/tools/src/index.ts"],
+      "@rovotools/types": ["../../../packages/types/src/index.ts"],
+      "@rovotools/ui": ["../../../packages/ui/src/index.ts"],
+      "@rovotools/config": ["../../../packages/config/src/index.ts"],
+      "@rovotools/theme": ["../../../packages/theme/src/index.ts"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

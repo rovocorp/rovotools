@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "@rovotools/theme/css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero-float-card {
+    display: none !important;
+  }
+}
+
+/* ---------- Modern RovoTools theme ---------- */
+
+.text-hero-gradient {
+  background: var(--rovotools-hero-gradient, linear-gradient(100deg, #0066ff 0%, #7c3aed 38%, #d946ef 68%, #fb923c 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-brand-gradient {
+  background: var(--rovotools-brand-gradient, linear-gradient(90deg, #0066ff, #00d2ff, #00e676, #ffb300, #f44336));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-mesh {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(42rem 26rem at 8% -10%, rgb(124 58 237 / 0.16), transparent 60%),
+    radial-gradient(36rem 24rem at 92% 0%, rgb(217 70 239 / 0.14), transparent 62%),
+    radial-gradient(40rem 26rem at 50% 115%, rgb(0 210 255 / 0.16), transparent 60%),
+    radial-gradient(30rem 20rem at 85% 100%, rgb(251 146 60 / 0.14), transparent 60%),
+    linear-gradient(to bottom, rgb(238 242 255 / 0.9), rgb(248 250 252) 55%, #fff 100%);
+}
+
+.dark .hero-mesh {
+  background:
+    radial-gradient(48rem 30rem at 10% -10%, rgb(124 58 237 / 0.35), transparent 62%),
+    radial-gradient(42rem 28rem at 90% -5%, rgb(217 70 239 / 0.22), transparent 60%),
+    radial-gradient(46rem 30rem at 50% 115%, rgb(0 210 255 / 0.18), transparent 62%),
+    linear-gradient(to bottom, #101b3d 0%, #0b132b 60%, #0b132b 100%);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(10 26 51 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 26 51 / 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 45%, transparent 100%);
+}
+
+.dark .hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.09) 1px, transparent 1px);
+}
+
+/* Subtle static dot texture for the hero. Decorative only — no motion,
+ * no overlaying elements, nothing that can be mistaken for a control. */
+.hero-dots {
+  background-image: radial-gradient(circle, rgb(10 26 51 / 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.dark .hero-dots {
+  background-image: radial-gradient(circle, rgb(0 100 255 / 0.10) 1px, transparent 1px);
+}
+
+.glass-card {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+@keyframes rovo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes rovo-float-soft {
+  0%, 100% { transform: translateY(0) rotate(var(--float-rotate, 0deg)); }
+  50% { transform: translateY(-7px) rotate(var(--float-rotate, 0deg)); }
+}
+
+@keyframes rovo-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.82); }
+}
+
+@keyframes rovo-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-rovo-float {
+  animation: rovo-float 6s ease-in-out infinite;
+}
+
+.hero-float-card {
+  animation: rovo-float-soft 7s ease-in-out infinite;
+}
+
+.animate-pulse-dot {
+  animation: rovo-pulse-dot 1.8s ease-in-out infinite;
+}
+
+.animate-rovo-marquee {
+  animation: rovo-marquee 32s linear infinite;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.category-rail::-webkit-scrollbar {
+  display: none;
+}
+.category-rail {
+  scrollbar-width: none;
+}

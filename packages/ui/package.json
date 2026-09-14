@@ -1,0 +1,39 @@
+{
+  "name": "@rovotools/ui",
+  "version": "0.1.0",
+  "description": "Shared UI primitives — SSR-safe React components for RovoTools",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@rovotools/core": "workspace:*",
+    "@rovotools/types": "workspace:*",
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@rovotools/core": "workspace:*",
+    "@rovotools/types": "workspace:*",
+    "@types/react": "^19.2.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
+  },
+  "license": "MIT"
+}

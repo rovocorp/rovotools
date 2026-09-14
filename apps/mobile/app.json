@@ -1,0 +1,70 @@
+{
+  "expo": {
+    "name": "RovoTools",
+    "slug": "rovotools",
+    "scheme": "rovotools",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "assetBundlePatterns": ["**/*"],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#0B132B",
+      "resizeMode": "contain"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0B132B",
+          "image": "./assets/splash.png",
+          "imageWidth": 200,
+          "resizeMode": "contain"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_WITH_EAS_PROJECT_ID"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.rovocorp.rovotools",
+      "buildNumber": "1",
+      "icon": "./assets/icon.png",
+      "associatedDomains": ["applinks:rovotools.com"],
+      "infoPlist": {
+        "NSCameraUsageDescription": "RovoTools uses the camera only when you choose to capture an image for a tool.",
+        "NSPhotoLibraryUsageDescription": "RovoTools accesses photos only when you choose an image for a tool."
+      }
+    },
+    "android": {
+      "package": "com.rovocorp.rovotools",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0B132B"
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "rovotools.com",
+              "pathPrefix": "/tools"
+            },
+            {
+              "scheme": "https",
+              "host": "rovotools.com",
+              "pathPrefix": "/blog"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    }
+  }
+}

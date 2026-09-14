@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/expo/eas-cli/main/packages/eas-json/schema.json",
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_ADS_ENABLED": "false",
+        "EXPO_PUBLIC_API_URL": "https://staging.rovotools.com"
+      }
+    },
+    "staging": {
+      "distribution": "internal",
+      "channel": "staging",
+      "env": {
+        "EXPO_PUBLIC_ADS_ENABLED": "false",
+        "EXPO_PUBLIC_API_URL": "https://staging.rovotools.com"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_ADS_ENABLED": "false",
+        "EXPO_PUBLIC_API_URL": "https://rovotools.com"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "REPLACE_WITH_APPLE_ID_EMAIL",
+        "ascAppId": "REPLACE_WITH_APP_STORE_CONNECT_APP_ID",
+        "appleTeamId": "REPLACE_WITH_APPLE_TEAM_ID"
+      },
+      "android": {
+        "serviceAccountKeyPath": "REPLACE_WITH_PLAY_SERVICE_ACCOUNT_JSON_PATH",
+        "track": "internal"
+      }
+    }
+  }
+}

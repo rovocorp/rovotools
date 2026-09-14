@@ -1,0 +1,50 @@
+import type { Metadata } from "next";
+import { BRAND_NAME, SUPPORT_EMAIL } from "@rovotools/config";
+import { t } from "@rovotools/localization";
+
+export const metadata: Metadata = {
+  title: t("en", "seo.privacyTitle"),
+  description: t("en", "seo.privacyDescription"),
+};
+
+export default function PrivacyPage(): React.ReactElement {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <h1 className="text-3xl font-bold sm:text-4xl">{t("en", "seo.privacyTitle")}</h1>
+      <p className="mt-2 text-sm text-zinc-500">{t("en", "common.lastUpdated")}</p>
+      <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
+        <p>
+          {BRAND_NAME} is built local-first. Core calculators run entirely in your browser or on
+          your device; the values you type into local tools are never sent to our servers.
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          What we collect
+        </h2>
+        <p>
+          We collect the minimum needed to operate the service: anonymous, aggregated usage
+          counts and any message you voluntarily send to {SUPPORT_EMAIL}. Favorites you save in
+          your browser stay in your browser unless you choose to sync them.
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          Cookies and storage
+        </h2>
+        <p>
+          We use local storage for preferences such as theme, favorites and your cookie choice.
+          Anonymous analytics and non-intrusive advertising run only after you accept cookies via
+          the consent banner, and never see your tool inputs, files or passwords. See our{" "}
+          <a href="/cookie-policy" className="underline hover:text-indigo-600">
+            Cookie Policy
+          </a>
+          .
+        </p>
+        <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          Your rights
+        </h2>
+        <p>
+          You can clear locally stored data at any time from your browser or device settings.
+          Contact {SUPPORT_EMAIL} for questions about this policy.
+        </p>
+      </div>
+    </div>
+  );
+}

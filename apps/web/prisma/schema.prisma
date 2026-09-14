@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Production database: PostgreSQL (or any PostgreSQL-compatible provider).
+// Local development without a database is supported: the app runs fully
+// offline-first and every Prisma call site falls back gracefully when
+// DATABASE_URL is unset (see src/lib/prisma.ts).
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  deviceId  String
+  toolId    String
+  createdAt DateTime @default(now())
+
+  @@unique([deviceId, toolId])
+  @@index([deviceId])
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  toolId    String
+  useful    Boolean
+  comment   String?  @db.VarChar(500)
+  createdAt DateTime @default(now())
+
+  @@index([toolId])
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(120)
+  email     String   @db.VarChar(320)
+  subject   String   @db.VarChar(200)
+  message   String   @db.VarChar(5000)
+  createdAt DateTime @default(now())
+}
+
+model ToolUsage {
+  id        Int      @id @default(autoincrement())
+  toolId    String
+  platform  String   @db.VarChar(16)
+  createdAt DateTime @default(now())
+
+  @@index([toolId])
+}

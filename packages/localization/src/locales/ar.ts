@@ -1,0 +1,41 @@
+import type { Translations } from "../loader";
+
+export const ar: Translations = {
+  common: {
+    loading: "جارٍ التحميل...",
+    error: "حدث خطأ",
+    success: "نجاح",
+    cancel: "إلغاء",
+    save: "حفظ",
+    delete: "حذف",
+    edit: "تعديل",
+    search: "بحث",
+    filter: "فلتر",
+    submit: "إرسال",
+    reset: "إعادة تعيين",
+    back: "رجوع",
+    next: "التالي",
+    previous: "السابق",
+    done: "تم",
+    close: "إغلاق",
+    required: "هذا الحقل مطلوب",
+    invalid: "مدخل غير صالح",
+  },
+  tool: {
+    name: "الاسم",
+    description: "الوصف",
+    category: "الفئة",
+    execute: "تنفيذ",
+    result: "النتيجة",
+    inputs: "المدخلات",
+    outputs: "المخرجات",
+    calculating: "جارٍ الحساب...",
+    noResults: "لا توجد نتائج",
+  },
+  navigation: {
+    home: "الرئيسية",
+    tools: "الأدوات",
+    settings: "الإعدادات",
+    profile: "الملف الشخصي",
+  },
+};
