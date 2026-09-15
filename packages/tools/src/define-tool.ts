@@ -41,6 +41,8 @@ export interface DefineToolOptions<
   readonly outputs: ReadonlyArray<ToolOutputField>;
   readonly validate: (input: TInput) => ValidationResult;
   readonly execute: (input: TInput) => Promise<TOutput>;
+  readonly actionLabel?: string;
+  readonly actionRunningLabel?: string;
 }
 
 function assertNonEmptyString(value: string, field: string, toolId: string): void {
@@ -121,6 +123,8 @@ export function defineTool<
     outputs: Object.freeze([...options.outputs]),
     validate: options.validate,
     execute: options.execute,
+    ...(options.actionLabel === undefined ? {} : { actionLabel: options.actionLabel }),
+    ...(options.actionRunningLabel === undefined ? {} : { actionRunningLabel: options.actionRunningLabel }),
   };
 
   return Object.freeze(definition);

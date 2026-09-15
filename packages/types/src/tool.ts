@@ -113,6 +113,11 @@ export interface ToolDefinition<
   readonly outputs: ReadonlyArray<ToolOutputField>;
   readonly validate: (input: TInput) => ValidationResult;
   readonly execute: (input: TInput) => Promise<TOutput>;
+  // Label for the generic runner's submit button. When omitted, clients fall
+  // back to the shared "Calculate" string — correct for calculators, wrong
+  // for converters, generators, validators and checkers.
+  readonly actionLabel?: string;
+  readonly actionRunningLabel?: string;
 }
 
 export interface ValidationResult {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Copy, Download, Heart, RotateCcw, Wifi, WifiOff } from "lucide-react";
+import { Copy, Download, Heart, RotateCcw, Wifi } from "lucide-react";
 import { getFieldLabel, getFieldPlaceholder, getOutputLabel, registerCoreTools, toolRegistry } from "@rovotools/tools";
 import type { ToolInputField, ValidationError } from "@rovotools/types";
 import { t } from "@rovotools/localization";
@@ -302,7 +302,9 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
             ) : null}
             <div className="flex flex-wrap gap-2">
               <Button type="submit" disabled={running}>
-                {running ? t("en", "tool.calculating") : t("en", "tool.execute")}
+                {running
+                  ? (tool.actionRunningLabel ?? t("en", "tool.calculating"))
+                  : (tool.actionLabel ?? t("en", "tool.execute"))}
               </Button>
               <Button type="button" variant="outline" onClick={handleReset}>
                 <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -347,17 +349,12 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                   </dd>
                 </div>
               ))}
-              {tool.processingMode === "LOCAL" && !tool.requiresNetwork ? (
-                <Badge variant="success" className="inline-flex items-center gap-1">
-                  <WifiOff className="h-3 w-3" aria-hidden="true" />
-                  {t("en", "tool.offlineReady")}
-                </Badge>
-              ) : (
+              {tool.requiresNetwork ? (
                 <Badge variant="outline" className="inline-flex items-center gap-1">
                   <Wifi className="h-3 w-3" aria-hidden="true" />
                   {t("en", "tool.requiresInternet")}
                 </Badge>
-              )}
+              ) : null}
               {offline && tool.processingMode === "LOCAL" && !tool.requiresNetwork ? (
                 <p className="text-xs text-zinc-500">
                   {t("en", "tool.offlineComputed")}

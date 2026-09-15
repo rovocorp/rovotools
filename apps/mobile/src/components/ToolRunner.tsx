@@ -250,7 +250,9 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
         <View style={styles.actions}>
           <View style={styles.primary}>
             <Button onPress={() => void handleRun()} disabled={running}>
-              {running ? t("en", "tool.calculating") : t("en", "tool.execute")}
+              {running
+                ? (tool.actionRunningLabel ?? t("en", "tool.calculating"))
+                : (tool.actionLabel ?? t("en", "tool.execute"))}
             </Button>
           </View>
           <Button variant="outline" onPress={() => void toggle(tool.id)}>
@@ -297,11 +299,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                 </Button>
               </View>
             </View>
-            {tool.processingMode === "LOCAL" && !tool.requiresNetwork ? (
-              <Badge>{t("en", "tool.offlineReady")}</Badge>
-            ) : (
-              <Badge>{t("en", "tool.requiresInternet")}</Badge>
-            )}
+            {tool.requiresNetwork ? <Badge>{t("en", "tool.requiresInternet")}</Badge> : null}
           </View>
         )}
       </BottomSheet>

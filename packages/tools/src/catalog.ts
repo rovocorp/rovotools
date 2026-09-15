@@ -476,10 +476,18 @@ interface Spec {
   // their engine validate/execute cannot run in Node and are exempt from the
   // sample-execution test. Pure helpers must be unit-tested separately.
   browserOnly?: boolean;
+  // Pretty canonical URL served via Next.js rewrites, e.g. /tools/pdf/merge-pdf
+  // for the flat merge-pdf slug. Sitemap and page metadata use it when set.
+  canonicalPath?: string;
   inputs: ReadonlyArray<ToolInputField>;
   outputs: ReadonlyArray<ToolOutputField>;
   validate: (input: Record<string, unknown>) => ValidationResult;
   execute: (input: Record<string, unknown>) => Promise<Record<string, unknown>>;
+}
+
+function filePresent(input: Record<string, unknown>, id: string): boolean {
+  const value = input[id];
+  return typeof value === "string" ? value.trim() !== "" : value instanceof Blob;
 }
 
 const SPECS: ReadonlyArray<Spec> = [
@@ -548,36 +556,6 @@ const SPECS: ReadonlyArray<Spec> = [
       const fv = p * (1 + r / n) ** (n * y);
       const round2 = (v: number): number => Math.round(v * 100) / 100;
       return { futureValue: round2(fv), interestEarned: round2(fv - p) };
-    },
-  },
-  {
-    id: "emi-calculator",
-    slug: "emi-calculator",
-    name: "EMI Calculator",
-    description: "Estimate equated monthly instalments for loans and mortgages.",
-    category: "finance",
-    icon: "landmark",
-    keywords: ["emi", "loan", "mortgage", "monthly payment"],
-    popular: true,
-    featured: false,
-    inputs: [str("principal", "Loan amount"), str("rate", "Annual rate (%)"), str("years", "Term (years)")],
-    outputs: [numOut("emi", "Monthly EMI"), numOut("totalPayable", "Total payable"), numOut("totalInterest", "Total interest")],
-    validate: (input) => {
-      const p = reqNum(input, "principal");
-      const r = reqNum(input, "rate");
-      const y = reqNum(input, "years");
-      if (![p, r, y].every((n) => Number.isFinite(n)) || p <= 0 || y <= 0 || r < 0) {
-        return err("principal", "Enter a valid loan amount, rate and term.");
-      }
-      return ok();
-    },
-    execute: async (input) => {
-      const p = reqNum(input, "principal");
-      const monthly = reqNum(input, "rate") / 1200;
-      const n = Math.round(reqNum(input, "years") * 12);
-      const emi = monthly === 0 ? p / n : (p * monthly * (1 + monthly) ** n) / ((1 + monthly) ** n - 1);
-      const round2 = (v: number): number => Math.round(v * 100) / 100;
-      return { emi: round2(emi), totalPayable: round2(emi * n), totalInterest: round2(emi * n - p) };
     },
   },
   {
@@ -2582,7 +2560,287 @@ const SPECS: ReadonlyArray<Spec> = [
       throw new Error("Image cropping runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
     },
   },
+  {
+    id: "merge-pdf",
+    slug: "merge-pdf",
+    name: "Merge PDF",
+    description: "Combine 2-20 PDF files into one document in your chosen order — all on your device.",
+    category: "pdf",
+    icon: "combine",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/merge-pdf",
+    keywords: ["merge pdf", "combine pdf", "join pdf files", "pdf merger", "append pdf"],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "files", type: "file", labelKey: "PDF files to merge (2-20, in order)", required: true },
+    ],
+    outputs: [out("file", "Merged PDF (download in the tool below)"), numOut("pages", "Total pages")],
+    validate: (input) => (filePresent(input, "files") ? ok() : err("files", "Choose at least two PDFs to merge.")),
+    execute: async () => {
+      throw new Error("PDF merging runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "split-pdf",
+    slug: "split-pdf",
+    name: "Split PDF",
+    description: "Extract pages or page ranges from a PDF into a new file — all on your device.",
+    category: "pdf",
+    icon: "scissors",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/split-pdf",
+    keywords: ["split pdf", "extract pages from pdf", "pdf splitter", "separate pdf pages"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to split", required: true },
+      str("ranges", "Pages to keep, e.g. 1-3,5", false),
+    ],
+    outputs: [out("file", "Split PDF (download in the tool below)"), numOut("pages", "Pages extracted")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to split.")),
+    execute: async () => {
+      throw new Error("PDF splitting runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "compress-pdf",
+    slug: "compress-pdf",
+    name: "Compress PDF",
+    description: "Shrink PDF file size with lossless re-save plus optional image downscaling — all on your device.",
+    category: "pdf",
+    icon: "shrink",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/compress-pdf",
+    keywords: ["compress pdf", "reduce pdf size", "shrink pdf", "pdf optimizer", "compress pdf to 1mb"],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to compress", required: true },
+      str("strength", "Strength: balanced (default), light or strong", false),
+    ],
+    outputs: [out("file", "Compressed PDF (download in the tool below)"), numOut("savedBytes", "Bytes saved")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to compress.")),
+    execute: async () => {
+      throw new Error("PDF compression runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "jpg-to-pdf",
+    slug: "jpg-to-pdf",
+    name: "JPG to PDF",
+    description: "Turn JPG, PNG or WebP photos into a PDF — one page per image, portrait, landscape or exact-fit — all on your device.",
+    category: "pdf",
+    icon: "file-image",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/jpg-to-pdf",
+    keywords: ["jpg to pdf", "jpeg to pdf", "png to pdf", "webp to pdf", "image to pdf", "photo to pdf"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "images", type: "file", labelKey: "Images to convert (JPG, PNG, WebP — up to 20)", required: true },
+      str("orientation", "Page orientation: portrait (default), landscape or fit", false),
+    ],
+    outputs: [out("file", "PDF file (download in the tool below)"), numOut("pages", "Pages created")],
+    validate: (input) => (filePresent(input, "images") ? ok() : err("images", "Choose at least one image.")),
+    execute: async () => {
+      throw new Error("Image-to-PDF conversion runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "pdf-to-jpg",
+    slug: "pdf-to-jpg",
+    name: "PDF to JPG",
+    description: "Render PDF pages as JPG images at your chosen scale — all on your device.",
+    category: "pdf",
+    icon: "image",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/pdf-to-jpg",
+    keywords: ["pdf to jpg", "pdf to image", "pdf to png", "convert pdf page to picture", "pdf page as image"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to convert", required: true },
+      str("pages", "Pages to render, e.g. 1-3,5 (default: all)", false),
+      str("scale", "Render scale 1-3 (default 2)", false),
+    ],
+    outputs: [out("files", "JPG images (download in the tool below)"), numOut("count", "Pages rendered")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to convert.")),
+    execute: async () => {
+      throw new Error("PDF-to-image rendering runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "word-to-pdf",
+    slug: "word-to-pdf",
+    name: "Word to PDF",
+    description: "Convert a .docx document into a clean PDF — text and structure preserved, all on your device.",
+    category: "pdf",
+    icon: "file-text",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/word-to-pdf",
+    keywords: ["word to pdf", "docx to pdf", "convert word to pdf", "doc to pdf"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "document", type: "file", labelKey: "Word document (.docx)", required: true },
+    ],
+    outputs: [out("file", "PDF file (download in the tool below)"), numOut("pages", "Pages created")],
+    validate: (input) => (filePresent(input, "document") ? ok() : err("document", "Choose a .docx file.")),
+    execute: async () => {
+      throw new Error("Word-to-PDF conversion runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "pdf-creator",
+    slug: "pdf-creator",
+    name: "PDF Creator",
+    description: "Create a multi-page PDF from text with a title and formatting — free, no signup, runs anywhere.",
+    category: "pdf",
+    icon: "file-plus",
+    canonicalPath: "/tools/pdf/pdf-creator",
+    keywords: ["pdf creator", "create pdf", "make pdf", "text to pdf", "free pdf maker"],
+    popular: true,
+    featured: true,
+    inputs: [area("text", "Text content"), str("title", "Document title (optional)", false)],
+    outputs: [out("pdfBase64", "PDF as Base64 (save with .pdf extension or use Download)"), numOut("pages", "Pages"), out("note", "How to save")],
+    validate: (input) => (req(input, "text").trim() === "" ? err("text", "Enter text to put in the PDF.") : ok()),
+    execute: async (input) => {
+      const { createTextPdf, bytesToBase64, countPdfPages } = await import("./pdf");
+      const title = req(input, "title") || undefined;
+      const pdf = await createTextPdf(req(input, "text"), title === undefined ? {} : { title });
+      return {
+        pdfBase64: bytesToBase64(pdf),
+        pages: await countPdfPages(pdf),
+        note: "Copy the Base64 and decode to a .pdf file, or use Download to save the result and rename to .pdf.",
+      };
+    },
+  },
+  {
+    id: "sign-pdf",
+    slug: "sign-pdf",
+    name: "Sign PDF",
+    description: "Draw or type your signature and stamp it onto any page of a PDF — all on your device.",
+    category: "pdf",
+    icon: "pen-line",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/sign-pdf",
+    keywords: ["sign pdf", "electronic signature", "e-sign pdf", "add signature to pdf", "pdf signer"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to sign", required: true },
+      str("page", "Page number for the signature (default 1)", false),
+    ],
+    outputs: [out("file", "Signed PDF (download in the tool below)")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to sign.")),
+    execute: async () => {
+      throw new Error("PDF signing runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "pdf-to-word",
+    slug: "pdf-to-word",
+    name: "PDF to Word",
+    description: "Extract a PDF's text into an editable .docx document — all on your device.",
+    category: "pdf",
+    icon: "file-type",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/pdf-to-word",
+    keywords: ["pdf to word", "pdf to docx", "convert pdf to word", "pdf to editable text"],
+    popular: true,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to convert", required: true },
+    ],
+    outputs: [out("file", "Word document (download in the tool below)"), numOut("pages", "Pages processed")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to convert.")),
+    execute: async () => {
+      throw new Error("PDF-to-Word conversion runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "pdf-to-excel",
+    slug: "pdf-to-excel",
+    name: "PDF to Excel",
+    description: "Extract a PDF's text rows into an editable .xlsx spreadsheet — all on your device.",
+    category: "pdf",
+    icon: "table",
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/pdf-to-excel",
+    keywords: ["pdf to excel", "pdf to xlsx", "pdf table to excel", "extract pdf data to spreadsheet"],
+    popular: false,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "PDF file to convert", required: true },
+    ],
+    outputs: [out("file", "Excel workbook (download in the tool below)"), numOut("rows", "Rows extracted")],
+    validate: (input) => (filePresent(input, "file") ? ok() : err("file", "Choose a PDF to convert.")),
+    execute: async () => {
+      throw new Error("PDF-to-Excel conversion runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
 ];
+
+// Submit-button verbs for the generic runner. Calculators intentionally have
+// no entry and keep the shared "Calculate" fallback; every other generic
+// tool names its own action so e.g. text tools don't say "Calculate".
+const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }>> = {
+  "unit-converter": { action: "Convert units", running: "Converting..." },
+  "json-formatter": { action: "Format JSON", running: "Formatting..." },
+  "json-minifier": { action: "Minify JSON", running: "Minifying..." },
+  "json-validator": { action: "Validate JSON", running: "Validating..." },
+  "json-to-yaml": { action: "Convert to YAML", running: "Converting..." },
+  "yaml-to-json": { action: "Convert to JSON", running: "Converting..." },
+  "json-to-typescript": { action: "Generate types", running: "Generating..." },
+  "csv-to-json": { action: "Convert to JSON", running: "Converting..." },
+  "json-to-csv": { action: "Convert to CSV", running: "Converting..." },
+  "base64-encoder": { action: "Encode", running: "Encoding..." },
+  "base64-decoder": { action: "Decode", running: "Decoding..." },
+  "url-encoder": { action: "Encode URL", running: "Encoding..." },
+  "url-decoder": { action: "Decode URL", running: "Decoding..." },
+  "jwt-decoder": { action: "Decode token", running: "Decoding..." },
+  "regex-tester": { action: "Test regex", running: "Testing..." },
+  "diff-checker": { action: "Compare texts", running: "Comparing..." },
+  "uuid-generator": { action: "Generate UUIDs", running: "Generating..." },
+  "timestamp-converter": { action: "Convert timestamp", running: "Converting..." },
+  "word-counter": { action: "Count words", running: "Counting..." },
+  "character-counter": { action: "Count characters", running: "Counting..." },
+  "case-converter": { action: "Convert case", running: "Converting..." },
+  "duplicate-line-remover": { action: "Remove duplicates", running: "Removing..." },
+  "empty-line-remover": { action: "Remove empty lines", running: "Removing..." },
+  "text-cleaner": { action: "Clean text", running: "Cleaning..." },
+  "slug-generator": { action: "Generate slug", running: "Generating..." },
+  "lorem-ipsum-generator": { action: "Generate text", running: "Generating..." },
+  "reading-time-calculator": { action: "Estimate reading time", running: "Estimating..." },
+  "password-generator": { action: "Generate password", running: "Generating..." },
+  "password-strength-checker": { action: "Check strength", running: "Checking..." },
+  "hash-generator": { action: "Generate hash", running: "Generating..." },
+  "random-token-generator": { action: "Generate token", running: "Generating..." },
+  "hex-encoder": { action: "Convert", running: "Converting..." },
+  "css-gradient-generator": { action: "Generate CSS", running: "Generating..." },
+  "css-box-shadow-generator": { action: "Generate CSS", running: "Generating..." },
+  "css-border-radius-generator": { action: "Generate CSS", running: "Generating..." },
+  "css-button-generator": { action: "Generate CSS", running: "Generating..." },
+  "color-converter": { action: "Convert color", running: "Converting..." },
+  "color-contrast-checker": { action: "Check contrast", running: "Checking..." },
+  "url-qr-generator": { action: "Generate QR code", running: "Generating..." },
+  "wifi-qr-generator": { action: "Generate QR code", running: "Generating..." },
+  "vcard-qr-generator": { action: "Generate QR code", running: "Generating..." },
+  "text-qr-generator": { action: "Generate QR code", running: "Generating..." },
+  "text-to-pdf": { action: "Create PDF", running: "Creating PDF..." },
+  "meta-tag-generator": { action: "Generate meta tags", running: "Generating..." },
+  "svg-placeholder-generator": { action: "Generate placeholder", running: "Generating..." },
+  "email-validator": { action: "Validate email", running: "Validating..." },
+  "url-validator": { action: "Validate URL", running: "Validating..." },
+  "number-formatter": { action: "Format number", running: "Formatting..." },
+  "date-formatter": { action: "Format date", running: "Formatting..." },
+  "random-number-generator": { action: "Generate numbers", running: "Generating..." },
+  "code-minifier": { action: "Minify code", running: "Minifying..." },
+  "keyword-density-checker": { action: "Analyze keywords", running: "Analyzing..." },
+  "robots-txt-generator": { action: "Generate robots.txt", running: "Generating..." },
+  "youtube-thumbnail-downloader": { action: "Fetch thumbnails", running: "Fetching..." },
+};
 
 export const EXTRA_TOOLS: ReadonlyArray<ToolRegistryEntry> = SPECS.map((spec) => ({
   definition: defineTool<Record<string, unknown>, Record<string, unknown>>({
@@ -2599,12 +2857,19 @@ export const EXTRA_TOOLS: ReadonlyArray<ToolRegistryEntry> = SPECS.map((spec) =>
     processingMode: "LOCAL",
     supportedFormats: [],
     requiresNetwork: spec.requiresNetwork ?? false,
+    ...(ACTION_LABELS[spec.id] === undefined
+      ? {}
+      : {
+          actionLabel: (ACTION_LABELS[spec.id] as { action: string; running: string }).action,
+          actionRunningLabel: (ACTION_LABELS[spec.id] as { action: string; running: string }).running,
+        }),
     localizationKey: `tools.${spec.id}`,
     relatedTools: [],
     seo: {
       title: `${spec.name} | RovoTools`,
       description: `Free ${spec.name.toLowerCase()}. ${spec.description}`,
       keywords: [...spec.keywords, spec.name.toLowerCase(), "free online"],
+      ...(spec.canonicalPath === undefined ? {} : { canonicalPath: spec.canonicalPath }),
     },
     nameKey: `tools.${spec.id}.name`,
     descriptionKey: `tools.${spec.id}.description`,
