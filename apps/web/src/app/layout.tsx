@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
 import { t } from "@rovotools/localization";
@@ -39,12 +40,15 @@ export default function RootLayout({
         className={`${inter.className} flex min-h-screen flex-col bg-background text-foreground antialiased`}
         suppressHydrationWarning
       >
-        <script
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme")||"system";var r=t==="system"?(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):t;document.documentElement.classList.toggle("dark",r==="dark");}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",t==="dark");}catch(e){}})()`,
           }}
         />
-        <script
+        <Script
+          id="org-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
         />
