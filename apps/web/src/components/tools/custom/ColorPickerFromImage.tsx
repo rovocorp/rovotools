@@ -28,11 +28,10 @@ export default function ColorPickerFromImage(): React.ReactElement {
   const pixelsRef = useRef<Uint8ClampedArray | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Draw once the canvas is mounted (it renders when `file` is set).
-  useEffect(() => {
+  function analyzeCurrentImage(): void {
     const img = imageRef.current;
     const canvas = canvasRef.current;
-    if (file === null || img === null || canvas === null) {
+    if (img === null || canvas === null) {
       return;
     }
     try {
@@ -48,9 +47,18 @@ export default function ColorPickerFromImage(): React.ReactElement {
       pixelsRef.current = data;
       setWorkSize({ width: fit.width, height: fit.height });
       setPalette(extractDominantColors(data, 6));
+      setError(null);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Could not read that image.");
     }
+  }
+
+  // Draw once the canvas is mounted (it renders when `file` is set).
+  useEffect(() => {
+    if (file === null) {
+      return;
+    }
+    analyzeCurrentImage();
   }, [file]);
 
   async function choose(next: File | null): Promise<void> {
@@ -147,10 +155,15 @@ export default function ColorPickerFromImage(): React.ReactElement {
               {error}
             </p>
           ) : null}
-          <Button type="button" variant="outline" onClick={handleReset}>
-            <RotateCcw className="h-4 w-4" aria-hidden="true" />
-            Start over
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" disabled={file === null} onClick={analyzeCurrentImage}>
+              {palette.length > 0 ? "Re-sample colors" : "Sample colors"}
+            </Button>
+            <Button type="button" variant="outline" disabled={file === null} onClick={handleReset}>
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+              Start over
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
