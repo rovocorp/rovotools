@@ -1,5 +1,5 @@
 # ads.txt — RovoTools (https://rovotools.com)
-# Replace the placeholder line below with the publisher line from the AdSense
-# dashboard before enabling ads. Until then ads stay disabled (see
-# NEXT_PUBLIC_ADSENSE_* in .env.example) and this file authorizes nobody.
-# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# Authorized seller: Google AdSense. Ad units additionally require
+# NEXT_PUBLIC_ADSENSE_PUBLISHER_ID (+ slot IDs) in the hosting environment
+# (see .env.example) and visitor cookie consent — see AdSenseScript/AdSlot.
+google.com, pub-8311202559739478, DIRECT, f08c47fec0942fa0
