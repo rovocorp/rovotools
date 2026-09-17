@@ -735,6 +735,306 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     related: ["compound-interest-calculator", "discount-calculator", "percentage-calculator", "tip-calculator"],
   },
+  "utm-builder": {
+    title: "UTM URL Builder — Campaign Tracking Links | RovoTools",
+    description:
+      "Build UTM-tagged campaign URLs for Google Analytics. Add source, medium and campaign — get a clean tracked link.",
+    intro:
+      "Tag any link with UTM parameters so Analytics shows exactly which newsletter, ad or post drove each visit.",
+    benefits: [
+      "Correctly encoded source, medium, campaign, term and content",
+      "Keeps existing query strings and page anchors intact",
+      "Runs locally — campaign names never leave your device",
+    ],
+    howTo: [
+      "Paste the destination page URL.",
+      "Fill in source, medium and campaign (term and content optional).",
+      "Copy the tagged URL into your newsletter, ad or post.",
+    ],
+    faqs: [
+      {
+        question: "Which UTM parameters do I actually need?",
+        answer:
+          "Source, medium and campaign — they answer where, how and which campaign. Term and content are optional refinements for paid keywords and A/B variants.",
+      },
+      {
+        question: "Will it break my existing query string?",
+        answer:
+          "No. Existing parameters are preserved and the UTM tags are appended with correct separators.",
+      },
+    ],
+    related: ["url-validator", "meta-tag-generator", "keyword-density-checker"],
+  },
+  "serp-preview": {
+    title: "SERP Snippet Preview — Google Result Preview | RovoTools",
+    description:
+      "Preview your Google search snippet before publishing. Check title and description length against truncation limits.",
+    intro:
+      "See your title, URL and description the way Google shows them — and catch truncation before it costs you clicks.",
+    benefits: [
+      "Title check against the ~60-character truncation limit",
+      "Description check against the ~160-character limit",
+      "Instant rendered preview to copy into your CMS",
+    ],
+    howTo: [
+      "Enter the page title, URL and meta description.",
+      "Press Execute to see the checks and preview.",
+      "Trim anything flagged too long, then publish.",
+    ],
+    faqs: [
+      {
+        question: "Why 60 and 160 characters?",
+        answer:
+          "Google truncates by pixel width, not characters, but ~60 for titles and ~160 for descriptions are the practical limits most snippets stay inside.",
+      },
+      {
+        question: "Does Google always use my description?",
+        answer:
+          "No — Google rewrites it when the query matches page content better. A good description still wins the click when it is shown.",
+      },
+    ],
+    related: ["meta-tag-generator", "slug-generator", "keyword-density-checker"],
+  },
+  "schema-validator": {
+    title: "Schema Markup Validator — JSON-LD Checker | RovoTools",
+    description:
+      "Validate JSON-LD structured data. Confirm @context and @type, list declared schema types, catch syntax errors.",
+    intro:
+      "Paste JSON-LD structured data and confirm it parses, declares a context and names real schema types — before Google sees it.",
+    benefits: [
+      "Syntax check with pinpointed JSON errors",
+      "Lists every declared @type, including @graph blocks",
+      "Flags missing @context and untyped objects",
+    ],
+    howTo: [
+      "Paste the JSON-LD block from your page.",
+      "Press Execute to validate it.",
+      "Fix anything flagged, then re-test in Google's Rich Results Test.",
+    ],
+    faqs: [
+      {
+        question: "Does valid markup guarantee rich results?",
+        answer:
+          "No — validity is the entry ticket. Google decides eligibility per page, type and policy compliance.",
+      },
+      {
+        question: "Can I validate multiple blocks at once?",
+        answer:
+          "Yes. Paste an array of blocks or a full @graph document — every node is checked.",
+      },
+    ],
+    related: ["json-validator", "meta-tag-generator", "code-minifier"],
+  },
+  "meta-tag-analyzer": {
+    title: "Meta Tag Analyzer — Audit Page Tags | RovoTools",
+    description:
+      "Audit any page's title, meta description, canonical and social tags from its HTML. Find what's missing or too long.",
+    intro:
+      "Paste page source and get a complete inventory of its head tags — title, description, canonical, robots and every Open Graph and Twitter tag — with issues flagged.",
+    benefits: [
+      "Full inventory of title, description, canonical and robots tags",
+      "Open Graph and Twitter tag extraction",
+      "Missing and over-length tags flagged automatically",
+    ],
+    howTo: [
+      "Open the page, view source and copy the HTML (the <head> is enough).",
+      "Paste it and press Analyze — or fetch a live URL in your browser.",
+      "Work through the flagged issues top to bottom.",
+    ],
+    faqs: [
+      {
+        question: "Do I need the whole page source?",
+        answer:
+          "No — everything this tool reads lives in the <head>. Paste from <head> to </head> for the fastest analysis.",
+      },
+      {
+        question: "How is this different from the Meta Tag Generator?",
+        answer:
+          "The generator writes new tags; the analyzer reads existing ones. Use them as a pair: generate, publish, then analyze to verify.",
+      },
+    ],
+    related: ["meta-tag-generator", "open-graph-checker", "seo-checker"],
+  },
+  "robots-txt-checker": {
+    title: "Robots.txt Checker — Validate Crawler Rules | RovoTools",
+    description:
+      "Validate robots.txt files. Catch site-wide blocks, malformed lines and missing sitemap references before crawlers do.",
+    intro:
+      "Paste a robots.txt and get its groups, rules and sitemap lines parsed — with dangerous blocks and syntax slips called out.",
+    benefits: [
+      "Parses User-agent groups, Allow/Disallow and Sitemap lines",
+      "Flags site-wide Disallow: / blocks",
+      "Catches malformed lines and unknown directives",
+    ],
+    howTo: [
+      "Paste the full robots.txt contents.",
+      "Press Execute to parse and check it.",
+      "Fix flagged rules, then pair with the generator to rebuild cleanly.",
+    ],
+    faqs: [
+      {
+        question: "How is this different from the Robots.txt Generator?",
+        answer:
+          "The generator builds a new file from presets; the checker audits an existing one. Verify what you publish with the checker.",
+      },
+      {
+        question: "Does Allow override Disallow?",
+        answer:
+          "For Google, the most specific matching rule wins regardless of order. When in doubt, test the exact URL pattern.",
+      },
+    ],
+    related: ["robots-txt-generator", "sitemap-checker", "seo-checker"],
+  },
+  "seo-checker": {
+    title: "Website SEO Checker — On-Page Audit | RovoTools",
+    description:
+      "Score any page's on-page SEO from its HTML: title, description, headings, images and social tags in one audit.",
+    intro:
+      "Paste page source — or fetch a live URL — and get a 0–100 on-page score with every issue explained in plain language.",
+    benefits: [
+      "Single 0–100 score across six on-page checks",
+      "Heading structure and missing-alt image audit",
+      "Open Graph completeness included",
+    ],
+    howTo: [
+      "Paste the page HTML or fetch the live URL above.",
+      "Press Audit page.",
+      "Fix the listed issues in order — title and headings first.",
+    ],
+    faqs: [
+      {
+        question: "What does the score actually measure?",
+        answer:
+          "Six on-page basics: title, description, one H1, image alt text, canonical and Open Graph completeness. It is a hygiene score, not a ranking prediction.",
+      },
+      {
+        question: "My page fetches but scores 0 — why?",
+        answer:
+          "JavaScript-rendered pages return an empty shell to simple fetchers. Paste the rendered source (view-source after load) instead.",
+      },
+    ],
+    related: ["meta-tag-analyzer", "open-graph-checker", "keyword-density-checker"],
+  },
+  "open-graph-checker": {
+    title: "Open Graph Checker — Social Preview Tags | RovoTools",
+    description:
+      "Verify og:title, og:description, og:image and Twitter card tags so links unfurl correctly on social platforms.",
+    intro:
+      "Paste page source — or fetch a live URL — and confirm the exact tags Facebook, X, LinkedIn and messengers use for link previews.",
+    benefits: [
+      "Checks the core trio: title, description, image",
+      "Reads og:url, og:type and twitter:card too",
+      "Tells you exactly which tag is missing",
+    ],
+    howTo: [
+      "Paste the page HTML or fetch the live URL above.",
+      "Press Check tags.",
+      "Add any missing tags, then re-scrape in each platform's debugger.",
+    ],
+    faqs: [
+      {
+        question: "I fixed my tags but the preview is stale — why?",
+        answer:
+          "Platforms cache previews aggressively. Re-scrape the URL in the Facebook Sharing Debugger or X Card Validator to refresh.",
+      },
+      {
+        question: "What image size works best?",
+        answer:
+          "1200×630 is the safe universal choice — it fills large cards on Facebook and LinkedIn without cropping surprises.",
+      },
+    ],
+    related: ["meta-tag-generator", "meta-tag-analyzer", "seo-checker"],
+  },
+  "sitemap-checker": {
+    title: "XML Sitemap Checker — Validate Sitemaps | RovoTools",
+    description:
+      "Validate XML sitemaps: urlset vs index format, URL counts, lastmod coverage and the 50,000-URL protocol limit.",
+    intro:
+      "Paste sitemap XML — or fetch a live sitemap URL — and confirm crawlers can actually read what you published.",
+    benefits: [
+      "Detects urlset vs sitemapindex (and mixed-up files)",
+      "Counts URLs and flags the 50,000-URL limit",
+      "Measures <lastmod> coverage across entries",
+    ],
+    howTo: [
+      "Paste the sitemap XML or fetch its URL above.",
+      "Press Check sitemap.",
+      "Split oversized files and backfill missing lastmod dates.",
+    ],
+    faqs: [
+      {
+        question: "How big can a sitemap be?",
+        answer:
+          "50,000 URLs or 50 MB uncompressed per file. Larger sites use a sitemap index pointing at multiple files.",
+      },
+      {
+        question: "Do I need lastmod on every URL?",
+        answer:
+          "Not required, but accurate dates help crawlers prioritize recrawls of changed pages.",
+      },
+    ],
+    related: ["robots-txt-checker", "robots-txt-generator", "seo-checker"],
+  },
+  "tag-detector": {
+    title: "Analytics Tag Detector — Find Trackers | RovoTools",
+    description:
+      "Detect Google Analytics, Tag Manager, Meta Pixel, TikTok and LinkedIn tags in any page's HTML.",
+    intro:
+      "Paste page source — or fetch a live URL — and see exactly which analytics and marketing tags fire on the page, with IDs where visible.",
+    benefits: [
+      "Finds GA4, GTM, Meta Pixel, TikTok and LinkedIn tags",
+      "Shows measurement IDs straight from the markup",
+      "Spots bonus tools like Hotjar, Clarity and Segment",
+    ],
+    howTo: [
+      "Paste the page HTML or fetch the live URL above.",
+      "Press Detect tags.",
+      "Compare against your tag plan — anything unexpected is worth investigating.",
+    ],
+    faqs: [
+      {
+        question: "Can it see tags loaded by Tag Manager?",
+        answer:
+          "Only the GTM container itself is visible in static HTML — tags fired inside GTM need the Tag Assistant or network inspection.",
+      },
+      {
+        question: "Why do IDs matter?",
+        answer:
+          "An unfamiliar measurement ID means data flows somewhere you didn't authorize — often leftover agency or theme code.",
+      },
+    ],
+    related: ["seo-checker", "meta-tag-analyzer", "performance-analyzer"],
+  },
+  "performance-analyzer": {
+    title: "Website Performance Analyzer — Page Weight Hints | RovoTools",
+    description:
+      "Estimate page-weight performance from HTML: markup size, scripts, stylesheets and image dimensions with fix hints.",
+    intro:
+      "Paste page source — or fetch a live URL — and get honest static hints about what slows the page down, with concrete fixes.",
+    benefits: [
+      "HTML weight, script and stylesheet counts",
+      "Images missing width/height (layout-shift culprits)",
+      "Plain-language fix for every flag",
+    ],
+    howTo: [
+      "Paste the page HTML or fetch the live URL above.",
+      "Press Analyze weight.",
+      "Fix the flagged items, then confirm with PageSpeed Insights for real timings.",
+    ],
+    faqs: [
+      {
+        question: "Is this a speed score?",
+        answer:
+          "No — these are static HTML hints, not measured timings. They point at likely problems; PageSpeed Insights gives you lab and field data.",
+      },
+      {
+        question: "Why do image dimensions matter?",
+        answer:
+          "Without width and height the browser can't reserve space, so content jumps as images load — that is Cumulative Layout Shift.",
+      },
+    ],
+    related: ["seo-checker", "tag-detector", "image-compressor"],
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {

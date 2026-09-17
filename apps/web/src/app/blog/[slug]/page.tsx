@@ -70,9 +70,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Sticky left rail (xl+ only) + article column; rail collapses when ads are off. */}
+      {/* Sticky right rail (xl+ only) + article column; rail collapses when ads are off. */}
       <div className="xl:flex xl:items-start xl:gap-8">
-      <AdRail placement="blog-rail-left" slotId={getAdSlotId("blog-rail-left")} />
       <div className="min-w-0 flex-1">
       <article className="mx-auto max-w-3xl xl:mx-0">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -116,8 +115,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       ) : null}
       <AdSlot placement="blog-footer" slotId={getAdSlotId("blog-footer")} />
       </article>
-      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
       </div>
+      <AdRail placement="blog-rail-right" slotId={getAdSlotId("blog-rail-right")} />
       </div>
     </div>
   );

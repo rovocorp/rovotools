@@ -4,11 +4,12 @@ export type AdPlacement =
   | "blog-footer"
   | "home-inline"
   // Sticky sidebar rails (desktop xl+ only, hidden on smaller screens) and
-  // in-flow bottom units. Rails are position:sticky inside the content
-  // column — never fixed overlays — per AdSense sticky-ad rules; bottom
-  // units are static in-flow blocks. Max 1 rail + 2 in-flow units per page.
-  | "tool-rail-left"
-  | "blog-rail-left"
+  // in-flow bottom units. Rails sit at the content's right in LTR layouts,
+  // position:sticky inside the content column — never fixed overlays — per
+  // AdSense sticky-ad rules; bottom units are static in-flow blocks.
+  // Max 1 rail + 1 in-flow unit per page.
+  | "tool-rail-right"
+  | "blog-rail-right"
   | "content-bottom";
 
 export const ALLOWED_PLACEMENTS: ReadonlyArray<AdPlacement> = [
@@ -16,8 +17,8 @@ export const ALLOWED_PLACEMENTS: ReadonlyArray<AdPlacement> = [
   "listing-inline",
   "blog-footer",
   "home-inline",
-  "tool-rail-left",
-  "blog-rail-left",
+  "tool-rail-right",
+  "blog-rail-right",
   "content-bottom",
 ];
 
@@ -56,11 +57,11 @@ export function resolvePlacementsForPage(
 ): ReadonlyArray<AdPlacement> {
   switch (page) {
     case "tool":
-      return ["tool-footer", "tool-rail-left", "content-bottom"];
+      return ["tool-footer", "tool-rail-right"];
     case "listing":
       return ["listing-inline"];
     case "blog":
-      return ["blog-footer", "blog-rail-left", "content-bottom"];
+      return ["blog-footer", "blog-rail-right"];
     case "home":
       return ["home-inline", "content-bottom"];
   }

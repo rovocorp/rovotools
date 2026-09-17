@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 // Bottom leaderboard units render as confined dev placeholders on tool,
-// blog, and home pages (no publisher ID in test env). The left rail is
+// blog, and home pages (no publisher ID in test env). The right rail is
 // desktop-xl only: viewports below 1280px must not render it at all.
 for (const path of ["/tools/bmi-calculator", "/blog/bmi-explained", "/"]) {
   test(`bottom unit renders confined on ${path}`, async ({ page }) => {
@@ -14,7 +14,7 @@ for (const path of ["/tools/bmi-calculator", "/blog/bmi-explained", "/"]) {
   });
 }
 
-test("left rail renders only on wide screens", async ({ page }) => {
+test("right rail renders only on wide screens", async ({ page }) => {
   await page.goto("/tools/bmi-calculator");
   const rail = page.locator("aside").filter({ hasText: "dev mock, rail" });
   const width = page.viewportSize()?.width ?? 0;

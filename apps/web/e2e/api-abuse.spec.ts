@@ -126,3 +126,40 @@ test("API rate limiting trips after the budget is spent", async ({ request, base
   expect(throttled.status()).toBe(429);
   expect(await throttled.json()).toEqual({ error: "Too many requests." });
 });
+
+test("fetch-page rejects missing and malformed targets", async ({ request, baseURL }) => {
+  const missing = await request.post(`${baseURL}/api/fetch-page`, {
+    headers: { origin: baseURL ?? "" },
+    data: {},
+  });
+  expect(missing.status()).toBe(400);
+  for (const url of ["file:///etc/passwd", "javascript:alert(1)", "ftp://example.com/page", "not a url"]) {
+    const response = await request.post(`${baseURL}/api/fetch-page`, {
+      headers: { origin: baseURL ?? "" },
+      data: { url },
+    });
+    expect(response.status(), url).toBe(400);
+    expect((await response.json()).error).toBeDefined();
+  }
+});
+
+test("fetch-page refuses private targets without touching the network", async ({ request, baseURL }) => {
+  for (const url of ["http://127.0.0.1/", "http://localhost/", "http://10.0.0.1/", "http://192.168.1.1/"]) {
+    const response = await request.post(`${baseURL}/api/fetch-page`, {
+      headers: { origin: baseURL ?? "" },
+      data: { url },
+    });
+    expect(response.status(), url).toBe(403);
+    expect((await response.json()).error).toBeDefined();
+  }
+});
+
+test("fetch-page rejects cross-origin mutations and wrong methods", async ({ request, baseURL }) => {
+  const foreign = await request.post(`${baseURL}/api/fetch-page`, {
+    headers: { origin: "https://evil.example" },
+    data: { url: "https://example.com" },
+  });
+  expect(foreign.status()).toBe(403);
+  const get = await request.get(`${baseURL}/api/fetch-page`);
+  expect(get.status()).toBe(405);
+});

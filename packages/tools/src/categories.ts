@@ -20,11 +20,6 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
     description: "Compress, resize, convert, crop and optimize images for websites, documents, social media and everyday file sharing.",
     keywords: ["image tools", "image to base64", "base64 to image", "compress image", "resize image", "convert image"],
   },
-  document: {
-    title: "Document Tools",
-    description: "Count words, convert cases, clean text and generate slugs for documents and publishing.",
-    keywords: ["document tools", "word counter", "case converter"],
-  },
   developer: {
     title: "Developer Tools",
     description: "Format, validate, encode, decode, compare and transform JSON, text, URLs, tokens and other developer data.",
@@ -56,9 +51,9 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
     keywords: ["qr generator", "wifi qr", "vcard qr", "url qr"],
   },
   calculator: {
-    title: "Calculators",
-    description: "Calculate percentages, BMI, age, dates, ratios, units and everyday mathematical values with easy-to-use online calculators.",
-    keywords: ["online calculators", "free calculators", "finance calculators", "bmi calculator", "age calculator", "percentage calculator"],
+    title: "Calculators & Converters",
+    description: "Calculate percentages, BMI, age, dates and everyday values — plus unit, length, weight and temperature conversions — with easy online calculators.",
+    keywords: ["online calculators", "free calculators", "unit converter", "measurement converter", "metric imperial", "bmi calculator", "age calculator", "percentage calculator"],
   },
   finance: {
     title: "Finance Tools",
@@ -70,21 +65,6 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
     description: "Create and check common SEO resources and website metadata for better search visibility and technical website management.",
     keywords: ["seo tools", "slug generator", "meta tags", "robots.txt generator", "keyword density"],
   },
-  utility: {
-    title: "Utility Tools",
-    description: "Everyday utilities that run privately on your device — age, dates, and practical helpers.",
-    keywords: ["utility tools", "online utilities", "free tools"],
-  },
-  converter: {
-    title: "Unit Converters",
-    description: "Convert common files, data formats, units, measurements and digital values quickly online.",
-    keywords: ["unit converter", "measurement converter", "metric imperial"],
-  },
-  analytics: {
-    title: "Analytics Tools",
-    description: "Turn numbers into insight with transparent, reproducible analytics tools.",
-    keywords: ["analytics tools", "data tools"],
-  },
   validator: {
     title: "Validators",
     description: "Check and validate inputs with clear, explainable rules.",
@@ -94,11 +74,6 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
     title: "Formatters",
     description: "Format numbers, dates, and text consistently across platforms.",
     keywords: ["formatters", "number formatting"],
-  },
-  other: {
-    title: "More Tools",
-    description: "Every other free RovoTools utility, all running privately on your device.",
-    keywords: ["free online tools"],
   },
 };
 

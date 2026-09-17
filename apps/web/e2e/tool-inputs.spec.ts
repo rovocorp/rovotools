@@ -68,9 +68,9 @@ for (const slug of slugs) {
 test("dev ad placeholders are confined to their slots", async ({ page }) => {
   await page.goto("/tools/bmi-calculator");
   const labels = page.getByText("Ads by Google (dev mock)");
-  // tool-footer + content-bottom units.
-  await expect(labels).toHaveCount(2, { timeout: 15000 });
-  for (let i = 0; i < 2; i += 1) {
+  // Single tool-footer unit per tool page.
+  await expect(labels).toHaveCount(1, { timeout: 15000 });
+  for (let i = 0; i < 1; i += 1) {
     const label = labels.nth(i);
     await expect(label).toBeVisible();
     const box = await label.boundingBox();

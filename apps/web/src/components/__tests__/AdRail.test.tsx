@@ -16,7 +16,7 @@ afterEach(() => {
 describe("AdRail", () => {
   it("renders a labeled, desktop-only sticky aside placeholder without a publisher ID", () => {
     vi.stubEnv(PUBLISHER_ENV, "");
-    const { container } = render(<AdRail placement="tool-rail-left" slotId="test-slot" />);
+    const { container } = render(<AdRail placement="tool-rail-right" slotId="test-slot" />);
     const aside = container.querySelector("aside");
     expect(aside).not.toBeNull();
     expect(aside?.getAttribute("aria-label")).toBeTruthy();
@@ -30,14 +30,14 @@ describe("AdRail", () => {
   it("renders the real rail unit with consent and collapses without it", () => {
     vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
     setConsent("granted");
-    const { container, unmount } = render(<AdRail placement="tool-rail-left" slotId="test-slot" />);
+    const { container, unmount } = render(<AdRail placement="tool-rail-right" slotId="test-slot" />);
     expect(container.querySelector("aside ins.adsbygoogle")).not.toBeNull();
     unmount();
     cleanup();
     window.localStorage.clear();
     resetConsentMemory();
     setConsent("denied");
-    const denied = render(<AdRail placement="tool-rail-left" slotId="test-slot" />);
+    const denied = render(<AdRail placement="tool-rail-right" slotId="test-slot" />);
     expect(denied.container.querySelector("aside")).toBeNull();
   });
 });

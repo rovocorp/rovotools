@@ -1,11 +1,12 @@
 # Final Production Audit — RovoTools
 
-> **Ad placements addendum (2026-09-17).** Left sticky rail (xl+ only,
-> never a fixed overlay) + in-flow bottom leaderboard on tool, blog, and
-> home pages. New placements `tool-rail-left` / `blog-rail-left` /
-> `content-bottom` in the policy allowlist; `AdSlot` rail variant (300px,
-> 600px reserve) + `AdRail` aside that collapses when ads are off;
-> consent-gating, CSP, and dev placeholders unchanged in behavior.
+> **Ad placements addendum (2026-09-17).** Right sticky rail (xl+ only,
+> never a fixed overlay) + one in-flow bottom unit per page (tool-footer on
+> tool pages, blog-footer on blog pages, content-bottom on home). Placements
+> `tool-rail-right` / `blog-rail-right` in the policy allowlist; `AdSlot`
+> rail variant (300px, 600px reserve) + `AdRail` aside that collapses when
+> ads are off; consent-gating, CSP, and dev placeholders unchanged in
+> behavior.
 > Google policy compliance: no overlays/interstitials, no ads on 404 /
 > offline / legal pages, labeled units, reserved sizes (no CLS), vendor
 > named in cookie/privacy pages, ads.txt + app-ads.txt live with

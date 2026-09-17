@@ -174,7 +174,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       slug: "age-calculator",
       name: "Age Calculator",
       description: "Calculate exact age in years, months, and days.",
-      category: "utility",
+      category: "calculator",
       icon: "calendar",
       keywords: ["age", "birthday", "date", "years"],
       featured: true,
@@ -192,7 +192,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       },
       nameKey: "tools.age-calculator.name",
       descriptionKey: "tools.age-calculator.description",
-      metadata: { version: "1.0.0", isOfflineCapable: true, tags: ["date", "utility"] },
+      metadata: { version: "1.0.0", isOfflineCapable: true, tags: ["date", "calculator"] },
       inputs: ageInputs,
       outputs: [
         { id: "years", type: "number", labelKey: "tools.age-calculator.years" },

@@ -6,6 +6,7 @@ import { t } from "@rovotools/localization";
 import { getToolDisplay } from "@rovotools/tools";
 import { useTheme } from "@/providers/ThemeProvider";
 import { getPalette } from "@/lib/theme";
+import { getCategoryLabel } from "@/lib/category-label";
 import { Badge, Card } from "@/components/ui";
 
 export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React.ReactElement {
@@ -24,7 +25,7 @@ export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React
     >
       <Card>
         <View style={styles.row}>
-          <Badge>{tool.category}</Badge>
+          <Badge>{getCategoryLabel(tool.category)}</Badge>
           {tool.popular ? <Badge>{t("en", "tool.popular")}</Badge> : null}
         </View>
         <Card.Title style={styles.title}>{display.name}</Card.Title>

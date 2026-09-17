@@ -8,16 +8,11 @@ const querySchema = z.object({
   q: z.string().max(100).optional(),
   category: z
     .enum([
-      "utility",
       "calculator",
-      "converter",
-      "analytics",
       "validator",
       "formatter",
-      "other",
       "pdf",
       "image",
-      "document",
       "developer",
       "text",
       "security",

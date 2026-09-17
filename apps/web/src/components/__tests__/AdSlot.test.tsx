@@ -61,7 +61,7 @@ describe("AdSlot dev placeholder", () => {
 
   it("rail variant reserves a 300px vertical slot", () => {
     vi.stubEnv(PUBLISHER_ENV, "");
-    const { container } = render(<AdSlot placement="tool-rail-left" slotId="test-slot" variant="rail" />);
+    const { container } = render(<AdSlot placement="tool-rail-right" slotId="test-slot" variant="rail" />);
     const unit = container.querySelector("ins.adsbygoogle");
     expect(unit).not.toBeNull();
     expect(unit?.getAttribute("data-ad-slot")).toBe("test-slot");

@@ -14,5 +14,6 @@ export * from "./privacy";
 export * from "./registry";
 export * from "./seed";
 export * from "./seo";
+export * from "./seo-audit";
 export * from "./seo-copy";
 export * from "./utils";

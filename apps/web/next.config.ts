@@ -46,6 +46,35 @@ const nextConfig: NextConfig = {
         destination: "/tools/pdf/pdf-creator",
         permanent: true,
       },
+      // Retired empty categories: their sole tools moved elsewhere, so the
+      // old section URLs land on the homepage categories anchor — except
+      // Unit Converters, which merged into the Calculators hub (now titled
+      // "Calculators & Converters") and redirects straight there.
+      {
+        source: "/tools/category/converter",
+        destination: "/tools/category/calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/category/analytics",
+        destination: "/#categories",
+        permanent: true,
+      },
+      {
+        source: "/tools/category/utility",
+        destination: "/#categories",
+        permanent: true,
+      },
+      {
+        source: "/tools/category/other",
+        destination: "/#categories",
+        permanent: true,
+      },
+      {
+        source: "/tools/category/document",
+        destination: "/#categories",
+        permanent: true,
+      },
       // Each high-demand PDF task has its own nested landing page at
       // /tools/pdf/<slug> (see app/tools/pdf/[toolId]). The old flat
       // /tools/<slug> URLs permanently redirect to their canonical

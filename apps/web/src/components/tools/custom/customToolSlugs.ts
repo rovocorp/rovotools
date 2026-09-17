@@ -20,6 +20,11 @@ export const CUSTOM_TOOL_SLUGS = [
   "sign-pdf",
   "pdf-to-word",
   "pdf-to-excel",
+  "seo-checker",
+  "open-graph-checker",
+  "sitemap-checker",
+  "tag-detector",
+  "performance-analyzer",
 ] as const;
 
 export type CustomToolSlug = (typeof CUSTOM_TOOL_SLUGS)[number];
@@ -30,4 +35,9 @@ export type CustomToolSlug = (typeof CUSTOM_TOOL_SLUGS)[number];
 export const BESPOKE_TOOL_SLUGS: ReadonlySet<string> = new Set([
   "adsense-earnings-calculator",
   "pdf-creator",
+  "seo-checker",
+  "open-graph-checker",
+  "sitemap-checker",
+  "tag-detector",
+  "performance-analyzer",
 ]);

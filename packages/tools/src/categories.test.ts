@@ -5,7 +5,7 @@ import { getAllCategoryMetadata, getCategoryMetadata, getCategoryPath } from "./
 describe("category metadata", () => {
   it("covers every tool category with unique paths", () => {
     const all = getAllCategoryMetadata();
-    expect(all).toHaveLength(18);
+    expect(all).toHaveLength(13);
     const paths = all.map((meta) => meta.path);
     expect(new Set(paths).size).toBe(paths.length);
     for (const meta of all) {

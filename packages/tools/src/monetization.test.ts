@@ -28,17 +28,19 @@ describe("monetization policy", () => {
   });
 
   it("keeps rails and bottom units on the allowlist, overlays off it", () => {
-    expect(isPlacementAllowed("tool-rail-left")).toBe(true);
-    expect(isPlacementAllowed("blog-rail-left")).toBe(true);
+    expect(isPlacementAllowed("tool-rail-right")).toBe(true);
+    expect(isPlacementAllowed("blog-rail-right")).toBe(true);
     expect(isPlacementAllowed("content-bottom")).toBe(true);
+    expect(isPlacementAllowed("tool-rail-left")).toBe(false);
+    expect(isPlacementAllowed("blog-rail-left")).toBe(false);
     expect(isPlacementAllowed("sticky-bottom-overlay")).toBe(false);
     expect(isPlacementAllowed("fixed-side-overlay")).toBe(false);
   });
 
   it("maps placement families per page type", () => {
-    expect(resolvePlacementsForPage("tool")).toEqual(["tool-footer", "tool-rail-left", "content-bottom"]);
+    expect(resolvePlacementsForPage("tool")).toEqual(["tool-footer", "tool-rail-right"]);
     expect(resolvePlacementsForPage("listing")).toEqual(["listing-inline"]);
-    expect(resolvePlacementsForPage("blog")).toEqual(["blog-footer", "blog-rail-left", "content-bottom"]);
+    expect(resolvePlacementsForPage("blog")).toEqual(["blog-footer", "blog-rail-right"]);
     expect(resolvePlacementsForPage("home")).toEqual(["home-inline", "content-bottom"]);
   });
 

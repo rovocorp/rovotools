@@ -11,6 +11,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolRunnerLoader from "@/components/tools/ToolRunnerLoader";
 import { Badge } from "@/components/ui/badge";
 import { getAdSlotId } from "@/lib/ads";
+import { getCategoryLabel } from "@/lib/category-label";
 import { getToolRegistry } from "@/lib/registry";
 
 // Shared renderer for individual tool landing pages. Both the flat
@@ -69,10 +70,9 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Sticky left rail (xl+ only) + main column. AdRail renders null
+      {/* Sticky right rail (xl+ only) + main column. AdRail renders null
           unless ads are enabled, so the column collapses with no gap. */}
       <div className="xl:flex xl:items-start xl:gap-8">
-      <AdRail placement="tool-rail-left" slotId={getAdSlotId("tool-rail-left")} />
       <div className="min-w-0 flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
@@ -96,8 +96,8 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <Link href={`/tools/category/${tool.category}`}>
-          <Badge variant="secondary" className="capitalize hover:bg-indigo-100 dark:hover:bg-indigo-950">
-            {tool.category}
+          <Badge variant="secondary" className="hover:bg-indigo-100 dark:hover:bg-indigo-950">
+            {getCategoryLabel(tool.category)}
           </Badge>
         </Link>
         {tool.popular ? <Badge>{t("en", "tool.popular")}</Badge> : null}
@@ -269,8 +269,8 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         </section>
       ) : null}
       <AdSlot placement="tool-footer" slotId={getAdSlotId("tool-footer")} />
-      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
       </div>
+      <AdRail placement="tool-rail-right" slotId={getAdSlotId("tool-rail-right")} />
       </div>
     </div>
   );

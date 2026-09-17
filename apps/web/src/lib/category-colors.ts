@@ -31,14 +31,6 @@ export const CATEGORY_STYLES: Record<ToolCategory, CategoryStyle> = {
     dot: "bg-fuchsia-500",
     glow: "shadow-fuchsia-500/25",
   },
-  document: {
-    gradient: "from-amber-500 to-orange-600",
-    soft: "bg-amber-50 dark:bg-amber-950/50",
-    text: "text-amber-700 dark:text-amber-400",
-    border: "border-amber-200 dark:border-amber-900/60",
-    dot: "bg-amber-500",
-    glow: "shadow-amber-500/25",
-  },
   developer: {
     gradient: "from-indigo-600 to-blue-500",
     soft: "bg-indigo-50 dark:bg-indigo-950/50",
@@ -111,30 +103,6 @@ export const CATEGORY_STYLES: Record<ToolCategory, CategoryStyle> = {
     dot: "bg-teal-500",
     glow: "shadow-teal-500/25",
   },
-  utility: {
-    gradient: "from-orange-500 to-rose-500",
-    soft: "bg-orange-50 dark:bg-orange-950/50",
-    text: "text-orange-700 dark:text-orange-400",
-    border: "border-orange-200 dark:border-orange-900/60",
-    dot: "bg-orange-500",
-    glow: "shadow-orange-500/25",
-  },
-  converter: {
-    gradient: "from-blue-500 to-cyan-400",
-    soft: "bg-blue-50 dark:bg-blue-950/50",
-    text: "text-blue-700 dark:text-blue-400",
-    border: "border-blue-200 dark:border-blue-900/60",
-    dot: "bg-blue-500",
-    glow: "shadow-blue-500/25",
-  },
-  analytics: {
-    gradient: "from-blue-600 to-violet-600",
-    soft: "bg-blue-50 dark:bg-indigo-950/50",
-    text: "text-blue-700 dark:text-indigo-300",
-    border: "border-blue-200 dark:border-indigo-900/60",
-    dot: "bg-violet-600",
-    glow: "shadow-violet-600/25",
-  },
   validator: {
     gradient: "from-emerald-600 to-cyan-600",
     soft: "bg-emerald-50 dark:bg-teal-950/50",
@@ -151,18 +119,20 @@ export const CATEGORY_STYLES: Record<ToolCategory, CategoryStyle> = {
     dot: "bg-purple-500",
     glow: "shadow-purple-500/25",
   },
-  other: {
-    gradient: "from-slate-500 to-slate-700",
-    soft: "bg-slate-100 dark:bg-slate-800/60",
-    text: "text-slate-600 dark:text-slate-300",
-    border: "border-slate-200 dark:border-slate-700",
-    dot: "bg-slate-400",
-    glow: "shadow-slate-500/20",
-  },
+};
+
+/** Neutral slate used when a slug has no curated style (unknown category). */
+const FALLBACK_STYLE: CategoryStyle = {
+  gradient: "from-slate-500 to-slate-700",
+  soft: "bg-slate-100 dark:bg-slate-800/60",
+  text: "text-slate-600 dark:text-slate-300",
+  border: "border-slate-200 dark:border-slate-700",
+  dot: "bg-slate-400",
+  glow: "shadow-slate-500/20",
 };
 
 export function getCategoryStyle(category: string): CategoryStyle {
   return (
-    (CATEGORY_STYLES as Record<string, CategoryStyle>)[category] ?? CATEGORY_STYLES.other
+    (CATEGORY_STYLES as Record<string, CategoryStyle>)[category] ?? FALLBACK_STYLE
   );
 }

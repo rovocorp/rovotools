@@ -6,6 +6,7 @@ import { t } from "@rovotools/localization";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCategoryStyle } from "@/lib/category-colors";
+import { getCategoryLabel } from "@/lib/category-label";
 import { cn } from "@/lib/utils";
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -41,9 +42,9 @@ export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React
         />
         <CardHeader>
           <div className="flex items-center justify-between gap-2">
-            <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold capitalize", style.soft, style.text, style.border)}>
+            <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold", style.soft, style.text, style.border)}>
               <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} aria-hidden="true" />
-              {tool.category}
+              {getCategoryLabel(tool.category)}
             </span>
             {tool.popular ? (
               <Badge className="border-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white">

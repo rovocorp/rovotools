@@ -3,6 +3,7 @@ import type { ToolCategory, ToolCategoryFacet } from "@rovotools/types";
 import { t } from "@rovotools/localization";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryStyle } from "@/lib/category-colors";
+import { getCategoryLabel } from "@/lib/category-label";
 import { cn } from "@/lib/utils";
 
 export default function CategoryNav({
@@ -49,7 +50,7 @@ export default function CategoryNav({
             href={href(facet.category)}
             aria-current={isActive ? "page" : undefined}
             className={cn(
-              "group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold capitalize transition-all",
+              "group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all",
               isActive
                 ? cn("bg-gradient-to-r text-white shadow-lg", style.gradient, style.glow)
                 : cn(
@@ -59,7 +60,7 @@ export default function CategoryNav({
             )}
           >
             <span className={cn("h-2 w-2 rounded-full", isActive ? "bg-white" : style.dot)} aria-hidden="true" />
-            <span className={cn(!isActive && "text-slate-700 dark:text-slate-300")}>{facet.category}</span>
+            <span className={cn(!isActive && "text-slate-700 dark:text-slate-300")}>{getCategoryLabel(facet.category)}</span>
             <Badge variant="outline" className={cn("ml-0 border-0 px-1.5", isActive ? "bg-white/20 text-white" : cn(style.soft, style.text))}>
               {facet.count}
             </Badge>

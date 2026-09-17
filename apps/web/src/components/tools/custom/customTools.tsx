@@ -28,6 +28,11 @@ const customToolComponents: Record<CustomToolSlug, ComponentType> = {
   'sign-pdf': dynamic(() => import('./SignPdf'), { ssr: false }),
   'pdf-to-word': dynamic(() => import('./PdfToWord'), { ssr: false }),
   'pdf-to-excel': dynamic(() => import('./PdfToExcel'), { ssr: false }),
+  'seo-checker': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.SeoChecker })), { ssr: false }),
+  'open-graph-checker': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.OpenGraphChecker })), { ssr: false }),
+  'sitemap-checker': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.SitemapChecker })), { ssr: false }),
+  'tag-detector': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.TagDetector })), { ssr: false }),
+  'performance-analyzer': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.PerformanceAnalyzer })), { ssr: false }),
 };
 
 export function getCustomToolComponent(slug: string): ComponentType | undefined {

@@ -8,4 +8,16 @@ describe("customTools", () => {
     expect(getCustomToolComponent("code-minifier")).toBeUndefined();
     expect(getCustomToolComponent("no-such-tool")).toBeUndefined();
   });
+
+  it("resolves bespoke fetch-analyzer UIs for the live checkers", () => {
+    for (const slug of [
+      "seo-checker",
+      "open-graph-checker",
+      "sitemap-checker",
+      "tag-detector",
+      "performance-analyzer",
+    ]) {
+      expect(getCustomToolComponent(slug)).toBeDefined();
+    }
+  });
 });

@@ -28,6 +28,7 @@ import AdSlot from "@/components/ads/AdSlot";
 import { getAdSlotId } from "@/lib/ads";
 import { getToolRegistry } from "@/lib/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
+import { getCategoryLabel } from "@/lib/category-label";
 import { cn } from "@/lib/utils";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import HeroNetwork from "@/components/hero/HeroNetwork";
@@ -403,10 +404,10 @@ export default function Home(): React.ReactElement {
                     href={`/tools/category/${facet.category}`}
                     tabIndex={index >= facets.length ? -1 : undefined}
                     aria-hidden={index >= facets.length}
-                    className="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-bold capitalize text-slate-600 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+                    className="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
                   >
                     <span className={cn("h-2 w-2 rounded-full", style.dot)} aria-hidden="true" />
-                    {facet.category}
+                    {getCategoryLabel(facet.category)}
                     <span className="text-slate-500 dark:text-slate-400">{facet.count}</span>
                   </Link>
                 );

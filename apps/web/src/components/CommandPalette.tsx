@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { t } from "@rovotools/localization";
 import { OPEN_SEARCH_EVENT } from "@/components/Header";
+import { getCategoryLabel } from "@/lib/category-label";
 
 interface PublicTool {
   id: string;
@@ -196,8 +197,8 @@ export default function CommandPalette(): React.ReactElement {
                     <span className="block font-medium text-zinc-900 dark:text-zinc-100">{tool.name}</span>
                     <span className="block truncate text-xs text-zinc-600 dark:text-zinc-400">{tool.description}</span>
                   </span>
-                  <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] capitalize text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800">
-                    {tool.category}
+                  <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800">
+                    {getCategoryLabel(tool.category)}
                   </span>
                 </Link>
               </li>

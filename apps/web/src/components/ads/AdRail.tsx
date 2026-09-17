@@ -6,7 +6,7 @@ import AdSlot from "./AdSlot";
 import { useAdSlotState } from "./useAdSlotState";
 
 /**
- * Sticky left sidebar ad rail (desktop `xl` screens only, hidden below).
+ * Sticky right sidebar ad rail (desktop `xl` screens only, hidden below).
  * Position-sticky inside the content column — never a fixed overlay — per
  * AdSense sticky-ad rules: it cannot cover content, needs no close button,
  * and collapses entirely (rendering null) when ads are disabled, undecided,

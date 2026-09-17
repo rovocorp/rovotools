@@ -9,6 +9,17 @@
 import { defineTool } from "./define-tool";
 import { FX_CURRENCY_OPTIONS, convertFromUsd, fxCurrency, resolveFxRate } from "./fx";
 import type { ToolRegistry } from "./registry";
+import {
+  auditSeo,
+  buildUtm,
+  checkSerp,
+  detectTags,
+  estimatePerformance,
+  parseMetaTags,
+  parseRobotsTxt,
+  parseSitemapXml,
+  validateSchema,
+} from "./seo-audit";
 
 const ALL_PLATFORMS = ["WEB", "PWA", "ANDROID", "IOS"] as const;
 
@@ -585,9 +596,9 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "unit-converter",
     name: "Unit Converter",
     description: "Convert length, weight and temperature between metric and imperial units.",
-    category: "converter",
+    category: "calculator",
     icon: "ruler",
-    keywords: ["unit converter", "length", "weight", "temperature", "metric", "imperial"],
+    keywords: ["unit converter", "length", "weight", "temperature", "metric", "imperial", "unit calculator", "measurement converter"],
     popular: true,
     featured: true,
     inputs: [str("value", "Value"), str("from", "From unit (km, mi, m, ft, kg, lb, g, oz, C, F)"), str("to", "To unit")],
@@ -1179,7 +1190,7 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "word-counter",
     name: "Word Counter",
     description: "Count words, characters, lines, sentences and paragraphs in any text.",
-    category: "document",
+    category: "text",
     icon: "type",
     keywords: ["word counter", "count words", "character count", "character counter", "count characters", "letter count"],
     popular: true,
@@ -1378,7 +1389,7 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "reading-time-calculator",
     name: "Reading Time Calculator",
     description: "Estimate reading time for articles at adjustable speeds.",
-    category: "document",
+    category: "text",
     icon: "book-open",
     keywords: ["reading time", "read time", "words per minute"],
     popular: false,
@@ -1885,9 +1896,9 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "average-calculator",
     name: "Average Calculator",
     description: "Compute mean, median, min, max and sum of a number list.",
-    category: "analytics",
+    category: "calculator",
     icon: "bar-chart",
-    keywords: ["average", "mean", "median", "statistics"],
+    keywords: ["average", "mean", "median", "statistics", "average calculator", "mean calculator"],
     popular: false,
     featured: false,
     inputs: [area("numbers", "Numbers separated by commas, spaces or new lines")],
@@ -2038,9 +2049,9 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "random-number-generator",
     name: "Random Number Generator",
     description: "Generate secure random integers in any range, locally.",
-    category: "other",
+    category: "security",
     icon: "dices",
-    keywords: ["random number", "rng", "random integer"],
+    keywords: ["random number", "rng", "random integer", "secure random"],
     popular: false,
     featured: false,
     inputs: [str("min", "Minimum (default 1)", false), str("max", "Maximum (default 100)", false), str("count", "How many (default 1, max 50)", false)],
@@ -2676,6 +2687,332 @@ const SPECS: ReadonlyArray<Spec> = [
       throw new Error("PDF-to-Excel conversion runs in your browser. Open this tool on the RovoTools website — it cannot run here.");
     },
   },
+  {
+    id: "utm-builder",
+    slug: "utm-builder",
+    name: "UTM URL Builder",
+    description: "Add UTM tracking parameters to any link for Google Analytics campaigns.",
+    category: "seo",
+    icon: "link",
+    keywords: ["utm builder", "utm parameters", "campaign url", "google analytics utm", "tracking link"],
+    popular: false,
+    featured: false,
+    inputs: [
+      str("baseUrl", "Page URL"),
+      str("source", "Campaign source (e.g. newsletter)"),
+      str("medium", "Campaign medium (e.g. email)"),
+      str("campaign", "Campaign name"),
+      str("term", "Campaign term (optional)", false),
+      str("content", "Campaign content (optional)", false),
+    ],
+    outputs: [out("taggedUrl", "Tagged URL"), out("warnings", "Warnings")],
+    validate: (input) => {
+      if (req(input, "baseUrl") === "" || req(input, "source") === "" || req(input, "medium") === "" || req(input, "campaign") === "") {
+        return err("baseUrl", "Enter the page URL plus source, medium and campaign.");
+      }
+      try {
+        const url = new URL(req(input, "baseUrl"));
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+          return err("baseUrl", "Base URL must start with http:// or https://.");
+        }
+      } catch {
+        return err("baseUrl", "Enter a valid base URL starting with http:// or https://.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const result = buildUtm(req(input, "baseUrl"), {
+        source: req(input, "source"),
+        medium: req(input, "medium"),
+        campaign: req(input, "campaign"),
+        term: req(input, "term"),
+        content: req(input, "content"),
+      });
+      return { taggedUrl: result.url, warnings: result.warnings };
+    },
+  },
+  {
+    id: "serp-preview",
+    slug: "serp-preview",
+    name: "SERP Snippet Preview",
+    description: "Preview how your title and description look in Google results — before you publish.",
+    category: "seo",
+    icon: "search",
+    keywords: ["serp preview", "snippet preview", "google preview", "title checker", "meta preview"],
+    popular: false,
+    featured: false,
+    inputs: [str("title", "Page title"), str("pageUrl", "Page URL"), area("description", "Meta description")],
+    outputs: [out("titleStatus", "Title check"), out("descriptionStatus", "Description check"), out("preview", "Snippet preview")],
+    validate: (input) => {
+      if (req(input, "title") === "" || req(input, "description") === "") {
+        return err("title", "Enter both a title and a description to preview.");
+      }
+      try {
+        const url = new URL(req(input, "pageUrl"));
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+          return err("pageUrl", "Page URL must start with http:// or https://.");
+        }
+      } catch {
+        return err("pageUrl", "Enter a valid page URL starting with http:// or https://.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const check = checkSerp(req(input, "title"), req(input, "pageUrl").trim(), req(input, "description"));
+      return { titleStatus: check.titleStatus, descriptionStatus: check.descriptionStatus, preview: check.preview };
+    },
+  },
+  {
+    id: "schema-validator",
+    slug: "schema-validator",
+    name: "Schema Markup Validator",
+    description: "Validate JSON-LD structured data and list the schema types it declares.",
+    category: "seo",
+    icon: "code",
+    keywords: ["schema validator", "json-ld validator", "structured data", "schema.org checker"],
+    popular: false,
+    featured: false,
+    inputs: [area("markup", "JSON-LD markup")],
+    outputs: [out("valid", "Valid"), out("types", "Detected types"), out("detail", "Detail")],
+    validate: (input) => (req(input, "markup") === "" ? err("markup", "Paste JSON-LD markup to validate.") : ok()),
+    execute: async (input) => {
+      const check = validateSchema(req(input, "markup"));
+      return { valid: check.valid, types: check.types, detail: check.detail };
+    },
+  },
+  {
+    id: "meta-tag-analyzer",
+    slug: "meta-tag-analyzer",
+    name: "Meta Tag Analyzer",
+    description: "Audit a page's title, description, canonical and social tags from its HTML.",
+    category: "seo",
+    icon: "tags",
+    keywords: ["meta tag analyzer", "meta checker", "title checker", "open graph checker", "seo audit"],
+    popular: false,
+    featured: false,
+    inputs: [area("html", "Page HTML (view-source — the <head> is enough)")],
+    outputs: [
+      out("title", "Title"),
+      out("description", "Meta description"),
+      out("canonical", "Canonical"),
+      out("robots", "Robots meta"),
+      out("openGraph", "Open Graph tags"),
+      out("twitter", "Twitter tags"),
+      out("issues", "Issues"),
+    ],
+    validate: (input) => (req(input, "html") === "" ? err("html", "Paste page HTML to analyse.") : ok()),
+    execute: async (input) => {
+      const info = parseMetaTags(req(input, "html"));
+      const lines = (map: ReadonlyMap<string, string>): string =>
+        map.size === 0 ? "—" : [...map.entries()].map(([k, v]) => `${k}: ${v}`).join("\n");
+      return {
+        title: info.title === "" ? "—" : info.title,
+        description: info.description === "" ? "—" : info.description,
+        canonical: info.canonical === "" ? "—" : info.canonical,
+        robots: info.robots === "" ? "—" : info.robots,
+        openGraph: lines(info.openGraph),
+        twitter: lines(info.twitter),
+        issues: info.issues.length === 0 ? "No issues found." : info.issues.join("\n"),
+      };
+    },
+  },
+  {
+    id: "robots-txt-checker",
+    slug: "robots-txt-checker",
+    name: "Robots.txt Checker",
+    description: "Validate robots.txt rules, spot site-wide blocks and find the sitemap lines.",
+    category: "seo",
+    icon: "shield",
+    keywords: ["robots.txt checker", "robots validator", "crawler rules check", "disallow checker"],
+    popular: false,
+    featured: false,
+    inputs: [area("content", "robots.txt content")],
+    outputs: [
+      numOut("groups", "User-agent groups"),
+      numOut("rules", "Allow/Disallow lines"),
+      out("sitemaps", "Sitemaps"),
+      out("warnings", "Warnings"),
+    ],
+    validate: (input) => (req(input, "content") === "" ? err("content", "Paste robots.txt content to check.") : ok()),
+    execute: async (input) => {
+      const info = parseRobotsTxt(req(input, "content"));
+      const rules = info.groups.reduce((sum, group) => sum + group.allow.length + group.disallow.length, 0);
+      return {
+        groups: info.groups.length,
+        rules,
+        sitemaps: info.sitemaps.length === 0 ? "—" : info.sitemaps.join("\n"),
+        warnings: info.warnings.length === 0 ? "No issues found." : info.warnings.join("\n"),
+      };
+    },
+  },
+  {
+    id: "seo-checker",
+    slug: "seo-checker",
+    name: "Website SEO Checker",
+    description: "Score a page's on-page SEO from its HTML — title, headings, images and social tags.",
+    category: "seo",
+    icon: "search-check",
+    keywords: ["seo checker", "website seo audit", "on-page seo", "seo score", "site audit"],
+    popular: false,
+    featured: false,
+    inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
+    outputs: [
+      numOut("score", "SEO score (/100)"),
+      out("title", "Title"),
+      out("titleStatus", "Title check"),
+      out("descriptionStatus", "Description check"),
+      numOut("h1Count", "H1 count"),
+      numOut("imagesMissingAlt", "Images missing alt"),
+      out("openGraphComplete", "Open Graph complete"),
+      out("issues", "Issues"),
+    ],
+    validate: (input) => (req(input, "html") === "" ? err("html", "Paste page HTML to audit.") : ok()),
+    execute: async (input) => {
+      const audit = auditSeo(req(input, "html"));
+      return {
+        score: audit.score,
+        title: audit.title,
+        titleStatus: audit.titleStatus,
+        descriptionStatus: audit.descriptionStatus,
+        h1Count: audit.h1Count,
+        imagesMissingAlt: audit.imagesMissingAlt,
+        openGraphComplete: audit.openGraphComplete,
+        issues: audit.issues.join("\n"),
+      };
+    },
+  },
+  {
+    id: "open-graph-checker",
+    slug: "open-graph-checker",
+    name: "Open Graph Checker",
+    description: "Verify a page's social preview tags — og:title, description, image and Twitter card.",
+    category: "seo",
+    icon: "share",
+    keywords: ["open graph checker", "og tags", "social preview", "twitter card checker", "facebook preview"],
+    popular: false,
+    featured: false,
+    inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
+    outputs: [
+      out("ogTitle", "og:title"),
+      out("ogDescription", "og:description"),
+      out("ogImage", "og:image"),
+      out("ogUrl", "og:url"),
+      out("ogType", "og:type"),
+      out("twitterCard", "twitter:card"),
+      out("issues", "Issues"),
+    ],
+    validate: (input) => (req(input, "html") === "" ? err("html", "Paste page HTML to check.") : ok()),
+    execute: async (input) => {
+      const info = parseMetaTags(req(input, "html"));
+      const pick = (key: string): string => info.openGraph.get(key) ?? "—";
+      const missing = ["og:title", "og:description", "og:image"].filter((key) => !info.openGraph.has(key));
+      return {
+        ogTitle: pick("og:title"),
+        ogDescription: pick("og:description"),
+        ogImage: pick("og:image"),
+        ogUrl: pick("og:url"),
+        ogType: pick("og:type"),
+        twitterCard: info.twitter.get("twitter:card") ?? "—",
+        issues: missing.length === 0 ? "Complete — the core trio (title, description, image) is present." : `Missing: ${missing.join(", ")}.`,
+      };
+    },
+  },
+  {
+    id: "sitemap-checker",
+    slug: "sitemap-checker",
+    name: "XML Sitemap Checker",
+    description: "Validate an XML sitemap — format, URL counts, lastmod coverage and protocol limits.",
+    category: "seo",
+    icon: "map",
+    keywords: ["sitemap checker", "xml sitemap validator", "sitemap.xml", "urlset checker"],
+    popular: false,
+    featured: false,
+    inputs: [area("xml", "Sitemap XML")],
+    outputs: [
+      out("format", "Format"),
+      numOut("urlCount", "URLs"),
+      numOut("sitemapCount", "Child sitemaps"),
+      numOut("lastmodCoverage", "Lastmod coverage (%)"),
+      out("sampleUrls", "Sample URLs"),
+      out("issues", "Issues"),
+    ],
+    validate: (input) => (req(input, "xml") === "" ? err("xml", "Paste sitemap XML to check.") : ok()),
+    execute: async (input) => {
+      const info = parseSitemapXml(req(input, "xml"));
+      return {
+        format: info.format,
+        urlCount: info.urlCount,
+        sitemapCount: info.sitemapCount,
+        lastmodCoverage: info.lastmodCoverage,
+        sampleUrls: info.sampleUrls.length === 0 ? "—" : info.sampleUrls.join("\n"),
+        issues: info.issues.length === 0 ? "No issues found." : info.issues.join("\n"),
+      };
+    },
+  },
+  {
+    id: "tag-detector",
+    slug: "tag-detector",
+    name: "Analytics Tag Detector",
+    description: "Detect Google Analytics, Tag Manager, Meta Pixel and other trackers in page HTML.",
+    category: "seo",
+    icon: "radar",
+    keywords: ["tag detector", "google analytics checker", "tag manager detector", "pixel checker", "tracker detector"],
+    popular: false,
+    featured: false,
+    inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
+    outputs: [
+      out("googleAnalytics4", "Google Analytics 4"),
+      out("googleTagManager", "Google Tag Manager"),
+      out("metaPixel", "Meta Pixel"),
+      out("tiktokPixel", "TikTok Pixel"),
+      out("linkedinInsight", "LinkedIn Insight"),
+      out("others", "Other tools"),
+    ],
+    validate: (input) => (req(input, "html") === "" ? err("html", "Paste page HTML to scan.") : ok()),
+    execute: async (input) => {
+      const tags = detectTags(req(input, "html"));
+      return {
+        googleAnalytics4: tags.googleAnalytics4 === "" ? "not detected" : tags.googleAnalytics4,
+        googleTagManager: tags.googleTagManager === "" ? "not detected" : tags.googleTagManager,
+        metaPixel: tags.metaPixel === "" ? "not detected" : tags.metaPixel,
+        tiktokPixel: tags.tiktokPixel === "" ? "not detected" : tags.tiktokPixel,
+        linkedinInsight: tags.linkedinInsight === "" ? "not detected" : tags.linkedinInsight,
+        others: tags.others.length === 0 ? "—" : tags.others.join(", "),
+      };
+    },
+  },
+  {
+    id: "performance-analyzer",
+    slug: "performance-analyzer",
+    name: "Website Performance Analyzer",
+    description: "Estimate page-weight performance hints from HTML — markup size, scripts and images.",
+    category: "seo",
+    icon: "gauge",
+    keywords: ["performance analyzer", "page speed", "website speed test", "page weight", "core web vitals hints"],
+    popular: false,
+    featured: false,
+    inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
+    outputs: [
+      numOut("weightKb", "HTML weight (KB)"),
+      numOut("scripts", "Scripts"),
+      numOut("stylesheets", "Stylesheets"),
+      numOut("images", "Images"),
+      numOut("missingDimensions", "Images missing dimensions"),
+      out("hints", "Hints"),
+    ],
+    validate: (input) => (req(input, "html") === "" ? err("html", "Paste page HTML to analyse.") : ok()),
+    execute: async (input) => {
+      const perf = estimatePerformance(req(input, "html"));
+      return {
+        weightKb: perf.weightKb,
+        scripts: perf.scripts,
+        stylesheets: perf.stylesheets,
+        images: perf.images,
+        missingDimensions: perf.missingDimensions,
+        hints: perf.hints.join("\n"),
+      };
+    },
+  },
 ];
 
 // Submit-button verbs for the generic runner. Calculators intentionally have
@@ -2733,6 +3070,16 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "code-minifier": { action: "Minify code", running: "Minifying..." },
   "keyword-density-checker": { action: "Analyze keywords", running: "Analyzing..." },
   "robots-txt-generator": { action: "Generate robots.txt", running: "Generating..." },
+  "utm-builder": { action: "Build link", running: "Building..." },
+  "serp-preview": { action: "Preview snippet", running: "Rendering..." },
+  "schema-validator": { action: "Validate markup", running: "Validating..." },
+  "meta-tag-analyzer": { action: "Analyze tags", running: "Analyzing..." },
+  "robots-txt-checker": { action: "Check rules", running: "Checking..." },
+  "seo-checker": { action: "Audit page", running: "Auditing..." },
+  "open-graph-checker": { action: "Check tags", running: "Checking..." },
+  "sitemap-checker": { action: "Check sitemap", running: "Checking..." },
+  "tag-detector": { action: "Detect tags", running: "Scanning..." },
+  "performance-analyzer": { action: "Analyze weight", running: "Analyzing..." },
   "youtube-thumbnail-downloader": { action: "Fetch thumbnails", running: "Fetching..." },
 };
 
