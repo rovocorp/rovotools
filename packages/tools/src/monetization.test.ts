@@ -24,14 +24,22 @@ describe("monetization policy", () => {
     expect(isPlacementAllowed("listing-inline")).toBe(true);
     expect(isPlacementAllowed("interstitial")).toBe(false);
     expect(isPlacementAllowed("tool-controls-overlay")).toBe(false);
-    expect(ALLOWED_PLACEMENTS).toHaveLength(4);
+    expect(ALLOWED_PLACEMENTS).toHaveLength(7);
   });
 
-  it("maps exactly one placement family per page type", () => {
-    expect(resolvePlacementsForPage("tool")).toEqual(["tool-footer"]);
+  it("keeps rails and bottom units on the allowlist, overlays off it", () => {
+    expect(isPlacementAllowed("tool-rail-left")).toBe(true);
+    expect(isPlacementAllowed("blog-rail-left")).toBe(true);
+    expect(isPlacementAllowed("content-bottom")).toBe(true);
+    expect(isPlacementAllowed("sticky-bottom-overlay")).toBe(false);
+    expect(isPlacementAllowed("fixed-side-overlay")).toBe(false);
+  });
+
+  it("maps placement families per page type", () => {
+    expect(resolvePlacementsForPage("tool")).toEqual(["tool-footer", "tool-rail-left", "content-bottom"]);
     expect(resolvePlacementsForPage("listing")).toEqual(["listing-inline"]);
-    expect(resolvePlacementsForPage("blog")).toEqual(["blog-footer"]);
-    expect(resolvePlacementsForPage("home")).toEqual(["home-inline"]);
+    expect(resolvePlacementsForPage("blog")).toEqual(["blog-footer", "blog-rail-left", "content-bottom"]);
+    expect(resolvePlacementsForPage("home")).toEqual(["home-inline", "content-bottom"]);
   });
 
   it("keeps tool execution independent of ad policy", async () => {

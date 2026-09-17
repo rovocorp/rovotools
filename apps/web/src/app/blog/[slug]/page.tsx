@@ -7,6 +7,7 @@ import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
 import ToolCard from "@/components/tools/ToolCard";
 import { getAdSlotId } from "@/lib/ads";
@@ -68,7 +69,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Sticky left rail (xl+ only) + article column; rail collapses when ads are off. */}
+      <div className="xl:flex xl:items-start xl:gap-8">
+      <AdRail placement="blog-rail-left" slotId={getAdSlotId("blog-rail-left")} />
+      <div className="min-w-0 flex-1">
+      <article className="mx-auto max-w-3xl xl:mx-0">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Breadcrumbs
         crumbs={[
@@ -109,6 +115,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </section>
       ) : null}
       <AdSlot placement="blog-footer" slotId={getAdSlotId("blog-footer")} />
-    </article>
+      </article>
+      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
+      </div>
+      </div>
+    </div>
   );
 }

@@ -1,5 +1,19 @@
 # Final Production Audit — RovoTools
 
+> **Ad placements addendum (2026-09-17).** Left sticky rail (xl+ only,
+> never a fixed overlay) + in-flow bottom leaderboard on tool, blog, and
+> home pages. New placements `tool-rail-left` / `blog-rail-left` /
+> `content-bottom` in the policy allowlist; `AdSlot` rail variant (300px,
+> 600px reserve) + `AdRail` aside that collapses when ads are off;
+> consent-gating, CSP, and dev placeholders unchanged in behavior.
+> Google policy compliance: no overlays/interstitials, no ads on 404 /
+> offline / legal pages, labeled units, reserved sizes (no CLS), vendor
+> named in cookie/privacy pages, ads.txt + app-ads.txt live with
+> pub-8311202559739478. Verified: monetization + AdSlot/AdRail unit tests,
+> placement E2E (bottom confined on all page types, rail hidden on mobile),
+> axe over new regions, full 5-engine matrix green (1060+).
+> Live ads still need publisher + slot IDs in hosting env.
+>
 > **Element-verification addendum (2026-09-17).** Every element checked
 > per industry standards, all executed:
 > unit 307 passing (web 65, mobile 55, calculations 71, tools 85,

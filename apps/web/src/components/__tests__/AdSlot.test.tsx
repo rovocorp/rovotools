@@ -58,4 +58,15 @@ describe("AdSlot dev placeholder", () => {
     expect(container.querySelector("section")).toBeNull();
     expect(container.querySelector("ins.adsbygoogle")).toBeNull();
   });
+
+  it("rail variant reserves a 300px vertical slot", () => {
+    vi.stubEnv(PUBLISHER_ENV, "");
+    const { container } = render(<AdSlot placement="tool-rail-left" slotId="test-slot" variant="rail" />);
+    const unit = container.querySelector("ins.adsbygoogle");
+    expect(unit).not.toBeNull();
+    expect(unit?.getAttribute("data-ad-slot")).toBe("test-slot");
+    const box = unit!.parentElement!;
+    expect(box.className).toContain("max-w-[300px]");
+    expect(box.className).toContain("min-h-[600px]");
+  });
 });

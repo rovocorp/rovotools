@@ -92,13 +92,13 @@ export const BLOG_POSTS: ReadonlyArray<BlogPost> = [
     excerpt: "Why PDFs get big and the practical levers that shrink them.",
     date: "2026-09-01",
     category: "PDF",
-    relatedTools: ["text-to-pdf"],
+    relatedTools: ["pdf-creator"],
     body: [
       "PDFs get large for predictable reasons: high-resolution images, embedded fonts, uncompressed scans and duplicated resources. Knowing which one dominates your file tells you which lever to pull.",
       "For scanned documents, the biggest win is downsampling images to the resolution you actually need — 150 DPI is plenty for on-screen reading, 300 DPI for print. Re-saving with JPEG quality around 70–80 usually halves image weight invisibly.",
       "For digitally created PDFs, subset embedded fonts (include only used glyphs), flatten transparency before export, and prefer vector graphics over screenshots of charts.",
       "If you only need a few pages, extract them instead of compressing the whole file: fewer pages always beat cleverer compression.",
-      "Need a fresh lightweight PDF? The RovoTools Text to PDF tool generates a clean single-page PDF from plain text entirely in your browser — ideal for notes, letters and simple documents.",
+      "Need a fresh lightweight PDF? The RovoTools PDF Creator tool generates a clean PDF from plain text entirely in your browser — ideal for notes, letters and simple documents.",
     ],
   },
   {
@@ -107,12 +107,12 @@ export const BLOG_POSTS: ReadonlyArray<BlogPost> = [
     excerpt: "From photos to shareable documents: the right settings and order of operations.",
     date: "2026-09-05",
     category: "PDF",
-    relatedTools: ["text-to-pdf", "svg-placeholder-generator"],
+    relatedTools: ["pdf-creator", "svg-placeholder-generator"],
     body: [
       "Converting a JPG to PDF wraps the image in a document container so it prints predictably, keeps page order, and opens everywhere without photo apps. It does not improve image quality — the photo stays exactly as sharp as it was.",
       "For multi-photo documents, sort images first, keep orientation consistent, and aim for one image per page with modest margins. Mixed orientations force readers to rotate pages.",
       "Watch file size: phone photos at full resolution produce enormous PDFs. Resize images so their pixel width roughly matches the print width times 150–200 DPI before converting.",
-      "For text-heavy originals, a photo-PDF is not searchable. If the content matters more than the look, retype or paste the text and generate a real text PDF instead — the RovoTools Text to PDF tool creates one locally in seconds.",
+      "For text-heavy originals, a photo-PDF is not searchable. If the content matters more than the look, retype or paste the text and generate a real text PDF instead — the RovoTools PDF Creator tool creates one locally in seconds.",
     ],
   },
   {
@@ -181,13 +181,13 @@ export const BLOG_POSTS: ReadonlyArray<BlogPost> = [
     excerpt: "What a PDF actually contains and why it prints the same everywhere.",
     date: "2026-09-06",
     category: "PDF",
-    relatedTools: ["text-to-pdf"],
+    relatedTools: ["pdf-creator"],
     body: [
       "A PDF is a self-contained document: text, fonts (or subsets), vector drawings and images, plus a cross-reference table so readers can jump to any page instantly. That self-containment is why a PDF prints identically on any machine.",
       "Text in a PDF is positioned glyph by glyph with coordinates, unlike HTML which flows. This precision is what makes PDFs print-perfect — and what makes reflowing them on small screens awkward.",
       "Fonts are the classic gotcha: a PDF that references but does not embed a font renders with a substitute on other machines. Embedding (or subsetting) fonts fixes it at the cost of file size.",
       "Real PDFs come in flavors: born-digital PDFs with selectable text, scanned image-only PDFs that need OCR to become searchable, and tagged accessible PDFs with reading order for screen readers.",
-      "The RovoTools Text to PDF tool writes a minimal valid PDF (header, page objects, font reference, cross-reference table) directly in your browser — a good mental model of the format with no server involved.",
+      "You can see the format in action with the RovoTools PDF Creator tool, which writes a real downloadable PDF directly in your browser — a good mental model of the format with no server involved.",
     ],
   },
   {

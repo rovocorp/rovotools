@@ -10,7 +10,6 @@ export const TOOL_SAMPLES: Record<string, Record<string, string>> = {
   "compound-interest-calculator": { principal: "10000", rate: "5", years: "10", compoundsPerYear: "12" },
   "roi-calculator": { gain: "15000", cost: "10000" },
   "discount-calculator": { price: "100", discount: "25" },
-  "vat-calculator": { amount: "100", rate: "20", mode: "add" },
   "unit-converter": { value: "10", from: "km", to: "mi" },
   "date-difference-calculator": { from: "2026-01-01", to: "2026-09-12" },
   "json-formatter": { json: '{"b":2,"a":1}', indent: "2" },
@@ -34,7 +33,6 @@ export const TOOL_SAMPLES: Record<string, Record<string, string>> = {
   "uuid-generator": { count: "3" },
   "timestamp-converter": { value: "1726000000" },
   "word-counter": { text: "Hello world. This is a test." },
-  "character-counter": { text: "Hello!" },
   "case-converter": { text: "hello world test" },
   "duplicate-line-remover": { text: "a\nb\na\nc", caseSensitive: "true" },
   "empty-line-remover": { text: "a\n\nb\n   \nc", trim: "true" },
@@ -57,7 +55,6 @@ export const TOOL_SAMPLES: Record<string, Record<string, string>> = {
   "wifi-qr-generator": { ssid: "HomeNet", password: "secret123", security: "WPA" },
   "vcard-qr-generator": { name: "Ada Lovelace", phone: "+123", email: "ada@example.com", org: "RovoCorp" },
   "text-qr-generator": { text: "Hello QR" },
-  "text-to-pdf": { text: "Hello PDF world" },
   "pdf-creator": { text: "Hello PDF world", title: "Hello" },
   "meta-tag-generator": {
     title: "Test Page Title Here For SEO",

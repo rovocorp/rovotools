@@ -4,6 +4,7 @@ import { buildCustomSchemeUrl, getToolDisplay, getToolPageCopy } from "@rovotool
 import { t } from "@rovotools/localization";
 import { WEB_URL } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import ToolCard from "@/components/tools/ToolCard";
@@ -68,6 +69,11 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Sticky left rail (xl+ only) + main column. AdRail renders null
+          unless ads are enabled, so the column collapses with no gap. */}
+      <div className="xl:flex xl:items-start xl:gap-8">
+      <AdRail placement="tool-rail-left" slotId={getAdSlotId("tool-rail-left")} />
+      <div className="min-w-0 flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       {faqJsonLd !== null ? (
@@ -263,6 +269,9 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         </section>
       ) : null}
       <AdSlot placement="tool-footer" slotId={getAdSlotId("tool-footer")} />
+      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
+      </div>
+      </div>
     </div>
   );
 }

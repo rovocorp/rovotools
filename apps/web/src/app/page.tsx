@@ -24,6 +24,8 @@ import CategoryNav from "@/components/tools/CategoryNav";
 import RecentTools from "@/components/RecentTools";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import AdSlot from "@/components/ads/AdSlot";
+import { getAdSlotId } from "@/lib/ads";
 import { getToolRegistry } from "@/lib/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { cn } from "@/lib/utils";
@@ -131,7 +133,7 @@ export default function Home(): React.ReactElement {
   const POPULAR_TOOL_IDS = [
     "image-compressor",
     "image-resizer",
-    "text-to-pdf",
+    "pdf-creator",
     "json-formatter",
     "base64-encoder",
     "password-generator",
@@ -559,6 +561,7 @@ export default function Home(): React.ReactElement {
           </div>
         </div>
       </section>
+      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
     </div>
   );
 }

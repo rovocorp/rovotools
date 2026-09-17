@@ -380,37 +380,6 @@ function extractYouTubeVideoId(raw: string): string {
   throw new RangeError("Could not find a video ID. Paste a watch, share, Shorts or embed URL — or the 11-character ID itself.");
 }
 
-function escapePdf(text: string): string {
-  return text.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
-}
-
-function textToPdfauti(input: string): string {
-  const lines = input.split("\n").slice(0, 200);
-  const content = lines
-    .map((line, i) => `BT /F1 12 Tf 50 ${760 - i * 16} Td (${escapePdf(line.slice(0, 120))}) Tj ET`)
-    .join("\n");
-  const objects = [
-    "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj",
-    "2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj",
-    "3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj",
-    `4 0 obj << /Length ${content.length} >> stream\n${content}\nendstream endobj`,
-    "5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj",
-  ];
-  let pdf = "%PDF-1.4\n";
-  const offsets: Array<number> = [];
-  for (const o of objects) {
-    offsets.push(pdf.length);
-    pdf += `${o}\n`;
-  }
-  const xref = pdf.length;
-  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
-  for (const off of offsets) {
-    pdf += `${String(off).padStart(10, "0")} 00000 n \n`;
-  }
-  pdf += `trailer << /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
-  return pdf;
-}
-
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   let h = hex.trim().replace(/^#/, "");
   if (h.length === 3) {
@@ -609,36 +578,6 @@ const SPECS: ReadonlyArray<Spec> = [
       const d = reqNum(input, "discount");
       const round2 = (v: number): number => Math.round(v * 100) / 100;
       return { finalPrice: round2(price * (1 - d / 100)), savings: round2((price * d) / 100) };
-    },
-  },
-  {
-    id: "vat-calculator",
-    slug: "vat-calculator",
-    name: "VAT / GST Calculator",
-    description: "Add or remove VAT/GST from a price.",
-    category: "finance",
-    icon: "receipt",
-    keywords: ["vat", "gst", "tax", "inclusive", "exclusive"],
-    popular: false,
-    featured: false,
-    inputs: [str("amount", "Amount"), str("rate", "Tax rate (%)"), str("mode", "Mode: add (default) or remove", false)],
-    outputs: [numOut("net", "Net amount"), numOut("tax", "Tax amount"), numOut("gross", "Gross amount")],
-    validate: (input) => {
-      if (Number.isNaN(reqNum(input, "amount")) || Number.isNaN(reqNum(input, "rate"))) {
-        return err("amount", "Enter amount and tax rate as numbers.");
-      }
-      return ok();
-    },
-    execute: async (input) => {
-      const amount = reqNum(input, "amount");
-      const rate = reqNum(input, "rate") / 100;
-      const mode = req(input, "mode").toLowerCase();
-      const round2 = (v: number): number => Math.round(v * 100) / 100;
-      if (mode === "remove") {
-        const net = amount / (1 + rate);
-        return { net: round2(net), tax: round2(amount - net), gross: round2(amount) };
-      }
-      return { net: round2(amount), tax: round2(amount * rate), gross: round2(amount * (1 + rate)) };
     },
   },
   {
@@ -1239,14 +1178,14 @@ const SPECS: ReadonlyArray<Spec> = [
     id: "word-counter",
     slug: "word-counter",
     name: "Word Counter",
-    description: "Count words, characters, sentences and paragraphs in any text.",
+    description: "Count words, characters, lines, sentences and paragraphs in any text.",
     category: "document",
     icon: "type",
-    keywords: ["word counter", "count words", "character count"],
+    keywords: ["word counter", "count words", "character count", "character counter", "count characters", "letter count"],
     popular: true,
     featured: true,
     inputs: [area("text", "Text to analyse")],
-    outputs: [numOut("words", "Words"), numOut("characters", "Characters"), numOut("noSpaces", "Characters (no spaces)"), numOut("sentences", "Sentences"), numOut("paragraphs", "Paragraphs")],
+    outputs: [numOut("words", "Words"), numOut("characters", "Characters"), numOut("noSpaces", "Characters (no spaces)"), numOut("lines", "Lines"), numOut("sentences", "Sentences"), numOut("paragraphs", "Paragraphs")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some text.") : ok()),
     execute: async (input) => {
       const text = req(input, "text");
@@ -1255,30 +1194,9 @@ const SPECS: ReadonlyArray<Spec> = [
         words,
         characters: text.length,
         noSpaces: text.replace(/\s/g, "").length,
+        lines: text.split("\n").length,
         sentences: (text.match(/[.!?]+/g) ?? []).length,
         paragraphs: text.split(/\n\s*\n/).filter((p) => p.trim() !== "").length || 1,
-      };
-    },
-  },
-  {
-    id: "character-counter",
-    slug: "character-counter",
-    name: "Character Counter",
-    description: "Count characters with and without spaces, plus lines.",
-    category: "document",
-    icon: "text",
-    keywords: ["character counter", "count characters", "letter count"],
-    popular: false,
-    featured: false,
-    inputs: [area("text", "Text to analyse")],
-    outputs: [numOut("characters", "Characters"), numOut("noSpaces", "Without spaces"), numOut("lines", "Lines")],
-    validate: (input) => (req(input, "text") === "" ? err("text", "Enter some text.") : ok()),
-    execute: async (input) => {
-      const text = req(input, "text");
-      return {
-        characters: text.length,
-        noSpaces: text.replace(/\s/g, "").length,
-        lines: text.split("\n").length,
       };
     },
   },
@@ -1890,28 +1808,6 @@ const SPECS: ReadonlyArray<Spec> = [
       qrPayload: req(input, "text"),
       note: "A scannable QR preview renders below.",
     }),
-  },
-  {
-    id: "text-to-pdf",
-    slug: "text-to-pdf",
-    name: "Text to PDF",
-    description: "Convert plain text into a downloadable single-page PDF, generated locally in your browser.",
-    category: "pdf",
-    icon: "file-text",
-    keywords: ["text to pdf", "create pdf", "txt to pdf", "pdf creator"],
-    popular: true,
-    featured: true,
-    inputs: [area("text", "Text content")],
-    outputs: [out("pdfBase64", "PDF as Base64 (save with .pdf extension or use Download)"), numOut("pages", "Pages"), out("note", "How to save")],
-    validate: (input) => (req(input, "text") === "" ? err("text", "Enter text to convert.") : ok()),
-    execute: async (input) => {
-      const pdf = textToPdfauti(req(input, "text"));
-      return {
-        pdfBase64: b64encode(pdf),
-        pages: 1,
-        note: "Copy the Base64 and decode to a .pdf file, or use Download to save the result and rename to .pdf.",
-      };
-    },
   },
   {
     id: "meta-tag-generator",
@@ -2805,7 +2701,6 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "uuid-generator": { action: "Generate UUIDs", running: "Generating..." },
   "timestamp-converter": { action: "Convert timestamp", running: "Converting..." },
   "word-counter": { action: "Count words", running: "Counting..." },
-  "character-counter": { action: "Count characters", running: "Counting..." },
   "case-converter": { action: "Convert case", running: "Converting..." },
   "duplicate-line-remover": { action: "Remove duplicates", running: "Removing..." },
   "empty-line-remover": { action: "Remove empty lines", running: "Removing..." },
@@ -2828,7 +2723,6 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "wifi-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "vcard-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "text-qr-generator": { action: "Generate QR code", running: "Generating..." },
-  "text-to-pdf": { action: "Create PDF", running: "Creating PDF..." },
   "meta-tag-generator": { action: "Generate meta tags", running: "Generating..." },
   "svg-placeholder-generator": { action: "Generate placeholder", running: "Generating..." },
   "email-validator": { action: "Validate email", running: "Validating..." },

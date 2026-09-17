@@ -2,13 +2,23 @@ export type AdPlacement =
   | "tool-footer"
   | "listing-inline"
   | "blog-footer"
-  | "home-inline";
+  | "home-inline"
+  // Sticky sidebar rails (desktop xl+ only, hidden on smaller screens) and
+  // in-flow bottom units. Rails are position:sticky inside the content
+  // column — never fixed overlays — per AdSense sticky-ad rules; bottom
+  // units are static in-flow blocks. Max 1 rail + 2 in-flow units per page.
+  | "tool-rail-left"
+  | "blog-rail-left"
+  | "content-bottom";
 
 export const ALLOWED_PLACEMENTS: ReadonlyArray<AdPlacement> = [
   "tool-footer",
   "listing-inline",
   "blog-footer",
   "home-inline",
+  "tool-rail-left",
+  "blog-rail-left",
+  "content-bottom",
 ];
 
 export type MonetizationProvider = "adsense" | "admob" | "custom" | "none";
@@ -46,13 +56,13 @@ export function resolvePlacementsForPage(
 ): ReadonlyArray<AdPlacement> {
   switch (page) {
     case "tool":
-      return ["tool-footer"];
+      return ["tool-footer", "tool-rail-left", "content-bottom"];
     case "listing":
       return ["listing-inline"];
     case "blog":
-      return ["blog-footer"];
+      return ["blog-footer", "blog-rail-left", "content-bottom"];
     case "home":
-      return ["home-inline"];
+      return ["home-inline", "content-bottom"];
   }
 }
 

@@ -215,34 +215,6 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["image-compressor", "image-resizer", "image-cropper", "favicon-generator"],
     workflow: IMAGE_WORKFLOW,
   },
-  "text-to-pdf": {
-    title: "Text to PDF — Create PDF Files Online | RovoTools",
-    description:
-      "Convert plain text into a downloadable single-page PDF online. Paste your text, generate the PDF locally and download it instantly.",
-    intro:
-      "Convert plain text into a downloadable single-page PDF. Paste your content, generate the file locally in your browser and save it with a .pdf extension.",
-    benefits: [
-      "Single-page PDF generated instantly from any text",
-      "No signup, no watermark, no upload",
-    ],
-    howTo: [
-      "Paste or type your text into the input box.",
-      "Press Execute to generate the PDF.",
-      "Download the result and rename it with a .pdf extension if needed.",
-    ],
-    faqs: [
-      {
-        question: "How do I save the generated PDF?",
-        answer:
-          "Use the Download button to save the result, then make sure the file ends with .pdf so readers open it correctly.",
-      },
-      {
-        question: "Is my text uploaded anywhere?",
-        answer: "No. The PDF is generated locally in your browser from the text you enter.",
-      },
-    ],
-    related: ["pdf-creator", "jpg-to-pdf", "merge-pdf", "word-counter"],
-  },
   "merge-pdf": {
     title: "Merge PDF — Combine PDF Files Online | RovoTools",
     description:
@@ -445,7 +417,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
         answer: "No. The PDF is generated locally from the text you enter.",
       },
     ],
-    related: ["text-to-pdf", "word-to-pdf", "jpg-to-pdf", "merge-pdf"],
+    related: ["word-to-pdf", "jpg-to-pdf", "merge-pdf", "compress-pdf"],
     workflow: PDF_WORKFLOW,
   },
   "sign-pdf": {

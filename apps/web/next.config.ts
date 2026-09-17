@@ -29,6 +29,23 @@ const nextConfig: NextConfig = {
         destination: "/tools/loan-calculator",
         permanent: true,
       },
+      // Merged duplicates: the old tool was a strict subset of the target,
+      // so its URL permanently redirects to the canonical survivor.
+      {
+        source: "/tools/vat-calculator",
+        destination: "/tools/tax-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/character-counter",
+        destination: "/tools/word-counter",
+        permanent: true,
+      },
+      {
+        source: "/tools/text-to-pdf",
+        destination: "/tools/pdf/pdf-creator",
+        permanent: true,
+      },
       // Each high-demand PDF task has its own nested landing page at
       // /tools/pdf/<slug> (see app/tools/pdf/[toolId]). The old flat
       // /tools/<slug> URLs permanently redirect to their canonical
