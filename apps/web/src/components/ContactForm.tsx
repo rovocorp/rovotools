@@ -187,7 +187,7 @@ export default function ContactForm(): React.ReactElement {
         />
         <Label htmlFor="contact-consent" className="text-xs font-normal">
           I agree to the processing of my details to handle this enquiry, as described in the{" "}
-          <a href="/privacy" className="font-medium text-indigo-600 hover:underline">
+          <a href="/privacy" className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
             privacy policy
           </a>
           . *

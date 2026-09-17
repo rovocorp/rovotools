@@ -40,7 +40,7 @@ const FOOTER_UNDERLINE =
 
 export default function Footer(): React.ReactElement {
   return (
-    <footer className="relative overflow-hidden border-t border-slate-200/70 bg-gradient-to-b from-indigo-50/60 via-white to-white dark:border-white/10 dark:from-indigo-950/30 dark:via-[#0B132B] dark:to-[#0B132B]">
+    <footer className="relative overflow-hidden border-t border-slate-200/70 bg-gradient-to-b from-indigo-50/60 via-white to-white dark:border-white/10 dark:from-indigo-950/30 dark:via-[#09090B] dark:to-[#09090B]">
       <div aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/4 h-48 w-96 rounded-full bg-gradient-to-r from-indigo-400/20 via-fuchsia-400/15 to-amber-300/20 blur-3xl" />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div>
@@ -51,9 +51,10 @@ export default function Footer(): React.ReactElement {
               return social.href === "" ? (
                 <span
                   key={social.label}
+                  role="img"
                   title={`${social.label} — coming soon`}
                   aria-label={`${social.label} (coming soon)`}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] dark:text-[#93A1B8]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] dark:text-[#A7A7B3]"
                 >
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
@@ -64,7 +65,7 @@ export default function Footer(): React.ReactElement {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:bg-[#1A2B4D] dark:hover:text-[#5C9CFF]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
                 >
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </a>
@@ -79,7 +80,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {TOOL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -93,7 +94,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {COMPANY_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -107,7 +108,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -118,7 +119,7 @@ export default function Footer(): React.ReactElement {
           <p className="text-xs font-bold uppercase tracking-wider text-[#0A1A33] dark:text-[#F1F5F9]">
             {t("en", "footer.contact")}
           </p>
-          <p className="mt-3 text-sm text-[#5B6B82] dark:text-[#93A1B8]">
+          <p className="mt-3 text-sm text-[#5B6B82] dark:text-[#A7A7B3]">
             Questions, bug reports or suggestions? We usually reply within a few business days.
           </p>
           <Link
@@ -130,7 +131,7 @@ export default function Footer(): React.ReactElement {
           </Link>
         </div>
       </div>
-      <div className="border-t border-[#E1E8F2] dark:border-[#1E2F52]">
+      <div className="border-t border-[#E1E8F2] dark:border-[#26262C]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-[#5B6B82] sm:flex-row sm:px-6 lg:px-8">
           <p>
             © {new Date().getFullYear()} {COMPANY_NAME}. {t("en", "footer.rights")}

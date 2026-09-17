@@ -72,10 +72,53 @@ const tipInputs: ReadonlyArray<ToolInputField> = [
   stringField("people", "tools.tip-calculator.people", "tools.tip-calculator.peoplePlaceholder"),
 ];
 
+const loanCoreInputs: ReadonlyArray<ToolInputField> = [
+  stringField("principal", "tools.loan-calculator.principal"),
+  stringField("annualRatePercent", "tools.loan-calculator.rate"),
+  stringField("years", "tools.loan-calculator.years"),
+];
+
+const LOAN_TYPE_OPTIONS: ReadonlyArray<{ value: string; labelKey: string }> = [
+  { value: "general", labelKey: "General loan" },
+  { value: "home", labelKey: "Home loan / mortgage" },
+  { value: "personal", labelKey: "Personal loan" },
+  { value: "car", labelKey: "Car / auto loan" },
+  { value: "education", labelKey: "Education / student loan" },
+  { value: "business", labelKey: "Business loan" },
+];
+
+const LOAN_CURRENCY_OPTIONS: ReadonlyArray<{ value: string; labelKey: string }> = [
+  { value: "USD", labelKey: "US Dollar (USD)" },
+  { value: "INR", labelKey: "Indian Rupee (INR)" },
+  { value: "EUR", labelKey: "Euro (EUR)" },
+  { value: "GBP", labelKey: "British Pound (GBP)" },
+  { value: "AED", labelKey: "UAE Dirham (AED)" },
+  { value: "SAR", labelKey: "Saudi Riyal (SAR)" },
+  { value: "PKR", labelKey: "Pakistani Rupee (PKR)" },
+  { value: "BDT", labelKey: "Bangladeshi Taka (BDT)" },
+];
+
+const LOAN_TYPES = new Set(LOAN_TYPE_OPTIONS.map((o) => o.value));
+const LOAN_CURRENCIES = new Set(LOAN_CURRENCY_OPTIONS.map((o) => o.value));
+
 const loanInputs: ReadonlyArray<ToolInputField> = [
-  stringField("principal", "tools.loan-payment-calculator.principal"),
-  stringField("annualRatePercent", "tools.loan-payment-calculator.rate"),
-  stringField("years", "tools.loan-payment-calculator.years"),
+  ...loanCoreInputs,
+  {
+    id: "loanType",
+    type: "select",
+    labelKey: "tools.loan-calculator.loanType",
+    required: false,
+    defaultValue: "general",
+    options: LOAN_TYPE_OPTIONS,
+  },
+  {
+    id: "currency",
+    type: "select",
+    labelKey: "tools.loan-calculator.currency",
+    required: false,
+    defaultValue: "USD",
+    options: LOAN_CURRENCY_OPTIONS,
+  },
 ];
 
 const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
@@ -196,7 +239,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       supportedFormats: [],
       requiresNetwork: false,
       localizationKey: "tools.tip-calculator",
-      relatedTools: ["loan-payment-calculator"],
+      relatedTools: ["loan-calculator"],
       seo: {
         title: "Tip Calculator | RovoTools",
         description: "Free tip calculator. Split restaurant bills fairly per person.",
@@ -239,38 +282,53 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
   },
   {
     definition: defineTool<Record<string, unknown>, Record<string, unknown>>({
-      id: "loan-payment-calculator",
-      slug: "loan-payment-calculator",
-      name: "Loan Payment Calculator",
-      description: "Estimate monthly loan payments and total interest.",
-      category: "calculator",
+      id: "loan-calculator",
+      slug: "loan-calculator",
+      name: "Loan Calculator",
+      description: "Estimate monthly loan payments, total payable and total interest.",
+      category: "finance",
       icon: "landmark",
-      keywords: ["loan", "mortgage", "payment", "interest", "finance"],
+      keywords: ["loan calculator", "mortgage", "home loan", "personal loan", "car loan", "monthly payment", "interest"],
       featured: true,
-      popular: false,
+      popular: true,
       supportedPlatforms: [...ALL_PLATFORMS],
       processingMode: "LOCAL",
       supportedFormats: [],
       requiresNetwork: false,
-      localizationKey: "tools.loan-payment-calculator",
+      localizationKey: "tools.loan-calculator",
       relatedTools: ["tip-calculator"],
       seo: {
-        title: "Loan Payment Calculator | RovoTools",
-        description: "Free loan calculator. Estimate monthly payments and total interest.",
-        keywords: ["loan calculator", "mortgage", "monthly payment"],
+        title: "Loan Calculator | RovoTools",
+        description: "Free loan calculator. Estimate monthly payments, total payable and total interest.",
+        keywords: ["loan calculator", "mortgage", "monthly payment", "home loan", "interest"],
       },
-      nameKey: "tools.loan-payment-calculator.name",
-      descriptionKey: "tools.loan-payment-calculator.description",
+      nameKey: "tools.loan-calculator.name",
+      descriptionKey: "tools.loan-calculator.description",
       metadata: { version: "1.0.0", isOfflineCapable: true, tags: ["finance", "calculator"] },
       inputs: loanInputs,
       outputs: [
-        { id: "monthlyPayment", type: "number", labelKey: "tools.loan-payment-calculator.monthly" },
-        { id: "totalInterest", type: "number", labelKey: "tools.loan-payment-calculator.interest" },
+        { id: "monthlyPayment", type: "number", labelKey: "tools.loan-calculator.monthly" },
+        { id: "totalPayment", type: "number", labelKey: "tools.loan-calculator.totalPayable" },
+        { id: "totalInterest", type: "number", labelKey: "tools.loan-calculator.interest" },
       ],
       validate: (input) => {
-        const structural = structuralCheck(input, loanInputs);
+        const structural = structuralCheck(input, loanCoreInputs);
         if (structural !== null) {
           return structural;
+        }
+        const loanTypeRaw = String(input["loanType"] ?? "").trim();
+        if (loanTypeRaw !== "" && !LOAN_TYPES.has(loanTypeRaw)) {
+          return {
+            valid: false,
+            errors: [{ fieldId: "loanType", code: "INVALID_INPUT", message: "Unknown loan type." }],
+          };
+        }
+        const currencyRaw = String(input["currency"] ?? "").trim();
+        if (currencyRaw !== "" && !LOAN_CURRENCIES.has(currencyRaw)) {
+          return {
+            valid: false,
+            errors: [{ fieldId: "currency", code: "INVALID_INPUT", message: "Unknown currency." }],
+          };
         }
         try {
           calculateLoanPayment({
@@ -280,7 +338,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
           });
           return { valid: true, errors: [] };
         } catch (error) {
-          return engineError("loan-payment-calculator", error);
+          return engineError("loan-calculator", error);
         }
       },
       execute: async (input) =>

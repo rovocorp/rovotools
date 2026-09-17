@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getAllCategoryMetadata } from "@rovotools/tools";
 import { t, tx } from "@rovotools/localization";
-import { WEB_URL } from "@rovotools/config";
+import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SearchBar from "@/components/SearchBar";
 import CategoryNav from "@/components/tools/CategoryNav";
@@ -13,6 +13,15 @@ export const metadata: Metadata = {
   description: t("en", "seo.toolsDescription"),
   alternates: { canonical: "/tools" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: t("en", "seo.toolsTitle"),
     description: t("en", "seo.toolsDescription"),
     type: "website",
@@ -63,7 +72,7 @@ export default async function ToolsPage({
                 "@type": "ListItem",
                 position: index + 1,
                 name: entry.definition.name,
-                url: `${WEB_URL}/tools/${entry.definition.slug}`,
+                url: `${WEB_URL}${entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`}`,
               })),
             },
           }),
@@ -76,7 +85,7 @@ export default async function ToolsPage({
         ]}
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "navigation.tools")}</h1>
-      <p className="mt-2 text-zinc-500">
+      <p className="mt-2 text-zinc-600 dark:text-zinc-400">
         {tools.length === 1
           ? t("en", "tool.oneTool")
           : tx("en", "tool.manyTools", { count: tools.length })}
@@ -95,7 +104,7 @@ export default async function ToolsPage({
       </div>
 
       {tools.length === 0 ? (
-        <p className="mt-10 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-500 dark:border-zinc-700">
+        <p className="mt-10 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
           {t("en", "tool.noResults")}
         </p>
       ) : (

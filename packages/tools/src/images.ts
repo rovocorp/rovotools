@@ -2,6 +2,8 @@
 // Anything needing canvas, File or DOM APIs lives in the per-app custom
 // components; everything here is unit-tested in Node.
 
+import { assertBytesWithinLimit } from "@rovotools/core";
+
 export type WebImageFormat = "webp" | "jpeg" | "png";
 
 export interface ImageFormatInfo {
@@ -97,6 +99,9 @@ export function conversionOutputName(filename: string, format: WebImageFormat): 
 }
 export const MAX_IMAGE_BATCH = 20;
 
+/** Single-image budget: phone photos sit well under this; gigapixel drops do not. */
+export const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+
 export function assertImageBatchSize(count: number): void {
   if (!Number.isInteger(count) || count < 1) {
     throw new RangeError("Select at least one image.");
@@ -104,6 +109,14 @@ export function assertImageBatchSize(count: number): void {
   if (count > MAX_IMAGE_BATCH) {
     throw new RangeError(`Convert up to ${MAX_IMAGE_BATCH} images at once.`);
   }
+}
+
+/**
+ * Fail before the browser decodes: Blob.size is metadata, so this rejects
+ * oversized drops without reading a single byte into memory.
+ */
+export function assertImageFileSize(byteLength: number, maxBytes = MAX_IMAGE_BYTES): void {
+  assertBytesWithinLimit(byteLength, maxBytes, "Image");
 }
 
 // Scale dimensions by a percentage. Values above 100 upscale (soft result);

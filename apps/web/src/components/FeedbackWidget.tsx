@@ -62,7 +62,7 @@ export default function FeedbackWidget({ toolId }: { toolId: string }): React.Re
               <ThumbsDown className="h-4 w-4" aria-hidden="true" /> No
             </Button>
           </div>
-          <label htmlFor={`feedback-comment-${toolId}`} className="mt-3 block text-xs text-zinc-500">
+          <label htmlFor={`feedback-comment-${toolId}`} className="mt-3 block text-xs text-zinc-600 dark:text-zinc-400">
             Optional comment (never include passwords or private data)
           </label>
           <input

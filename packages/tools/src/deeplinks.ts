@@ -42,8 +42,25 @@ export type DeepLink =
   | HomeDeepLink
   | UnknownDeepLink;
 
-const SENSITIVE_QUERY_KEYS: ReadonlyArray<string> = [
-  "token",
+/** Slugs with dedicated nested landing pages at /tools/pdf/<slug>. */
+export const PDF_TOOL_SLUGS: ReadonlySet<string> = new Set([
+  "pdf-to-word",
+  "merge-pdf",
+  "compress-pdf",
+  "jpg-to-pdf",
+  "pdf-to-jpg",
+  "split-pdf",
+  "word-to-pdf",
+  "pdf-creator",
+  "sign-pdf",
+  "pdf-to-excel",
+]);
+
+export function pdfToolPath(slug: string): string {
+  return PDF_TOOL_SLUGS.has(slug) ? `/tools/pdf/${slug}` : `/tools/${slug}`;
+}
+
+const SENSITIVE_QUERY_KEYS: ReadonlyArray<string> = [  "token",
   "access_token",
   "id_token",
   "refresh_token",
@@ -68,6 +85,13 @@ function parsePath(path: string): DeepLink {
   const normalized = normalizePath(path);
   if (normalized === "/") {
     return { kind: "home" };
+  }
+
+  // Nested PDF landing pages (/tools/pdf/merge-pdf, …) resolve to the
+  // same flat slug — there is no single combined /pdf-tools page.
+  const pdfMatch = /^\/tools\/pdf\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(normalized);
+  if (pdfMatch?.[1] !== undefined) {
+    return { kind: "tool", slug: pdfMatch[1] };
   }
 
   const toolMatch = /^\/tools\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(normalized);
@@ -163,7 +187,8 @@ export function parseDeepLink(rawUrl: string): DeepLink | null {
 export function buildWebUrl(link: DeepLink, webOrigin = `https://${WEB_HOST}`): string {
   switch (link.kind) {
     case "tool":
-      return `${webOrigin}/tools/${link.slug}`;
+      // High-demand PDF tasks live at nested landing pages.
+      return `${webOrigin}${pdfToolPath(link.slug)}`;
     case "category":
       return `${webOrigin}/tools/category/${link.category}`;
     case "blog":

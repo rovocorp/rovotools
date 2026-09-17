@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
 import { t } from "@rovotools/localization";
 
@@ -59,4 +59,14 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.json",
+};
+
+// Adaptive browser chrome: light chrome in light mode, near-black zinc
+// in dark mode (matches --background in each color scheme). Next 16
+// requires themeColor in the viewport export, not in metadata.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F8FAFC" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090B" },
+  ],
 };

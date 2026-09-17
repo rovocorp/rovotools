@@ -76,13 +76,17 @@ export function getToolPageMetadata(
   const keywords = [...(definition.seo?.keywords ?? definition.keywords)].join(", ");
   // Hand-written SEO deck titles/descriptions take precedence over registry values.
   const deckCopy = getToolPageCopy(definition);
+  const canonicalUrl =
+    baseUrl === undefined
+      ? undefined
+      : `${normalizeBaseUrl(baseUrl)}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}`;
 
   return {
     title: deckCopy.title ?? definition.seo?.title ?? `${definition.name} | RovoTools`,
     description: deckCopy.description ?? definition.seo?.description ?? definition.description,
     keywords,
     canonicalPath,
-    ...(baseUrl === undefined ? {} : { canonicalUrl: getToolUrl(definition.slug, baseUrl, basePath) }),
+    ...(canonicalUrl === undefined ? {} : { canonicalUrl }),
     ...(definition.seo?.image === undefined ? {} : { image: definition.seo.image }),
     ...(definition.seo?.noIndex === undefined ? {} : { noIndex: definition.seo.noIndex }),
     ...(definition.seo?.openGraphType === undefined

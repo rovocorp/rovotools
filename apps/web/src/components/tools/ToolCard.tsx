@@ -25,9 +25,12 @@ export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React
   const display = getToolDisplay("en", tool);
   const style = getCategoryStyle(tool.category);
   const Icon = CATEGORY_ICONS[tool.category] ?? Braces;
+  // PDF tools live at nested landing pages (e.g. /tools/pdf/merge-pdf);
+  // every other tool keeps its flat /tools/<slug> route.
+  const href = tool.seo?.canonicalPath ?? `/tools/${tool.slug}`;
   return (
     <Link
-      href={`/tools/${tool.slug}`}
+      href={href}
       className="group block h-full rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED]"
       aria-label={`${display.name}: ${display.description}`}
     >
@@ -59,7 +62,7 @@ export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React
           <CardDescription className="line-clamp-2">{display.description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <span className="inline-flex items-center gap-1 text-sm font-bold text-[#0066FF] transition-colors group-hover:text-[#7C3AED] dark:text-[#5C9CFF] dark:group-hover:text-[#C4B5FD]">
+          <span className="inline-flex items-center gap-1 text-sm font-bold text-[#0066FF] transition-colors group-hover:text-[#7C3AED] dark:text-[#8AB8FF] dark:group-hover:text-[#C4B5FD]">
             {t("en", "tool.openTool")}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </span>

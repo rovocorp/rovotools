@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: "Our commitment to accessible, keyboard-friendly tools for everyone.",
   alternates: { canonical: "/accessibility" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "Accessibility Statement | RovoTools",
     description: "Our commitment to accessible, keyboard-friendly tools for everyone.",
     type: "website",
@@ -28,7 +37,7 @@ export default function AccessibilityPage(): React.ReactElement {
         <p>
           If you encounter an accessibility barrier — an unlabeled control, a contrast issue, or a
           keyboard trap — please tell us via the{" "}
-          <a href="/contact" className="underline hover:text-indigo-600">
+          <a href="/contact" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             contact form
           </a>{" "}
           or {SUPPORT_EMAIL} so we can fix it.

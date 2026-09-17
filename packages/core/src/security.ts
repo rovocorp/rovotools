@@ -90,6 +90,53 @@ export function sanitizeFileName(name: string, fallback = "file"): string {
   return cleaned === "" ? fallback : cleaned;
 }
 
+/** Excel refuses cell contents longer than 32,767 characters. */
+export const MAX_SPREADSHEET_CELL_CHARS = 32767;
+
+/** Generated workbooks stay well inside Excel's ~1M-row limit and bounded memory. */
+export const MAX_SPREADSHEET_ROWS = 100_000;
+
+/**
+ * Neutralize spreadsheet formula injection (OWASP: cells starting with
+ * `=`, `+`, `-`, `@` execute as formulas/macros when the workbook is
+ * opened). Leading whitespace/control characters are skipped when detecting
+ * the trigger, then the original value is prefixed with `'` so Excel shows
+ * it as plain text. Overlong values are truncated to the Excel cell limit.
+ */
+const FORMULA_LEADERS: ReadonlySet<string> = new Set(["=", "+", "-", "@"]);
+
+export function sanitizeSpreadsheetCell(value: string, maxLength = MAX_SPREADSHEET_CELL_CHARS): string {
+  if (!Number.isInteger(maxLength) || maxLength < 1) {
+    throw new RangeError("Cell length limit must be a positive integer.");
+  }
+  const sliced = value.length > maxLength ? value.slice(0, maxLength) : value;
+  const first = sliced.replace(/^[\s\u200B-\u200D\uFEFF]+/, "")[0];
+  if (first !== undefined && FORMULA_LEADERS.has(first)) {
+    return `'${sliced}`;
+  }
+  return sliced;
+}
+
+/**
+ * Fail closed when a byte payload exceeds its budget (oversized uploads are
+ * the practical client-side DoS vector: parsers already reject mistyped
+ * content, but nothing stops a multi-GB file from being read into memory).
+ * Throws RangeError with a user-displayable message.
+ */
+export function assertBytesWithinLimit(byteLength: number, maxBytes: number, what = "File"): void {
+  if (!Number.isFinite(byteLength) || byteLength < 0) {
+    throw new RangeError(`${what} size is invalid.`);
+  }
+  if (!Number.isFinite(maxBytes) || maxBytes <= 0) {
+    throw new RangeError("Size limit must be positive.");
+  }
+  if (byteLength > maxBytes) {
+    const mb = maxBytes / (1024 * 1024);
+    const budget = Number.isInteger(mb) ? `${mb}` : mb.toFixed(1);
+    throw new RangeError(`${what} exceeds the ${budget} MB limit.`);
+  }
+}
+
 export interface RateLimiter {
   allow(key: string): boolean;
 }

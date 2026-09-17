@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: "How RovoTools uses cookies and local storage, and how to control your choice.",
   alternates: { canonical: "/cookie-policy" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "Cookie Policy | RovoTools",
     description: "How RovoTools uses cookies and local storage, and how to control your choice.",
     type: "website",

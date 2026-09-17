@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllCategoryMetadata, getCategoryMetadata } from "@rovotools/tools";
 import { t, tx } from "@rovotools/localization";
-import { WEB_URL } from "@rovotools/config";
+import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ToolCard from "@/components/tools/ToolCard";
 import { getToolRegistry } from "@/lib/registry";
@@ -26,6 +26,15 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     keywords: [...meta.keywords],
     alternates: { canonical: meta.path },
     openGraph: {
+      siteName: BRAND_NAME,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+        },
+      ],
       title: `${meta.title} | RovoTools`,
       description: meta.description,
       type: "website",
@@ -62,7 +71,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         "@type": "ListItem",
         position: index + 1,
         name: entry.definition.name,
-        url: `${WEB_URL}/tools/${entry.definition.slug}`,
+        url: `${WEB_URL}${entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`}`,
       })),
     },
   };
@@ -78,14 +87,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         ]}
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{meta.title}</h1>
-      <p className="mt-2 max-w-2xl text-zinc-500">{meta.description}</p>
-      <p className="mt-2 text-sm text-zinc-500">
+      <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">{meta.description}</p>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         {tools.length === 1
           ? t("en", "tool.oneTool")
           : tx("en", "tool.manyTools", { count: tools.length })}
       </p>
       {tools.length === 0 ? (
-        <p className="mt-8 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-500 dark:border-zinc-700">
+        <p className="mt-8 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
           {t("en", "tool.noResults")}
         </p>
       ) : (

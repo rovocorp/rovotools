@@ -10,7 +10,17 @@ const eslintConfig = defineConfig([
       "no-console": "error",
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "public/sw.js", "public/workbox-*.js", "public/fallback-*.js"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "public/sw.js",
+    "public/workbox-*.js",
+    "public/fallback-*.js",
+    // Vendored pdf.js worker bundle: third-party code, not linted.
+    "public/pdf.worker.min.mjs",
+  ]),
 ]);
 
 export default eslintConfig;

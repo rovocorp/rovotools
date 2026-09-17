@@ -1,12 +1,28 @@
 import type { ComponentType } from "react";
 
-// Mobile mirror of the web custom-tool map: browser-only tools (image APIs)
-// render a custom native component instead of the generic ToolRunner.
-// Entries are added in steps 8-13, e.g.:
-//
-//   import ImageConverter from "./ImageConverter";
-//   "image-converter": ImageConverter,
-const customToolComponents: Record<string, ComponentType> = {};
+import MergePdfScreen from "./pdf/MergePdf";
+import SplitPdfScreen from "./pdf/SplitPdf";
+import CompressPdfScreen from "./pdf/CompressPdf";
+import JpgToPdfScreen from "./pdf/JpgToPdf";
+import PdfToJpgScreen from "./pdf/PdfToJpg";
+import WordToPdfScreen from "./pdf/WordToPdf";
+import PdfCreatorScreen from "./pdf/PdfCreator";
+import SignPdfScreen from "./pdf/SignPdf";
+import PdfToWordScreen from "./pdf/PdfToWord";
+import PdfToExcelScreen from "./pdf/PdfToExcel";
+
+const customToolComponents: Record<string, ComponentType> = {
+  "merge-pdf": MergePdfScreen,
+  "split-pdf": SplitPdfScreen,
+  "compress-pdf": CompressPdfScreen,
+  "jpg-to-pdf": JpgToPdfScreen,
+  "pdf-to-jpg": PdfToJpgScreen,
+  "word-to-pdf": WordToPdfScreen,
+  "pdf-creator": PdfCreatorScreen,
+  "sign-pdf": SignPdfScreen,
+  "pdf-to-word": PdfToWordScreen,
+  "pdf-to-excel": PdfToExcelScreen,
+};
 
 export function getCustomMobileToolComponent(slug: string): ComponentType | undefined {
   return customToolComponents[slug];

@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   description: t("en", "seo.privacyDescription"),
   alternates: { canonical: "/privacy" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: t("en", "seo.privacyTitle"),
     description: t("en", "seo.privacyDescription"),
     type: "website",
@@ -20,7 +29,7 @@ export default function PrivacyPage(): React.ReactElement {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <Breadcrumbs crumbs={[{ label: "Home", href: "/" }, { label: t("en", "seo.privacyTitle") }]} />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "seo.privacyTitle")}</h1>
-      <p className="mt-2 text-sm text-zinc-500">{t("en", "common.lastUpdated")}</p>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("en", "common.lastUpdated")}</p>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>
           {BRAND_NAME} is built local-first. Core calculators run entirely in your browser or on
@@ -41,7 +50,7 @@ export default function PrivacyPage(): React.ReactElement {
           We use local storage for preferences such as theme, favorites and your cookie choice.
           Anonymous analytics and non-intrusive advertising run only after you accept cookies via
           the consent banner, and never see your tool inputs, files or passwords. See our{" "}
-          <a href="/cookie-policy" className="underline hover:text-indigo-600">
+          <a href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             Cookie Policy
           </a>
           .

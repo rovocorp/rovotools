@@ -17,7 +17,7 @@ and results stay in memory only. Verified: no `console.*` calls in either app.
 - The mobile app embeds no API keys. If backends later require keys, they go
   through Expo config `extra` at build time, never committed.
 
-## Web (`apps/web/src/middleware.ts`)
+## Web (`apps/web/src/proxy.ts`)
 
 - Strict security headers on every response: CSP, `nosniff`,
   `DENY` framing, strict referrer policy, restrictive permissions policy, HSTS,
@@ -29,6 +29,31 @@ and results stay in memory only. Verified: no `console.*` calls in either app.
 - In-memory rate limiting (60 req/min/IP) on `/api/*`. Single-instance only;
   move to Redis/edge KV when horizontally scaled.
 - All API input validated with zod; Prisma access is parameterized.
+
+## File upload hardening (web + mobile)
+
+- Files never leave the device: there are no file-upload endpoints, so
+  server-side antivirus has nothing to scan. Protection lives at the parse
+  points instead.
+- Size caps fail closed *before* buffering: web `fileToBytes`
+  (`apps/web/src/components/tools/custom/pdfUtils.ts`, 100 MB per the UI
+  promise) for all PDF tools, `loadImageElement`
+  (`apps/web/src/components/tools/custom/imageUtils.ts`, 25 MB per image)
+  for all six image tools, mobile `fileBytes`
+  (`apps/mobile/src/components/pdf/mobile-pdf-utils.ts`, 25 MB per the
+  picker policy) — all via `assertBytesWithinLimit` in
+  `packages/core/src/security.ts` (image cap: `assertImageFileSize` in
+  `packages/tools/src/images.ts`). `Blob.size` is metadata, so oversized
+  drops are rejected without reading a byte. Parsers (pdf-lib, pdf.js,
+  browser image decoders, mammoth) additionally reject mistyped content
+  with errors.
+- Spreadsheet formula injection is neutralized: every cell written by the
+  PDF→Excel tool passes through `sanitizeSpreadsheetCell` (prefixes
+  `= + - @` leaders, truncates to Excel's 32,767-char limit), and generated
+  workbooks are capped at `MAX_SPREADSHEET_ROWS` rows. The bundled `xlsx`
+  advisories concern *parsing* untrusted workbooks; this codebase only ever
+  *writes* workbooks from locally extracted text, but the sanitizer closes
+  the injection path regardless.
 
 ## PWA
 

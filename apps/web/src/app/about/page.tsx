@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: "Learn about RovoTools — free online tools for everyday work, built by RovoCorp LTD.",
   alternates: { canonical: "/about" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "About Us | RovoTools",
     description: "Learn about RovoTools — free online tools for everyday work, built by RovoCorp LTD.",
     type: "website",

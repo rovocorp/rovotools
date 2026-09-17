@@ -4,7 +4,12 @@
 // (steps 8-13). Pure calculation helpers live in @rovotools/tools so they can
 // be unit-tested in Node; everything here needs DOM/canvas APIs.
 
+import { assertImageFileSize } from "@rovotools/tools";
+
 export function loadImageElement(file: Blob): Promise<HTMLImageElement> {
+  // Every image tool funnels through here: reject oversized drops on
+  // metadata alone, before the browser decodes a single pixel into memory.
+  assertImageFileSize(file.size);
   const url = URL.createObjectURL(file);
   return new Promise((resolve, reject) => {
     const img = new Image();

@@ -163,7 +163,7 @@ function ToolsDropdown({ onNavigate }: { onNavigate?: () => void }): React.React
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0",
         )}
       >
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-2xl shadow-indigo-500/10 backdrop-blur-xl dark:border-white/10 dark:bg-[#0F1E3C]/95 dark:shadow-black/40">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-2xl shadow-indigo-500/10 backdrop-blur-xl dark:border-white/10 dark:bg-[#111114]/95 dark:shadow-black/40">
           <div className="h-1 w-full bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF]" aria-hidden="true" />
           <div className="grid gap-1 p-2 sm:grid-cols-2">
             {TOOLS_SUBMENU.map((item) => (
@@ -203,18 +203,21 @@ function ToolsDropdown({ onNavigate }: { onNavigate?: () => void }): React.React
 }
 
 function ThemeToggle({ id }: { id: string }): React.ReactElement {
-  const { setTheme, resolved } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <Button
       id={id}
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(resolved === "dark" ? "light" : "dark")}
-      aria-label="Toggle colour theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={t("en", "a11y.toggleTheme")}
       title={t("en", "a11y.toggleTheme")}
-      className="text-[var(--muted)] hover:text-primary dark:text-slate-300 dark:hover:text-blue-400"
+      aria-pressed={isDark}
+      className="text-muted-foreground hover:text-primary dark:text-slate-300 dark:hover:text-blue-400"
     >
-      {resolved === "dark" ? (
+      {isDark ? (
         <Sun className="h-5 w-5" aria-hidden="true" />
       ) : (
         <Moon className="h-5 w-5" aria-hidden="true" />
@@ -246,7 +249,7 @@ export default function Header(): React.ReactElement {
           <span>All tools run in your browser — your files never leave your device.</span>
         </div>
       </div>
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#0B132B]/80">
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090B]/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group transition-transform hover:scale-[1.01]" aria-label={`${BRAND_NAME} home`}>
           <RovoToolsImageLogo height={34} priority />
@@ -281,7 +284,7 @@ export default function Header(): React.ReactElement {
             onClick={openGlobalSearch}
             aria-label={`${t("en", "a11y.searchTools")} (Ctrl+K)`}
             title="Search tools (Ctrl+K)"
-            className="gap-2 border border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-violet-300"
+            className="gap-2 border border-slate-200 bg-slate-50 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 dark:hover:text-indigo-300 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:text-violet-300"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
             <span className="hidden lg:inline">{t("en", "common.search")}</span>
@@ -317,13 +320,13 @@ export default function Header(): React.ReactElement {
 
       <div
         id="mobile-navigation"
-        className={cn("border-t border-[#E1E8F2] dark:border-[#1E2F52] md:hidden", open ? "block" : "hidden")}
+        className={cn("border-t border-[#E1E8F2] dark:border-[#26262C] md:hidden", open ? "block" : "hidden")}
       >
         <nav aria-label={t("en", "a11y.mobileNav")} className="space-y-1 px-4 py-3">
           <Link
             href="/"
             onClick={() => setOpen(false)}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:bg-[#1A2B4D] dark:hover:text-[#5C9CFF]"
+            className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
           >
             {t("en", "navigation.home")}
           </Link>
@@ -333,7 +336,7 @@ export default function Header(): React.ReactElement {
             onClick={() => setToolsOpen((value) => !value)}
             aria-expanded={toolsOpen}
             aria-controls="mobile-tools-submenu"
-            className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:bg-[#1A2B4D] dark:hover:text-[#5C9CFF]"
+            className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
           >
             {t("en", "navigation.tools")}
             <ChevronDown
@@ -347,7 +350,7 @@ export default function Header(): React.ReactElement {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:bg-[#1A2B4D] dark:hover:text-[#5C9CFF]"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
               >
                 <span
                   className={cn(
@@ -368,7 +371,7 @@ export default function Header(): React.ReactElement {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#93A1B8] dark:hover:bg-[#1A2B4D] dark:hover:text-[#5C9CFF]"
+              className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
             >
               {link.label}
             </Link>

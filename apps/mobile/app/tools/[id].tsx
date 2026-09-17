@@ -59,11 +59,7 @@ export default function ToolDetailScreen(): React.ReactElement {
         <View style={styles.badges}>
           <Badge>{tool.category}</Badge>
           {tool.popular ? <Badge>{t("en", "tool.popular")}</Badge> : null}
-          {tool.processingMode === "LOCAL" && !tool.requiresNetwork ? (
-            <Badge>{t("en", "tool.offlineReady")}</Badge>
-          ) : (
-            <Badge>{t("en", "tool.requiresInternet")}</Badge>
-          )}
+          {tool.requiresNetwork ? <Badge>{t("en", "tool.requiresInternet")}</Badge> : null}
         </View>
         <Text style={[styles.title, { color: palette.text }]}>{display.name}</Text>
         <Text style={[styles.description, { color: palette.muted }]}>{display.description}</Text>
@@ -72,7 +68,6 @@ export default function ToolDetailScreen(): React.ReactElement {
           <Text style={[styles.capabilitiesTitle, { color: palette.text }]}>{t("en", "privacy.title")}</Text>
           <Text style={[styles.capabilitiesLine, { color: palette.muted }]}>
             {t("en", "privacy.processing")}: {privacy.processing}
-            {privacy.offlineCapable ? ` · ${t("en", "tool.offlineReady")}` : ""}
           </Text>
           <Text style={[styles.capabilitiesLine, { color: palette.muted }]}>
             {supportedPlatforms}

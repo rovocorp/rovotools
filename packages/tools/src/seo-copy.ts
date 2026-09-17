@@ -62,6 +62,15 @@ const JSON_WORKFLOW: ToolWorkflow = {
   ],
 };
 
+const PDF_WORKFLOW: ToolWorkflow = {
+  title: "Work with PDFs end to end",
+  steps: [
+    { label: "Create a PDF", href: "/tools/pdf/pdf-creator" },
+    { label: "Merge PDFs", href: "/tools/pdf/merge-pdf" },
+    { label: "Compress the result", href: "/tools/pdf/compress-pdf" },
+  ],
+};
+
 const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
   "adsense-earnings-calculator": {
     description:
@@ -96,7 +105,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
         answer: "No. The estimate is computed on your device; only a rate refresh contacts the rate service.",
       },
     ],
-    related: ["roi-calculator", "compound-interest-calculator", "loan-payment-calculator", "percentage-calculator"],
+    related: ["roi-calculator", "compound-interest-calculator", "loan-calculator", "percentage-calculator"],
   },
   "image-compressor": {
     title: "Image Compressor — Compress Images Online | RovoTools",
@@ -215,7 +224,6 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     benefits: [
       "Single-page PDF generated instantly from any text",
       "No signup, no watermark, no upload",
-      "Works offline once the page has loaded",
     ],
     howTo: [
       "Paste or type your text into the input box.",
@@ -233,7 +241,302 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
         answer: "No. The PDF is generated locally in your browser from the text you enter.",
       },
     ],
-    related: ["word-counter", "case-converter", "text-cleaner", "slug-generator"],
+    related: ["pdf-creator", "jpg-to-pdf", "merge-pdf", "word-counter"],
+  },
+  "merge-pdf": {
+    title: "Merge PDF — Combine PDF Files Online | RovoTools",
+    description:
+      "Merge 2-20 PDF files into one document in your chosen order. Free, no signup — files never leave your device.",
+    intro:
+      "Combine multiple PDFs into a single document. Drop your files, arrange them in order, and download the merged PDF instantly.",
+    benefits: [
+      "Combine up to 20 PDFs preserving page order",
+      "Reorder files before merging",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select 2-20 PDF files.",
+      "Drag them into the order you want.",
+      "Press Merge and download the combined PDF.",
+    ],
+    faqs: [
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Merging happens entirely in your browser with pdf-lib; your files never leave your device.",
+      },
+      {
+        question: "Is there a file limit?",
+        answer: "You can merge up to 20 PDFs at once, each up to 100 MB.",
+      },
+    ],
+    related: ["split-pdf", "compress-pdf", "pdf-creator", "jpg-to-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "split-pdf": {
+    title: "Split PDF — Extract Pages Online | RovoTools",
+    description:
+      "Split a PDF by extracting the pages you need, e.g. 1-3,5. Free, no signup — files never leave your device.",
+    intro:
+      "Extract specific pages from a PDF into a brand-new file. Enter ranges like 1-3,5 and download just those pages.",
+    benefits: [
+      "Extract any pages with 1-3,5 style ranges",
+      "Original file stays untouched",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to split.",
+      "Enter the pages to keep, e.g. 1-3,5.",
+      "Press Split and download the new PDF.",
+    ],
+    faqs: [
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Splitting happens entirely in your browser; your files never leave your device.",
+      },
+      {
+        question: "Can I extract non-contiguous pages?",
+        answer: "Yes. List singles and ranges separated by commas, for example 1,4-6,9.",
+      },
+    ],
+    related: ["merge-pdf", "compress-pdf", "pdf-to-jpg", "pdf-creator"],
+    workflow: PDF_WORKFLOW,
+  },
+  "compress-pdf": {
+    title: "Compress PDF — Reduce PDF Size Online | RovoTools",
+    description:
+      "Shrink a PDF with lossless re-save plus optional image downscaling. Free, no signup — files never leave your device.",
+    intro:
+      "Reduce your PDF's file size for email and uploads. Pick a strength, compare before/after, and download the smaller file.",
+    benefits: [
+      "Lossless re-save plus light, balanced or strong image downscaling",
+      "See exact bytes saved before downloading",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to compress.",
+      "Choose a strength: light, balanced or strong.",
+      "Press Compress and download the smaller PDF.",
+    ],
+    faqs: [
+      {
+        question: "Will compression hurt quality?",
+        answer:
+          "Light and balanced modes are visually lossless for most documents. Strong mode downscales large images — compare the preview before downloading.",
+      },
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Compression happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["merge-pdf", "split-pdf", "jpg-to-pdf", "pdf-creator"],
+    workflow: PDF_WORKFLOW,
+  },
+  "jpg-to-pdf": {
+    title: "JPG to PDF — Convert Images to PDF Online | RovoTools",
+    description:
+      "Turn JPG, PNG or WebP photos into a PDF, one page per image. Free, no signup — files never leave your device.",
+    intro:
+      "Convert photos into a shareable PDF document. Choose portrait, landscape or exact-fit pages and download instantly.",
+    benefits: [
+      "One page per image, up to 20 images",
+      "Portrait, landscape or exact-fit pages",
+      "Photos embedded losslessly — no recompression",
+    ],
+    howTo: [
+      "Select up to 20 JPG or PNG images.",
+      "Pick portrait, landscape or fit pages.",
+      "Press Convert and download the PDF.",
+    ],
+    faqs: [
+      {
+        question: "Does converting reduce image quality?",
+        answer: "No. Photos are embedded without recompression; the PDF keeps the original pixels.",
+      },
+      {
+        question: "Are my photos uploaded anywhere?",
+        answer: "No. Conversion happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["pdf-to-jpg", "pdf-creator", "compress-pdf", "merge-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "pdf-to-jpg": {
+    title: "PDF to JPG — Convert PDF Pages to Images Online | RovoTools",
+    description:
+      "Render PDF pages as JPG images at 1x-3x scale. Free, no signup — files never leave your device.",
+    intro:
+      "Turn PDF pages into shareable images. Pick the pages and render scale, then download each page as a JPG.",
+    benefits: [
+      "Render any pages with 1-3,5 style selection",
+      "1x-3x scale for crisp images",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to convert.",
+      "Choose pages (default: all) and a render scale.",
+      "Press Convert and download the JPGs.",
+    ],
+    faqs: [
+      {
+        question: "Which scale should I use?",
+        answer: "2x suits screens and slides; 3x is best for print. Higher scales make larger files.",
+      },
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Rendering happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["jpg-to-pdf", "split-pdf", "compress-pdf", "pdf-creator"],
+    workflow: PDF_WORKFLOW,
+  },
+  "word-to-pdf": {
+    title: "Word to PDF — Convert DOCX Online | RovoTools",
+    description:
+      "Convert a .docx document into a clean PDF in your browser. Free, no signup — files never leave your device.",
+    intro:
+      "Turn a Word document into a PDF that prints the same everywhere. Text and structure are preserved; complex formatting may simplify.",
+    benefits: [
+      "Clean multi-page PDF from any .docx",
+      "Headings and lists preserved",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select a .docx file.",
+      "Press Convert and preview the result.",
+      "Download the PDF.",
+    ],
+    faqs: [
+      {
+        question: "Will my formatting survive?",
+        answer:
+          "Text, headings and lists carry over cleanly. Pixel-perfect layout (floating images, intricate tables) may simplify — this is a private on-device conversion, not a desktop Word export.",
+      },
+      {
+        question: "Are my documents uploaded anywhere?",
+        answer: "No. Conversion happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["pdf-to-word", "pdf-creator", "merge-pdf", "compress-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "pdf-creator": {
+    title: "PDF Creator — Make a PDF Online Free | RovoTools",
+    description:
+      "Create a multi-page PDF from text with a title. Free, no signup — everything runs on your device.",
+    intro:
+      "Write or paste text, add a title, and generate a clean multi-page A4 PDF you can download instantly.",
+    benefits: [
+      "Multi-page A4 PDF with automatic wrapping",
+      "Optional document title",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Paste or type your text.",
+      "Add a title (optional).",
+      "Press Execute and download the PDF.",
+    ],
+    faqs: [
+      {
+        question: "How many pages can it make?",
+        answer: "As many as your text needs — pages are added automatically with comfortable margins.",
+      },
+      {
+        question: "Is my text uploaded anywhere?",
+        answer: "No. The PDF is generated locally from the text you enter.",
+      },
+    ],
+    related: ["text-to-pdf", "word-to-pdf", "jpg-to-pdf", "merge-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "sign-pdf": {
+    title: "Sign PDF — E-Sign Documents Online | RovoTools",
+    description:
+      "Draw or type your signature and stamp it onto any PDF page. Free, no signup — files never leave your device.",
+    intro:
+      "Sign a PDF without printing. Draw with your mouse or finger, place the signature where you want it, and download the signed file.",
+    benefits: [
+      "Draw, type or upload a signature",
+      "Place and size it on any page",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to sign.",
+      "Draw or type your signature.",
+      "Drag it into position, pick the page, and download.",
+    ],
+    faqs: [
+      {
+        question: "Is this a legal signature?",
+        answer:
+          "It places a visible signature image for everyday agreements. For regulated or high-value contracts, use a qualified e-signature provider.",
+      },
+      {
+        question: "Are my documents uploaded anywhere?",
+        answer: "No. Signing happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["merge-pdf", "compress-pdf", "pdf-creator", "split-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "pdf-to-word": {
+    title: "PDF to Word — Convert PDF to DOCX Online | RovoTools",
+    description:
+      "Extract a PDF's text into an editable .docx document. Free, no signup — files never leave your device.",
+    intro:
+      "Turn a PDF back into editable text. Extract per-page text into a .docx you can open in Word or Google Docs.",
+    benefits: [
+      "Editable .docx with per-page sections",
+      "Works on text-based PDFs",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to convert.",
+      "Press Convert to extract the text.",
+      "Download the .docx and edit freely.",
+    ],
+    faqs: [
+      {
+        question: "Will layout be preserved?",
+        answer:
+          "Text content carries over; original layout does not. Scanned image-only PDFs need OCR first and will extract no text.",
+      },
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Extraction happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["word-to-pdf", "pdf-to-excel", "pdf-creator", "split-pdf"],
+    workflow: PDF_WORKFLOW,
+  },
+  "pdf-to-excel": {
+    title: "PDF to Excel — Convert PDF to XLSX Online | RovoTools",
+    description:
+      "Extract a PDF's text rows into an editable .xlsx spreadsheet. Free, no signup — files never leave your device.",
+    intro:
+      "Pull text lines out of a PDF into spreadsheet rows — one row per line, page breaks marked — ready for Excel or Sheets.",
+    benefits: [
+      "One spreadsheet row per text line",
+      "Page breaks marked for reference",
+      "No signup, no watermark, no upload",
+    ],
+    howTo: [
+      "Select the PDF to convert.",
+      "Press Convert to extract rows.",
+      "Download the .xlsx and analyse freely.",
+    ],
+    faqs: [
+      {
+        question: "Does it detect tables?",
+        answer:
+          "No — lines become rows in reading order. True table detection needs server-side layout analysis; tidy columns in a spreadsheet afterwards.",
+      },
+      {
+        question: "Are my PDFs uploaded anywhere?",
+        answer: "No. Extraction happens entirely in your browser; your files never leave your device.",
+      },
+    ],
+    related: ["pdf-to-word", "word-to-pdf", "split-pdf", "compress-pdf"],
+    workflow: PDF_WORKFLOW,
   },
   "json-formatter": {
     title: "JSON Formatter — Format & Beautify JSON Online | RovoTools",
@@ -422,22 +725,24 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     related: ["age-calculator", "percentage-calculator", "unit-converter"],
   },
-  "loan-payment-calculator": {
-    title: "Loan Payment Calculator — Monthly Payments & Interest | RovoTools",
+  "loan-calculator": {
+    title: "Loan Calculator — Monthly Payment & Interest | RovoTools",
     description:
-      "Estimate monthly loan payments and total interest from the loan amount, annual rate and term. Transparent amortising-loan formula, free.",
+      "Free loan calculator. Estimate the monthly payment, total payable and total interest from the loan amount, annual rate and term.",
     intro:
-      "Estimate monthly loan payments and total interest. Enter the loan amount, annual interest rate and term in years to see the monthly payment and overall cost.",
+      "Estimate monthly loan payments, total payable and total interest. Pick a loan type (home, personal, car, education, business), enter the loan amount, annual interest rate and term in years, then calculate.",
     benefits: [
       "Standard amortising-loan formula with full transparency",
-      "Monthly payment plus total interest over the term",
+      "Monthly payment, total payable and total interest over the term",
+      "Loan-type presets (home, personal, car, education, business) plus currency choice",
       "Compare scenarios privately — no signup, no data sharing",
     ],
     howTo: [
+      "Pick a loan type and currency (optional — defaults are General and USD).",
       "Enter the loan amount (principal).",
       "Enter the annual interest rate as a percent.",
       "Enter the term in years, then press Execute.",
-      "Compare the monthly payment and total interest across scenarios.",
+      "Compare the monthly payment, total payable and total interest across scenarios.",
     ],
     faqs: [
       {
@@ -446,43 +751,17 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
           "With the standard amortising-loan formula M = P × r(1+r)^n / ((1+r)^n − 1), where P is the principal, r the monthly rate and n the number of payments.",
       },
       {
-        question: "What is the difference between this and an EMI calculator?",
+        question: "What was EMI?",
         answer:
-          "EMI (equated monthly instalment) is the term commonly used in some markets, such as India, for the same fixed monthly loan payment this calculator computes.",
-      },
-    ],
-    related: ["emi-calculator", "compound-interest-calculator", "discount-calculator", "percentage-calculator"],
-  },
-  "emi-calculator": {
-    title: "EMI Calculator — Loan EMI Online | RovoTools",
-    description:
-      "Calculate your loan EMI (equated monthly instalment) from principal, rate and term. See the monthly payment and total interest instantly.",
-    intro:
-      "Calculate your equated monthly instalment (EMI) for a loan. EMI is the fixed amount you pay each month — the term commonly used in markets such as India for the periodic payment on an amortising loan.",
-    benefits: [
-      "Fixed monthly EMI from principal, rate and term",
-      "Total interest shown alongside the instalment",
-      "Same transparent formula as the Loan Payment Calculator",
-      "Private modelling — figures never leave your device",
-    ],
-    howTo: [
-      "Enter the loan principal amount.",
-      "Enter the annual interest rate as a percent.",
-      "Enter the term, then press Execute to see your EMI and total interest.",
-    ],
-    faqs: [
-      {
-        question: "What does EMI mean?",
-        answer:
-          "EMI stands for equated monthly instalment: the fixed payment you make every month toward a loan, covering both interest and principal.",
+          "EMI (equated monthly instalment) is the term commonly used in some markets, such as India, for the same fixed monthly loan payment this calculator computes. This page replaces the old EMI Calculator and Loan Payment Calculator.",
       },
       {
-        question: "How is EMI different from the Loan Payment Calculator?",
+        question: "Do loan-type presets change the maths?",
         answer:
-          "They compute the same amortising payment. Use whichever name you prefer — both pages cross-link so you can compare.",
+          "No. The preset only labels the scenario (home, personal, car, education, business). The monthly payment always follows the same amortising-loan formula from your amount, rate and term.",
       },
     ],
-    related: ["loan-payment-calculator", "compound-interest-calculator", "discount-calculator", "percentage-calculator"],
+    related: ["compound-interest-calculator", "discount-calculator", "percentage-calculator", "tip-calculator"],
   },
 };
 

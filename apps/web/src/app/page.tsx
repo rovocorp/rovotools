@@ -27,14 +27,26 @@ import { Button } from "@/components/ui/button";
 import { getToolRegistry } from "@/lib/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { cn } from "@/lib/utils";
-import { WEB_URL } from "@rovotools/config";
+import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import HeroNetwork from "@/components/hero/HeroNetwork";
 
 export const metadata: Metadata = {
-  title: "Free Online Tools for PDFs, Images, Developers & More",
+  // Brand suffix is explicit: the root layout template does not apply to a
+  // page-level string title in this setup (verified in production HTML).
+  title: "Free Online Tools for PDFs, Images, Developers & More | RovoTools",
   description:
     "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
   alternates: { canonical: "/" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "Free Online Tools for PDFs, Images, Developers & More | RovoTools",
     description:
       "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
@@ -80,8 +92,7 @@ const WHY = [
 
 const FAQS = ["1", "2", "3"] as const;
 
-const QUICK_LINKS = [
-  { icon: Braces, label: "JSON Formatter", href: "/tools/json-formatter", category: "developer" },
+const QUICK_LINKS = [  { icon: Braces, label: "JSON Formatter", href: "/tools/json-formatter", category: "developer" },
   { icon: Lock, label: "Base64 Encoder", href: "/tools/base64-encoder", category: "developer" },
   { icon: KeyRound, label: "JWT Decoder", href: "/tools/jwt-decoder", category: "developer" },
   { icon: ShieldCheck, label: "Password Generator", href: "/tools/password-generator", category: "security" },
@@ -125,7 +136,7 @@ export default function Home(): React.ReactElement {
     "base64-encoder",
     "password-generator",
     "bmi-calculator",
-    "loan-payment-calculator",
+    "loan-calculator",
   ] as const;
   const popular = POPULAR_TOOL_IDS.map((id) => registry.get(id)).filter(
     (entry): entry is ToolRegistryEntry => entry !== undefined,
@@ -157,6 +168,7 @@ export default function Home(): React.ReactElement {
       {/* ============ MODERN HERO ============ */}
       <section className="hero-mesh relative overflow-hidden border-b border-indigo-100/70 dark:border-white/10">
         <div aria-hidden="true" className="hero-grid absolute inset-0" />
+        <HeroNetwork />
         {/* soft orbs */}
         <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-violet-400/30 blur-3xl dark:bg-violet-600/25" />
         <div aria-hidden="true" className="pointer-events-none absolute -right-20 top-40 h-80 w-80 rounded-full bg-cyan-300/30 blur-3xl dark:bg-cyan-500/15" />
@@ -287,7 +299,7 @@ export default function Home(): React.ReactElement {
                 <span className="h-3 w-3 rounded-full bg-rose-400" aria-hidden="true" />
                 <span className="h-3 w-3 rounded-full bg-amber-400" aria-hidden="true" />
                 <span className="h-3 w-3 rounded-full bg-emerald-400" aria-hidden="true" />
-                <span className="ml-3 hidden items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-500 sm:inline-flex dark:bg-white/5 dark:text-slate-400">
+                <span className="ml-3 hidden items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-600 sm:inline-flex dark:bg-white/5 dark:text-slate-400">
                   <Lock className="h-3 w-3 text-emerald-500" aria-hidden="true" />
                   rovotools.com/tools/json-formatter
                 </span>
@@ -372,7 +384,7 @@ export default function Home(): React.ReactElement {
               style={{ "--float-rotate": "-1deg", animationDelay: "2.1s" } as React.CSSProperties}
             >
               <Palette className="h-3.5 w-3.5 text-fuchsia-500" aria-hidden="true" />
-              18 colorful categories
+              {facets.length} tool categories
             </div>
           </div>
         </div>
@@ -393,7 +405,7 @@ export default function Home(): React.ReactElement {
                   >
                     <span className={cn("h-2 w-2 rounded-full", style.dot)} aria-hidden="true" />
                     {facet.category}
-                    <span className="text-slate-400 dark:text-slate-500">{facet.count}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{facet.count}</span>
                   </Link>
                 );
               })}
@@ -427,7 +439,7 @@ export default function Home(): React.ReactElement {
       </section>
 
       {/* ============ CATEGORIES ============ */}
-      <section id="categories" aria-labelledby="categories-heading" className="relative overflow-hidden border-y border-indigo-100/70 bg-gradient-to-br from-indigo-50/80 via-fuchsia-50/60 to-amber-50/70 py-14 dark:border-white/10 dark:from-indigo-950/40 dark:via-[#0B132B] dark:to-fuchsia-950/20">
+      <section id="categories" aria-labelledby="categories-heading" className="relative overflow-hidden border-y border-indigo-100/70 bg-gradient-to-br from-indigo-50/80 via-fuchsia-50/60 to-amber-50/70 py-14 dark:border-white/10 dark:from-indigo-950/40 dark:via-[#09090B] dark:to-fuchsia-950/20">
         <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-fuchsia-400/20 blur-3xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-indigo-400/20 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -447,7 +459,7 @@ export default function Home(): React.ReactElement {
       <section id="popular" aria-labelledby="popular-heading" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-14 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-amber-600 dark:bg-amber-950/50 dark:text-amber-300">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
               <Zap className="h-3.5 w-3.5" aria-hidden="true" /> Most used
             </p>
             <h2 id="popular-heading" className="mt-3 text-2xl font-black tracking-tight text-slate-900 dark:text-white sm:text-3xl">

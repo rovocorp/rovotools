@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import { Download, ImagePlus, RotateCcw } from "lucide-react";
+import { useRef, useState } from 'react';
+import { Download, ImagePlus, RotateCcw } from 'lucide-react';
 import {
   IMAGE_CROP_RATIOS,
   IMAGE_FORMATS,
@@ -10,20 +10,20 @@ import {
   imageQualityToRatio,
   type CropBox,
   type WebImageFormat,
-} from "@rovotools/tools";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@rovotools/tools';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   canvasToBlob,
   downloadBlob,
   formatBytes,
   loadImageElement,
   replaceExtension,
-} from "./imageUtils";
+} from './imageUtils';
 
-type OutputFormat = WebImageFormat | "same";
+type OutputFormat = WebImageFormat | 'same';
 
 interface CroppedImage {
   name: string;
@@ -34,7 +34,7 @@ interface CroppedImage {
 }
 
 interface DragState {
-  kind: "move" | "resize";
+  kind: 'move' | 'resize';
   startX: number;
   startY: number;
   box: CropBox;
@@ -42,22 +42,22 @@ interface DragState {
 }
 
 function sourceFormat(file: File): WebImageFormat {
-  if (file.type === "image/png") {
-    return "png";
+  if (file.type === 'image/png') {
+    return 'png';
   }
-  if (file.type === "image/webp") {
-    return "webp";
+  if (file.type === 'image/webp') {
+    return 'webp';
   }
-  return "jpeg";
+  return 'jpeg';
 }
 
 export default function ImageCropper(): React.ReactElement {
   const [file, setFile] = useState<File | null>(null);
   const [objectUrl, setObjectUrl] = useState<string | null>(null);
   const [natural, setNatural] = useState<{ width: number; height: number } | null>(null);
-  const [ratioKey, setRatioKey] = useState("free");
+  const [ratioKey, setRatioKey] = useState('free');
   const [box, setBox] = useState<CropBox | null>(null);
-  const [format, setFormat] = useState<OutputFormat>("same");
+  const [format, setFormat] = useState<OutputFormat>('same');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CroppedImage | null>(null);
@@ -73,7 +73,7 @@ export default function ImageCropper(): React.ReactElement {
   }
 
   async function choose(next: File | null): Promise<void> {
-    if (next === null || !next.type.startsWith("image/")) {
+    if (next === null || !next.type.startsWith('image/')) {
       return;
     }
     setError(null);
@@ -89,7 +89,7 @@ export default function ImageCropper(): React.ReactElement {
       setNatural(size);
       resetBox(size, ratioKey);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Could not read that image.");
+      setError(error instanceof Error ? error.message : 'Could not read that image.');
     }
   }
 
@@ -114,7 +114,13 @@ export default function ImageCropper(): React.ReactElement {
       return;
     }
     event.currentTarget.setPointerCapture(event.pointerId);
-    dragRef.current = { kind: "move", startX: event.clientX, startY: event.clientY, box, pointerId: event.pointerId };
+    dragRef.current = {
+      kind: 'move',
+      startX: event.clientX,
+      startY: event.clientY,
+      box,
+      pointerId: event.pointerId,
+    };
   }
 
   function onHandlePointerDown(event: React.PointerEvent<HTMLDivElement>): void {
@@ -123,7 +129,13 @@ export default function ImageCropper(): React.ReactElement {
     }
     event.stopPropagation();
     event.currentTarget.setPointerCapture(event.pointerId);
-    dragRef.current = { kind: "resize", startX: event.clientX, startY: event.clientY, box, pointerId: event.pointerId };
+    dragRef.current = {
+      kind: 'resize',
+      startX: event.clientX,
+      startY: event.clientY,
+      box,
+      pointerId: event.pointerId,
+    };
   }
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>): void {
@@ -134,8 +146,14 @@ export default function ImageCropper(): React.ReactElement {
     const scale = displayScale();
     const dx = (event.clientX - drag.startX) / scale;
     const dy = (event.clientY - drag.startY) / scale;
-    if (drag.kind === "move") {
-      setBox(clampCropBox({ ...drag.box, x: drag.box.x + dx, y: drag.box.y + dy }, natural.width, natural.height));
+    if (drag.kind === 'move') {
+      setBox(
+        clampCropBox(
+          { ...drag.box, x: drag.box.x + dx, y: drag.box.y + dy },
+          natural.width,
+          natural.height,
+        ),
+      );
     } else {
       const currentRatio = IMAGE_CROP_RATIOS.find((entry) => entry.key === ratioKey);
       const ratioW = currentRatio?.w ?? null;
@@ -161,11 +179,12 @@ export default function ImageCropper(): React.ReactElement {
     }
     const entry = IMAGE_CROP_RATIOS.find((item) => item.key === ratioKey);
     const width = Number.isFinite(Number(patch.width)) ? Number(patch.width) : box.width;
-    const height = entry?.w != null && entry?.h != null
-      ? (width * entry.h) / entry.w
-      : Number.isFinite(Number(patch.height))
-        ? Number(patch.height)
-        : box.height;
+    const height =
+      entry?.w != null && entry?.h != null
+        ? (width * entry.h) / entry.w
+        : Number.isFinite(Number(patch.height))
+          ? Number(patch.height)
+          : box.height;
     const merged: CropBox = {
       x: Number.isFinite(Number(patch.x)) ? Number(patch.x) : box.x,
       y: Number.isFinite(Number(patch.y)) ? Number(patch.y) : box.y,
@@ -186,19 +205,19 @@ export default function ImageCropper(): React.ReactElement {
       const outW = entry?.exportWidth ?? Math.floor(box.width);
       const outH = entry?.exportHeight ?? Math.floor(box.height);
       const img = await loadImageElement(file);
-      const canvas = document.createElement("canvas");
+      const canvas = document.createElement('canvas');
       canvas.width = outW;
       canvas.height = outH;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (ctx === null) {
-        throw new Error("Your browser would not give this page a canvas to draw on.");
+        throw new Error('Your browser would not give this page a canvas to draw on.');
       }
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      const outFormat: WebImageFormat = format === "same" ? sourceFormat(file) : format;
+      ctx.imageSmoothingQuality = 'high';
+      const outFormat: WebImageFormat = format === 'same' ? sourceFormat(file) : format;
       const info = IMAGE_FORMATS[outFormat];
       if (!info.supportsAlpha) {
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, outW, outH);
       }
       ctx.drawImage(img, box.x, box.y, box.width, box.height, 0, 0, outW, outH);
@@ -214,7 +233,7 @@ export default function ImageCropper(): React.ReactElement {
         blob,
       });
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Cropping failed.");
+      setError(error instanceof Error ? error.message : 'Cropping failed.');
     } finally {
       setBusy(false);
     }
@@ -234,11 +253,11 @@ export default function ImageCropper(): React.ReactElement {
     setResult(null);
     setError(null);
     if (inputRef.current !== null) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
   }
 
-  const upscales = ratioKey === "youtube" && box !== null && box.width < 1280;
+  const upscales = ratioKey === 'youtube' && box !== null && box.width < 1280;
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -261,9 +280,10 @@ export default function ImageCropper(): React.ReactElement {
               >
                 <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
                 <span className="font-semibold">Drop an image here, or click to browse</span>
-                <span className="text-xs text-zinc-500">JPG · PNG · WEBP</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG · PNG · WEBP</span>
               </button>
               <input
+                aria-label="Upload images"
                 ref={inputRef}
                 type="file"
                 accept="image/*"
@@ -282,7 +302,7 @@ export default function ImageCropper(): React.ReactElement {
                     type="button"
                     role="tab"
                     aria-selected={ratioKey === entry.key}
-                    variant={ratioKey === entry.key ? "default" : "outline"}
+                    variant={ratioKey === entry.key ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => changeRatio(entry.key)}
                   >
@@ -290,7 +310,10 @@ export default function ImageCropper(): React.ReactElement {
                   </Button>
                 ))}
               </div>
-              <div ref={frameRef} className="relative select-none overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
+              <div
+                ref={frameRef}
+                className="relative select-none overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={objectUrl} alt="Crop source" className="block w-full" draggable={false} />
                 {box !== null ? (
@@ -320,32 +343,55 @@ export default function ImageCropper(): React.ReactElement {
                   </div>
                 ) : null}
               </div>
-              <p className="text-xs text-zinc-500">
-                Drag inside the box to move it, or drag the corner to resize. On a phone, the number fields below are easier than the handle.
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">
+                Drag inside the box to move it, or drag the corner to resize. On a phone, the number
+                fields below are easier than the handle.
               </p>
               {box !== null ? (
                 <div className="grid grid-cols-4 gap-2">
                   <div className="space-y-1">
                     <Label htmlFor="crop-left">Left</Label>
-                    <Input id="crop-left" inputMode="numeric" value={Math.round(box.x)} onChange={(event) => setField({ x: Number(event.target.value) })} />
+                    <Input
+                      id="crop-left"
+                      inputMode="numeric"
+                      value={Math.round(box.x)}
+                      onChange={(event) => setField({ x: Number(event.target.value) })}
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="crop-top">Top</Label>
-                    <Input id="crop-top" inputMode="numeric" value={Math.round(box.y)} onChange={(event) => setField({ y: Number(event.target.value) })} />
+                    <Input
+                      id="crop-top"
+                      inputMode="numeric"
+                      value={Math.round(box.y)}
+                      onChange={(event) => setField({ y: Number(event.target.value) })}
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="crop-width">Width</Label>
-                    <Input id="crop-width" inputMode="numeric" value={Math.round(box.width)} onChange={(event) => setField({ width: Number(event.target.value) })} />
+                    <Input
+                      id="crop-width"
+                      inputMode="numeric"
+                      value={Math.round(box.width)}
+                      onChange={(event) => setField({ width: Number(event.target.value) })}
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="crop-height">Height</Label>
-                    <Input id="crop-height" inputMode="numeric" value={Math.round(box.height)} onChange={(event) => setField({ height: Number(event.target.value) })} disabled={ratio?.w != null} />
+                    <Input
+                      id="crop-height"
+                      inputMode="numeric"
+                      value={Math.round(box.height)}
+                      onChange={(event) => setField({ height: Number(event.target.value) })}
+                      disabled={ratio?.w != null}
+                    />
                   </div>
                 </div>
               ) : null}
               {upscales ? (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  This crop is smaller than 1280px wide, so it will be scaled up to reach the YouTube size — that softens it. Crop a wider region where you can.
+                <p className="text-xs text-amber-700 dark:text-amber-400">
+                  This crop is smaller than 1280px wide, so it will be scaled up to reach the
+                  YouTube size — that softens it. Crop a wider region where you can.
                 </p>
               ) : null}
             </>
@@ -365,13 +411,20 @@ export default function ImageCropper(): React.ReactElement {
             </select>
           </div>
           {error !== null ? (
-            <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+            <p
+              role="alert"
+              className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300"
+            >
               {error}
             </p>
           ) : null}
           <div className="flex flex-wrap gap-2">
-            <Button type="button" disabled={file === null || box === null || busy} onClick={() => void handleCrop()}>
-              {busy ? "Cropping…" : "Crop image"}
+            <Button
+              type="button"
+              disabled={file === null || box === null || busy}
+              onClick={() => void handleCrop()}
+            >
+              {busy ? 'Cropping…' : 'Crop image'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -387,15 +440,24 @@ export default function ImageCropper(): React.ReactElement {
         </CardHeader>
         <CardContent>
           {result === null ? (
-            <p className="text-sm text-zinc-500">Your cropped image appears here.</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">Your cropped image appears here.</p>
           ) : (
             <div className="space-y-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={result.url} alt={result.name} className="mx-auto max-h-80 rounded-lg" loading="lazy" />
-              <p className="text-sm text-zinc-500">
+              <img
+                src={result.url}
+                alt={result.name}
+                className="mx-auto max-h-80 rounded-lg"
+                loading="lazy"
+              />
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 {result.dimensions} · {formatBytes(result.bytes)}
               </p>
-              <Button type="button" variant="outline" onClick={() => downloadBlob(result.blob, result.name)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => downloadBlob(result.blob, result.name)}
+              >
                 <Download className="h-4 w-4" aria-hidden="true" />
                 Download
               </Button>

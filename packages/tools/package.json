@@ -15,7 +15,9 @@
       "default": "./dist/registry.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -29,7 +31,8 @@
     "@rovotools/core": "workspace:*",
     "@rovotools/localization": "workspace:*",
     "@rovotools/types": "workspace:*",
-    "@rovotools/validation": "workspace:*"
+    "@rovotools/validation": "workspace:*",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@rovotools/calculations": "workspace:*",

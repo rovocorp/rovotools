@@ -11,8 +11,10 @@ const contactSchema = z.object({
   subject: z.string().trim().min(3).max(200),
   message: z.string().trim().min(10).max(5000),
   consent: z.literal(true).optional(),
-  // Honeypot — bots fill it; silently accept without storing.
-  website: z.string().max(0).optional(),
+  // Honeypot — bots fill it; silently accept without storing. max() is
+  // deliberately absent: a filled pot must still validate so the handler
+  // below can swallow it with a fake success instead of a 400 tell.
+  website: z.string().optional(),
 });
 
 export async function POST(request: Request): Promise<NextResponse> {

@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 import withPWA from "next-pwa";
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
+const withAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -11,6 +16,76 @@ const nextConfig: NextConfig = {
 
   poweredByHeader: false,
   generateEtags: true,
+
+  async redirects() {
+    return [
+      {
+        source: "/tools/emi-calculator",
+        destination: "/tools/loan-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/loan-payment-calculator",
+        destination: "/tools/loan-calculator",
+        permanent: true,
+      },
+      // Each high-demand PDF task has its own nested landing page at
+      // /tools/pdf/<slug> (see app/tools/pdf/[toolId]). The old flat
+      // /tools/<slug> URLs permanently redirect to their canonical
+      // nested form so search engines see exactly one URL per tool —
+      // there is deliberately no single combined /pdf-tools page.
+      {
+        source: "/tools/merge-pdf",
+        destination: "/tools/pdf/merge-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/split-pdf",
+        destination: "/tools/pdf/split-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/compress-pdf",
+        destination: "/tools/pdf/compress-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/jpg-to-pdf",
+        destination: "/tools/pdf/jpg-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/pdf-to-jpg",
+        destination: "/tools/pdf/pdf-to-jpg",
+        permanent: true,
+      },
+      {
+        source: "/tools/word-to-pdf",
+        destination: "/tools/pdf/word-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/pdf-creator",
+        destination: "/tools/pdf/pdf-creator",
+        permanent: true,
+      },
+      {
+        source: "/tools/sign-pdf",
+        destination: "/tools/pdf/sign-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/pdf-to-word",
+        destination: "/tools/pdf/pdf-to-word",
+        permanent: true,
+      },
+      {
+        source: "/tools/pdf-to-excel",
+        destination: "/tools/pdf/pdf-to-excel",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const pwaConfig = withPWA({
@@ -57,13 +132,13 @@ const pwaConfig = withPWA({
       },
     },
     {
-      // Same-origin pages (excluding API): fresh when online, cached
-      // shell when offline. Bounded to respect storage limits.
+      // Same-origin pages (excluding API): serve the cached shell instantly
+      // while revalidating in the background, so repeat visits and refreshes
+      // never wait on the network. Bounded to respect storage limits.
       urlPattern: /^https?:\/\/[^/]+\/(?!api\/).*/i,
-      handler: "NetworkFirst",
+      handler: "StaleWhileRevalidate",
       options: {
         cacheName: "pages-cache",
-        networkTimeoutSeconds: 4,
         expiration: {
           maxEntries: 30,
           maxAgeSeconds: 60 * 60 * 24 * 7,
@@ -73,4 +148,4 @@ const pwaConfig = withPWA({
   ],
 });
 
-export default pwaConfig(nextConfig);
+export default withAnalyzer(pwaConfig(nextConfig));

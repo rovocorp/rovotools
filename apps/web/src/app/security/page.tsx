@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: "How RovoTools protects you: local-first processing, secure headers and safe file handling.",
   alternates: { canonical: "/security" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "Security & Privacy | RovoTools",
     description: "How RovoTools protects you: local-first processing, secure headers and safe file handling.",
     type: "website",
@@ -34,7 +43,7 @@ export default function SecurityPage(): React.ReactElement {
         </ul>
         <p>
           Found a vulnerability? Please report it responsibly to {SUPPORT_EMAIL}. See our{" "}
-          <a href="/privacy" className="underline hover:text-indigo-600">
+          <a href="/privacy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             Privacy Policy
           </a>{" "}
           for data handling details.

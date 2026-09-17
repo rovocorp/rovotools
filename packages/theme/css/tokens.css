@@ -68,18 +68,22 @@
 }
 
 .dark {
-  --rovotools-background: #0b132b;
-  --rovotools-surface: #0F1E3C;
-  --rovotools-surface-alt: #1A2B4D;
-  --rovotools-foreground: #F1F5F9;
-  --rovotools-muted: #93A1B8;
-  --rovotools-border: #1E2F52;
-  --rovotools-ring: #3385ff;
+  /* Industry-standard neutral dark: near-black zinc base (low eye fatigue),
+   * layered zinc surfaces, bright blue fills carrying very-dark text so both
+   * text-on-dark and text-on-fill pass WCAG AA. Brand color lives in
+   * accents/glows, not in large surfaces. */
+  --rovotools-background: #09090b;
+  --rovotools-surface: #111114;
+  --rovotools-surface-alt: #1c1c21;
+  --rovotools-foreground: #f4f4f5;
+  --rovotools-muted: #a7a7b3;
+  --rovotools-border: #26262c;
+  --rovotools-ring: #5c9cff;
   --rovotools-primary: #3385ff;
   --rovotools-primary-hover: #5c9cff;
-  --rovotools-on-primary: #ffffff;
-  --rovotools-secondary: #13294F;
-  --rovotools-on-secondary: #7AA8FF;
+  --rovotools-on-primary: #06101f;
+  --rovotools-secondary: #1e1e24;
+  --rovotools-on-secondary: #9ec1ff;
   --rovotools-accent: #2DD4A7;
   --rovotools-destructive: #F87171;
   --rovotools-success: #34D399;
@@ -98,24 +102,24 @@
   --rovotools-font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
   --rovotools-motion-fast: 120ms;
   --rovotools-motion-base: 200ms;
-  --background: #0b132b;
-  --foreground: #F1F5F9;
-  --card: #0F1E3C;
-  --card-foreground: #F1F5F9;
-  --popover: #0F1E3C;
-  --popover-foreground: #F1F5F9;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --card: #111114;
+  --card-foreground: #f4f4f5;
+  --popover: #111114;
+  --popover-foreground: #f4f4f5;
   --primary: #3385ff;
-  --primary-foreground: #ffffff;
-  --secondary: #13294F;
-  --secondary-foreground: #7AA8FF;
-  --muted: #1A2B4D;
-  --muted-foreground: #93A1B8;
+  --primary-foreground: #06101f;
+  --secondary: #1e1e24;
+  --secondary-foreground: #9ec1ff;
+  --muted: #1c1c21;
+  --muted-foreground: #a7a7b3;
   --accent: #2DD4A7;
-  --accent-foreground: #0b132b;
+  --accent-foreground: #09090b;
   --destructive: #F87171;
-  --destructive-foreground: #0b132b;
-  --border: #1E2F52;
-  --input: #1E2F52;
-  --ring: #3385ff;
+  --destructive-foreground: #09090b;
+  --border: #26262c;
+  --input: #26262c;
+  --ring: #5c9cff;
 }
 

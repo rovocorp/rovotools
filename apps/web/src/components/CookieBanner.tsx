@@ -31,12 +31,12 @@ export default function CookieBanner(): React.ReactElement {
       className="fixed inset-x-4 bottom-4 z-[80] mx-auto max-w-2xl rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-950"
     >
       <p className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-zinc-100">
-        <Cookie className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+        <Cookie className="h-5 w-5 text-indigo-600 dark:text-indigo-400" aria-hidden="true" />
         Privacy-first cookies
       </p>
       <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
         RovoTools works without tracking. Optional anonymous analytics only run if you accept.{" "}
-        <Link href="/cookie-policy" className="underline hover:text-indigo-600">
+        <Link href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
           Cookie Policy
         </Link>
       </p>

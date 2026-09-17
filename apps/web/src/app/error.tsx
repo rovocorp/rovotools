@@ -14,7 +14,7 @@ export default function ErrorPage({
     <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold sm:text-3xl">{t("en", "errors.unknown")}</h1>
       {error.digest !== undefined && error.digest !== "" ? (
-        <p className="mt-2 text-xs text-zinc-500">Reference: {error.digest}</p>
+        <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">Reference: {error.digest}</p>
       ) : null}
       <div className="mt-6 flex items-center justify-center gap-3">
         <button
@@ -24,7 +24,7 @@ export default function ErrorPage({
         >
           {t("en", "common.retry")}
         </button>
-        <Link href="/" className="text-sm font-semibold text-indigo-600 hover:underline">
+        <Link href="/" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
           {t("en", "navigation.home")}
         </Link>
       </div>

@@ -39,7 +39,7 @@ export default function Breadcrumbs({ crumbs }: { crumbs: ReadonlyArray<Crumb> }
                     {crumb.label}
                   </span>
                 ) : (
-                  <Link href={crumb.href} className="hover:text-indigo-600 hover:underline">
+                  <Link href={crumb.href} className="hover:text-indigo-600 dark:hover:text-indigo-300 hover:underline">
                     {crumb.label}
                   </Link>
                 )}

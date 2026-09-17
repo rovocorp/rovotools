@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { Copy, ImagePlus, RotateCcw } from "lucide-react";
+import { useEffect, useRef, useState } from 'react';
+import { Copy, ImagePlus, RotateCcw } from 'lucide-react';
 import {
   computeFitDimensions,
   extractDominantColors,
   rgbToHex,
   samplePixel,
-} from "@rovotools/tools";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { loadImageElement } from "./imageUtils";
+} from '@rovotools/tools';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { loadImageElement } from './imageUtils';
 
 // Work on at most this many pixels per side: full precision is unnecessary
 // for picking and keeps phones responsive on huge photos.
@@ -35,12 +35,17 @@ export default function ColorPickerFromImage(): React.ReactElement {
       return;
     }
     try {
-      const fit = computeFitDimensions(img.naturalWidth, img.naturalHeight, MAX_WORK_SIDE, MAX_WORK_SIDE);
+      const fit = computeFitDimensions(
+        img.naturalWidth,
+        img.naturalHeight,
+        MAX_WORK_SIDE,
+        MAX_WORK_SIDE,
+      );
       canvas.width = fit.width;
       canvas.height = fit.height;
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       if (ctx === null) {
-        throw new Error("Your browser would not give this page a canvas to draw on.");
+        throw new Error('Your browser would not give this page a canvas to draw on.');
       }
       ctx.drawImage(img, 0, 0, fit.width, fit.height);
       const data = ctx.getImageData(0, 0, fit.width, fit.height).data;
@@ -49,7 +54,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
       setPalette(extractDominantColors(data, 6));
       setError(null);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Could not read that image.");
+      setError(error instanceof Error ? error.message : 'Could not read that image.');
     }
   }
 
@@ -62,7 +67,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
   }, [file]);
 
   async function choose(next: File | null): Promise<void> {
-    if (next === null || !next.type.startsWith("image/")) {
+    if (next === null || !next.type.startsWith('image/')) {
       return;
     }
     setError(null);
@@ -75,7 +80,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
       imageRef.current = await loadImageElement(next);
       setFile(next);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Could not read that image.");
+      setError(error instanceof Error ? error.message : 'Could not read that image.');
     }
   }
 
@@ -102,7 +107,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
       await navigator.clipboard.writeText(hex);
       setCopied(hex);
     } catch {
-      setError("Copying failed — select the code and copy it manually.");
+      setError('Copying failed — select the code and copy it manually.');
     }
   }
 
@@ -116,7 +121,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
     imageRef.current = null;
     pixelsRef.current = null;
     if (inputRef.current !== null) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
   }
 
@@ -139,9 +144,12 @@ export default function ColorPickerFromImage(): React.ReactElement {
           >
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop an image here, or click to browse</span>
-            <span className="text-xs text-zinc-500">{file === null ? "JPG · PNG · WEBP" : file.name}</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">
+              {file === null ? 'JPG · PNG · WEBP' : file.name}
+            </span>
           </button>
           <input
+            aria-label="Upload images"
             ref={inputRef}
             type="file"
             accept="image/*"
@@ -151,13 +159,16 @@ export default function ColorPickerFromImage(): React.ReactElement {
             }}
           />
           {error !== null ? (
-            <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+            <p
+              role="alert"
+              className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300"
+            >
               {error}
             </p>
           ) : null}
           <div className="flex flex-wrap gap-2">
             <Button type="button" disabled={file === null} onClick={analyzeCurrentImage}>
-              {palette.length > 0 ? "Re-sample colors" : "Sample colors"}
+              {palette.length > 0 ? 'Re-sample colors' : 'Sample colors'}
             </Button>
             <Button type="button" variant="outline" disabled={file === null} onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -173,7 +184,9 @@ export default function ColorPickerFromImage(): React.ReactElement {
         </CardHeader>
         <CardContent className="space-y-4">
           {file === null ? (
-            <p className="text-sm text-zinc-500">Load an image, then click any pixel to read its exact HEX code.</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              Load an image, then click any pixel to read its exact HEX code.
+            </p>
           ) : (
             <>
               <button
@@ -186,19 +199,32 @@ export default function ColorPickerFromImage(): React.ReactElement {
               </button>
               {sampled !== null ? (
                 <div className="flex items-center gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900">
-                  <span aria-hidden="true" className="h-10 w-10 rounded-md border border-zinc-200 dark:border-zinc-700" style={{ backgroundColor: sampled }} />
+                  <span
+                    aria-hidden="true"
+                    className="h-10 w-10 rounded-md border border-zinc-200 dark:border-zinc-700"
+                    style={{ backgroundColor: sampled }}
+                  />
                   <p className="flex-1 font-mono text-lg font-bold">{sampled}</p>
-                  <Button type="button" variant="outline" size="sm" onClick={() => void copy(sampled)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => void copy(sampled)}
+                  >
                     <Copy className="h-4 w-4" aria-hidden="true" />
-                    {copied === sampled ? "Copied!" : "Copy"}
+                    {copied === sampled ? 'Copied!' : 'Copy'}
                   </Button>
                 </div>
               ) : (
-                <p className="text-sm text-zinc-500">Click anywhere on the image to sample that pixel.</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Click anywhere on the image to sample that pixel.
+                </p>
               )}
               {palette.length > 0 ? (
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Dominant colors</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+                    Dominant colors
+                  </p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {palette.map((hex) => (
                       <button
@@ -213,7 +239,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
                     ))}
                   </div>
                   {copied !== null && copied !== sampled ? (
-                    <p className="mt-2 text-xs text-zinc-500">Copied {copied} to the clipboard.</p>
+                    <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">Copied {copied} to the clipboard.</p>
                   ) : null}
                 </div>
               ) : null}

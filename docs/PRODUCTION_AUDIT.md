@@ -1,5 +1,61 @@
 # Final Production Audit — RovoTools
 
+> **Element-verification addendum (2026-09-17).** Every element checked
+> per industry standards, all executed:
+> unit 307 passing (web 65, mobile 55, calculations 71, tools 85,
+> localization 13, core 14, theme 4); `pnpm -r lint` + `typecheck` clean;
+> prod build 133 pages, zero warnings; **E2E 1060 green: 212 each on
+> Chromium, Firefox, mobile-chrome, 210 + 1 skip on WebKit, 211 + 1 skip
+> on mobile-safari** (flows, inputs, a11y, API-abuse, SEO, PWA, CSP).
+> Real bugs fixed: CSRF proxy check compared against the reconstructed URL
+> and denied every same-origin POST on standalone (contact form was dead
+> in prod) — now Host-based, unit-tested; `@theme inline` froze themed
+> surfaces to light values (entire dark theme broken) — now plain `@theme`;
+> honeypot schema contradicted its silent-accept intent (400 instead of
+> 200); AdSense could never render (no SDK loader, no ad-unit element) —
+> now consent-gated loader + units + tests (publisher/slot IDs still
+> needed); `og:image`/`og:site_name` missing on all 15 pages (Next replaces
+> openGraph instead of merging) — shared block added everywhere; footer
+> social spans, skeleton loaders, file inputs, scrollable regions,
+> ~120 contrast spots fixed; E2E suite itself fixed (stray-server reuse,
+> hydration races, fixture races, banner overlays, flaky count asserts).
+> Local Lighthouse (desktop): perf 0.85, a11y/best-practices/SEO 1.0,
+> LCP 3.0s (over 2.5s budget on this loaded box; 160 KB unused JS noted
+> for follow-up), CLS 0. `pnpm audit --prod`: 0 critical.
+> Still open: AdSense IDs, store credentials/assets (C2), H1 decision,
+> M1 scaling, M2 device traces, Maestro, staging Lighthouse + error
+> tracking, version bump + commit/tag, manual a11y protocol below.
+>
+> **Verification addendum (2026-09-16).** Full fix-and-verify pass over the
+> whole tree (web + mobile + packages), all executed, not reviewed:
+> unit 285 passing (web 53, mobile 53, calculations 71, tools 84,
+> localization 13, core 7, theme 4); `pnpm -r lint` and `pnpm -r typecheck`
+> clean in all 11 workspaces; `pnpm build:web` green on Next 16.3.3
+> (133 static pages, zero warnings, `sw.js` + standalone emitted);
+> Playwright **157/157 green on the standalone deploy artifact** (flows,
+> inputs, file uploads, PWA stability, ad-slot confinement).
+> Fixed this pass: C1 (build verified), H2 (schema already postgres),
+> H3-web (E2E implemented, green) + L3 (CI added: `.github/workflows/ci.yml`
+> with lint/typecheck/test/build/E2E), Next 16.2.6 → 16.3.3 (both critical
+> RCEs + all Next highs resolved; `pnpm audit --prod` now 0 critical,
+> 6 high / 2 moderate, all assessed below), themeColor → viewport export,
+> mobile PDF screens (16 wrong Button props, missing imports, expo import,
+> drawPage/drawImage, mammoth dep, 30 dead imports, Jest RN stubs),
+> `saveAndShare` hex/base64 corruption (now unit-tested),
+> AdSense "tool not found" client-registry bug (now E2E-covered),
+> E2E harness (dedicated port, standalone server, no stray-server reuse,
+> hydration race, bespoke-tool exclusions via `customToolSlugs`).
+> Deploy note: standalone requires staging `.next/static` + `public` into
+> `.next/standalone/apps/web/` (standard Next recipe — not automatic).
+> Live artifact probes: full security-header set present, prod CSP has no
+> `unsafe-eval`, cross-origin API POST → 403. Remaining blockers: C2 (store
+> credentials/assets), H1 (favorites trust decision), M1 (single-instance
+> rate limit), M2 (on-device traces), Maestro E2E, Lighthouse-on-staging,
+> AdSense IDs (ads correctly disabled until configured), version still
+> 0.1.0 with an uncommitted tree. Verdict below is otherwise superseded
+> for web: **web is releasable once the tree is committed/tagged**; stores
+> are not (C2).
+>
 > **Remediation addendum (2026-09-12).** The web gaps found in the September
 > verification have been fixed: tool catalog 4 → 55 real client-side tools
 > across 18 categories (pdf, image, document, developer, text, security,

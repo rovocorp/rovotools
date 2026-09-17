@@ -7,6 +7,15 @@ export const metadata: Metadata = {
   description: "Limitations of liability and accuracy for RovoTools free online utilities.",
   alternates: { canonical: "/disclaimer" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: "Disclaimer | RovoTools",
     description: "Limitations of liability and accuracy for RovoTools free online utilities.",
     type: "website",

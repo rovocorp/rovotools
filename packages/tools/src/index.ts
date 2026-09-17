@@ -9,6 +9,7 @@ export * from "./history";
 export * from "./fx";
 export * from "./images";
 export * from "./monetization";
+export * from "./pdf";
 export * from "./privacy";
 export * from "./registry";
 export * from "./seed";

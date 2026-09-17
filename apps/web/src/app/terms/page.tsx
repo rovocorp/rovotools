@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   description: t("en", "seo.termsDescription"),
   alternates: { canonical: "/terms" },
   openGraph: {
+    siteName: BRAND_NAME,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+      },
+    ],
     title: t("en", "seo.termsTitle"),
     description: t("en", "seo.termsDescription"),
     type: "website",
@@ -20,7 +29,7 @@ export default function TermsPage(): React.ReactElement {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
       <Breadcrumbs crumbs={[{ label: "Home", href: "/" }, { label: t("en", "seo.termsTitle") }]} />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "seo.termsTitle")}</h1>
-      <p className="mt-2 text-sm text-zinc-500">{t("en", "common.lastUpdated")}</p>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("en", "common.lastUpdated")}</p>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>
           {BRAND_NAME} ({COMPANY_NAME}) provides free calculation tools for general information.

@@ -11,7 +11,6 @@ import { Card, Heading, Screen, Subtitle } from "@/components/ui";
 const THEMES = [
   { value: "light", labelKey: "theme.light" },
   { value: "dark", labelKey: "theme.dark" },
-  { value: "system", labelKey: "theme.system" },
 ] as const;
 
 function Row({

@@ -51,25 +51,31 @@ export function buildSecurityHeaders(options?: { adsense?: boolean; dev?: boolea
   };
 }
 
+function urlHost(value: string | null): string | null {
+  if (value === null || value === "") {
+    return null;
+  }
+  try {
+    return new URL(value).host.toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
 export function isSameOriginRequest(request: Request): boolean {
-  const url = new URL(request.url);
-  const origin = request.headers.get("origin");
-  if (origin !== null && origin !== "") {
-    try {
-      return new URL(origin).host === url.host;
-    } catch {
-      return false;
-    }
+  // Compare against the Host header (what the client addressed), not the
+  // reconstructed request URL: runtimes disagree on the latter's host
+  // (notably IPv6/dual-stack standalone servers), which silently turned this
+  // check into a deny-all. Deliberately ignores x-forwarded-host: it is
+  // client-forgeable and must never override Host for a security decision.
+  // Fall back to the request URL only when no Host header exists (synthetic
+  // requests in unit tests): real HTTP traffic always carries Host.
+  const host = (request.headers.get("host") ?? "").toLowerCase() || urlHost(request.url);
+  if (host === null || host === "") {
+    return false;
   }
-  const referer = request.headers.get("referer");
-  if (referer !== null && referer !== "") {
-    try {
-      return new URL(referer).host === url.host;
-    } catch {
-      return false;
-    }
-  }
-  return false;
+  const candidates = [urlHost(request.headers.get("origin")), urlHost(request.headers.get("referer"))];
+  return candidates.some((candidate) => candidate !== null && candidate === host);
 }
 
 const apiLimiter = createRateLimiter(60, 60_000);

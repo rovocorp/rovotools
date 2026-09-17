@@ -8,7 +8,6 @@ import { registerCoreTools } from "./seed";
 const SAMPLES: Record<string, Record<string, unknown>> = {
   "percentage-calculator": { value: "20", total: "200", oldValue: "150" },
   "compound-interest-calculator": { principal: "10000", rate: "5", years: "10", compoundsPerYear: "12" },
-  "emi-calculator": { principal: "500000", rate: "8.5", years: "20" },
   "roi-calculator": { gain: "15000", cost: "10000" },
   "discount-calculator": { price: "100", discount: "25" },
   "vat-calculator": { amount: "100", rate: "20", mode: "add" },
@@ -58,6 +57,7 @@ const SAMPLES: Record<string, Record<string, unknown>> = {
   "vcard-qr-generator": { name: "Ada Lovelace", phone: "+123", email: "ada@example.com", org: "RovoCorp" },
   "text-qr-generator": { text: "Hello QR" },
   "text-to-pdf": { text: "Hello PDF world" },
+  "pdf-creator": { text: "Hello PDF world", title: "Hello" },
   "meta-tag-generator": { title: "Test Page Title Here For SEO", description: "A concise meta description for testing purposes, within ideal length bounds here.", url: "https://rovotools.com/test" },
   "svg-placeholder-generator": { width: "600", height: "400", bg: "#e5e7eb", fg: "#6b7280", label: "600 x 400" },
   "average-calculator": { numbers: "1, 2, 3, 4, 5" },

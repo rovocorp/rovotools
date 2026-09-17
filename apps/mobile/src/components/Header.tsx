@@ -25,9 +25,13 @@ export default function Header() {
       ]}
     >
       <View style={styles.brand}>
-        <View style={styles.logoPill}>
+        <View style={[styles.logoPill, resolved === "dark" && styles.logoPillDark]}>
           <Image
-            source={require("../../assets/logo.png")}
+            source={
+              resolved === "dark"
+                ? require("../../assets/logo-dark.png")
+                : require("../../assets/logo.png")
+            }
             style={styles.logoImage}
             resizeMode="contain"
             accessibilityLabel="RovoTools — Free Online Tools for Everyday Work"
@@ -56,7 +60,13 @@ export default function Header() {
             </Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity onPress={() => setTheme(theme === "dark" ? "light" : "dark")} style={styles.themeToggle}>
+        <TouchableOpacity
+          onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
+          style={styles.themeToggle}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: theme === "dark" }}
+          accessibilityLabel="Toggle dark mode"
+        >
           <Text>{theme === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
@@ -82,6 +92,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 3,
+  },
+  logoPillDark: {
+    backgroundColor: "transparent",
   },
   logoImage: {
     width: 128,

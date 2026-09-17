@@ -57,6 +57,47 @@ describe("same-origin mutation check", () => {
     ).toBe(true);
   });
 
+  it("compares against the Host header, not the reconstructed URL", () => {
+    // Standalone servers may reconstruct request.url with a different host
+    // spelling (notably IPv6/dual-stack); the client-addressed Host wins.
+    expect(
+      isSameOriginRequest(
+        request("http://[::1]:3210/api/contact", {
+          host: "localhost:3210",
+          origin: "http://localhost:3210",
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("is port-strict and case-insensitive", () => {
+    expect(
+      isSameOriginRequest(
+        request("https://rovotools.com/api/x", {
+          host: "rovotools.com",
+          origin: "https://ROVOTOOLS.com",
+        }),
+      ),
+    ).toBe(true);
+    expect(
+      isSameOriginRequest(
+        request("https://rovotools.com/api/x", { host: "rovotools.com", origin: "https://rovotools.com:8443" }),
+      ),
+    ).toBe(false);
+  });
+
+  it("ignores x-forwarded-host for the decision", () => {
+    expect(
+      isSameOriginRequest(
+        request("https://rovotools.com/api/x", {
+          host: "rovotools.com",
+          "x-forwarded-host": "evil.com",
+          origin: "https://evil.com",
+        }),
+      ),
+    ).toBe(false);
+  });
+
   it("rejects cross-origin and missing provenance", () => {
     expect(
       isSameOriginRequest(request("https://rovotools.com/api/favorites", { origin: "https://evil.com" })),

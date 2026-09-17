@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
@@ -8,11 +8,12 @@ import Header from "@/components/Header";
 import CommandPalette from "@/components/CommandPalette";
 import CookieBanner from "@/components/CookieBanner";
 import PWARegister from "@/components/PWARegister";
+import AdSenseScript from "@/components/ads/AdSenseScript";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import PwaUpdatePrompt from "@/components/pwa/PwaUpdatePrompt";
 import { QueryProvider } from "@/components/query-provider";
 import { ThemeProvider } from "@/app/providers";
-import { metadata as baseMetadata } from "./metadata";
+import { metadata as baseMetadata, viewport as baseViewport } from "./metadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,6 +22,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = baseMetadata;
+
+export const viewport: Viewport = baseViewport;
 
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
@@ -60,8 +63,9 @@ export default function RootLayout({
         </a>
         <ThemeProvider>
           <QueryProvider>
-            <PWARegister />
-            <Header />
+          <PWARegister />
+          <AdSenseScript />
+          <Header />
             <CommandPalette />
             <main id="main-content" className="flex-1">
               {children}

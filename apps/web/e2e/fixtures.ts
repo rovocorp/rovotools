@@ -12,5 +12,7 @@ export function ensureFixtureImage(path: string): string {
 }
 
 export function fixturePath(): string {
-  return join(process.cwd(), "test-results", "fixture.png");
+  // Per-process file: parallel workers must never share one fixture path —
+  // concurrent rewrites collide on Windows file locks (EBUSY).
+  return join(process.cwd(), "test-results", `fixture-${process.pid}.png`);
 }

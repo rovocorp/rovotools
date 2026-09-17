@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   FAVICON_SIZES,
+  MAX_IMAGE_BYTES,
   assertImageBatchSize,
+  assertImageFileSize,
   buildFaviconHtml,
   centerSquareCrop,
   clampCropBox,
@@ -50,6 +52,14 @@ describe("image helpers", () => {
     expect(() => assertImageBatchSize(0)).toThrow();
     expect(() => assertImageBatchSize(21)).toThrow();
     expect(() => assertImageBatchSize(20)).not.toThrow();
+  });
+
+  it("guards single-image size", () => {
+    expect(MAX_IMAGE_BYTES).toBe(25 * 1024 * 1024);
+    expect(() => assertImageFileSize(1024)).not.toThrow();
+    expect(() => assertImageFileSize(MAX_IMAGE_BYTES)).not.toThrow();
+    expect(() => assertImageFileSize(MAX_IMAGE_BYTES + 1)).toThrow("Image exceeds the 25 MB limit.");
+    expect(() => assertImageFileSize(-1)).toThrow(RangeError);
   });
 
   it("scales dimensions by percent", () => {

@@ -333,7 +333,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
         </CardHeader>
         <CardContent>
           {result === null ? (
-            <p className="text-sm text-zinc-500">{t("en", "tool.noResults")}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("en", "tool.noResults")}</p>
           ) : (
             <dl className="space-y-3">
               {tool.outputs.map((output) => (
@@ -341,7 +341,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                   key={output.id}
                   className="rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900"
                 >
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                     {getOutputLabel("en", output)}
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -356,12 +356,12 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                 </Badge>
               ) : null}
               {offline && tool.processingMode === "LOCAL" && !tool.requiresNetwork ? (
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400">
                   {t("en", "tool.offlineComputed")}
                 </p>
               ) : null}
               {offline && tool.requiresNetwork ? (
-                <p className="text-xs font-medium text-amber-600 dark:text-amber-400">
+                <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
                   {t("en", "tool.offlineBlocked")}
                 </p>
               ) : null}
@@ -378,12 +378,12 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                   {t("en", "common.download")}
                 </Button>
                 {shareStatus !== null ? (
-                  <p aria-live="polite" className="text-xs text-zinc-500">
+                  <p aria-live="polite" className="text-xs text-zinc-600 dark:text-zinc-400">
                     {shareStatus}
                   </p>
                 ) : null}
                 {copyStatus !== null ? (
-                  <p aria-live="polite" className="text-xs text-zinc-500">
+                  <p aria-live="polite" className="text-xs text-zinc-600 dark:text-zinc-400">
                     {copyStatus}
                   </p>
                 ) : null}

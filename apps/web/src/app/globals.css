@@ -6,7 +6,12 @@
  * class-based matching explicitly. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
+/* NOTE: plain @theme (NOT `inline`). Every value here is a var() reference
+ * into @rovotools/theme tokens whose .dark overrides must resolve at use
+ * time. `inline` freezes them to :root (light) values at build time, which
+ * silently broke the entire dark theme: surfaces like bg-card stayed white
+ * while text resolved dark values (mass WCAG contrast failures). */
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -88,24 +93,24 @@ body {
 
 .dark .hero-mesh {
   background:
-    radial-gradient(48rem 30rem at 10% -10%, rgb(124 58 237 / 0.35), transparent 62%),
-    radial-gradient(42rem 28rem at 90% -5%, rgb(217 70 239 / 0.22), transparent 60%),
-    radial-gradient(46rem 30rem at 50% 115%, rgb(0 210 255 / 0.18), transparent 62%),
-    linear-gradient(to bottom, #101b3d 0%, #0b132b 60%, #0b132b 100%);
+    radial-gradient(48rem 30rem at 10% -10%, rgb(124 58 237 / 0.30), transparent 62%),
+    radial-gradient(42rem 28rem at 90% -5%, rgb(217 70 239 / 0.18), transparent 60%),
+    radial-gradient(46rem 30rem at 50% 115%, rgb(0 210 255 / 0.15), transparent 62%),
+    linear-gradient(to bottom, #121216 0%, #09090b 60%, #09090b 100%);
 }
 
 .hero-grid {
   background-image:
-    linear-gradient(to right, rgb(10 26 51 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(10 26 51 / 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgb(10 26 51 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 26 51 / 0.04) 1px, transparent 1px);
   background-size: 34px 34px;
   mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 45%, transparent 100%);
 }
 
 .dark .hero-grid {
   background-image:
-    linear-gradient(to right, rgb(148 163 184 / 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(148 163 184 / 0.09) 1px, transparent 1px);
+    linear-gradient(to right, rgb(148 163 184 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.06) 1px, transparent 1px);
 }
 
 /* Subtle static dot texture for the hero. Decorative only — no motion,

@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { resetConsentMemory, setConsent } from "@/lib/analytics";
 import AdSlot from "../ads/AdSlot";
 
 const PUBLISHER_ENV = "NEXT_PUBLIC_ADSENSE_PUBLISHER_ID";
@@ -8,6 +9,8 @@ const PUBLISHER_ENV = "NEXT_PUBLIC_ADSENSE_PUBLISHER_ID";
 afterEach(() => {
   cleanup();
   vi.unstubAllEnvs();
+  window.localStorage.clear();
+  resetConsentMemory();
 });
 
 describe("AdSlot dev placeholder", () => {
@@ -29,9 +32,30 @@ describe("AdSlot dev placeholder", () => {
     expect(slot.className).toMatch(/min-h-\[90px\]/);
   });
 
-  it("renders nothing once a publisher ID is configured (real AdSense path)", () => {
+  it("renders a real ad unit once a publisher ID is configured and consent is granted", () => {
+    vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
+    setConsent("granted");
+    const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
+    const unit = container.querySelector("ins.adsbygoogle");
+    expect(unit).not.toBeNull();
+    expect(unit?.getAttribute("data-ad-client")).toBe("ca-pub-123456789");
+    expect(unit?.getAttribute("data-ad-slot")).toBe("test-slot");
+    // No dev overlay on the real path.
+    expect(container.textContent).not.toContain("dev mock");
+  });
+
+  it("renders nothing with a publisher ID but denied consent", () => {
+    vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
+    setConsent("denied");
+    const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
+    expect(container.querySelector("section")).toBeNull();
+    expect(container.querySelector("ins.adsbygoogle")).toBeNull();
+  });
+
+  it("renders nothing with a publisher ID but undecided consent", () => {
     vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
     const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
     expect(container.querySelector("section")).toBeNull();
+    expect(container.querySelector("ins.adsbygoogle")).toBeNull();
   });
 });

@@ -173,13 +173,13 @@ export default function CommandPalette(): React.ReactElement {
             aria-label={t("en", "a11y.searchTools")}
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-zinc-400"
           />
-          <kbd className="rounded border border-zinc-300 px-1.5 py-0.5 text-[10px] text-zinc-500 dark:border-zinc-700">
+          <kbd className="rounded border border-zinc-300 px-1.5 py-0.5 text-[10px] text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
             ESC
           </kbd>
         </div>
         <ul className="max-h-[40vh] overflow-y-auto p-2" aria-label="Results">
           {results.length === 0 ? (
-            <li className="px-3 py-6 text-center text-sm text-zinc-500">{t("en", "tool.noResults")}</li>
+            <li className="px-3 py-6 text-center text-sm text-zinc-600 dark:text-zinc-400">{t("en", "tool.noResults")}</li>
           ) : (
             results.map((tool, index) => (
               <li key={tool.id}>
@@ -194,9 +194,9 @@ export default function CommandPalette(): React.ReactElement {
                 >
                   <span>
                     <span className="block font-medium text-zinc-900 dark:text-zinc-100">{tool.name}</span>
-                    <span className="block truncate text-xs text-zinc-500">{tool.description}</span>
+                    <span className="block truncate text-xs text-zinc-600 dark:text-zinc-400">{tool.description}</span>
                   </span>
-                  <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] capitalize text-zinc-500 dark:bg-zinc-800">
+                  <span className="shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] capitalize text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800">
                     {tool.category}
                   </span>
                 </Link>
@@ -206,7 +206,7 @@ export default function CommandPalette(): React.ReactElement {
         </ul>
         {query.trim() === "" && recentTools.length > 0 ? (
           <div className="border-t border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{t("en", "home.recentTitle")}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">{t("en", "home.recentTitle")}</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {recentTools.map((tool) => (
                 <Link

@@ -1,9 +1,15 @@
 import { expect, test } from "@playwright/test";
 import { registerCoreTools, toolRegistry } from "@rovotools/tools";
+import { BESPOKE_TOOL_SLUGS } from "../src/components/tools/custom/customToolSlugs";
 import { ensureFixtureImage, fixturePath } from "./fixtures";
+import { dismissCookieBanner } from "./helpers";
 
 registerCoreTools(toolRegistry);
-const slugs = toolRegistry.query({}).map((entry) => entry.definition.slug);
+// Bespoke UIs (no generic form, no file input) have dedicated tests below.
+const slugs = toolRegistry
+  .query({})
+  .map((entry) => entry.definition.slug)
+  .filter((slug) => !BESPOKE_TOOL_SLUGS.has(slug));
 
 // Regression sweep for the blocked-inputs bug: on every tool page the first
 // control must be clickable/typeable (an overlay covering the viewport makes
@@ -11,14 +17,19 @@ const slugs = toolRegistry.query({}).map((entry) => entry.definition.slug);
 for (const slug of slugs) {
   test(`${slug} — first control accepts input`, async ({ page }) => {
     await page.goto(`/tools/${slug}`);
+    await dismissCookieBanner(page);
 
     // Scope to the tool form: the page also contains a feedback comment box
     // that renders before the client-side runner hydrates.
-    const visibleControl = page
+    const textControls = page
       .locator('main form :is(input:not([type="file"]), textarea, select)')
-      .filter({ visible: true })
-      .first();
+      .filter({ visible: true });
+    const visibleControl = textControls.first();
     const fileControl = page.locator('main input[type="file"]').first();
+
+    // The runner hydrates client-side after the skeleton paints: wait for
+    // either a text control or a file input instead of racing hydration.
+    await expect(textControls.or(fileControl).first()).toBeVisible({ timeout: 15000 });
 
     if ((await visibleControl.count()) > 0) {
       await expect(visibleControl).toBeVisible({ timeout: 15000 });
@@ -44,12 +55,13 @@ for (const slug of slugs) {
     }
 
     // No visible text control: must be a file-driven custom tool.
+    // setInputFiles itself throws if the control cannot accept the upload.
+    // (No files-count assertion: tools that consume the file immediately
+    // unmount the input, making the count racy by design. The dedicated
+    // flow tests prove each file tool processes its upload.)
     await expect(fileControl).toHaveCount(1, { timeout: 15000 });
     const path = ensureFixtureImage(fixturePath());
     await fileControl.setInputFiles(path);
-    expect(
-      await fileControl.evaluate((el: HTMLInputElement) => el.files?.length ?? 0),
-    ).toBe(1);
   });
 }
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { t } from "@rovotools/localization";
-import { WEB_URL } from "@rovotools/config";
+import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -27,6 +27,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
+      siteName: BRAND_NAME,
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
+        },
+      ],
       title: post.title,
       description: post.excerpt,
       type: "article",
@@ -70,7 +79,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       />
       <Link
         href="/blog"
-        className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-indigo-600"
+        className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-300"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {t("en", "blog.allPosts")}
@@ -79,7 +88,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <Badge variant="secondary">{post.category}</Badge>
       </div>
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">{post.title}</h1>
-      <p className="mt-2 text-sm text-zinc-500">{post.date}</p>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{post.date}</p>
       <div className="mt-6 space-y-4 text-zinc-700 dark:text-zinc-300">
         {post.body.map((paragraph, index) => (
           <p key={index} className="leading-relaxed">

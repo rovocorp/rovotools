@@ -14,9 +14,13 @@ export default function Footer() {
 
   return (
     <View style={[styles.container, { backgroundColor: palette.surface, borderTopColor: palette.border }]}>
-      <View style={styles.logoPill}>
+      <View style={[styles.logoPill, resolved === "dark" && styles.logoPillDark]}>
         <Image
-          source={require("../../assets/logo.png")}
+          source={
+            resolved === "dark"
+              ? require("../../assets/logo-dark.png")
+              : require("../../assets/logo.png")
+          }
           style={styles.logoImage}
           resizeMode="contain"
           accessibilityLabel="RovoTools — Free Online Tools for Everyday Work"
@@ -53,6 +57,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
+  },
+  logoPillDark: {
+    backgroundColor: "transparent",
   },
   logoImage: {
     width: 150,

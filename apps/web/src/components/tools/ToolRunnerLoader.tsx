@@ -9,6 +9,7 @@ const ToolRunner = dynamic(() => import("@/components/tools/ToolRunner"), {
   ssr: false,
   loading: () => (
     <div
+      role="status"
       aria-busy="true"
       aria-label={t("en", "common.loading")}
       className="animate-pulse rounded-xl border border-border bg-card p-6"

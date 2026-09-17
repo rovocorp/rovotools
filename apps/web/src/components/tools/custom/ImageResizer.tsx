@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { Download, ImagePlus, Lock, LockOpen, RotateCcw } from "lucide-react";
+import { useEffect, useRef, useState } from 'react';
+import { Download, ImagePlus, Lock, LockOpen, RotateCcw } from 'lucide-react';
 import {
   IMAGE_FORMATS,
   IMAGE_RESIZE_PRESETS,
   imageQualityToRatio,
   scaleDimensions,
   type WebImageFormat,
-} from "@rovotools/tools";
+} from '@rovotools/tools';
 import {
   canvasToBlob,
   downloadBlob,
   formatBytes,
   loadImageElement,
   replaceExtension,
-} from "./imageUtils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from './imageUtils';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
-type OutputFormat = WebImageFormat | "same";
+type OutputFormat = WebImageFormat | 'same';
 
 interface ResizedImage {
   name: string;
@@ -32,24 +32,24 @@ interface ResizedImage {
 }
 
 function sourceFormat(file: File): WebImageFormat {
-  if (file.type === "image/png") {
-    return "png";
+  if (file.type === 'image/png') {
+    return 'png';
   }
-  if (file.type === "image/webp") {
-    return "webp";
+  if (file.type === 'image/webp') {
+    return 'webp';
   }
-  return "jpeg";
+  return 'jpeg';
 }
 
 export default function ImageResizer(): React.ReactElement {
   const [file, setFile] = useState<File | null>(null);
   const [natural, setNatural] = useState<{ width: number; height: number } | null>(null);
-  const [mode, setMode] = useState<"pixels" | "percent">("pixels");
-  const [width, setWidth] = useState("");
-  const [height, setHeight] = useState("");
+  const [mode, setMode] = useState<'pixels' | 'percent'>('pixels');
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
   const [locked, setLocked] = useState(true);
   const [scale, setScale] = useState(50);
-  const [format, setFormat] = useState<OutputFormat>("same");
+  const [format, setFormat] = useState<OutputFormat>('same');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ResizedImage | null>(null);
@@ -64,7 +64,7 @@ export default function ImageResizer(): React.ReactElement {
   }, [result]);
 
   async function choose(next: File | null): Promise<void> {
-    if (next === null || !next.type.startsWith("image/")) {
+    if (next === null || !next.type.startsWith('image/')) {
       return;
     }
     setError(null);
@@ -76,7 +76,7 @@ export default function ImageResizer(): React.ReactElement {
       setWidth(String(img.naturalWidth));
       setHeight(String(img.naturalHeight));
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Could not read that image.");
+      setError(error instanceof Error ? error.message : 'Could not read that image.');
       setFile(null);
       setNatural(null);
     }
@@ -104,15 +104,15 @@ export default function ImageResizer(): React.ReactElement {
 
   function targetSize(): { width: number; height: number } {
     if (natural === null) {
-      throw new RangeError("Load an image first.");
+      throw new RangeError('Load an image first.');
     }
-    if (mode === "percent") {
+    if (mode === 'percent') {
       return scaleDimensions(natural.width, natural.height, scale);
     }
     const w = Math.floor(Number(width));
     const h = Math.floor(Number(height));
     if (!Number.isFinite(w) || !Number.isFinite(h) || w < 1 || h < 1 || w > 12000 || h > 12000) {
-      throw new RangeError("Enter a width and height between 1 and 12000 pixels.");
+      throw new RangeError('Enter a width and height between 1 and 12000 pixels.');
     }
     return { width: w, height: h };
   }
@@ -126,19 +126,19 @@ export default function ImageResizer(): React.ReactElement {
     try {
       const size = targetSize();
       const img = await loadImageElement(file);
-      const canvas = document.createElement("canvas");
+      const canvas = document.createElement('canvas');
       canvas.width = size.width;
       canvas.height = size.height;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (ctx === null) {
-        throw new Error("Your browser would not give this page a canvas to draw on.");
+        throw new Error('Your browser would not give this page a canvas to draw on.');
       }
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      const outFormat: WebImageFormat = format === "same" ? sourceFormat(file) : format;
+      ctx.imageSmoothingQuality = 'high';
+      const outFormat: WebImageFormat = format === 'same' ? sourceFormat(file) : format;
       const info = IMAGE_FORMATS[outFormat];
       if (!info.supportsAlpha) {
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
       ctx.drawImage(img, 0, 0, size.width, size.height);
@@ -154,7 +154,7 @@ export default function ImageResizer(): React.ReactElement {
         blob,
       });
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Resizing failed.");
+      setError(error instanceof Error ? error.message : 'Resizing failed.');
     } finally {
       setBusy(false);
     }
@@ -169,7 +169,7 @@ export default function ImageResizer(): React.ReactElement {
     setResult(null);
     setError(null);
     if (inputRef.current !== null) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
     }
   }
 
@@ -192,11 +192,14 @@ export default function ImageResizer(): React.ReactElement {
           >
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop an image here, or click to browse</span>
-            <span className="text-xs text-zinc-500">
-              {file === null ? "JPG · PNG · WEBP" : `${file.name} · ${natural === null ? "" : `${natural.width} × ${natural.height}`}`}
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">
+              {file === null
+                ? 'JPG · PNG · WEBP'
+                : `${file.name} · ${natural === null ? '' : `${natural.width} × ${natural.height}`}`}
             </span>
           </button>
           <input
+            aria-label="Upload images"
             ref={inputRef}
             type="file"
             accept="image/*"
@@ -206,34 +209,53 @@ export default function ImageResizer(): React.ReactElement {
             }}
           />
           <div className="flex gap-2" role="tablist" aria-label="Resize mode">
-            {(["pixels", "percent"] as const).map((value) => (
+            {(['pixels', 'percent'] as const).map((value) => (
               <Button
                 key={value}
                 type="button"
                 role="tab"
                 aria-selected={mode === value}
-                variant={mode === value ? "default" : "outline"}
+                variant={mode === value ? 'default' : 'outline'}
                 onClick={() => setMode(value)}
               >
-                {value === "pixels" ? "Pixels" : "Percentage"}
+                {value === 'pixels' ? 'Pixels' : 'Percentage'}
               </Button>
             ))}
           </div>
-          {mode === "pixels" ? (
+          {mode === 'pixels' ? (
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="image-resizer-width">Width in pixels</Label>
-                  <Input id="image-resizer-width" inputMode="numeric" value={width} onChange={(event) => changeWidth(event.target.value)} />
+                  <Input
+                    id="image-resizer-width"
+                    inputMode="numeric"
+                    value={width}
+                    onChange={(event) => changeWidth(event.target.value)}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="image-resizer-height">Height in pixels</Label>
-                  <Input id="image-resizer-height" inputMode="numeric" value={height} onChange={(event) => changeHeight(event.target.value)} />
+                  <Input
+                    id="image-resizer-height"
+                    inputMode="numeric"
+                    value={height}
+                    onChange={(event) => changeHeight(event.target.value)}
+                  />
                 </div>
               </div>
               <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <input type="checkbox" checked={locked} onChange={(event) => setLocked(event.target.checked)} className="h-4 w-4 rounded accent-indigo-600" />
-                {locked ? <Lock className="h-4 w-4" aria-hidden="true" /> : <LockOpen className="h-4 w-4" aria-hidden="true" />}
+                <input
+                  type="checkbox"
+                  checked={locked}
+                  onChange={(event) => setLocked(event.target.checked)}
+                  className="h-4 w-4 rounded accent-indigo-600"
+                />
+                {locked ? (
+                  <Lock className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <LockOpen className="h-4 w-4" aria-hidden="true" />
+                )}
                 Lock the aspect ratio
               </label>
               <div className="flex flex-wrap gap-2">
@@ -275,8 +297,9 @@ export default function ImageResizer(): React.ReactElement {
                 className="w-full accent-indigo-600"
               />
               {scale > 100 ? (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  Scaling above 100% enlarges the image and will look soft. Browsers cannot invent detail that is not there.
+                <p className="text-xs text-amber-700 dark:text-amber-400">
+                  Scaling above 100% enlarges the image and will look soft. Browsers cannot invent
+                  detail that is not there.
                 </p>
               ) : null}
             </div>
@@ -296,21 +319,29 @@ export default function ImageResizer(): React.ReactElement {
             </select>
           </div>
           {error !== null ? (
-            <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
+            <p
+              role="alert"
+              className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300"
+            >
               {error}
             </p>
           ) : null}
           <div className="flex flex-wrap gap-2">
-            <Button type="button" disabled={file === null || busy} onClick={() => void handleResize()}>
-              {busy ? "Resizing…" : "Resize image"}
+            <Button
+              type="button"
+              disabled={file === null || busy}
+              onClick={() => void handleResize()}
+            >
+              {busy ? 'Resizing…' : 'Resize image'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Start over
             </Button>
           </div>
-          <p className="text-xs text-zinc-500">
-            Need an exact file size in KB instead? Resize here first, then run the result through the image compressor in target-size mode.
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">
+            Need an exact file size in KB instead? Resize here first, then run the result through
+            the image compressor in target-size mode.
           </p>
         </CardContent>
       </Card>
@@ -321,15 +352,24 @@ export default function ImageResizer(): React.ReactElement {
         </CardHeader>
         <CardContent>
           {result === null ? (
-            <p className="text-sm text-zinc-500">The resized image appears here.</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">The resized image appears here.</p>
           ) : (
             <div className="space-y-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={result.url} alt={result.name} className="mx-auto max-h-80 rounded-lg" loading="lazy" />
-              <p className="text-sm text-zinc-500">
+              <img
+                src={result.url}
+                alt={result.name}
+                className="mx-auto max-h-80 rounded-lg"
+                loading="lazy"
+              />
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 {result.dimensions} · {formatBytes(result.bytes)}
               </p>
-              <Button type="button" variant="outline" onClick={() => downloadBlob(result.blob, result.name)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => downloadBlob(result.blob, result.name)}
+              >
                 <Download className="h-4 w-4" aria-hidden="true" />
                 Download
               </Button>

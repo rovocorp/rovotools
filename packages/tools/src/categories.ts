@@ -13,7 +13,7 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   pdf: {
     title: "PDF Tools",
     description: "Work with PDF files quickly using tools to merge, split, compress, convert, create, protect and manage PDF documents online.",
-    keywords: ["pdf tools", "text to pdf", "pdf creator", "free pdf", "merge pdf", "compress pdf"],
+    keywords: ["pdf tools", "text to pdf", "pdf creator", "free pdf", "merge pdf", "split pdf", "compress pdf", "jpg to pdf", "pdf to jpg", "word to pdf", "sign pdf", "pdf to word", "pdf to excel"],
   },
   image: {
     title: "Image Tools",
@@ -63,7 +63,7 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   finance: {
     title: "Finance Tools",
     description: "Estimate loans, mortgage payments, compound interest, savings, investments, ROI and other common financial calculations.",
-    keywords: ["finance", "compound interest", "emi calculator", "roi", "vat", "loan payment calculator", "mortgage calculator"],
+    keywords: ["finance", "compound interest", "loan calculator", "roi", "vat", "mortgage calculator", "home loan", "interest"],
   },
   seo: {
     title: "SEO Tools",

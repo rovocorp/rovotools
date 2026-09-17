@@ -1,0 +1,153 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  # Required at build time; production deploys override per environment.
+  NEXT_PUBLIC_SITE_URL: https://rovotools.com
+  NEXT_PUBLIC_APP_NAME: RovoTools
+  NEXT_PUBLIC_COMPANY_NAME: RovoCorp LTD
+
+jobs:
+  quality:
+    name: Lint / Typecheck / Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Prisma client
+        run: pnpm --filter @rovotools/web prisma:generate
+
+      - name: Lint
+        run: pnpm -r lint
+
+      - name: Typecheck
+        run: pnpm -r typecheck
+
+      - name: Unit tests
+        run: pnpm -r test
+
+      - name: Dependency audit (fail on critical)
+        # Highs/moderates are triaged in docs/SECURITY_EXCEPTIONS.md.
+        run: pnpm audit --prod --audit-level critical
+
+  build:
+    name: Production build (web)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Prisma client
+        run: pnpm --filter @rovotools/web prisma:generate
+
+      - name: Build
+        run: pnpm build:web
+
+      - name: Verify PWA artifacts
+        run: |
+          test -f apps/web/public/sw.js || (echo "sw.js missing" && exit 1)
+          ls apps/web/.next/standalone > /dev/null
+
+      # Standalone omits client assets by design: stage them exactly as the
+      # deploy recipe requires, so E2E and Lighthouse test the real artifact.
+      - name: Stage standalone assets
+        run: |
+          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
+          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
+
+  e2e:
+    name: E2E (Playwright, all engines)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Prisma client
+        run: pnpm --filter @rovotools/web prisma:generate
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @rovotools/web exec playwright install --with-deps chromium firefox webkit
+
+      - name: Build
+        run: pnpm build:web
+
+      - name: Stage standalone assets
+        run: |
+          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
+          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
+
+      - name: E2E tests
+        run: pnpm --filter @rovotools/web e2e
+
+  lighthouse:
+    name: Lighthouse budgets
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Prisma client
+        run: pnpm --filter @rovotools/web prisma:generate
+
+      - name: Build
+        run: pnpm build:web
+
+      - name: Stage standalone assets
+        run: |
+          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
+          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
+          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
+
+      - name: Lighthouse CI
+        working-directory: apps/web
+        run: pnpm exec lhci autorun
