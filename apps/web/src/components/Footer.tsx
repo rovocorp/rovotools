@@ -3,6 +3,7 @@ import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react
 import { COMPANY_NAME, SOCIAL_LINKS } from "@rovotools/config";
 import { t } from "@rovotools/localization";
 import { RovoToolsImageLogo } from "@/components/RovoToolsLogo";
+import CookieSettingsButton from "@/components/CookieSettingsButton";
 
 const TOOL_LINKS = [
   { label: "All Tools", href: "/tools" },
@@ -113,6 +114,9 @@ export default function Footer(): React.ReactElement {
                 </Link>
               </li>
             ))}
+            <li>
+              <CookieSettingsButton />
+            </li>
           </ul>
         </nav>
         <div>

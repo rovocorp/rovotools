@@ -35,7 +35,8 @@ export default function CookieBanner(): React.ReactElement {
         Privacy-first cookies
       </p>
       <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-        RovoTools works without tracking. Optional anonymous analytics only run if you accept.{" "}
+        RovoTools works without tracking. Optional anonymous analytics and advertising (Google
+        AdSense) only run if you accept.{" "}
         <Link href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
           Cookie Policy
         </Link>

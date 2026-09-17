@@ -50,6 +50,21 @@ export function resetConsentMemory(): void {
   memoryConsent = "unknown";
 }
 
+/**
+ * Withdraws a previous choice and re-opens the consent banner.
+ * Used by the footer "Cookie Settings" link (GDPR + Google EU consent
+ * policy require consent to be as easy to withdraw as it was to give).
+ */
+export function resetConsent(): void {
+  memoryConsent = "unknown";
+  try {
+    window.localStorage.removeItem(CONSENT_KEY);
+  } catch {
+    // Storage may be unavailable — in-memory reset still re-opens the banner.
+  }
+  window.dispatchEvent(new CustomEvent("rovotools:consent-change"));
+}
+
 function subscribeConsent(callback: () => void): () => void {
   window.addEventListener("storage", callback);
   window.addEventListener("rovotools:consent-change", callback);
