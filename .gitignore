@@ -10,6 +10,8 @@ node_modules/
 
 # build outputs
 dist/
+# ...except the vendored pnpm deploy binary, which must stay committed
+!scripts/pnpm/dist/
 .next/
 out/
 build/
