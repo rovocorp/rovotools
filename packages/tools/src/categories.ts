@@ -42,8 +42,8 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   },
   color: {
     title: "Color Tools",
-    description: "Convert HEX, RGB and HSL, and check contrast ratios for accessible design.",
-    keywords: ["color tools", "hex to rgb", "contrast checker"],
+    description: "Pick colors, generate palettes, convert HEX, RGB and HSL, and check contrast ratios for accessible design.",
+    keywords: ["color tools", "color picker", "color palette", "hex to rgb", "contrast checker"],
   },
   qr: {
     title: "QR & Barcode Tools",

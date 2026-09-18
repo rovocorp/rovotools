@@ -56,7 +56,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   }
   const meta = getCategoryMetadata(category);
   const registry = getToolRegistry();
-  const tools = registry.query({ category, platform: "WEB", sortBy: "name" });
+  // Popular tools lead; Array.sort is stable so alphabetical order
+  // survives inside each popularity group.
+  const tools = registry
+    .query({ category, platform: "WEB", sortBy: "name" })
+    .slice()
+    .sort((a, b) => Number(b.definition.popular) - Number(a.definition.popular));
 
   const jsonLd = {
     "@context": "https://schema.org",

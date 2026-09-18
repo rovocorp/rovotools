@@ -302,22 +302,63 @@ function cleanRobotsPaths(raw: string): Array<string> {
 // Bundled standard rates (offline-safe by design: a live rate lookup would
 // break the offline story, and sales-tax rates change rarely enough that a
 // custom-rate box covers everything else).
+export const TAX_TABLE_REVIEWED = "September 2026";
 const TAX_REGIONS: Record<string, { label: string; rates: Array<number>; standard: number; splitCGST: boolean }> = {
   india: { label: "India (GST)", rates: [0, 5, 12, 18, 28], standard: 18, splitCGST: true },
   uk: { label: "United Kingdom (VAT)", rates: [0, 5, 20], standard: 20, splitCGST: false },
   germany: { label: "Germany (VAT)", rates: [0, 7, 19], standard: 19, splitCGST: false },
   france: { label: "France (VAT)", rates: [0, 5.5, 10, 20], standard: 20, splitCGST: false },
-  uae: { label: "UAE (VAT)", rates: [0, 5], standard: 5, splitCGST: false },
   singapore: { label: "Singapore (GST)", rates: [0, 9], standard: 9, splitCGST: false },
   australia: { label: "Australia (GST)", rates: [0, 10], standard: 10, splitCGST: false },
-  canada: { label: "Canada, Ontario (HST)", rates: [0, 5, 13], standard: 13, splitCGST: false },
-  usa: { label: "USA, California (sales tax)", rates: [0, 6, 7.25, 8.875], standard: 7.25, splitCGST: false },
+  "canada-ontario": { label: "Canada, Ontario (HST)", rates: [0, 5, 13], standard: 13, splitCGST: false },
+  "canada-quebec": { label: "Canada, Quebec (GST + QST)", rates: [0, 5, 9.975, 14.975], standard: 14.975, splitCGST: false },
+  "canada-bc": { label: "Canada, British Columbia (GST + PST)", rates: [0, 5, 7, 12], standard: 12, splitCGST: false },
+  "canada-alberta": { label: "Canada, Alberta (GST)", rates: [0, 5], standard: 5, splitCGST: false },
+  "usa-california": { label: "USA, California (sales tax)", rates: [0, 6, 7.25, 9.5], standard: 7.25, splitCGST: false },
+  "usa-new-york": { label: "USA, New York (sales tax)", rates: [0, 4, 8, 8.875], standard: 8.875, splitCGST: false },
+  "usa-texas": { label: "USA, Texas (sales tax)", rates: [0, 6.25, 8, 8.25], standard: 6.25, splitCGST: false },
+  "usa-florida": { label: "USA, Florida (sales tax)", rates: [0, 6, 7, 7.5], standard: 6, splitCGST: false },
   japan: { label: "Japan (consumption tax)", rates: [0, 8, 10], standard: 10, splitCGST: false },
+  pakistan: { label: "Pakistan (GST)", rates: [0, 5, 18], standard: 18, splitCGST: false },
+  china: { label: "China (VAT)", rates: [0, 6, 9, 13], standard: 13, splitCGST: false },
+  "south-korea": { label: "South Korea (VAT)", rates: [0, 10], standard: 10, splitCGST: false },
+  "new-zealand": { label: "New Zealand (GST)", rates: [0, 15], standard: 15, splitCGST: false },
+  mexico: { label: "Mexico (IVA)", rates: [0, 8, 16], standard: 16, splitCGST: false },
+  argentina: { label: "Argentina (VAT)", rates: [0, 10.5, 21], standard: 21, splitCGST: false },
+  chile: { label: "Chile (VAT)", rates: [0, 19], standard: 19, splitCGST: false },
+  netherlands: { label: "Netherlands (VAT)", rates: [0, 9, 21], standard: 21, splitCGST: false },
+  spain: { label: "Spain (VAT)", rates: [0, 4, 10, 21], standard: 21, splitCGST: false },
+  italy: { label: "Italy (VAT)", rates: [0, 4, 5, 10, 22], standard: 22, splitCGST: false },
+  ireland: { label: "Ireland (VAT)", rates: [0, 9, 13.5, 23], standard: 23, splitCGST: false },
+  sweden: { label: "Sweden (VAT)", rates: [0, 6, 12, 25], standard: 25, splitCGST: false },
+  austria: { label: "Austria (VAT)", rates: [0, 10, 13, 20], standard: 20, splitCGST: false },
+  belgium: { label: "Belgium (VAT)", rates: [0, 6, 12, 21], standard: 21, splitCGST: false },
+  norway: { label: "Norway (VAT)", rates: [0, 12, 15, 25], standard: 25, splitCGST: false },
+  switzerland: { label: "Switzerland (VAT)", rates: [0, 2.6, 3.8, 8.1], standard: 8.1, splitCGST: false },
+  russia: { label: "Russia (VAT)", rates: [0, 10, 22], standard: 22, splitCGST: false },
+  turkey: { label: "Turkey (VAT)", rates: [0, 1, 10, 20], standard: 20, splitCGST: false },
+  israel: { label: "Israel (VAT)", rates: [0, 17, 18], standard: 18, splitCGST: false },
+  "saudi-arabia": { label: "Saudi Arabia (VAT)", rates: [0, 5, 15], standard: 15, splitCGST: false },
+  uae: { label: "UAE (VAT)", rates: [0, 5], standard: 5, splitCGST: false },
+  egypt: { label: "Egypt (VAT)", rates: [0, 5, 14], standard: 14, splitCGST: false },
+  "south-africa": { label: "South Africa (VAT)", rates: [0, 15], standard: 15, splitCGST: false },
+  nigeria: { label: "Nigeria (VAT)", rates: [0, 7.5], standard: 7.5, splitCGST: false },
+  kenya: { label: "Kenya (VAT)", rates: [0, 8, 16], standard: 16, splitCGST: false },
+  bangladesh: { label: "Bangladesh (VAT)", rates: [0, 5, 15], standard: 15, splitCGST: false },
+  "sri-lanka": { label: "Sri Lanka (VAT)", rates: [0, 18], standard: 18, splitCGST: false },
+  malaysia: { label: "Malaysia (SST)", rates: [0, 6, 10], standard: 10, splitCGST: false },
+  philippines: { label: "Philippines (VAT)", rates: [0, 12], standard: 12, splitCGST: false },
+  thailand: { label: "Thailand (VAT)", rates: [0, 7], standard: 7, splitCGST: false },
 };
 
-const TAX_REGION_OPTIONS: ReadonlyArray<{ value: string; labelKey: string }> = Object.entries(TAX_REGIONS).map(
-  ([value, region]) => ({ value, labelKey: `${region.label} — standard ${region.standard}%` }),
-);
+const TAX_REGION_OPTIONS: ReadonlyArray<{ value: string; labelKey: string }> = Object.entries(TAX_REGIONS)
+  .map(([value, region]) => ({ value, labelKey: region.label }))
+  .sort((a, b) => a.labelKey.localeCompare(b.labelKey, "en"));
+
+/** Standard rate for a region key, or null when unknown — used by the bespoke UI to preview the auto rate. */
+export function getTaxRegionStandard(regionKey: string): number | null {
+  return TAX_REGIONS[regionKey.trim().toLowerCase()]?.standard ?? null;
+}
 
 function parseTaxRate(raw: string): number | null {
   if (raw.trim() === "") {
@@ -330,12 +371,51 @@ function parseTaxRate(raw: string): number | null {
   return n;
 }
 
+export interface ExtraTaxLine {
+  readonly name: string;
+  readonly rate: number;
+}
+
+/**
+ * Parses stacked-tax rows, one per line: "City = 1.5", "County: 0.5" or a
+ * bare "2". Blanks are skipped; anything else throws naming the line.
+ */
+export function parseExtraTaxes(raw: string): Array<ExtraTaxLine> {
+  const lines: Array<ExtraTaxLine> = [];
+  let row = 0;
+  for (const rawLine of raw.split("\n")) {
+    const line = rawLine.trim();
+    if (line === "") {
+      continue;
+    }
+    row += 1;
+    const match = /^(.*?)\s*[:=]\s*(\S+)\s*$/.exec(line);
+    const name = (match?.[1]?.trim() ?? "") || `Extra ${row}`;
+    const rateText = match?.[2] ?? line;
+    const rate = Number(rateText.replace(/%$/, ""));
+    if (!Number.isFinite(rate) || rate < 0 || rate > 100) {
+      throw new RangeError(`Extra tax line ${row} must look like "City = 1.5" with a rate of 0–100.`);
+    }
+    lines.push({ name, rate });
+  }
+  return lines;
+}
+
 function resolveTaxRate(
   regionRaw: string,
   rateRaw: string,
   customRaw: string,
 ): { rate: number; regionLabel: string; note: string } {
-  const regionKey = (regionRaw.trim() === "" ? "india" : regionRaw.trim()).toLowerCase();
+  const regionKey = regionRaw.trim().toLowerCase();
+  if (regionKey === "") {
+    // No region selected (e.g. the user's country is not listed): a custom
+    // rate must carry the calculation instead.
+    const fallback = parseTaxRate(customRaw);
+    if (fallback === null) {
+      throw new RangeError("Select a region or enter a custom rate.");
+    }
+    return { rate: fallback, regionLabel: "Custom rate", note: `Custom ${fallback}% applied.` };
+  }
   const region = TAX_REGIONS[regionKey];
   if (region === undefined) {
     throw new RangeError(`Unknown region "${regionRaw}". Use: ${Object.keys(TAX_REGIONS).join(", ")}.`);
@@ -438,6 +518,66 @@ function luminance(r: number, g: number, b: number): number {
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   };
   return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+
+function clampChannel(n: number): number {
+  return Math.max(0, Math.min(255, Math.round(n)));
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return `#${[r, g, b].map((c) => clampChannel(c).toString(16).padStart(2, "0")).join("")}`;
+}
+
+/** Accepts #fff, #ffffff (with or without #) or rgb()/rgba() strings. */
+function parseColorInput(raw: string): { r: number; g: number; b: number } {
+  const text = raw.trim();
+  if (text === "") {
+    throw new RangeError("Enter a color as HEX (like #4f46e5) or rgb(79, 70, 229).");
+  }
+  const rgbMatch = text.match(/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/i);
+  if (rgbMatch !== null) {
+    const channels = [rgbMatch[1], rgbMatch[2], rgbMatch[3]].map(Number);
+    if (channels.some((c) => c > 255)) {
+      throw new RangeError("RGB channels must be 0–255.");
+    }
+    return { r: channels[0] as number, g: channels[1] as number, b: channels[2] as number };
+  }
+  return hexToRgb(text);
+}
+
+function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
+  const hue = (((h % 360) + 360) % 360) / 360;
+  const sat = Math.max(0, Math.min(100, s)) / 100;
+  const light = Math.max(0, Math.min(100, l)) / 100;
+  if (sat === 0) {
+    const v = clampChannel(light * 255);
+    return { r: v, g: v, b: v };
+  }
+  const q = light < 0.5 ? light * (1 + sat) : light + sat - light * sat;
+  const p = 2 * light - q;
+  const channel = (t: number): number => {
+    const wrapped = t < 0 ? t + 1 : t > 1 ? t - 1 : t;
+    if (wrapped < 1 / 6) {
+      return p + (q - p) * 6 * wrapped;
+    }
+    if (wrapped < 1 / 2) {
+      return q;
+    }
+    if (wrapped < 2 / 3) {
+      return p + (q - p) * (2 / 3 - wrapped) * 6;
+    }
+    return p;
+  };
+  return {
+    r: clampChannel(channel(hue + 1 / 3) * 255),
+    g: clampChannel(channel(hue) * 255),
+    b: clampChannel(channel(hue - 1 / 3) * 255),
+  };
+}
+
+/** Mix a channel toward white (tints) or black (shades) by ratio 0–1. */
+function mixChannel(c: number, target: number, ratio: number): number {
+  return clampChannel(c + (target - c) * ratio);
 }
 
 interface Spec {
@@ -1553,11 +1693,11 @@ const SPECS: ReadonlyArray<Spec> = [
     id: "css-gradient-generator",
     slug: "css-gradient-generator",
     name: "CSS Gradient Generator",
-    description: "Build linear-gradient CSS from two colors and an angle.",
+    description: "Generate beautiful linear-gradient backgrounds from two colors and an angle — copy-ready CSS.",
     category: "design",
     icon: "palette",
-    keywords: ["css gradient", "linear gradient", "background"],
-    popular: false,
+    keywords: ["css gradient", "linear gradient", "background", "gradient generator", "gradient maker", "background gradient"],
+    popular: true,
     featured: false,
     inputs: [str("from", "From color (default #4f46e5)", false), str("to", "To color (default #ec4899)", false), str("angle", "Angle in degrees (default 135)", false)],
     outputs: [out("css", "CSS"), out("preview", "Preview note")],
@@ -1712,6 +1852,127 @@ const SPECS: ReadonlyArray<Spec> = [
         aaLarge: ratio >= 3 ? "Pass" : "Fail",
         aaa: ratio >= 7 ? "Pass" : "Fail",
       };
+    },
+  },
+  {
+    id: "color-picker",
+    slug: "color-picker",
+    name: "Color Picker",
+    description: "Pick any color and get its HEX, RGB and HSL codes plus tints, shades and its complement.",
+    category: "color",
+    icon: "pipette",
+    keywords: ["color picker", "hex color picker", "rgb color picker", "color picker online", "pick a color", "html color codes"],
+    popular: true,
+    featured: true,
+    inputs: [str("color", "Color (HEX like #4f46e5, or rgb(79, 70, 229))")],
+    outputs: [
+      out("hex", "HEX"),
+      out("rgb", "RGB"),
+      out("hsl", "HSL"),
+      out("tints", "Tints (toward white)"),
+      out("shades", "Shades (toward black)"),
+      out("complementary", "Complementary"),
+    ],
+    validate: (input) => (req(input, "color") === "" ? err("color", "Enter or pick a color.") : ok()),
+    execute: async (input) => {
+      const { r, g, b } = parseColorInput(req(input, "color"));
+      const hsl = rgbToHsl(r, g, b);
+      const tints = [0.2, 0.4, 0.6, 0.8]
+        .map((t) => rgbToHex(mixChannel(r, 255, t), mixChannel(g, 255, t), mixChannel(b, 255, t)))
+        .join(", ");
+      const shades = [0.2, 0.4, 0.6, 0.8]
+        .map((t) => rgbToHex(mixChannel(r, 0, t), mixChannel(g, 0, t), mixChannel(b, 0, t)))
+        .join(", ");
+      return {
+        hex: rgbToHex(r, g, b),
+        rgb: `rgb(${r}, ${g}, ${b})`,
+        hsl: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`,
+        tints,
+        shades,
+        complementary: rgbToHex(255 - r, 255 - g, 255 - b),
+      };
+    },
+  },
+  {
+    id: "palette-generator",
+    slug: "palette-generator",
+    name: "Color Palette Generator",
+    description: "Generate harmonious color palettes — complementary, analogous, triadic or surprise me.",
+    category: "color",
+    icon: "swatch",
+    keywords: ["color palette generator", "color scheme", "palette maker", "complementary colors", "cohesive colors"],
+    popular: true,
+    featured: false,
+    inputs: [
+      str("base", "Base color HEX (empty picks a random one)", false),
+      {
+        id: "harmony",
+        type: "select",
+        labelKey: "Harmony",
+        required: false,
+        defaultValue: "analogous",
+        options: [
+          { value: "complementary", labelKey: "Complementary (2 colors)" },
+          { value: "analogous", labelKey: "Analogous (3 colors)" },
+          { value: "triadic", labelKey: "Triadic (3 colors)" },
+          { value: "split", labelKey: "Split-complementary (3 colors)" },
+          { value: "random", labelKey: "Surprise me (5 colors)" },
+        ],
+      },
+    ],
+    outputs: [out("colors", "Palette (HEX, one per line)"), out("css", "CSS variables")],
+    validate: (input) => {
+      if (req(input, "base") !== "") {
+        try {
+          parseColorInput(req(input, "base"));
+        } catch {
+          return err("base", "Enter a valid HEX color like #4f46e5, or leave empty for random.");
+        }
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const harmony = (req(input, "harmony") || "analogous").toLowerCase();
+      const base = req(input, "base") === "" ? null : parseColorInput(req(input, "base"));
+      const baseHsl = base === null ? null : rgbToHsl(base.r, base.g, base.b);
+      const pickRandom = (): { h: number; s: number; l: number } => ({
+        h: Math.floor(Math.random() * 360),
+        s: 60 + Math.floor(Math.random() * 30),
+        l: 45 + Math.floor(Math.random() * 20),
+      });
+      const anchor = baseHsl ?? pickRandom();
+      const wheel = (offset: number): { h: number; s: number; l: number } => ({
+        h: (((anchor.h + offset) % 360) + 360) % 360,
+        s: anchor.s,
+        l: anchor.l,
+      });
+      let stops: Array<{ h: number; s: number; l: number }>;
+      switch (harmony) {
+        case "complementary":
+          stops = [wheel(0), wheel(180)];
+          break;
+        case "triadic":
+          stops = [wheel(0), wheel(120), wheel(240)];
+          break;
+        case "split":
+          stops = [wheel(0), wheel(150), wheel(210)];
+          break;
+        case "random":
+          stops = [pickRandom(), pickRandom(), pickRandom(), pickRandom(), pickRandom()];
+          break;
+        case "analogous":
+        case "":
+          stops = [wheel(-30), wheel(0), wheel(30)];
+          break;
+        default:
+          throw new RangeError(`Unknown harmony "${req(input, "harmony")}". Use complementary, analogous, triadic, split or random.`);
+      }
+      const hexes = stops.map((stop) => {
+        const rgb = hslToRgb(stop.h, stop.s, stop.l);
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+      });
+      const css = `:root {\n${hexes.map((hex, i) => `  --color-${i + 1}: ${hex};`).join("\n")}\n}`;
+      return { colors: hexes.join("\n"), css };
     },
   },
   {
@@ -2225,23 +2486,32 @@ const SPECS: ReadonlyArray<Spec> = [
     id: "tax-calculator",
     slug: "tax-calculator",
     name: "Tax Calculator (GST / VAT)",
-    description: "Add or remove sales tax worldwide: pick a region for its standard rates, or type any custom rate. Shows the CGST/SGST split for India.",
+    description: "Add or remove sales tax worldwide — US states, Canadian provinces, EU/UK VAT, GST and more. Pick a region — the standard rate fills in and stays editable — or stack your own rows with +. Shows the CGST/SGST split for India.",
     category: "finance",
     icon: "receipt",
-    keywords: ["gst calculator", "vat calculator", "sales tax calculator", "cgst sgst", "tax inclusive exclusive", "add remove tax"],
+    keywords: ["gst calculator", "vat calculator", "sales tax calculator", "us sales tax", "state sales tax", "canada hst", "eu vat", "pakistan gst", "china vat", "cgst sgst", "tax inclusive exclusive", "add remove tax"],
     popular: true,
     featured: false,
     inputs: [
       str("amount", "Amount"),
-      { id: "region", type: "select", labelKey: "Region", required: true, defaultValue: "india", options: TAX_REGION_OPTIONS },
+      { id: "region", type: "select", labelKey: "Region", required: true, options: TAX_REGION_OPTIONS },
       str("rate", "Rate % — empty uses the regional standard", false),
       str("customRate", "Custom rate % — overrides everything when set", false),
       str("mode", "Mode: add (default) or remove", false),
+      area("extraTaxes", "Extra taxes — one per line: Name = Rate%  (e.g. City = 1.5)", false),
     ],
-    outputs: [numOut("net", "Net amount"), numOut("tax", "Tax amount"), numOut("gross", "Gross amount"), out("split", "Tax split"), out("appliedRate", "Rate applied")],
+    outputs: [numOut("net", "Net amount"), numOut("tax", "Tax amount"), numOut("gross", "Gross amount"), out("split", "Tax split"), out("appliedRate", "Rate applied"), out("extras", "Extra taxes")],
     validate: (input) => {
       if (req(input, "amount") === "" || Number.isNaN(Number(req(input, "amount")))) {
         return err("amount", "Enter an amount as a number.");
+      }
+      if (req(input, "region").trim() === "" && req(input, "customRate").trim() === "") {
+        return err("region", "Select a region or enter a custom rate.");
+      }
+      try {
+        parseExtraTaxes(req(input, "extraTaxes"));
+      } catch (e) {
+        return err("extraTaxes", e instanceof Error ? e.message : "Check the extra tax lines.");
       }
       return ok();
     },
@@ -2251,27 +2521,47 @@ const SPECS: ReadonlyArray<Spec> = [
         throw new RangeError("Amount must be zero or more.");
       }
       const { rate, regionLabel, note } = resolveTaxRate(req(input, "region"), req(input, "rate"), req(input, "customRate"));
+      const extras = parseExtraTaxes(req(input, "extraTaxes"));
+      const extraTotal = extras.reduce((sum, line) => sum + line.rate, 0);
+      const effective = rate + extraTotal;
       const mode = (req(input, "mode") || "add").toLowerCase();
       const round2 = (v: number): number => Math.round(v * 100) / 100;
+      const round4 = (v: number): number => Math.round(v * 10000) / 10000;
       let net: number;
       let tax: number;
       let gross: number;
       if (mode === "remove") {
-        net = amount / (1 + rate / 100);
+        net = amount / (1 + effective / 100);
         tax = amount - net;
         gross = amount;
       } else if (mode === "add" || mode === "") {
         net = amount;
-        tax = (amount * rate) / 100;
+        tax = (amount * effective) / 100;
         gross = amount + tax;
       } else {
         throw new RangeError(`Unknown mode "${req(input, "mode")}". Use add or remove.`);
       }
-      const regionKey = (req(input, "region").trim() === "" ? "india" : req(input, "region").trim()).toLowerCase();
-      const split = TAX_REGIONS[regionKey]?.splitCGST === true
-        ? `CGST (${round2(rate / 2)}%): ${round2(tax / 2).toFixed(2)}, SGST (${round2(rate / 2)}%): ${round2(tax / 2).toFixed(2)}`
-        : `Single ${regionLabel} levy — no split.`;
-      return { net: round2(net), tax: round2(tax), gross: round2(gross), split, appliedRate: note };
+      const regionKey = req(input, "region").trim().toLowerCase();
+      // CGST/SGST halves attribute the base-rate portion only: with stacked
+      // extras the total tax is larger than the base levy.
+      const baseTax = effective === 0 ? 0 : (tax * rate) / effective;
+      const baseSplit =
+        regionKey === ""
+          ? "Single custom levy — no split."
+          : TAX_REGIONS[regionKey]?.splitCGST === true
+            ? `CGST (${round2(rate / 2)}%): ${round2(baseTax / 2).toFixed(2)}, SGST (${round2(rate / 2)}%): ${round2(baseTax / 2).toFixed(2)}`
+            : `Single ${regionLabel} levy — no split.`;
+      // Stacked extras ride on top of the base levy, so the split shows the
+      // base breakdown and names the stacked remainder explicitly.
+      const split =
+        extras.length === 0 ? baseSplit : `${baseSplit} + ${round4(extraTotal)}% stacked extras applied on top.`;
+      const appliedRate =
+        extras.length === 0 ? note : `${note} + ${round4(extraTotal)}% stacked (${extras.map((line) => line.name).join(", ")}).`;
+      const extrasOut =
+        extras.length === 0
+          ? "—"
+          : [...extras.map((line) => `${line.name} — ${line.rate}%`), `Stacked total: ${round4(extraTotal)}%`].join("\n");
+      return { net: round2(net), tax: round2(tax), gross: round2(gross), split, appliedRate, extras: extrasOut };
     },
   },
   {
@@ -2283,7 +2573,7 @@ const SPECS: ReadonlyArray<Spec> = [
     icon: "youtube",
     requiresNetwork: true,
     keywords: ["youtube thumbnail", "thumbnail downloader", "yt thumbnail grabber", "maxresdefault", "video thumbnail"],
-    popular: false,
+    popular: true,
     featured: false,
     inputs: [str("url", "YouTube URL or 11-character video ID")],
     outputs: [out("maxres", "Full HD 1280×720"), out("sd", "SD 640×480"), out("hq", "High 480×360"), out("mq", "Medium 320×180"), out("default", "Default 120×90"), out("note", "How to use")],
@@ -2423,11 +2713,11 @@ const SPECS: ReadonlyArray<Spec> = [
     slug: "color-picker-from-image",
     name: "Color Picker from Image",
     description: "Pull the exact HEX code from any pixel in an image you upload — plus the six colors that dominate it.",
-    category: "image",
+    category: "color",
     icon: "pipette",
     browserOnly: true,
     keywords: ["color picker", "eyedropper", "image color picker", "hex from image", "dominant colors"],
-    popular: false,
+    popular: true,
     featured: false,
     inputs: [
       { id: "image", type: "file", labelKey: "Image to sample colors from", required: true },
@@ -3056,6 +3346,8 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "css-button-generator": { action: "Generate CSS", running: "Generating..." },
   "color-converter": { action: "Convert color", running: "Converting..." },
   "color-contrast-checker": { action: "Check contrast", running: "Checking..." },
+  "color-picker": { action: "Pick color", running: "Converting..." },
+  "palette-generator": { action: "Generate palette", running: "Generating..." },
   "url-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "wifi-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "vcard-qr-generator": { action: "Generate QR code", running: "Generating..." },

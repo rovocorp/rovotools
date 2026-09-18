@@ -54,6 +54,14 @@ export default async function ToolsPage({
           sortBy: "name",
         });
 
+  // Browse mode (no search): popular tools lead; search keeps relevance
+  // order. Array.sort is stable, so alphabetical order survives inside
+  // each popularity group.
+  const ordered =
+    query === ""
+      ? [...tools].sort((a, b) => Number(b.definition.popular) - Number(a.definition.popular))
+      : tools;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <script
@@ -65,10 +73,10 @@ export default async function ToolsPage({
             name: t("en", "seo.toolsTitle"),
             description: t("en", "seo.toolsDescription"),
             url: `${WEB_URL}/tools`,
-            mainEntity: {
-              "@type": "ItemList",
-              numberOfItems: tools.length,
-              itemListElement: tools.map((entry, index) => ({
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: ordered.length,
+        itemListElement: ordered.map((entry, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 name: entry.definition.name,
@@ -86,9 +94,9 @@ export default async function ToolsPage({
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "navigation.tools")}</h1>
       <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-        {tools.length === 1
+        {ordered.length === 1
           ? t("en", "tool.oneTool")
-          : tx("en", "tool.manyTools", { count: tools.length })}
+          : tx("en", "tool.manyTools", { count: ordered.length })}
         {query !== "" ? ` — “${query}”` : ""}
       </p>
 
@@ -103,13 +111,13 @@ export default async function ToolsPage({
         />
       </div>
 
-      {tools.length === 0 ? (
+      {ordered.length === 0 ? (
         <p className="mt-10 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
           {t("en", "tool.noResults")}
         </p>
       ) : (
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((entry) => (
+          {ordered.map((entry) => (
             <ToolCard key={entry.definition.id} entry={entry} />
           ))}
         </div>

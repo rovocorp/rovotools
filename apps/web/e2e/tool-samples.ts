@@ -51,6 +51,8 @@ export const TOOL_SAMPLES: Record<string, Record<string, string>> = {
   "css-button-generator": { bg: "#4f46e5", color: "#ffffff", padding: "12px 24px", radius: "8" },
   "color-converter": { color: "#4f46e5" },
   "color-contrast-checker": { foreground: "#000000", background: "#ffffff" },
+  "color-picker": { color: "#4f46e5" },
+  "palette-generator": { base: "#4f46e5", harmony: "triadic" },
   "url-qr-generator": { url: "https://rovotools.com" },
   "wifi-qr-generator": { ssid: "HomeNet", password: "secret123", security: "WPA" },
   "vcard-qr-generator": { name: "Ada Lovelace", phone: "+123", email: "ada@example.com", org: "RovoCorp" },
@@ -135,4 +137,6 @@ export const EXPECTED_SUBSTRINGS: Record<string, Array<string>> = {
   "sitemap-checker": ["urlset"],
   "tag-detector": ["not detected"],
   "performance-analyzer": ["lean"],
+  "color-picker": ["#4f46e5"],
+  "palette-generator": ["--color-1"],
 };

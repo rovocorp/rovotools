@@ -16,6 +16,8 @@ describe("customTools", () => {
       "sitemap-checker",
       "tag-detector",
       "performance-analyzer",
+      "color-picker",
+      "tax-calculator",
     ]) {
       expect(getCustomToolComponent(slug)).toBeDefined();
     }

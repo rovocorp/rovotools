@@ -128,18 +128,31 @@ function renderHeroTitle(title: string): React.ReactNode {
 
 export default function Home(): React.ReactElement {
   const registry = getToolRegistry();
-  const featured = registry.featured(6);
+  // Hand-picked essentials, demand-ordered. Explicit ID lists (not the
+  // alphabetical registry helpers) so merchandising stays deliberate:
+  // the highest-demand utilities lead, complementary power tools follow.
+  const FEATURED_TOOL_IDS = [
+    "json-formatter",
+    "unit-converter",
+    "url-qr-generator",
+    "tax-calculator",
+    "palette-generator",
+    "merge-pdf",
+  ] as const;
+  const featured = FEATURED_TOOL_IDS.map((id) => registry.get(id)).filter(
+    (entry): entry is ToolRegistryEntry => entry !== undefined,
+  );
   // Curated high-intent tools for the "Popular Online Tools" section.
   // Every id is resolved against the registry so only real tools render.
   const POPULAR_TOOL_IDS = [
-    "image-compressor",
-    "image-resizer",
-    "pdf-creator",
-    "json-formatter",
-    "base64-encoder",
-    "password-generator",
     "bmi-calculator",
+    "age-calculator",
     "loan-calculator",
+    "password-generator",
+    "word-counter",
+    "color-picker",
+    "image-compressor",
+    "pdf-creator",
   ] as const;
   const popular = POPULAR_TOOL_IDS.map((id) => registry.get(id)).filter(
     (entry): entry is ToolRegistryEntry => entry !== undefined,

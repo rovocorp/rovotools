@@ -25,6 +25,8 @@ export const CUSTOM_TOOL_SLUGS = [
   "sitemap-checker",
   "tag-detector",
   "performance-analyzer",
+  "color-picker",
+  "tax-calculator",
 ] as const;
 
 export type CustomToolSlug = (typeof CUSTOM_TOOL_SLUGS)[number];
@@ -40,4 +42,6 @@ export const BESPOKE_TOOL_SLUGS: ReadonlySet<string> = new Set([
   "sitemap-checker",
   "tag-detector",
   "performance-analyzer",
+  "color-picker",
+  "tax-calculator",
 ]);

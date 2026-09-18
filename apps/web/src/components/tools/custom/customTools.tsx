@@ -33,6 +33,8 @@ const customToolComponents: Record<CustomToolSlug, ComponentType> = {
   'sitemap-checker': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.SitemapChecker })), { ssr: false }),
   'tag-detector': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.TagDetector })), { ssr: false }),
   'performance-analyzer': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.PerformanceAnalyzer })), { ssr: false }),
+  'color-picker': dynamic(() => import('./ColorPicker'), { ssr: false }),
+  'tax-calculator': dynamic(() => import('./TaxCalculator'), { ssr: false }),
 };
 
 export function getCustomToolComponent(slug: string): ComponentType | undefined {

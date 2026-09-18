@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { defineTool } from "./define-tool";
-import { getFieldLabel, getFieldPlaceholder, getToolDisplay } from "./display";
+import { getFieldLabel, getFieldPlaceholder, getOutputLabel, getToolDisplay } from "./display";
 
 const definition = defineTool({
   id: "bmi-calculator",
@@ -53,5 +53,18 @@ describe("tool display localization", () => {
     expect(getFieldLabel("en", field)).toBe("Weight (kg)");
     expect(getFieldPlaceholder("en", field)).toBe("e.g. 70");
     expect(getFieldPlaceholder("es", field)).toBe("e.g. 70");
+  });
+
+  it("keeps literal labels with decimals verbatim", () => {
+    // Region option labels carry decimal standards ("14.975%"): splitting
+    // them like key paths used to render fragments such as "975%".
+    expect(
+      getOutputLabel("en", {
+        id: "quebec",
+        type: "string",
+        labelKey: "Canada, Quebec (GST + QST) — standard 14.975%",
+      }),
+    ).toBe("Canada, Quebec (GST + QST) — standard 14.975%");
+    expect(getOutputLabel("en", { id: "x", type: "string", labelKey: "tools.nope.missing" })).toBe("missing");
   });
 });

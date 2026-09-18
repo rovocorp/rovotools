@@ -1035,6 +1035,96 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     related: ["seo-checker", "tag-detector", "image-compressor"],
   },
+  "tax-calculator": {
+    title: "Tax Calculator (GST / VAT) — Sales Tax Online | RovoTools",
+    description:
+      "Add or remove sales tax worldwide: US states, Canadian provinces, EU/UK VAT and GST — or stack your own custom tax rows.",
+    intro:
+      "Pick a country or state for its standard rate (editable), or stack extra city and county levies with + — works even when your country isn't listed.",
+    benefits: [
+      "45 regions across Asia, Europe, the Americas, Africa and Oceania",
+      "Stack extra state, county or city taxes additively",
+      "CGST/SGST split for India, custom-rate escape hatch for the rest",
+    ],
+    howTo: [
+      "Enter the amount and pick a country — or leave it blank and type a custom rate.",
+      "Press + to stack extra taxes like City = 1.5.",
+      "Press Calculate tax and copy the breakdown.",
+    ],
+    faqs: [
+      {
+        question: "Can I stack state + city tax?",
+        answer:
+          "Yes. Add one row per levy with + and they sum additively on the net amount — the standard US approach. Quebec's QST-on-GST compounding is the known exception.",
+      },
+      {
+        question: "How current are the standard rates?",
+        answer:
+          "The bundled table is reviewed periodically (see the date on the tool page) and every rate stays editable, so a stale table never blocks you.",
+      },
+    ],
+    related: ["loan-calculator", "compound-interest-calculator", "percentage-calculator"],
+  },
+  "color-picker": {
+    title: "Color Picker — HEX, RGB & HSL Codes | RovoTools",
+    description:
+      "Pick any color and get its HEX, RGB and HSL codes instantly, plus tints, shades and its complementary color.",
+    intro:
+      "Choose a color visually or paste a HEX or RGB value — get every code format designers and developers need, with click-to-copy swatches.",
+    benefits: [
+      "HEX, RGB and HSL codes for any picked color",
+      "Ready-made tints, shades and complementary color",
+      "Click any swatch to copy its code",
+    ],
+    howTo: [
+      "Pick a color with the visual swatch or type a HEX/RGB value.",
+      "Press Pick color.",
+      "Click any code chip to copy it into your design or stylesheet.",
+    ],
+    faqs: [
+      {
+        question: "What formats can I paste?",
+        answer:
+          "Six-digit and three-digit HEX with or without the hash (like #4f46e5 or fff), plus rgb() and rgba() strings.",
+      },
+      {
+        question: "How are tints and shades made?",
+        answer:
+          "Tints mix the color toward white and shades toward black in even steps — the standard way to build a tonal scale from one brand color.",
+      },
+    ],
+    related: ["color-converter", "palette-generator", "color-picker-from-image"],
+  },
+  "palette-generator": {
+    title: "Color Palette Generator — Harmonious Schemes | RovoTools",
+    description:
+      "Generate harmonious color palettes: complementary, analogous, triadic or random — with copy-ready CSS variables.",
+    intro:
+      "Start from a brand color (or nothing at all) and generate a balanced palette on classic color-wheel harmonies.",
+    benefits: [
+      "Complementary, analogous, triadic and split harmonies",
+      "Random mode for instant inspiration",
+      "Exports HEX list plus :root CSS variables",
+    ],
+    howTo: [
+      "Enter a base HEX color — or leave empty for a random start.",
+      "Choose a harmony and press Generate palette.",
+      "Copy the HEX codes or the CSS variables block.",
+    ],
+    faqs: [
+      {
+        question: "Which harmony should I choose?",
+        answer:
+          "Analogous feels calm (neighbors on the wheel), complementary has punch (opposites), triadic is balanced but lively. When in doubt, start analogous.",
+      },
+      {
+        question: "Can I use the palette commercially?",
+        answer:
+          "Yes — colors themselves aren't copyrightable, and everything is generated locally from your input.",
+      },
+    ],
+    related: ["color-picker", "color-converter", "css-gradient-generator"],
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {

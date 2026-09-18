@@ -6,6 +6,20 @@ function localize(locale: Locale, key: string, fallback: string): string {
   return value === key ? fallback : value;
 }
 
+/**
+ * Fallback when a labelKey has no translation: dotted key paths
+ * ("tools.bmi.weight") collapse to their last segment, but literal
+ * display text ("India (GST)", "14.975%") is returned verbatim —
+ * verbatim — splitting it on "." would mangle decimals into fragments
+ * like "975%".
+ */
+function fallbackLabel(key: string, id: string): string {
+  if (/^[A-Za-z0-9_.-]+$/.test(key)) {
+    return key.split(".").pop() ?? id;
+  }
+  return key;
+}
+
 export function getToolDisplay(
   locale: Locale,
   definition: ToolDefinition,
@@ -17,7 +31,7 @@ export function getToolDisplay(
 }
 
 export function getFieldLabel(locale: Locale, field: ToolInputField): string {
-  return localize(locale, field.labelKey, field.labelKey.split(".").pop() ?? field.id);
+  return localize(locale, field.labelKey, fallbackLabel(field.labelKey, field.id));
 }
 
 export function getFieldPlaceholder(locale: Locale, field: ToolInputField): string | undefined {
@@ -29,5 +43,5 @@ export function getFieldPlaceholder(locale: Locale, field: ToolInputField): stri
 }
 
 export function getOutputLabel(locale: Locale, output: ToolOutputField): string {
-  return localize(locale, output.labelKey, output.labelKey.split(".").pop() ?? output.id);
+  return localize(locale, output.labelKey, fallbackLabel(output.labelKey, output.id));
 }
