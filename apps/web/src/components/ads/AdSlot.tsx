@@ -64,7 +64,7 @@ function renderDummyAdSlot(
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-zinc-600 dark:text-zinc-400"
         >
-          {isRail ? "Ads by Google (dev mock, rail)" : "Ads by Google (dev mock)"}
+          {isRail ? "Ads by Google (rail)" : "Ads by Google"}
         </div>
       </div>
     </section>

@@ -41,7 +41,7 @@ describe("AdSlot dev placeholder", () => {
     expect(unit?.getAttribute("data-ad-client")).toBe("ca-pub-123456789");
     expect(unit?.getAttribute("data-ad-slot")).toBe("test-slot");
     // No dev overlay on the real path.
-    expect(container.textContent).not.toContain("dev mock");
+    expect(container.textContent).not.toContain("Ads by Google");
   });
 
   it("renders nothing with a publisher ID but denied consent", () => {

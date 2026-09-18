@@ -6,7 +6,9 @@ import { expect, test } from "@playwright/test";
 for (const path of ["/tools/bmi-calculator", "/blog/bmi-explained", "/"]) {
   test(`bottom unit renders confined on ${path}`, async ({ page }) => {
     await page.goto(path);
-    const mocks = page.getByText("Ads by Google (dev mock)");
+    // Exact match: "Ads by Google" is a substring of the rail's
+    // "Ads by Google (rail)" label, so a loose match could measure the rail.
+    const mocks = page.getByText("Ads by Google", { exact: true });
     await expect(mocks.first()).toBeVisible({ timeout: 15000 });
     expect(await mocks.count()).toBeGreaterThanOrEqual(1);
     const box = await mocks.first().boundingBox();
@@ -16,7 +18,7 @@ for (const path of ["/tools/bmi-calculator", "/blog/bmi-explained", "/"]) {
 
 test("right rail renders only on wide screens", async ({ page }) => {
   await page.goto("/tools/bmi-calculator");
-  const rail = page.locator("aside").filter({ hasText: "dev mock, rail" });
+  const rail = page.locator("aside").filter({ hasText: "Ads by Google (rail)" });
   const width = page.viewportSize()?.width ?? 0;
   if (width < 1280) {
     // Present in DOM for xl, but must never be visible on small screens.
