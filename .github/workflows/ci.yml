@@ -32,6 +32,11 @@ jobs:
       - name: Prisma client
         run: pnpm --filter @rovotools/web prisma:generate
 
+      - name: Build workspace packages
+        # Cross-package imports resolve to ./dist (see package.json main
+        # entries), so packages must be built before lint/typecheck/tests.
+        run: pnpm build:packages
+
       - name: Lint
         run: pnpm -r lint
 

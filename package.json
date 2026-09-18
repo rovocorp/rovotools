@@ -5,10 +5,10 @@
   "description": "RovoTools — Multi-platform tool ecosystem (Web + PWA + Mobile)",
   "scripts": {
     "build": "pnpm -r build",
-    "build:packages": "pnpm --filter './packages/*' build",
-    "build:web": "pnpm --filter @rovotools/web build",
+    "build:packages": "pnpm --filter \"./packages/*\" build",
+    "build:web": "pnpm build:packages && pnpm --filter @rovotools/web build",
     "build:mobile": "pnpm --filter @rovotools/mobile build",
-    "dev": "pnpm --parallel --filter './packages/*' dev",
+    "dev": "pnpm --parallel --filter \"./packages/*\" dev",
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",
     "clean": "pnpm -r clean && rm -rf node_modules",
