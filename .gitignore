@@ -13,6 +13,11 @@ dist/
 .next/
 out/
 build/
+# Expo / native generated outputs (recreated by `expo prebuild` / app builds;
+# never commit: caches, splash/icon derivatives, gradle wrapper, keystores)
+apps/mobile/.expo/
+apps/mobile/android/
+apps/mobile/ios/
 # generated vendored bundles (recreated by prebuild hooks; the tracked
 # PWA shell in public/ stays committed by existing practice)
 apps/web/public/pdf.worker.min.mjs
