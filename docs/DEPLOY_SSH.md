@@ -16,11 +16,12 @@ global installs, or panel build configuration.
 ## Why the vendored pnpm
 
 `scripts/pnpm/` is the standalone pnpm 9.12.0 executable, committed
-verbatim (see `scripts/pnpm/README.md`). Some hosts resolve pnpm through a
-broken corepack setup that demands an undownloadable version; invoking the
-vendored binary with `node` bypasses corepack, global installs, and any
-package-manager download. Proven with `--frozen-lockfile` against this
-repo's `pnpm-lock.yaml`.
+verbatim (see `scripts/pnpm/README.md`). Some hosts resolve pnpm through
+corepack to that image's default (e.g. `pnpm@12.4.2` on Hostinger's Node
+`v22.18.0` image) instead of this repo's `packageManager: pnpm@9.12.0` pin;
+invoking the vendored binary with `node` bypasses corepack, global installs,
+and any package-manager download. Proven with `--frozen-lockfile` against
+this repo's `pnpm-lock.yaml`.
 
 ## Steps (run in order)
 
@@ -73,7 +74,39 @@ in a browser.
 | Symptom | Meaning | Action |
 |---|---|---|
 | Build killed / `ENOMEM` / signal 9 | Host RAM too small for Next build | No code fix exists — move to a bigger tier/VPS |
-| `Failed to install dependencies` with a corepack path | A panel pre-step ran instead of step 2 | Use exactly the `node ./scripts/...` command; panel install must not run first |
+| `Failed to install dependencies` with a corepack path | A panel pre-step ran instead of step 2, or the host corepack cache for a non-repo version is corrupt | Use exactly the `node ./scripts/...` command; panel install must not run first. If the log shows `Cannot find module '.../corepack/v1/pnpm/12.4.2/bin/pnpm.cjs'` (`MODULE_NOT_FOUND`), the host cache dir exists but is hollow — see "Hostinger panel without SSH" below |
+
+## Hostinger panel without SSH (no custom install command)
+
+Use when the panel offers no custom install command and no SSH (fresh
+deploy keeps failing on the pinned commit with the `12.4.2` /
+`MODULE_NOT_FOUND` error above):
+
+1. Panel inputs (copy-paste): repo `rovocorp/rovotools`, branch `main`,
+   root `./` (monorepo root — never `apps/web`), Node `22.x`.
+   Install: `pnpm install --frozen-lockfile` (default, from `./`).
+   Build: `pnpm --filter @rovotools/web prisma:generate && pnpm build:web`.
+   Output: `apps/web/.next/standalone`. Start (cwd `./`):
+   `node apps/web/server.js`. Env (all three, never `None`):
+   `NEXT_PUBLIC_SITE_URL=https://rovotools.com`,
+   `NEXT_PUBLIC_APP_NAME=RovoTools`,
+   `NEXT_PUBLIC_COMPANY_NAME=RovoCorp LTD`.
+2. The failure is host-side: deleting the site checkout does not clear
+   `~/.cache/node/corepack/v1/pnpm/12.4.2/`. In File Manager (show hidden
+   files), delete just that `12.4.2/` folder, confirm the app root contains
+   the root `package.json` (`packageManager: pnpm@9.12.0`), then redeploy.
+   Expect install to resolve `9.12.0`, not `12.4.2`.
+3. If `~/.cache` is not visible or the delete fails, send support this text:
+
+```text
+Deployment of rovocorp/rovotools@main fails at install with:
+Error: Cannot find module '/home/<user>/.cache/node/corepack/v1/pnpm/12.4.2/bin/pnpm.cjs'
+  code: 'MODULE_NOT_FOUND' (Node v22.18.0, ERROR: Failed to install dependencies).
+The repo pins pnpm@9.12.0 (root package.json packageManager) and nothing in
+the repo references 12.4.2 — 12.4.2 is the image default plus a corrupt
+(partial) cache dir. Please rm -rf ~/.cache/node/corepack/v1/pnpm/12.4.2
+and redeploy on Node 22.x with app root = monorepo root.
+```
 | App stops after logout/reboot | `nohup` doesn't survive reboots | Ask support for their process supervisor, or add a cron `@reboot` entry if allowed |
 | Wrong canonical/metadata | Step 3 env vars were missing at build time | Re-export and re-run steps 4–6 |
 
