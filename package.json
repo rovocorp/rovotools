@@ -7,6 +7,7 @@
     "build": "pnpm -r build",
     "build:packages": "pnpm --filter \"./packages/*\" build",
     "build:web": "pnpm build:packages && pnpm --filter @rovotools/web build",
+    "deploy:web": "pnpm --filter @rovotools/web prisma:generate && pnpm build:web",
     "build:mobile": "pnpm --filter @rovotools/mobile build",
     "dev": "pnpm --parallel --filter \"./packages/*\" dev",
     "lint": "pnpm -r lint",

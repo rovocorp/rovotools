@@ -120,7 +120,8 @@ then redeploy on Node 22.x with app root = monorepo root.
 
 Framework **Next.js**, Node **22.x**, package manager **pnpm**,
 install `pnpm install --frozen-lockfile` (or the vendored command above),
-build `pnpm --filter @rovotools/web prisma:generate && pnpm build:web`,
+build `pnpm --filter @rovotools/web prisma:generate && pnpm build:web`
+(single-command panels: `pnpm run deploy:web`, which chains both steps),
 start `node apps/web/server.js` from the staged standalone dir,
 same three `NEXT_PUBLIC_*` env vars. Root directory `./` (monorepo root —
 never `apps/web`, or workspace resolution breaks).
