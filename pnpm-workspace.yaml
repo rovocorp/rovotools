@@ -9,5 +9,12 @@ allowBuilds:
   prisma: true
   unrs-resolver: true
 
+# v12 defaults publicHoistPattern to [] (v9 hoisted eslint/prettier to the
+# workspace root). Workspace packages run `eslint` without declaring it, so
+# restore that explicitly; scripts resolve it via the root node_modules/.bin.
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
+
 overrides:
   '@types/react': 19.2.18
