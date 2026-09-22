@@ -12,6 +12,9 @@ node_modules/
 dist/
 # ...except the vendored pnpm deploy binary, which must stay committed
 !scripts/pnpm/dist/
+# pnpm >=11 loader downloads its OS-specific binary next to itself on first
+# run — never commit that blob (each machine/host fetches its own platform)
+scripts/pnpm/pnpm-native*
 .next/
 out/
 build/
