@@ -15,15 +15,14 @@ global installs, or panel build configuration.
 
 ## Why the vendored pnpm
 
-`scripts/pnpm/` is the standalone pnpm 9.12.0 executable, committed
-verbatim (see `scripts/pnpm/README.md`). Some hosts resolve pnpm through
-corepack to that image's default (e.g. `pnpm@12.4.2` on Hostinger's Node
-`v22.18.0` image) instead of this repo's `packageManager: pnpm@9.12.0` pin —
-and corepack `<=0.34` cannot execute any pnpm `>=11` (hardcoded
-`bin/pnpm.cjs` entry point; proven by local reproduction). The repo
-therefore stays on `9.12.0`; invoking the vendored binary with `node`
-bypasses corepack, global installs, and any package-manager download.
-Proven with `--frozen-lockfile` against this repo's `pnpm-lock.yaml`.
+`scripts/pnpm/` is the standalone pnpm 12.4.2 loader, committed
+verbatim (see `scripts/pnpm/README.md`). The repo pin is `pnpm@12.4.2`
+per the host's requirement; invoking the vendored loader (`bin/pnpm.mjs`,
+which fetches its platform binary on first run) with `node` bypasses
+corepack — required because corepack `<=0.34` cannot execute any pnpm
+`>=11` (hardcoded `bin/pnpm.cjs` entry point; proven by local
+reproduction). Proven with `--frozen-lockfile` against this repo's
+`pnpm-lock.yaml`.
 
 ## Steps (run in order)
 
@@ -35,7 +34,7 @@ git clone https://github.com/rovocorp/rovotools.git ~/rovotools
 cd ~/rovotools
 
 # 2. Install — corepack-free, no global packages
-node ./scripts/pnpm/bin/pnpm.cjs install --frozen-lockfile
+node ./scripts/pnpm/bin/pnpm.mjs install --frozen-lockfile
 
 # 3. Build-time env (bake into the bundle — set before building)
 export NEXT_PUBLIC_SITE_URL="https://rovotools.com"
@@ -46,8 +45,8 @@ export NEXT_PUBLIC_COMPANY_NAME="RovoCorp LTD"
 # export NEXT_PUBLIC_ADSENSE_SLOT_ID="XXXXXXXXXX"
 
 # 4. Prisma client, then the production build
-node ./scripts/pnpm/bin/pnpm.cjs --filter @rovotools/web prisma:generate
-node ./scripts/pnpm/bin/pnpm.cjs build:web
+node ./scripts/pnpm/bin/pnpm.mjs --filter @rovotools/web prisma:generate
+node ./scripts/pnpm/bin/pnpm.mjs build:web
 
 # 5. Stage standalone assets next to the server (same recipe CI uses)
 cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
@@ -76,7 +75,7 @@ in a browser.
 | Symptom | Meaning | Action |
 |---|---|---|
 | Build killed / `ENOMEM` / signal 9 | Host RAM too small for Next build | No code fix exists — move to a bigger tier/VPS |
-| `Failed to install dependencies` with `.../corepack/v1/pnpm/12.4.2/bin/pnpm.cjs` (`MODULE_NOT_FOUND`) | Host corepack `<=0.34` resolving its image-default `12.4.2`, which it cannot execute (pnpm `>=11` ships `bin/pnpm.mjs`, not `bin/pnpm.cjs`) — see "Hostinger panel without SSH" below | Use exactly the `node ./scripts/...` command; panel install must not run first |
+| `Failed to install dependencies` with `.../corepack/v1/pnpm/12.x/bin/pnpm.cjs` (`MODULE_NOT_FOUND`) | Host corepack `<=0.34`, which cannot execute any pnpm `>=11` (ships `bin/pnpm.mjs`, not `bin/pnpm.cjs`) — see "Hostinger panel without SSH" below | Use exactly the `node ./scripts/...` (`.mjs`) command; panel install must not run first |
 
 ## Hostinger panel without SSH (no custom install command)
 
@@ -93,13 +92,13 @@ deploy keeps failing on the pinned commit with the `12.4.2` /
    `NEXT_PUBLIC_SITE_URL=https://rovotools.com`,
    `NEXT_PUBLIC_APP_NAME=RovoTools`,
    `NEXT_PUBLIC_COMPANY_NAME=RovoCorp LTD`.
-2. The failure is host-side and cache-clearing cannot fix it: the
-   `12.4.2` cache downloads **completely** but host corepack `<=0.34`
-   hardcodes the `bin/pnpm.cjs` entry point, which pnpm `>=11` no longer
-   ships (reproduced locally on corepack `0.34.2`). Confirm the app root
-   contains the root `package.json` (`packageManager: pnpm@9.12.0`), then
-   redeploy — install must resolve `9.12.0`, not `12.4.2`.
-3. If installs keep resolving `12.4.2`, send support this text:
+2. The failure is host-side and no cache-clear fixes it: the `12.x`
+   cache downloads **completely** but host corepack `<=0.34` hardcodes the
+   `bin/pnpm.cjs` entry point, which pnpm `>=11` no longer ships
+   (reproduced locally on corepack `0.34.2`). The repo pin is now `12.4.2`
+   per the host's requirement — confirm the app root contains the root
+   `package.json` (`packageManager: pnpm@12.4.2`), then redeploy.
+3. If installs still fail on the `bin/pnpm.cjs` path, send support this text:
 
 ```text
 Deployment of rovocorp/rovotools@main fails at install with:
@@ -108,11 +107,11 @@ Error: Cannot find module '/home/<user>/.cache/node/corepack/v1/pnpm/12.4.2/bin/
 I verified the 12.4.2 cache downloads completely (bin/pnpm.mjs present) and
 reproduced the identical crash locally on corepack 0.34.2: corepack <=0.34
 hardcodes the bin/pnpm.cjs entry point, which pnpm >=11 no longer ships, so
-it cannot execute any pnpm >=11. Matching my repo pin to 12.4.2 fails
-identically — the repo therefore stays on pnpm@9.12.0 (pinned in root +
-apps/web + apps/mobile, CI green). Please either upgrade corepack on the
-Node 22 image, default the image pnpm to 9.x/10.x, or run installs from the
-repo root so the 9.12.0 pin is honored, then redeploy on Node 22.x.
+it cannot execute any 12.x. My repo now pins pnpm@12.4.2 (root + apps/web +
+apps/mobile, engines pnpm >=12.0.0) exactly as requested, yet the same path
+fails — the defect is in the image's corepack, not my pin. Please upgrade
+corepack on the Node 22 image (or default its pnpm to a runnable line),
+then redeploy on Node 22.x with app root = monorepo root.
 ```
 | App stops after logout/reboot | `nohup` doesn't survive reboots | Ask support for their process supervisor, or add a cron `@reboot` entry if allowed |
 | Wrong canonical/metadata | Step 3 env vars were missing at build time | Re-export and re-run steps 4–6 |

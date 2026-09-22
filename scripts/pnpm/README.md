@@ -1,7 +1,11 @@
 # Vendored pnpm (deploy fallback)
 
-`bin/` + `dist/` are the standalone pnpm **9.12.0** executable, copied verbatim
-from the published `pnpm@9.12.0` npm tarball (`bin/pnpm.cjs` entry point).
+`bin/` + `dist/` (+ `native-binary.mjs`, `install.js`, `package.json`
+manifest) are the standalone pnpm **12.4.2** loader, copied verbatim from
+the published `pnpm@12.4.2` npm tarball (`bin/pnpm.mjs` entry point). The
+platform binary (`pnpm-native.exe`, 44MB, OS-specific) is deliberately
+excluded: the loader downloads the correct one on first run (network needed
+once — same as any install) and caches it next to itself.
 
 ## Why it exists
 
@@ -25,16 +29,17 @@ the `12.4.2` cache is downloaded **completely** (`bin/pnpm.mjs` present) —
 corepack `<=0.34` simply hardcodes the `bin/pnpm.cjs` entry point, which no
 longer exists since pnpm `>=11` ships `bin/pnpm.mjs` (a native-binary
 loader). So corepack `<=0.34` cannot execute **any** pnpm `>=11`, no matter
-what the repo pins. Matching the pin to `12.4.2` was tried and fails
-identically — the repo therefore stays on `9.12.0`, the newest line such
-old corepacks can run. The host must upgrade corepack (or default its pnpm
-to `9.x`/`10.x`, or run installs from the repo root so the pin is honored).
+what the repo pins. Per the host's requirement the repo pin is now
+`12.4.2` (root + `apps/web` + `apps/mobile`, `engines.pnpm >=12.0.0`) —
+which means developers on corepack `<=0.34` (bundled with Node 22/24) must
+use this vendored loader or upgrade corepack; `corepack pnpm` will fail for
+them with the same `bin/pnpm.cjs` `MODULE_NOT_FOUND`.
 
 This vendored copy removes the package manager from the equation:
 
 ```sh
 # Hostinger install command (no corepack, no global install, no pm download)
-node ./scripts/pnpm/bin/pnpm.cjs install --frozen-lockfile
+node ./scripts/pnpm/bin/pnpm.mjs install --frozen-lockfile
 ```
 
 Only the project *dependencies* still need registry access — same as any
@@ -45,6 +50,8 @@ install. Verified working with `--frozen-lockfile` against this repo's
 
 - Do NOT hand-edit anything under `bin/` or `dist/`.
 - To refresh (e.g. repo moves to a new pinned pnpm): `npm pack pnpm@<version>`
-  and replace both directories; keep this file's version note in sync.
+  and replace `bin/`, `dist/`, `native-binary.mjs`, `install.js` and the
+  `package.json` manifest; never commit the downloaded `pnpm-native(.exe)`
+  platform blob. Keep this file's version note in sync.
 - Source of truth for the pin remains the root `package.json`
   `packageManager` field.

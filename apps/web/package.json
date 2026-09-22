@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "description": "RovoTools Web Application (Next.js + PWA)",
-  "packageManager": "pnpm@9.12.0",
+  "packageManager": "pnpm@12.4.2",
   "engines": {
     "node": ">=20.0.0",
-    "pnpm": ">=9.0.0"
+    "pnpm": ">=12.0.0"
   },
   "scripts": {
     "copy:pdf-worker": "node scripts/copy-pdf-worker.mjs",
