@@ -177,7 +177,7 @@ export default function Home(): React.ReactElement {
                 text: t("en", `faq.a${n}` as "faq.a1"),
               },
             })),
-          }),
+          }).replace(/</g, "\\u003c"),
         }}
       />
 

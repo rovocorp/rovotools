@@ -1,68 +1,10 @@
 "use client";
 
 import type {
-  CameraAdapter,
-  FilePickerAdapter,
   KeyValueStorageAdapter,
-  PickedFile,
   ShareAdapter,
   ShareResult,
 } from "@rovotools/types";
-import { validateFileMeta } from "@rovotools/core";
-
-let lastObjectUrl: string | null = null;
-
-function trackObjectUrl(url: string): string {
-  if (lastObjectUrl !== null) {
-    try {
-      URL.revokeObjectURL(lastObjectUrl);
-    } catch {
-      // Revocation is best-effort.
-    }
-  }
-  lastObjectUrl = url;
-  return url;
-}
-
-function readFileMeta(file: File): PickedFile | null {
-  const meta = validateFileMeta({ name: file.name, mimeType: file.type, size: file.size });
-  if (!meta.valid) {
-    return null;
-  }
-  return {
-    uri: trackObjectUrl(URL.createObjectURL(file)),
-    name: file.name,
-    ...(file.type === "" ? {} : { mimeType: file.type }),
-    ...(Number.isFinite(file.size) ? { size: file.size } : {}),
-  };
-}
-
-function openFileDialog(accept: string, capture?: "environment" | "user"): Promise<File | null> {
-  return new Promise((resolve) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = accept;
-    if (capture !== undefined) {
-      input.setAttribute("capture", capture);
-    }
-    input.onchange = () => {
-      resolve(input.files?.[0] ?? null);
-    };
-    input.oncancel = () => resolve(null);
-    input.click();
-  });
-}
-
-export const webFilePicker: FilePickerAdapter = {
-  async pickDocument(): Promise<PickedFile | null> {
-    const file = await openFileDialog("*/*");
-    return file === null ? null : readFileMeta(file);
-  },
-  async pickImage(): Promise<PickedFile | null> {
-    const file = await openFileDialog("image/*");
-    return file === null ? null : readFileMeta(file);
-  },
-};
 
 function canUseWebShare(): boolean {
   return typeof navigator !== "undefined" && typeof navigator.share === "function";
@@ -137,21 +79,5 @@ export const webStorage: KeyValueStorageAdapter = {
     } catch {
       // Storage is best-effort.
     }
-  },
-};
-
-export const webCamera: CameraAdapter = {
-  async isAvailable(): Promise<boolean> {
-    if (typeof navigator === "undefined" || navigator.mediaDevices === undefined) {
-      return false;
-    }
-    return typeof navigator.mediaDevices.getUserMedia === "function";
-  },
-  async captureImage(): Promise<PickedFile | null> {
-    if (typeof document === "undefined") {
-      return null;
-    }
-    const file = await openFileDialog("image/*", "environment");
-    return file === null ? null : readFileMeta(file);
   },
 };

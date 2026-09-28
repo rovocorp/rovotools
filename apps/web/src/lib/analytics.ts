@@ -95,28 +95,15 @@ export function useConsentDecided(): boolean {
 }
 
 interface AnalyticsProvider {
-  trackPage: (path: string) => void;
   trackEvent: (name: string, properties?: Record<string, string | number | boolean>) => void;
 }
 
-/** Default provider: privacy-safe no-op that only counts anonymous page views when consented. */
+/** Default provider: privacy-safe no-op. */
 const defaultProvider: AnalyticsProvider = {
-  trackPage: () => {},
   trackEvent: () => {},
 };
 
-let provider: AnalyticsProvider = defaultProvider;
-
-export function setAnalyticsProvider(next: AnalyticsProvider): void {
-  provider = next;
-}
-
-export function trackPage(path: string): void {
-  if (getConsent() !== "granted") {
-    return;
-  }
-  provider.trackPage(path);
-}
+const provider: AnalyticsProvider = defaultProvider;
 
 /**
  * Track a UI event. Callers must only pass anonymous, non-sensitive

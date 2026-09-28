@@ -3,15 +3,11 @@ import * as Clipboard from "expo-clipboard";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
-import * as SecureStore from "expo-secure-store";
 import * as Sharing from "expo-sharing";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import type {
   CameraAdapter,
   FilePickerAdapter,
-  KeyValueStorageAdapter,
   PickedFile,
-  SecureStorageAdapter,
   ShareAdapter,
   ShareResult,
 } from "@rovotools/types";
@@ -127,55 +123,6 @@ export async function exportTextFile(slug: string, text: string): Promise<boolea
     return false;
   }
 }
-
-export const mobileStorage: KeyValueStorageAdapter = {
-  async getItem(key: string): Promise<string | null> {
-    try {
-      return await AsyncStorage.getItem(key);
-    } catch {
-      return null;
-    }
-  },
-  async setItem(key: string, value: string): Promise<void> {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch {
-      // Persistence is best-effort on device.
-    }
-  },
-  async removeItem(key: string): Promise<void> {
-    try {
-      await AsyncStorage.removeItem(key);
-    } catch {
-      // Persistence is best-effort on device.
-    }
-  },
-};
-
-export const mobileSecureStorage: SecureStorageAdapter = {
-  kind: "secure-store",
-  async getItem(key: string): Promise<string | null> {
-    try {
-      return await SecureStore.getItemAsync(key);
-    } catch {
-      return null;
-    }
-  },
-  async setItem(key: string, value: string): Promise<void> {
-    try {
-      await SecureStore.setItemAsync(key, value);
-    } catch {
-      // Secure storage is best-effort on device.
-    }
-  },
-  async removeItem(key: string): Promise<void> {
-    try {
-      await SecureStore.deleteItemAsync(key);
-    } catch {
-      // Secure storage is best-effort on device.
-    }
-  },
-};
 
 export const mobileCamera: CameraAdapter = {
   async isAvailable(): Promise<boolean> {

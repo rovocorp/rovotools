@@ -83,7 +83,7 @@ export default async function ToolsPage({
                 url: `${WEB_URL}${entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`}`,
               })),
             },
-          }),
+          }).replace(/</g, "\\u003c"),
         }}
       />
       <Breadcrumbs

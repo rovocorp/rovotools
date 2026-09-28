@@ -24,7 +24,7 @@ export default function Breadcrumbs({ crumbs }: { crumbs: ReadonlyArray<Crumb> }
   const jsonLd = breadcrumbJsonLd(crumbs);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <nav aria-label="Breadcrumb">
         <ol className="flex flex-wrap items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400">
           {crumbs.map((crumb, index) => {

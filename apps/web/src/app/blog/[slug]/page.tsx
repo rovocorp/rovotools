@@ -74,7 +74,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <div className="xl:flex xl:items-start xl:gap-8">
       <div className="min-w-0 flex-1">
       <article className="mx-auto max-w-3xl xl:mx-0">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Breadcrumbs
         crumbs={[
           { label: t("en", "navigation.home"), href: "/" },
