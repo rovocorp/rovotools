@@ -50,9 +50,9 @@ node ./scripts/pnpm/bin/pnpm.mjs --filter @rovotools/web prisma:generate
 node ./scripts/pnpm/bin/pnpm.mjs build:web
 
 # 5. Verify the standalone artifact (entry + staged client assets)
-ls apps/web/.next/standalone/apps/web/server.js
-ls apps/web/.next/standalone/apps/web/.next/static
-ls apps/web/.next/standalone/apps/web/public
+test -f apps/web/.next/standalone/apps/web/server.js || (echo "standalone server missing" && exit 1)
+ls apps/web/.next/standalone/apps/web/.next/static > /dev/null
+ls apps/web/.next/standalone/apps/web/public > /dev/null
 
 # 6. Start (replace 3000 with the port your host assigns)
 cd apps/web/.next/standalone
@@ -78,6 +78,8 @@ in a browser.
 |---|---|---|
 | Build killed / `ENOMEM` / signal 9 | Host RAM too small for Next build | No code fix exists — move to a bigger tier/VPS |
 | `Failed to install dependencies` with `.../corepack/v1/pnpm/12.x/bin/pnpm.cjs` (`MODULE_NOT_FOUND`) | Host corepack `<=0.34`, which cannot execute any pnpm `>=11` (ships `bin/pnpm.mjs`, not `bin/pnpm.cjs`) — see "Hostinger panel without SSH" below | Use exactly the `node ./scripts/...` (`.mjs`) command; panel install must not run first |
+| App stops after logout/reboot | `nohup` doesn't survive reboots | Ask support for their process supervisor, or add a cron `@reboot` entry if allowed |
+| Wrong canonical/metadata | Step 3 env vars were missing at build time | Re-export and re-run steps 4–6 |
 
 ## Hostinger panel without SSH (no custom install command)
 
@@ -120,8 +122,6 @@ fails — the defect is in the image's corepack, not my pin. Please upgrade
 corepack on the Node 22 image (or default its pnpm to a runnable line),
 then redeploy on Node 22.x with app root = monorepo root.
 ```
-| App stops after logout/reboot | `nohup` doesn't survive reboots | Ask support for their process supervisor, or add a cron `@reboot` entry if allowed |
-| Wrong canonical/metadata | Step 3 env vars were missing at build time | Re-export and re-run steps 4–6 |
 
 ## Panel settings (when the panel works again)
 
