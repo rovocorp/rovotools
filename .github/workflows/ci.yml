@@ -20,10 +20,13 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          # Must match root packageManager. The pnpm store cache lives here
-          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
-          # `pnpm` executable it cannot locate and fails the job.
-          version: 10.22.0
+          # No `version:` here on purpose: action-setup errors out when both
+          # the action config and package.json `packageManager` pin a version
+          # ("Multiple versions of pnpm specified"). The root
+          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
+          # The store cache lives here, not in setup-node: setup-node's
+          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
+          # and fails the job.
           cache: true
 
       - uses: actions/setup-node@v4
@@ -62,10 +65,13 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          # Must match root packageManager. The pnpm store cache lives here
-          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
-          # `pnpm` executable it cannot locate and fails the job.
-          version: 10.22.0
+          # No `version:` here on purpose: action-setup errors out when both
+          # the action config and package.json `packageManager` pin a version
+          # ("Multiple versions of pnpm specified"). The root
+          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
+          # The store cache lives here, not in setup-node: setup-node's
+          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
+          # and fails the job.
           cache: true
 
       - uses: actions/setup-node@v4
@@ -97,10 +103,13 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          # Must match root packageManager. The pnpm store cache lives here
-          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
-          # `pnpm` executable it cannot locate and fails the job.
-          version: 10.22.0
+          # No `version:` here on purpose: action-setup errors out when both
+          # the action config and package.json `packageManager` pin a version
+          # ("Multiple versions of pnpm specified"). The root
+          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
+          # The store cache lives here, not in setup-node: setup-node's
+          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
+          # and fails the job.
           cache: true
 
       - uses: actions/setup-node@v4
@@ -130,10 +139,13 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          # Must match root packageManager. The pnpm store cache lives here
-          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
-          # `pnpm` executable it cannot locate and fails the job.
-          version: 10.22.0
+          # No `version:` here on purpose: action-setup errors out when both
+          # the action config and package.json `packageManager` pin a version
+          # ("Multiple versions of pnpm specified"). The root
+          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
+          # The store cache lives here, not in setup-node: setup-node's
+          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
+          # and fails the job.
           cache: true
 
       - uses: actions/setup-node@v4
