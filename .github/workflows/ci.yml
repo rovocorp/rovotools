@@ -19,11 +19,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          # Must match root packageManager. The pnpm store cache lives here
+          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
+          # `pnpm` executable it cannot locate and fails the job.
+          version: 10.22.0
+          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
@@ -56,11 +61,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          # Must match root packageManager. The pnpm store cache lives here
+          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
+          # `pnpm` executable it cannot locate and fails the job.
+          version: 10.22.0
+          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
@@ -86,11 +96,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          # Must match root packageManager. The pnpm store cache lives here
+          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
+          # `pnpm` executable it cannot locate and fails the job.
+          version: 10.22.0
+          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
@@ -114,11 +129,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          # Must match root packageManager. The pnpm store cache lives here
+          # (not in setup-node): setup-node's `cache: pnpm` shells out to a
+          # `pnpm` executable it cannot locate and fails the job.
+          version: 10.22.0
+          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
