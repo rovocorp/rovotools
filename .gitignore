@@ -10,8 +10,6 @@ node_modules/
 
 # build outputs
 dist/
-# ...except the vendored pnpm deploy binary, which must stay committed
-!scripts/pnpm/dist/
 # pnpm >=11 loader downloads its OS-specific binary next to itself on first
 # run — never commit that blob (each machine/host fetches its own platform)
 scripts/pnpm/pnpm-native*
@@ -73,3 +71,13 @@ theme-test.txt
 *.orig
 *.bak
 *.swp
+
+# ...except the vendored pnpm deploy binary, which must stay committed IN
+# FULL (bin + dist payload incl. its bundled node_modules): fresh clones and
+# hosts use it with no registry round-trip for the package manager itself.
+# This block lives LAST on purpose: gitignore is last-match-wins, and the
+# generic patterns above (dist/, build/, node_modules/, .idea/, ...) also
+# match NESTED dirs inside the payload — anything placed earlier gets
+# re-ignored. The trailing /** re-includes the whole subtree at any depth.
+!scripts/pnpm/dist/
+!scripts/pnpm/dist/**

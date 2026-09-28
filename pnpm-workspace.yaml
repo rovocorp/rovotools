@@ -9,6 +9,17 @@ allowBuilds:
   prisma: true
   unrs-resolver: true
 
+# pnpm 10 does not understand `allowBuilds` (v11+ key): it needs the
+# equivalent `onlyBuiltDependencies` list or postinstall scripts
+# (Prisma engines download, esbuild/unrs-resolver native binaries) are
+# silently skipped and `prisma generate` / `next build` break.
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - esbuild
+  - prisma
+  - unrs-resolver
+
 # v12 defaults publicHoistPattern to [] (v9 hoisted eslint/prettier to the
 # workspace root). Workspace packages run `eslint` without declaring it, so
 # restore that explicitly; scripts resolve it via the root node_modules/.bin.
