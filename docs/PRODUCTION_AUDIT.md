@@ -60,8 +60,9 @@
 > AdSense "tool not found" client-registry bug (now E2E-covered),
 > E2E harness (dedicated port, standalone server, no stray-server reuse,
 > hydration race, bespoke-tool exclusions via `customToolSlugs`).
-> Deploy note: standalone requires staging `.next/static` + `public` into
-> `.next/standalone/apps/web/` (standard Next recipe — not automatic).
+> Deploy note: standalone staging of `.next/static` + `public` into
+> `.next/standalone/apps/web/` is automatic via the web `postbuild` hook
+> (`scripts/stage-standalone.mjs`).
 > Live artifact probes: full security-header set present, prod CSP has no
 > `unsafe-eval`, cross-origin API POST → 403. Remaining blockers: C2 (store
 > credentials/assets), H1 (favorites trust decision), M1 (single-instance

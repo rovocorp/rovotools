@@ -74,14 +74,9 @@ jobs:
         run: |
           test -f apps/web/public/sw.js || (echo "sw.js missing" && exit 1)
           ls apps/web/.next/standalone > /dev/null
-
-      # Standalone omits client assets by design: stage them exactly as the
-      # deploy recipe requires, so E2E and Lighthouse test the real artifact.
-      - name: Stage standalone assets
-        run: |
-          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
-          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
-          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
+          test -f apps/web/.next/standalone/apps/web/server.js || (echo "standalone server missing" && exit 1)
+          ls apps/web/.next/standalone/apps/web/.next/static > /dev/null
+          ls apps/web/.next/standalone/apps/web/public > /dev/null
 
   e2e:
     name: E2E (Playwright, all engines)
@@ -108,12 +103,6 @@ jobs:
       - name: Build
         run: pnpm build:web
 
-      - name: Stage standalone assets
-        run: |
-          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
-          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
-          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
-
       - name: E2E tests
         run: pnpm --filter @rovotools/web e2e
 
@@ -138,12 +127,6 @@ jobs:
 
       - name: Build
         run: pnpm build:web
-
-      - name: Stage standalone assets
-        run: |
-          mkdir -p apps/web/.next/standalone/apps/web/.next apps/web/.next/standalone/apps/web/public
-          cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
-          cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
 
       - name: Lighthouse CI
         working-directory: apps/web

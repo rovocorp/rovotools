@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import withPWA from "next-pwa";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
@@ -6,9 +8,21 @@ const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+// Monorepo root (this file lives in apps/web/). Pinned relative to the
+// config file — never process.cwd() — so standalone output tracing always
+// uses this checkout as the workspace root. Hostinger checks out to
+// .../public_html/.builds/source/repository with a stray lockfile above it;
+// without this pin Next infers the parent domain directory as the workspace
+// root and emits the standalone server at an unexpected path, failing the
+// deploy with "Next.js build produced no standalone server".
+// Hostinger's `next` app type applies output:"standalone" automatically;
+// keeping it here also covers SSH/VPS/CI deploys.
+const tracingRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
+  outputFileTracingRoot: tracingRoot,
 
   images: {
     formats: ["image/avif", "image/webp"],

@@ -44,13 +44,15 @@ export NEXT_PUBLIC_COMPANY_NAME="RovoCorp LTD"
 # export NEXT_PUBLIC_ADSENSE_PUBLISHER_ID="ca-pub-XXXXXXXXXXXXXXXX"
 # export NEXT_PUBLIC_ADSENSE_SLOT_ID="XXXXXXXXXX"
 
-# 4. Prisma client, then the production build
+# 4. Prisma client, then the production build (standalone static/public
+#    staging runs automatically via the web `postbuild` hook)
 node ./scripts/pnpm/bin/pnpm.mjs --filter @rovotools/web prisma:generate
 node ./scripts/pnpm/bin/pnpm.mjs build:web
 
-# 5. Stage standalone assets next to the server (same recipe CI uses)
-cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static
-cp -r apps/web/public/. apps/web/.next/standalone/apps/web/public/
+# 5. Verify the standalone artifact (entry + staged client assets)
+ls apps/web/.next/standalone/apps/web/server.js
+ls apps/web/.next/standalone/apps/web/.next/static
+ls apps/web/.next/standalone/apps/web/public
 
 # 6. Start (replace 3000 with the port your host assigns)
 cd apps/web/.next/standalone
@@ -83,12 +85,17 @@ Use when the panel offers no custom install command and no SSH (fresh
 deploy keeps failing on the pinned commit with the `12.4.2` /
 `MODULE_NOT_FOUND` error above):
 
-1. Panel inputs (copy-paste): repo `rovocorp/rovotools`, branch `main`,
-   root `./` (monorepo root — never `apps/web`), Node `22.x`.
-   Install: `pnpm install --frozen-lockfile` (default, from `./`).
-   Build: `pnpm --filter @rovotools/web prisma:generate && pnpm build:web`.
-   Output: `apps/web/.next/standalone`. Start (cwd `./`):
-   `node apps/web/server.js`. Env (all three, never `None`):
+1. Panel inputs (copy-paste, Hostinger `next` app type): repo
+   `rovocorp/rovotools`, branch `main`, root `./` (monorepo root — never
+   `apps/web`, or workspace resolution breaks), Node `22.x`,
+   framework `next`, install `pnpm install --frozen-lockfile` (default,
+   from `./`). Build: `pnpm run deploy:web` (runs Prisma generate +
+   workspace packages + web `build`; standalone static/public staging is
+   automatic via the web `postbuild` hook). Output: `apps/web/.next`.
+   Entry file: leave empty — ignored for `next` (Hostinger starts the
+   bundled standalone server at
+   `apps/web/.next/standalone/apps/web/server.js` itself). Env (all three,
+   never `None`):
    `NEXT_PUBLIC_SITE_URL=https://rovotools.com`,
    `NEXT_PUBLIC_APP_NAME=RovoTools`,
    `NEXT_PUBLIC_COMPANY_NAME=RovoCorp LTD`.
@@ -118,10 +125,16 @@ then redeploy on Node 22.x with app root = monorepo root.
 
 ## Panel settings (when the panel works again)
 
-Framework **Next.js**, Node **22.x**, package manager **pnpm**,
-install `pnpm install --frozen-lockfile` (or the vendored command above),
-build `pnpm --filter @rovotools/web prisma:generate && pnpm build:web`
-(single-command panels: `pnpm run deploy:web`, which chains both steps),
-start `node apps/web/server.js` from the staged standalone dir,
-same three `NEXT_PUBLIC_*` env vars. Root directory `./` (monorepo root —
-never `apps/web`, or workspace resolution breaks).
+Hostinger `next` app type (server mode): framework **Next.js**, Node
+**22.x** (20+ required), package manager **pnpm** (auto-detected from
+`pnpm-lock.yaml`), root directory `./` (monorepo root — never `apps/web`,
+or workspace resolution breaks), install
+`pnpm install --frozen-lockfile` (or the vendored command above), build
+`pnpm run deploy:web` (Prisma generate + `build:web`; static/public
+staging is automatic via `postbuild`), output directory
+`apps/web/.next`, entry file empty (ignored for `next` — Hostinger starts
+the bundled standalone server itself), same three `NEXT_PUBLIC_*` env
+vars. `next.config.ts` stays a plain object export (never a function),
+which Hostinger wraps to enforce `output: "standalone"`; standalone
+tracing is pinned to the checkout via `outputFileTracingRoot` so the
+stray lockfile above Hostinger's checkout cannot move the server path.
