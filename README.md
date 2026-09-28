@@ -69,6 +69,6 @@ Each package and app has its own `package.json` with platform-specific scripts.
 | Styling (Web) | Tailwind CSS v4 |
 | Validation | Zod |
 | i18n | react-i18next |
-| State (Web) | Zustand + TanStack Query |
-| State (Mobile) | Zustand |
+| State (Web) | TanStack Query + fetch/localStorage |
+| State (Mobile) | AsyncStorage |
 | Linting | ESLint 9 |

@@ -92,8 +92,9 @@ error):
 1. Panel inputs (copy-paste, Hostinger `next` app type): repo
    `rovocorp/rovotools`, branch `main`, root `./` (monorepo root — never
    `apps/web`, or workspace resolution breaks), Node `22.x`,
-   framework `next`, install `pnpm install --frozen-lockfile` (default,
-   from `./`). Build: `pnpm run deploy:web` (runs Prisma generate +
+   framework `next`. Dependencies install automatically — the panel
+   detects `pnpm` from `pnpm-lock.yaml`, so there is no install-command
+   field to fill. Build: `pnpm run deploy:web` (runs Prisma generate +
    workspace packages + web `build`; standalone static/public staging is
    automatic via the web `postbuild` hook). Output: `apps/web/.next`.
    Entry file: leave empty — ignored for `next` (Hostinger starts the
