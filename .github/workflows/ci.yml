@@ -18,20 +18,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Bare action-setup: reads the root `packageManager: pnpm@10.22.0`
+      # pin (its only version source — never add a `version:` input, the
+      # action aborts on dual pins). No `cache:` anywhere: both
+      # action-setup's and setup-node's cache implementations shell out to
+      # a `pnpm` executable that is not reliably present at setup time
+      # ("Unable to locate executable file: pnpm"); installs run uncached.
       - uses: pnpm/action-setup@v4
-        with:
-          # No `version:` here on purpose: action-setup errors out when both
-          # the action config and package.json `packageManager` pin a version
-          # ("Multiple versions of pnpm specified"). The root
-          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
-          # The store cache lives here, not in setup-node: setup-node's
-          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
-          # and fails the job.
-          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Verify pnpm
+        run: pnpm --version
 
       - run: pnpm install --frozen-lockfile
 
@@ -63,20 +63,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Bare action-setup: reads the root `packageManager: pnpm@10.22.0`
+      # pin (its only version source — never add a `version:` input, the
+      # action aborts on dual pins). No `cache:` anywhere: both
+      # action-setup's and setup-node's cache implementations shell out to
+      # a `pnpm` executable that is not reliably present at setup time
+      # ("Unable to locate executable file: pnpm"); installs run uncached.
       - uses: pnpm/action-setup@v4
-        with:
-          # No `version:` here on purpose: action-setup errors out when both
-          # the action config and package.json `packageManager` pin a version
-          # ("Multiple versions of pnpm specified"). The root
-          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
-          # The store cache lives here, not in setup-node: setup-node's
-          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
-          # and fails the job.
-          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Verify pnpm
+        run: pnpm --version
 
       - run: pnpm install --frozen-lockfile
 
@@ -101,20 +101,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Bare action-setup: reads the root `packageManager: pnpm@10.22.0`
+      # pin (its only version source — never add a `version:` input, the
+      # action aborts on dual pins). No `cache:` anywhere: both
+      # action-setup's and setup-node's cache implementations shell out to
+      # a `pnpm` executable that is not reliably present at setup time
+      # ("Unable to locate executable file: pnpm"); installs run uncached.
       - uses: pnpm/action-setup@v4
-        with:
-          # No `version:` here on purpose: action-setup errors out when both
-          # the action config and package.json `packageManager` pin a version
-          # ("Multiple versions of pnpm specified"). The root
-          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
-          # The store cache lives here, not in setup-node: setup-node's
-          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
-          # and fails the job.
-          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Verify pnpm
+        run: pnpm --version
 
       - run: pnpm install --frozen-lockfile
 
@@ -137,20 +137,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Bare action-setup: reads the root `packageManager: pnpm@10.22.0`
+      # pin (its only version source — never add a `version:` input, the
+      # action aborts on dual pins). No `cache:` anywhere: both
+      # action-setup's and setup-node's cache implementations shell out to
+      # a `pnpm` executable that is not reliably present at setup time
+      # ("Unable to locate executable file: pnpm"); installs run uncached.
       - uses: pnpm/action-setup@v4
-        with:
-          # No `version:` here on purpose: action-setup errors out when both
-          # the action config and package.json `packageManager` pin a version
-          # ("Multiple versions of pnpm specified"). The root
-          # `packageManager: pnpm@10.22.0` pin is the single source of truth.
-          # The store cache lives here, not in setup-node: setup-node's
-          # `cache: pnpm` shells out to a `pnpm` executable it cannot locate
-          # and fails the job.
-          cache: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Verify pnpm
+        run: pnpm --version
 
       - run: pnpm install --frozen-lockfile
 
