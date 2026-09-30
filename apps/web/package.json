@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "RovoTools Web Application (Next.js + PWA)",
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@10.22.0+sha512-vwSe/plbKPUn/StBrgR0zikYb37cs79UUIe9Yfu+uyv3U2LRMH/aCcLSiOHkmXh6wS1Py2F6l0cYpgUfLu50HA==",
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=10.0.0 <11.0.0"

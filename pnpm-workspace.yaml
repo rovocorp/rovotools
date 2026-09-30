@@ -2,17 +2,13 @@ packages:
   - 'apps/*'
   - 'packages/*'
 
-allowBuilds:
-  '@prisma/client': true
-  '@prisma/engines': true
-  esbuild: true
-  prisma: true
-  unrs-resolver: true
-
-# pnpm 10 does not understand `allowBuilds` (v11+ key): it needs the
-# equivalent `onlyBuiltDependencies` list or postinstall scripts
-# (Prisma engines download, esbuild/unrs-resolver native binaries) are
-# silently skipped and `prisma generate` / `next build` break.
+# Hostinger's panel runs its own corepack/pnpm and must stay on the pnpm 10
+# line: do NOT add v11+ keys such as `allowBuilds` here — they can signal
+# a newer pnpm (11/12) to host heuristics and break installs with
+# `bin/pnpm.cjs MODULE_NOT_FOUND` on corepack<=0.34. pnpm 10 uses the
+# `onlyBuiltDependencies` list below so postinstall scripts (Prisma engines
+# download, esbuild/unrs-resolver native binaries) still run and
+# `prisma generate` / `next build` don't break.
 onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
