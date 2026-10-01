@@ -14,8 +14,6 @@
     "dev": "next dev --webpack",
     "prebuild": "node scripts/copy-pdf-worker.mjs",
     "build": "next build --webpack",
-    "stage:standalone": "node scripts/stage-standalone.mjs",
-    "postbuild": "node scripts/stage-standalone.mjs",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -23,12 +21,9 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "lighthouse": "lhci autorun",
-    "clean": "rm -rf .next node_modules",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "clean": "rm -rf .next out node_modules"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.0",
     "@rovotools/calculations": "workspace:*",
     "@rovotools/config": "workspace:*",
     "@rovotools/core": "workspace:*",
@@ -74,7 +69,6 @@
     "eslint-config-next": "16.3.3",
     "jsdom": "^30.0.1",
     "postcss": "^8",
-    "prisma": "^6.4.0",
     "tailwindcss": "^4",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"

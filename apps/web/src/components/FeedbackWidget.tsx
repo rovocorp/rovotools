@@ -5,30 +5,32 @@ import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 
+const FEEDBACK_KEY = "rovotools:feedback";
+
+function storeLocalFeedback(toolId: string, useful: boolean): void {
+  try {
+    const raw = localStorage.getItem(FEEDBACK_KEY);
+    const parsed: unknown = raw === null ? {} : JSON.parse(raw);
+    const record = typeof parsed === "object" && parsed !== null ? (parsed as Record<string, boolean>) : {};
+    record[toolId] = useful;
+    localStorage.setItem(FEEDBACK_KEY, JSON.stringify(record));
+  } catch {
+    // Best-effort local persistence.
+  }
+}
+
 export default function FeedbackWidget({ toolId }: { toolId: string }): React.ReactElement {
   const [vote, setVote] = useState<"yes" | "no" | null>(null);
   const [comment, setComment] = useState("");
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  async function submit(next: "yes" | "no"): Promise<void> {
+  function submit(next: "yes" | "no"): void {
     setVote(next);
-    setError(null);
-    // Anonymous usage signal only — never includes tool inputs.
+    // Anonymous usage signal only — never includes tool inputs. Stored
+    // locally; no server in the static build.
     trackEvent("tool_feedback", { toolId, useful: next === "yes" });
-    try {
-      const res = await fetch("/api/feedback", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ toolId, useful: next === "yes", comment: comment.trim().slice(0, 500) || undefined }),
-      });
-      if (!res.ok) {
-        throw new Error("request failed");
-      }
-      setSent(true);
-    } catch {
-      setError("Could not send feedback. Please try again.");
-    }
+    storeLocalFeedback(toolId, next === "yes");
+    setSent(true);
   }
 
   return (
@@ -73,11 +75,6 @@ export default function FeedbackWidget({ toolId }: { toolId: string }): React.Re
             placeholder="What could be better?"
             className="mt-1 h-10 w-full max-w-md rounded-lg border border-zinc-300 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900"
           />
-          {error !== null ? (
-            <p role="alert" className="mt-2 text-sm text-red-600">
-              {error}
-            </p>
-          ) : null}
         </div>
       )}
     </section>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Download } from 'lucide-react';
 import { getOutputLabel, registerCoreTools, toolRegistry } from '@rovotools/tools';
+import { isBlockedHostname, isPrivateIPv4, parseTargetUrl } from '@/lib/fetch-guard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,22 +14,14 @@ import { cn } from '@/lib/utils';
 // pages.
 registerCoreTools(toolRegistry);
 
-interface FetchPageResult {
-  readonly ok?: boolean;
-  readonly finalUrl?: string;
-  readonly truncated?: boolean;
-  readonly html?: string;
-  readonly error?: string;
-}
-
 /**
  * Shared shell for the fetch-capable analyzer tools (SEO checker, Open Graph
  * checker, sitemap checker, tag detector, performance analyzer).
  *
  * Analysis itself is pure and registry-driven: pasted markup goes through the
  * tool's own validate()/execute(), so results are identical with or without
- * fetching. The optional URL box calls POST /api/fetch-page (SSRF-guarded,
- * rate-limited) and drops the fetched markup into the textarea.
+ * fetching. The optional URL box fetches directly in the browser and drops
+ * the markup into the textarea (CORS-blocked sites must be pasted manually).
  */
 export default function FetchAnalyzer({
   toolId,
@@ -57,26 +50,40 @@ export default function FetchAnalyzer({
   async function onFetch(): Promise<void> {
     setError(null);
     setFetchNote(null);
-    if (url.trim() === '') {
+    const target = url.trim();
+    if (target === '') {
       setError('Enter a page URL to fetch.');
+      return;
+    }
+    let parsed: URL;
+    try {
+      parsed = parseTargetUrl(target);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Enter a valid page URL.');
+      return;
+    }
+    if (isBlockedHostname(parsed.hostname)) {
+      setError('That host is not publicly reachable.');
+      return;
+    }
+    // Literal-IP check only (no DNS in the browser): numeric private
+    // targets like 127.0.0.1/10.x/192.168.x are rejected without network.
+    if (/^\d{1,3}(\.\d{1,3}){3}$/.test(parsed.hostname) && isPrivateIPv4(parsed.hostname)) {
+      setError('That host resolves to a private address.');
       return;
     }
     setFetchState('loading');
     try {
-      const response = await fetch('/api/fetch-page', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ url: url.trim() }),
-      });
-      const data = (await response.json().catch(() => null)) as FetchPageResult | null;
-      if (!response.ok || data === null || data.ok !== true || typeof data.html !== 'string') {
-        setError(data?.error ?? 'Could not fetch that page.');
+      const response = await fetch(parsed.toString());
+      if (!response.ok) {
+        setError(`The page answered with status ${response.status}.`);
         return;
       }
-      setContent(data.html);
-      setFetchNote(`Fetched ${data.finalUrl ?? url.trim()}${data.truncated === true ? ' (truncated at 2 MB)' : ''} — review, then Analyze.`);
+      const html = await response.text();
+      setContent(html.slice(0, 2 * 1024 * 1024));
+      setFetchNote(`Fetched ${parsed.toString()} — review, then Analyze. Sites blocking cross-origin reads must be pasted manually.`);
     } catch {
-      setError('Could not fetch that page. Check your connection and try again.');
+      setError('Could not fetch that page in the browser (CORS or network). Paste the markup manually instead.');
     } finally {
       setFetchState('idle');
     }

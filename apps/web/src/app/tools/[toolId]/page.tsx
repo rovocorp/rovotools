@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { t } from "@rovotools/localization";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import ToolDetail from "@/components/tools/ToolDetail";
@@ -55,13 +55,8 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
     notFound();
   }
   const tool = entry.definition;
-  // PDF tools have dedicated nested landing pages (/tools/pdf/<slug>).
-  // The flat /tools/<slug> URL permanently redirects there (see
-  // next.config.ts) — this in-page redirect covers dev/preview where
-  // config redirects may not run.
-  const canonicalPath = tool.seo?.canonicalPath;
-  if (canonicalPath !== undefined && canonicalPath !== `/tools/${tool.slug}`) {
-    redirect(canonicalPath);
-  }
+  // Static export has no server redirects: PDF tools live only at their
+  // nested canonical (/tools/pdf/<slug>, see public/.htaccess for the
+  // Apache 301s). Flat slugs are excluded from static params above.
   return <ToolDetail slug={tool.slug} />;
 }

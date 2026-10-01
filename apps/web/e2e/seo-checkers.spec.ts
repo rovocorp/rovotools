@@ -23,7 +23,7 @@ const SAMPLE_XML = [
 ].join("\n");
 
 // Bespoke fetch-analyzer UIs: paste mode analyzes purely client-side;
-// the Fetch button posts to /api/fetch-page and fills the textarea.
+// the Fetch button fetches directly in the browser and fills the textarea.
 const PASTE_CASES: Array<{ slug: string; field: string; sample: string; action: string; outputs: number }> = [
   { slug: "seo-checker", field: "html", sample: SAMPLE_HTML, action: "Audit page", outputs: 8 },
   { slug: "open-graph-checker", field: "html", sample: SAMPLE_HTML, action: "Check tags", outputs: 7 },
@@ -55,20 +55,9 @@ test("seo-checker — shows a validation error on empty input", async ({ page })
   await expect(page.locator('main [role="alert"]')).toBeVisible({ timeout: 15000 });
 });
 
-test("open-graph-checker — Fetch page fills the textarea from the API", async ({ page }) => {
-  await page.route("**/api/fetch-page", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({
-        ok: true,
-        status: 200,
-        finalUrl: "https://example.com/page",
-        contentType: "text/html",
-        truncated: false,
-        html: SAMPLE_HTML,
-      }),
-    }),
+test("open-graph-checker — Fetch page fills the textarea from the URL", async ({ page }) => {
+  await page.route("**/example.com/page", (route) =>
+    route.fulfill({ status: 200, contentType: "text/html", body: SAMPLE_HTML }),
   );
   await page.goto("/tools/open-graph-checker");
   await dismissCookieBanner(page);
@@ -84,13 +73,6 @@ test("open-graph-checker — Fetch page fills the textarea from the API", async 
 });
 
 test("tag-detector — surfaces a fetch failure without crashing", async ({ page }) => {
-  await page.route("**/api/fetch-page", (route) =>
-    route.fulfill({
-      status: 403,
-      contentType: "application/json",
-      body: JSON.stringify({ error: "That host resolves to a private address." }),
-    }),
-  );
   await page.goto("/tools/tag-detector");
   await dismissCookieBanner(page);
   await expect(page.locator("#html")).toBeVisible({ timeout: 15000 });

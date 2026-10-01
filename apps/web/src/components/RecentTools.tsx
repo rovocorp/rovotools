@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { History } from "lucide-react";
 import { t } from "@rovotools/localization";
+import { getToolRegistry } from "@/lib/registry";
 
 interface PublicTool {
   id: string;
@@ -13,26 +14,47 @@ interface PublicTool {
   path: string;
 }
 
+function loadRecent(): ReadonlyArray<PublicTool> {
+  let ids: Array<string> = [];
+  try {
+    ids = JSON.parse(window.localStorage.getItem("rovotools:recents") ?? "[]") as Array<string>;
+  } catch {
+    return [];
+  }
+  if (ids.length === 0) {
+    return [];
+  }
+  try {
+    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name", limit: 100 });
+    const tools: Array<PublicTool> = entries.map((entry) => ({
+      id: entry.definition.id,
+      slug: entry.definition.slug,
+      name: entry.definition.name,
+      description: entry.definition.description,
+      path: `/tools/${entry.definition.slug}`,
+    }));
+    const byId = new Map(tools.map((tool) => [tool.id, tool]));
+    return ids.map((id) => byId.get(id)).filter((tool): tool is PublicTool => tool !== undefined).slice(0, 4);
+  } catch {
+    return [];
+  }
+}
+
 export default function RecentTools(): React.ReactElement {
   const [recent, setRecent] = useState<ReadonlyArray<PublicTool>>([]);
 
+  // Local registry + localStorage read on mount (no network). Queued as a
+  // microtask so the effect subscribes first and sets state in a callback.
   useEffect(() => {
-    let ids: Array<string> = [];
-    try {
-      ids = JSON.parse(window.localStorage.getItem("rovotools:recents") ?? "[]") as Array<string>;
-    } catch {
-      ids = [];
-    }
-    if (ids.length === 0) {
-      return;
-    }
-    fetch("/api/tools?limit=100")
-      .then((res) => res.json() as Promise<{ tools: Array<PublicTool> }>)
-      .then((data) => {
-        const byId = new Map((data.tools ?? []).map((tool) => [tool.id, tool]));
-        setRecent(ids.map((id) => byId.get(id)).filter((tool): tool is PublicTool => tool !== undefined).slice(0, 4));
-      })
-      .catch(() => setRecent([]));
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) {
+        setRecent(loadRecent());
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (recent.length === 0) {

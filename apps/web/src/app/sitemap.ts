@@ -4,6 +4,9 @@ import { getAllCategoryMetadata } from "@rovotools/tools";
 import { BLOG_POSTS } from "@/lib/blog";
 import { getToolRegistry } from "@/lib/registry";
 
+// Static export: prerender sitemap at build time.
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const registry = getToolRegistry();
   const now = new Date();

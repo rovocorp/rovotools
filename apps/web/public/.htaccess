@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Legacy tool URLs → canonical survivors (were next.config.ts redirects).
+  RewriteRule ^tools/emi-calculator/?$ /tools/loan-calculator/ [R=301,L]
+  RewriteRule ^tools/loan-payment-calculator/?$ /tools/loan-calculator/ [R=301,L]
+  RewriteRule ^tools/vat-calculator/?$ /tools/tax-calculator/ [R=301,L]
+  RewriteRule ^tools/character-counter/?$ /tools/word-counter/ [R=301,L]
+  RewriteRule ^tools/text-to-pdf/?$ /tools/pdf/pdf-creator/ [R=301,L]
+  RewriteRule ^tools/category/converter/?$ /tools/category/calculator/ [R=301,L]
+  RewriteRule ^tools/merge-pdf/?$ /tools/pdf/merge-pdf/ [R=301,L]
+  RewriteRule ^tools/split-pdf/?$ /tools/pdf/split-pdf/ [R=301,L]
+  RewriteRule ^tools/compress-pdf/?$ /tools/pdf/compress-pdf/ [R=301,L]
+  RewriteRule ^tools/jpg-to-pdf/?$ /tools/pdf/jpg-to-pdf/ [R=301,L]
+  RewriteRule ^tools/pdf-to-jpg/?$ /tools/pdf/pdf-to-jpg/ [R=301,L]
+  RewriteRule ^tools/word-to-pdf/?$ /tools/pdf/word-to-pdf/ [R=301,L]
+  RewriteRule ^tools/pdf-creator/?$ /tools/pdf/pdf-creator/ [R=301,L]
+  RewriteRule ^tools/sign-pdf/?$ /tools/pdf/sign-pdf/ [R=301,L]
+  RewriteRule ^tools/pdf-to-word/?$ /tools/pdf/pdf-to-word/ [R=301,L]
+  RewriteRule ^tools/pdf-to-excel/?$ /tools/pdf/pdf-to-excel/ [R=301,L]
+</IfModule>

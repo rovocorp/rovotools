@@ -10,6 +10,10 @@ env:
   NEXT_PUBLIC_SITE_URL: https://rovotools.com
   NEXT_PUBLIC_APP_NAME: RovoTools
   NEXT_PUBLIC_COMPANY_NAME: RovoCorp LTD
+  # AdSense Auto ads (public publisher ID, also in public/ads.txt). Bakes the
+  # SDK loader into the build; ads still require site approval + visitor
+  # cookie consent at runtime (see AdSenseScript).
+  NEXT_PUBLIC_ADSENSE_PUBLISHER_ID: ca-pub-8311202559739478
 
 jobs:
   quality:
@@ -33,9 +37,6 @@ jobs:
           pnpm --version
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Prisma client
-        run: pnpm --filter @rovotools/web prisma:generate
 
       - name: Build workspace packages
         # Cross-package imports resolve to ./dist (see package.json main
@@ -78,19 +79,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Prisma client
-        run: pnpm --filter @rovotools/web prisma:generate
-
       - name: Build
         run: pnpm build:web
 
-      - name: Verify PWA artifacts
+      - name: Verify static export artifacts
         run: |
           test -f apps/web/public/sw.js || (echo "sw.js missing" && exit 1)
-          ls apps/web/.next/standalone > /dev/null
-          test -f apps/web/.next/standalone/apps/web/server.js || (echo "standalone server missing" && exit 1)
-          ls apps/web/.next/standalone/apps/web/.next/static > /dev/null
-          ls apps/web/.next/standalone/apps/web/public > /dev/null
+          test -f apps/web/out/index.html || (echo "out/index.html missing" && exit 1)
+          test -f apps/web/out/sitemap.xml || (echo "out/sitemap.xml missing" && exit 1)
 
   e2e:
     name: E2E (Playwright, all engines)
@@ -114,9 +110,6 @@ jobs:
           pnpm --version
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Prisma client
-        run: pnpm --filter @rovotools/web prisma:generate
 
       - name: Install Playwright browsers
         run: pnpm --filter @rovotools/web exec playwright install --with-deps chromium firefox webkit
@@ -149,9 +142,6 @@ jobs:
           pnpm --version
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Prisma client
-        run: pnpm --filter @rovotools/web prisma:generate
 
       - name: Build
         run: pnpm build:web

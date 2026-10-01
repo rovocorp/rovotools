@@ -1,6 +1,4 @@
 import type { NextConfig } from "next";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import withPWA from "next-pwa";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
@@ -8,144 +6,22 @@ const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-// Monorepo root (this file lives in apps/web/). Pinned relative to the
-// config file — never process.cwd() — so standalone output tracing always
-// uses this checkout as the workspace root. Hostinger checks out to
-// .../public_html/.builds/source/repository with a stray lockfile above it;
-// without this pin Next infers the parent domain directory as the workspace
-// root and emits the standalone server at an unexpected path, failing the
-// deploy with "Next.js build produced no standalone server".
-// Hostinger's `next` app type applies output:"standalone" automatically;
-// keeping it here also covers SSH/VPS/CI deploys.
-const tracingRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-
+// Static shared-hosting build: `output: "export"` writes self-contained
+// HTML/CSS/JS to `out/` for upload to `public_html`. No Node server, no DB,
+// no API routes. Legacy URL redirects live in `public/.htaccess` (Apache)
+// because `redirects()` requires a server and breaks `output: export`.
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: "standalone",
-  outputFileTracingRoot: tracingRoot,
+  output: "export",
+  trailingSlash: true,
 
   images: {
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
   },
 
   poweredByHeader: false,
-  generateEtags: true,
-
-  async redirects() {
-    return [
-      {
-        source: "/tools/emi-calculator",
-        destination: "/tools/loan-calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/loan-payment-calculator",
-        destination: "/tools/loan-calculator",
-        permanent: true,
-      },
-      // Merged duplicates: the old tool was a strict subset of the target,
-      // so its URL permanently redirects to the canonical survivor.
-      {
-        source: "/tools/vat-calculator",
-        destination: "/tools/tax-calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/character-counter",
-        destination: "/tools/word-counter",
-        permanent: true,
-      },
-      {
-        source: "/tools/text-to-pdf",
-        destination: "/tools/pdf/pdf-creator",
-        permanent: true,
-      },
-      // Retired empty categories: their sole tools moved elsewhere, so the
-      // old section URLs land on the homepage categories anchor — except
-      // Unit Converters, which merged into the Calculators hub (now titled
-      // "Calculators & Converters") and redirects straight there.
-      {
-        source: "/tools/category/converter",
-        destination: "/tools/category/calculator",
-        permanent: true,
-      },
-      {
-        source: "/tools/category/analytics",
-        destination: "/#categories",
-        permanent: true,
-      },
-      {
-        source: "/tools/category/utility",
-        destination: "/#categories",
-        permanent: true,
-      },
-      {
-        source: "/tools/category/other",
-        destination: "/#categories",
-        permanent: true,
-      },
-      {
-        source: "/tools/category/document",
-        destination: "/#categories",
-        permanent: true,
-      },
-      // Each high-demand PDF task has its own nested landing page at
-      // /tools/pdf/<slug> (see app/tools/pdf/[toolId]). The old flat
-      // /tools/<slug> URLs permanently redirect to their canonical
-      // nested form so search engines see exactly one URL per tool —
-      // there is deliberately no single combined /pdf-tools page.
-      {
-        source: "/tools/merge-pdf",
-        destination: "/tools/pdf/merge-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/split-pdf",
-        destination: "/tools/pdf/split-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/compress-pdf",
-        destination: "/tools/pdf/compress-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/jpg-to-pdf",
-        destination: "/tools/pdf/jpg-to-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/pdf-to-jpg",
-        destination: "/tools/pdf/pdf-to-jpg",
-        permanent: true,
-      },
-      {
-        source: "/tools/word-to-pdf",
-        destination: "/tools/pdf/word-to-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/pdf-creator",
-        destination: "/tools/pdf/pdf-creator",
-        permanent: true,
-      },
-      {
-        source: "/tools/sign-pdf",
-        destination: "/tools/pdf/sign-pdf",
-        permanent: true,
-      },
-      {
-        source: "/tools/pdf-to-word",
-        destination: "/tools/pdf/pdf-to-word",
-        permanent: true,
-      },
-      {
-        source: "/tools/pdf-to-excel",
-        destination: "/tools/pdf/pdf-to-excel",
-        permanent: true,
-      },
-    ];
-  },
+  generateEtags: false,
 };
 
 const pwaConfig = withPWA({
@@ -160,15 +36,6 @@ const pwaConfig = withPWA({
     document: "/offline",
   },
   runtimeCaching: [
-    {
-      // API traffic is never cached: favorites are device-scoped and
-      // tool metadata must never serve stale results.
-      urlPattern: /\/api\//i,
-      handler: "NetworkOnly",
-      options: {
-        cacheName: "api-no-cache",
-      },
-    },
     {
       urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
       handler: "CacheFirst",
@@ -192,10 +59,9 @@ const pwaConfig = withPWA({
       },
     },
     {
-      // Same-origin pages (excluding API): serve the cached shell instantly
-      // while revalidating in the background, so repeat visits and refreshes
-      // never wait on the network. Bounded to respect storage limits.
-      urlPattern: /^https?:\/\/[^/]+\/(?!api\/).*/i,
+      // Same-origin pages: serve the cached shell instantly while
+      // revalidating in the background. Bounded to respect storage limits.
+      urlPattern: /^https?:\/\/[^/]+\/.*/i,
       handler: "StaleWhileRevalidate",
       options: {
         cacheName: "pages-cache",

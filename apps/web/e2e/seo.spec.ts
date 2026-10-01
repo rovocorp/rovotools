@@ -28,15 +28,12 @@ test("tool pages expose canonical URLs and valid JSON-LD", async ({ page }) => {
   expect(orgName).toBe(true);
 });
 
-test("legacy PDF URLs permanently redirect to nested canonicals", async ({ request, baseURL }) => {
-  for (const [from, to] of [
-    ["/tools/merge-pdf", "/tools/pdf/merge-pdf"],
-    ["/tools/jpg-to-pdf", "/tools/pdf/jpg-to-pdf"],
-    ["/tools/emi-calculator", "/tools/loan-calculator"],
-  ] as const) {
-    const response = await request.get(`${baseURL}${from}`, { maxRedirects: 0 });
-    expect(response.status(), from).toBe(308);
-    expect(response.headers()["location"]).toBe(to);
+test("legacy URL redirects are declared for shared hosting", async () => {
+  // Static export has no server: Apache applies public/.htaccess 301s.
+  const fs = await import("node:fs");
+  const htaccess = fs.readFileSync("public/.htaccess", "utf8");
+  for (const from of ["tools/merge-pdf", "tools/jpg-to-pdf", "tools/emi-calculator"] as const) {
+    expect(htaccess, from).toContain(from);
   }
 });
 

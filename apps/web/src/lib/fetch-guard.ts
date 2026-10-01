@@ -1,10 +1,10 @@
 /**
- * SSRF guards for the page-fetch API.
- * Pure functions (no I/O) so they are unit-testable in isolation;
- * the route handler in `app/api/fetch-page/route.ts` performs the
- * DNS lookups and applies these checks to every address AND every
- * redirect hop — a lookup-time check alone would miss
- * redirect-to-internal attacks.
+ * URL guards for the client-side page-fetch box.
+ * Pure functions (no I/O) so they are unit-testable in isolation.
+ * The browser cannot do DNS lookups, so only literal checks apply here:
+ * blocked hostnames and numeric private IPv4 literals. Hostnames that
+ * resolve to private space remain the server's job (no server in the
+ * static build — unresolvable/CORS-blocked pages must be pasted manually).
  */
 
 function ipv4Octets(ip: string): Array<number> | null {

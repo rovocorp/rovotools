@@ -26,13 +26,10 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   // Requires a production build first: `pnpm build` (then `pnpm e2e`).
-  // Serves the standalone server (the actual deploy artifact), not next start.
-  // In this monorepo the entry sits at .next/standalone/apps/web/server.js.
+  // Serves the static export (the actual shared-hosting artifact in out/).
   webServer: {
-    command: "node apps/web/server.js",
-    cwd: "./.next/standalone",
+    command: `pnpm dlx serve@14 out --listen ${e2ePort}`,
     url: `http://localhost:${e2ePort}`,
-    env: { PORT: String(e2ePort) },
     reuseExistingServer: false,
     timeout: 180000,
   },

@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { t } from "@rovotools/localization";
 import { OPEN_SEARCH_EVENT } from "@/components/Header";
 import { getCategoryLabel } from "@/lib/category-label";
+import { getToolRegistry } from "@/lib/registry";
 
 interface PublicTool {
   id: string;
@@ -62,10 +63,28 @@ function rankTools(tools: ReadonlyArray<PublicTool>, query: string): Array<Publi
     .map((item) => item.tool);
 }
 
+function loadTools(): ReadonlyArray<PublicTool> {
+  try {
+    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name", limit: 100 });
+    return entries.map((entry) => ({
+      id: entry.definition.id,
+      slug: entry.definition.slug,
+      name: entry.definition.name,
+      description: entry.definition.description,
+      category: entry.definition.category,
+      keywords: entry.definition.keywords,
+      popular: entry.definition.popular ?? false,
+      path: `/tools/${entry.definition.slug}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export default function CommandPalette(): React.ReactElement {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [tools, setTools] = useState<ReadonlyArray<PublicTool>>([]);
+  const [tools] = useState<ReadonlyArray<PublicTool>>(loadTools);
   const [active, setActive] = useState(0);
   const [recents, setRecents] = useState<ReadonlyArray<string>>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -90,26 +109,8 @@ export default function CommandPalette(): React.ReactElement {
       return;
     }
     inputRef.current?.focus();
-    if (tools.length === 0) {
-      let cancelled = false;
-      fetch("/api/tools?limit=100")
-        .then((res) => res.json() as Promise<{ tools: Array<PublicTool> }>)
-        .then((data) => {
-          if (!cancelled) {
-            setTools(data.tools ?? []);
-          }
-        })
-        .catch(() => {
-          if (!cancelled) {
-            setTools([]);
-          }
-        });
-      return () => {
-        cancelled = true;
-      };
-    }
     return undefined;
-  }, [open, tools.length]);
+  }, [open]);
 
   const results = useMemo(() => rankTools(tools, query), [tools, query]);
 
