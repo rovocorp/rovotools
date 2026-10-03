@@ -32,13 +32,14 @@ import { getCategoryLabel } from "@/lib/category-label";
 import { cn } from "@/lib/utils";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import HeroNetwork from "@/components/hero/HeroNetwork";
+import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo-copy";
 
 export const metadata: Metadata = {
   // Brand suffix is explicit: the root layout template does not apply to a
   // page-level string title in this setup (verified in production HTML).
-  title: "Free Online Tools for PDFs, Images, Developers & More | RovoTools",
-  description:
-    "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
+  // Copy lives in lib/seo-copy.ts (single source, length-guarded by test).
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     siteName: BRAND_NAME,
@@ -50,9 +51,8 @@ export const metadata: Metadata = {
         alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
       },
     ],
-    title: "Free Online Tools for PDFs, Images, Developers & More | RovoTools",
-    description:
-      "Free online tools for PDFs, images, developers, calculators, finance, text, security and more. Fast, simple and browser-friendly tools for everyday digital tasks.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     type: "website",
     url: WEB_URL,
   },
