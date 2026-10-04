@@ -12,10 +12,11 @@ export function RovoToolsImageLogo({
   className?: string;
   priority?: boolean;
 }): React.ReactElement {
-  // Raster lockups: light is the navy-ink lockup on white, dark is rebuilt
-  // from it with a transparent background and white "Rovo" ink so it blends
-  // into the dark header with no box edge. Both are 1624x383.
-  const lockupWidth = Math.round(height * (1624 / 383));
+  // Original raster lockups (previous logo design): light is the navy-ink
+  // lockup, dark is the white-ink lockup. Both PNGs are transparent, so
+  // no background fill or bg-white wrapper — the logo blends into the
+  // header/footer in both themes with no box edge.
+  const lockupWidth = Math.round(height * (560 / 132));
   return (
     <>
       <Image
@@ -24,7 +25,7 @@ export function RovoToolsImageLogo({
         width={lockupWidth}
         height={height}
         priority={priority}
-        className={`h-auto w-auto rounded-md bg-white object-contain px-1 py-0.5 dark:hidden ${className}`}
+        className={`h-auto w-auto object-contain dark:hidden ${className}`}
         style={{ height, width: "auto" }}
       />
       <Image
