@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 describe("CookieBanner", () => {
-  it("shows until a choice is made, then persists accept", () => {
+  it("shows until a choice is made, then persists accept-all", () => {
     render(<CookieBanner />);
     expect(screen.getByRole("dialog", { name: "Cookie consent" })).toBeDefined();
     fireEvent.click(screen.getByRole("button", { name: "Accept" }));
@@ -22,11 +22,30 @@ describe("CookieBanner", () => {
     expect(screen.queryByRole("dialog", { name: "Cookie consent" })).toBeNull();
   });
 
-  it("persists reject", () => {
+  it("offers Customize instead of a one-click Reject", () => {
     render(<CookieBanner />);
-    fireEvent.click(screen.getByRole("button", { name: "Reject" }));
+    expect(screen.queryByRole("button", { name: "Reject" })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Customize" }));
+    expect(screen.getByRole("dialog", { name: "Cookie settings" })).toBeDefined();
+  });
+
+  it("persists reject-all from inside settings", () => {
+    render(<CookieBanner />);
+    fireEvent.click(screen.getByRole("button", { name: "Customize" }));
+    fireEvent.click(screen.getByRole("button", { name: "Reject all" }));
     expect(window.localStorage.getItem("rovotools:consent")).toBe("denied");
-    expect(screen.queryByRole("dialog", { name: "Cookie consent" })).toBeNull();
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("persists a custom selection from inside settings", () => {
+    render(<CookieBanner />);
+    fireEvent.click(screen.getByRole("button", { name: "Customize" }));
+    fireEvent.click(screen.getByRole("switch", { name: "Anonymous analytics" }));
+    fireEvent.click(screen.getByRole("button", { name: "Save selection" }));
+    expect(window.localStorage.getItem("rovotools:consent:v2")).toBe(
+      JSON.stringify({ analytics: true, advertising: false }),
+    );
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   it("stays hidden when consent was already stored", () => {

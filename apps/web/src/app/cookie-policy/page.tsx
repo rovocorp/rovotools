@@ -36,9 +36,11 @@ export default function CookiePolicyPage(): React.ReactElement {
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">Optional cookies</h2>
         <p>
-          Anonymous analytics and advertising partners only load after you press “Accept” on the
-          consent banner. Our advertising partner is Google AdSense (see our ads.txt for the
-          authorized seller account); Google may use cookies to serve and measure personalized or
+          Anonymous analytics and advertising partners only load after you allow them via the
+          consent banner (“Accept”) or the “Customize” settings. Our advertising partner is
+          Google AdSense (see our ads.txt for the authorized seller account); in the EU/UK,
+          consent is collected through Google Funding Choices (a certified consent-management
+          platform), and Google may use cookies to serve and measure personalized or
           non-personalized ads depending on your consent choice and region. See{" "}
           <a
             href="https://policies.google.com/technologies/ads"
@@ -70,9 +72,9 @@ export default function CookiePolicyPage(): React.ReactElement {
         </p>
         <p>
           You can change your mind at any time: use the “Cookie Settings” link in the site footer
-          to re-open the consent banner, or clear this site&apos;s data in your browser settings;
-          the banner will appear again. Rejecting cookies disables analytics and ads entirely —
-          the tools keep working.
+          to re-open consent settings, where “Reject all” disables analytics and ads entirely —
+          the tools keep working. You can also clear this site&apos;s data in your browser
+          settings; the banner will appear again.
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">What we never do</h2>
         <p>

@@ -1,19 +1,22 @@
 "use client";
 
 import Script from "next/script";
-import { useConsent } from "@/lib/analytics";
+import { useAdvertisingConsent } from "@/lib/analytics";
 import { adsenseSdkUrl, getPublisherId, shouldLoadAds } from "@/lib/ads";
+import { useTCFAdvertising } from "@/lib/tcf";
 
 /**
- * Loads the AdSense SDK exactly once, and only after the visitor grants
- * cookie consent (Google EU consent policy). Without a publisher ID or
- * consent this renders nothing — ad slots fall back to the dev placeholder
- * (no publisher) or stay empty (consent denied/pending).
+ * Loads the AdSense SDK exactly once per page view when advertising is
+ * allowed: either the visitor enabled advertising in our consent settings,
+ * or a certified CMP (Google Funding Choices, via TCF v2) reports Google
+ * vendor consent. Otherwise renders nothing — ad slots stay empty.
  */
 export default function AdSenseScript(): React.ReactElement | null {
-  const consent = useConsent();
+  const advertising = useAdvertisingConsent();
+  const tcf = useTCFAdvertising();
   const publisherId = getPublisherId();
-  if (!shouldLoadAds(publisherId, consent)) {
+  const allowed = advertising || tcf === true;
+  if (!shouldLoadAds(publisherId, allowed ? "granted" : "denied")) {
     return null;
   }
   return (

@@ -246,7 +246,7 @@ export default function Header(): React.ReactElement {
       <div className="w-full bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF]">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-1.5 text-xs font-bold text-white sm:px-6 lg:px-8">
           <Lock className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>All tools run in your browser — your files never leave your device.</span>
+          <span>Most tools run locally in your browser — network tools are labelled.</span>
         </div>
       </div>
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090B]/80">

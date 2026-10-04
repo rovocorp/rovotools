@@ -1,8 +1,22 @@
 import type { AdPlacement } from "@rovotools/tools";
 
+/**
+ * Default publisher ID (public — also in public/ads.txt). Env override wins.
+ * Production-only default: dev/CI/tests keep publisher unset so placeholders
+ * and consent-gating tests stay meaningful; production serves Auto ads even
+ * when the hosting environment does not set the variable.
+ */
+export const DEFAULT_PUBLISHER_ID = "ca-pub-8311202559739478";
+
 export function getPublisherId(): string | undefined {
   const id = process.env["NEXT_PUBLIC_ADSENSE_PUBLISHER_ID"];
-  return id === undefined || id.trim() === "" ? undefined : id.trim();
+  if (id !== undefined && id.trim() !== "") {
+    return id.trim();
+  }
+  if (typeof process !== "undefined" && process.env["NODE_ENV"] === "production") {
+    return DEFAULT_PUBLISHER_ID;
+  }
+  return undefined;
 }
 
 export function getAdSlotId(placement: AdPlacement): string | undefined {

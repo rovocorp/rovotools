@@ -610,6 +610,43 @@ function filePresent(input: Record<string, unknown>, id: string): boolean {
   return typeof value === "string" ? value.trim() !== "" : value instanceof Blob;
 }
 
+// Grouped unit options for the unit-converter From/To dropdowns. Values stay
+// canonical lowercase abbreviations so the engine, tests and API are untouched;
+// labels carry the dimension prefix because the input type has no optgroups.
+const UNIT_OPTIONS: ToolInputField["options"] = [
+  { value: "km", labelKey: "Length — Kilometer (km)" },
+  { value: "mi", labelKey: "Length — Mile (mi)" },
+  { value: "m", labelKey: "Length — Meter (m)" },
+  { value: "ft", labelKey: "Length — Foot (ft)" },
+  { value: "cm", labelKey: "Length — Centimeter (cm)" },
+  { value: "kg", labelKey: "Weight — Kilogram (kg)" },
+  { value: "g", labelKey: "Weight — Gram (g)" },
+  { value: "lb", labelKey: "Weight — Pound (lb)" },
+  { value: "oz", labelKey: "Weight — Ounce (oz)" },
+  { value: "c", labelKey: "Temperature — Celsius (°C)" },
+  { value: "f", labelKey: "Temperature — Fahrenheit (°F)" },
+];
+
+const UNIT_DIMENSIONS: Record<string, "Length" | "Weight" | "Temperature"> = {
+  km: "Length",
+  mi: "Length",
+  m: "Length",
+  ft: "Length",
+  cm: "Length",
+  kg: "Weight",
+  g: "Weight",
+  lb: "Weight",
+  oz: "Weight",
+  c: "Temperature",
+  "°c": "Temperature",
+  f: "Temperature",
+  "°f": "Temperature",
+};
+
+function unitDimension(unit: string): "Length" | "Weight" | "Temperature" | undefined {
+  return UNIT_DIMENSIONS[unit.trim().toLowerCase()];
+}
+
 const SPECS: ReadonlyArray<Spec> = [
   {
     id: "percentage-calculator",
@@ -741,14 +778,43 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["unit converter", "length", "weight", "temperature", "metric", "imperial", "unit calculator", "measurement converter"],
     popular: true,
     featured: true,
-    inputs: [str("value", "Value"), str("from", "From unit (km, mi, m, ft, kg, lb, g, oz, C, F)"), str("to", "To unit")],
+    inputs: [
+      str("value", "Value"),
+      {
+        id: "from",
+        type: "select",
+        labelKey: "From unit",
+        required: true,
+        defaultValue: "km",
+        options: UNIT_OPTIONS,
+      },
+      {
+        id: "to",
+        type: "select",
+        labelKey: "To unit",
+        required: true,
+        defaultValue: "mi",
+        options: UNIT_OPTIONS,
+      },
+    ],
     outputs: [out("result", "Converted value"), out("formula", "Conversion")],
     validate: (input) => {
       if (req(input, "value") === "" || Number.isNaN(Number(req(input, "value")))) {
         return err("value", "Enter a numeric value.");
       }
       if (req(input, "from") === "" || req(input, "to") === "") {
-        return err("from", "Enter both from and to units.");
+        return err("from", "Choose both from and to units.");
+      }
+      const fromDim = unitDimension(req(input, "from"));
+      const toDim = unitDimension(req(input, "to"));
+      if (fromDim === undefined || toDim === undefined) {
+        return err("from", "Choose both units from the dropdown lists.");
+      }
+      if (fromDim !== toDim) {
+        return err(
+          "to",
+          `Cannot convert ${fromDim} to ${toDim} — pick two units from the same group (Length, Weight or Temperature).`,
+        );
       }
       return ok();
     },
@@ -770,7 +836,9 @@ const SPECS: ReadonlyArray<Spec> = [
       } else if ((from === "f" || from === "°f") && (to === "c" || to === "°c")) {
         result = ((value - 32) * 5) / 9;
       } else {
-        throw new RangeError(`Cannot convert ${from} to ${to}. Supported: km, mi, m, ft, cm, kg, g, lb, oz, C, F.`);
+        throw new RangeError(
+          `Cannot convert ${from} to ${to}. Use two units from the same group — Length (km, mi, m, ft, cm), Weight (kg, g, lb, oz) or Temperature (C, F).`,
+        );
       }
       return { result: String(Math.round(result * 10000) / 10000), formula: `${value} ${from} = ${Math.round(result * 10000) / 10000} ${to}` };
     },

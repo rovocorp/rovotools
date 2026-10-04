@@ -10,14 +10,21 @@ import { useSyncExternalStore } from "react";
 export type AnalyticsConsent = "granted" | "denied" | "unknown";
 
 const CONSENT_KEY = "rovotools:consent";
+const PREFS_KEY = "rovotools:consent:v2";
+
+export interface ConsentPreferences {
+  readonly analytics: boolean;
+  readonly advertising: boolean;
+}
 
 // In-memory fallback: when localStorage throws (private mode, disabled
 // cookies/storage), the banner would otherwise stay stuck — clicks appear
 // dead because the re-read snapshot still says "unknown". Memory keeps the
 // choice working for the tab even when persistence fails.
 let memoryConsent: AnalyticsConsent = "unknown";
+let memoryPrefs: ConsentPreferences | null = null;
 
-export function getConsent(): AnalyticsConsent {
+function readLegacy(): AnalyticsConsent {
   if (typeof window === "undefined") {
     return "unknown";
   }
@@ -33,21 +40,78 @@ export function getConsent(): AnalyticsConsent {
   return memoryConsent;
 }
 
-export function setConsent(value: Exclude<AnalyticsConsent, "unknown">): void {
-  memoryConsent = value;
-  try {
-    window.localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    // Consent storage is best-effort.
-  }
+function notifyConsentChange(): void {
   // useSyncExternalStore does not re-render for writes made in this tab
   // (the storage event only fires in *other* tabs), so notify locally.
   window.dispatchEvent(new CustomEvent("rovotools:consent-change"));
 }
 
+/**
+ * Granular per-purpose preferences. Migrates the legacy binary choice:
+ * granted -> both true, denied -> both false. Null = undecided.
+ */
+export function getConsentPreferences(): ConsentPreferences | null {
+  if (memoryPrefs !== null) {
+    return memoryPrefs;
+  }
+  if (typeof window !== "undefined") {
+    try {
+      const raw = window.localStorage.getItem(PREFS_KEY);
+      if (raw !== null) {
+        const parsed = JSON.parse(raw) as Partial<ConsentPreferences>;
+        if (typeof parsed.analytics === "boolean" && typeof parsed.advertising === "boolean") {
+          memoryPrefs = { analytics: parsed.analytics, advertising: parsed.advertising };
+          return memoryPrefs;
+        }
+      }
+    } catch {
+      // Corrupt/unreadable storage — fall through to legacy migration.
+    }
+    const legacy = readLegacy();
+    if (legacy === "granted") {
+      // Cache the migrated result: getSnapshot must return a stable
+      // reference or useSyncExternalStore loops infinitely.
+      memoryPrefs = { analytics: true, advertising: true };
+      return memoryPrefs;
+    }
+    if (legacy === "denied") {
+      memoryPrefs = { analytics: false, advertising: false };
+      return memoryPrefs;
+    }
+  }
+  return null;
+}
+
+export function setConsentPreferences(prefs: ConsentPreferences): void {
+  memoryPrefs = { ...prefs };
+  memoryConsent = prefs.analytics && prefs.advertising ? "granted" : "denied";
+  try {
+    window.localStorage.setItem(PREFS_KEY, JSON.stringify(memoryPrefs));
+    window.localStorage.setItem(CONSENT_KEY, memoryConsent);
+  } catch {
+    // Consent storage is best-effort.
+  }
+  notifyConsentChange();
+}
+
+export function getConsent(): AnalyticsConsent {
+  const prefs = getConsentPreferences();
+  if (prefs !== null) {
+    return prefs.analytics && prefs.advertising ? "granted" : "denied";
+  }
+  return readLegacy();
+}
+
+export function setConsent(value: Exclude<AnalyticsConsent, "unknown">): void {
+  setConsentPreferences(
+    value === "granted" ? { analytics: true, advertising: true } : { analytics: false, advertising: false },
+  );
+}
+
 /** Testing only: clears the in-memory fallback between test cases. */
 export function resetConsentMemory(): void {
   memoryConsent = "unknown";
+  memoryPrefs = null;
 }
 
 /**
@@ -57,8 +121,10 @@ export function resetConsentMemory(): void {
  */
 export function resetConsent(): void {
   memoryConsent = "unknown";
+  memoryPrefs = null;
   try {
     window.localStorage.removeItem(CONSENT_KEY);
+    window.localStorage.removeItem(PREFS_KEY);
   } catch {
     // Storage may be unavailable — in-memory reset still re-opens the banner.
   }
@@ -87,7 +153,17 @@ export function useConsent(): AnalyticsConsent {
   return useSyncExternalStore(subscribeConsent, getConsentSnapshot, getConsentServerSnapshot);
 }
 
-/** True once the user accepted or rejected cookies. Useful for queuing
+/** Reactive per-purpose preferences. Null server-side / while undecided. */
+export function useConsentPreferences(): ConsentPreferences | null {
+  return useSyncExternalStore(subscribeConsent, getConsentPreferences, () => null);
+}
+
+/** Reactive advertising purpose flag. False until explicitly enabled. */
+export function useAdvertisingConsent(): boolean {
+  return useConsentPreferences()?.advertising ?? getConsent() === "granted";
+}
+
+/** True once the user made a choice. Useful for queuing
  *  non-essential dialogs (install prompts, update prompts) behind consent
  *  so floating cards never stack on top of each other. */
 export function useConsentDecided(): boolean {
@@ -111,7 +187,8 @@ const provider: AnalyticsProvider = defaultProvider;
  * passwords, tokens or document contents.
  */
 export function trackEvent(name: string, properties?: Record<string, string | number | boolean>): void {
-  if (getConsent() !== "granted") {
+  const prefs = getConsentPreferences();
+  if (prefs !== null ? !prefs.analytics : getConsent() !== "granted") {
     return;
   }
   provider.trackEvent(name, properties);

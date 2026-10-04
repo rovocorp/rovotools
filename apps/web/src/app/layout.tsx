@@ -9,6 +9,7 @@ import CommandPalette from "@/components/CommandPalette";
 import CookieBanner from "@/components/CookieBanner";
 import PWARegister from "@/components/PWARegister";
 import AdSenseScript from "@/components/ads/AdSenseScript";
+import FundingChoicesScript from "@/components/ads/FundingChoicesScript";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import PwaUpdatePrompt from "@/components/pwa/PwaUpdatePrompt";
 import { QueryProvider } from "@/components/query-provider";
@@ -29,6 +30,15 @@ const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: COMPANY_NAME,
+  alternateName: BRAND_NAME,
+  url: WEB_URL,
+  logo: `${WEB_URL}/logo.png`,
+};
+
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: BRAND_NAME,
   url: WEB_URL,
 };
 
@@ -55,6 +65,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
         />
+        <Script
+          id="website-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
@@ -64,6 +79,7 @@ export default function RootLayout({
         <ThemeProvider>
           <QueryProvider>
           <PWARegister />
+          <FundingChoicesScript />
           <AdSenseScript />
           <Header />
             <CommandPalette />

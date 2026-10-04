@@ -98,6 +98,48 @@ describe("extended catalog", () => {
     }
   });
 
+  it("unit-converter exposes grouped From/To dropdowns with sensible defaults", () => {
+    const entry = EXTRA_TOOLS.find((tool) => tool.definition.id === "unit-converter");
+    expect(entry).toBeDefined();
+    const inputs = entry!.definition.inputs;
+    for (const id of ["from", "to"] as const) {
+      const field = inputs.find((input) => input.id === id);
+      expect(field?.type).toBe("select");
+      expect(field?.options?.map((option) => option.value)).toEqual([
+        "km",
+        "mi",
+        "m",
+        "ft",
+        "cm",
+        "kg",
+        "g",
+        "lb",
+        "oz",
+        "c",
+        "f",
+      ]);
+      expect(field?.options?.find((option) => option.value === "km")?.labelKey).toContain("Length");
+      expect(field?.options?.find((option) => option.value === "kg")?.labelKey).toContain("Weight");
+      expect(field?.options?.find((option) => option.value === "c")?.labelKey).toContain("Temperature");
+    }
+    expect(inputs.find((input) => input.id === "from")?.defaultValue).toBe("km");
+    expect(inputs.find((input) => input.id === "to")?.defaultValue).toBe("mi");
+  });
+
+  it("unit-converter rejects cross-dimension pairs and converts cm and C/F", async () => {
+    const entry = EXTRA_TOOLS.find((tool) => tool.definition.id === "unit-converter");
+    expect(entry).toBeDefined();
+    const validate = entry!.definition.validate;
+    const execute = entry!.definition.execute;
+    expect(validate({ value: "10", from: "km", to: "kg" }).valid).toBe(false);
+    expect(validate({ value: "10", from: "c", to: "kg" }).valid).toBe(false);
+    expect(validate({ value: "10", from: "cm", to: "m" }).valid).toBe(true);
+    const cm = (await execute({ value: "100", from: "cm", to: "m" })) as Record<string, unknown>;
+    expect(cm["result"]).toBe("1");
+    const f = (await execute({ value: "0", from: "c", to: "f" })) as Record<string, unknown>;
+    expect(f["result"]).toBe("32");
+  });
+
   it("every extra tool validates and executes its sample", async () => {
     for (const entry of EXTRA_TOOLS) {
       if (BROWSER_ONLY_TOOL_IDS.has(entry.definition.id)) {
