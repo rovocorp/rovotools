@@ -10,6 +10,7 @@ export type AdPlacement =
   // Max 1 rail + 1 in-flow unit per page.
   | "tool-rail-right"
   | "blog-rail-right"
+  | "listing-rail-right"
   | "content-bottom";
 
 export const ALLOWED_PLACEMENTS: ReadonlyArray<AdPlacement> = [
@@ -19,6 +20,7 @@ export const ALLOWED_PLACEMENTS: ReadonlyArray<AdPlacement> = [
   "home-inline",
   "tool-rail-right",
   "blog-rail-right",
+  "listing-rail-right",
   "content-bottom",
 ];
 
@@ -53,15 +55,19 @@ export function isPlacementAllowed(placement: string): placement is AdPlacement 
 }
 
 export function resolvePlacementsForPage(
-  page: "tool" | "listing" | "blog" | "home",
+  page: "tool" | "listing" | "category" | "blog" | "blog-listing" | "home",
 ): ReadonlyArray<AdPlacement> {
   switch (page) {
     case "tool":
       return ["tool-footer", "tool-rail-right"];
     case "listing":
-      return ["listing-inline"];
+      return ["listing-rail-right", "content-bottom"];
+    case "category":
+      return ["listing-rail-right", "content-bottom"];
     case "blog":
       return ["blog-footer", "blog-rail-right"];
+    case "blog-listing":
+      return ["content-bottom"];
     case "home":
       return ["home-inline", "content-bottom"];
   }

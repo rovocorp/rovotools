@@ -150,6 +150,7 @@ export default function Home(): React.ReactElement {
     "loan-calculator",
     "password-generator",
     "word-counter",
+    "word-unscrambler",
     "color-picker",
     "image-compressor",
     "pdf-creator",
@@ -472,6 +473,7 @@ export default function Home(): React.ReactElement {
       </section>
 
       {/* ============ POPULAR ============ */}
+      <AdSlot placement="home-inline" slotId={getAdSlotId("home-inline")} />
       <section id="popular" aria-labelledby="popular-heading" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-14 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>

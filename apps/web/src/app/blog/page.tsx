@@ -4,8 +4,10 @@ import { t } from "@rovotools/localization";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import { BLOG_POSTS } from "@/lib/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdSlot from "@/components/ads/AdSlot";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAdSlotId } from "@/lib/ads";
 
 export const metadata: Metadata = {
   title: t("en", "seo.blogTitle"),
@@ -60,6 +62,7 @@ export default function BlogPage(): React.ReactElement {
           </Link>
         ))}
       </div>
+      <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
     </div>
   );
 }

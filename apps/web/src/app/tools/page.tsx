@@ -3,7 +3,10 @@ import { Suspense } from "react";
 import { t } from "@rovotools/localization";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdRail from "@/components/ads/AdRail";
+import AdSlot from "@/components/ads/AdSlot";
 import ToolsExplorer from "@/components/tools/ToolsExplorer";
+import { getAdSlotId } from "@/lib/ads";
 import { getToolRegistry } from "@/lib/registry";
 
 export const metadata: Metadata = {
@@ -71,9 +74,16 @@ export default function ToolsPage(): React.ReactElement {
         ]}
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "navigation.tools")}</h1>
-      <Suspense fallback={null}>
-        <ToolsExplorer />
-      </Suspense>
+      {/* Sticky right rail (xl+ only) + listing column; rail collapses when ads are off. */}
+      <div className="xl:flex xl:items-start xl:gap-8">
+        <div className="min-w-0 flex-1">
+          <Suspense fallback={null}>
+            <ToolsExplorer />
+          </Suspense>
+          <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
+        </div>
+        <AdRail placement="listing-rail-right" slotId={getAdSlotId("listing-rail-right")} />
+      </div>
     </div>
   );
 }

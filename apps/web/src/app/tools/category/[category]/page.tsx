@@ -4,7 +4,10 @@ import { getAllCategoryMetadata, getCategoryMetadata } from "@rovotools/tools";
 import { t, tx } from "@rovotools/localization";
 import { WEB_URL, BRAND_NAME } from "@rovotools/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdRail from "@/components/ads/AdRail";
+import AdSlot from "@/components/ads/AdSlot";
 import ToolCard from "@/components/tools/ToolCard";
+import { getAdSlotId } from "@/lib/ads";
 import { getToolRegistry } from "@/lib/registry";
 
 const CATEGORIES = getAllCategoryMetadata().map((meta) => meta.category);
@@ -98,17 +101,24 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           ? t("en", "tool.oneTool")
           : tx("en", "tool.manyTools", { count: tools.length })}
       </p>
-      {tools.length === 0 ? (
-        <p className="mt-8 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
-          {t("en", "tool.noResults")}
-        </p>
-      ) : (
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((entry) => (
-            <ToolCard key={entry.definition.id} entry={entry} />
-          ))}
+      {/* Sticky right rail (xl+ only) + listing column; rail collapses when ads are off. */}
+      <div className="xl:flex xl:items-start xl:gap-8">
+        <div className="min-w-0 flex-1">
+          {tools.length === 0 ? (
+            <p className="mt-8 rounded-xl border border-dashed border-zinc-300 p-8 text-center text-zinc-600 dark:text-zinc-400 dark:border-zinc-700">
+              {t("en", "tool.noResults")}
+            </p>
+          ) : (
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {tools.map((entry) => (
+                <ToolCard key={entry.definition.id} entry={entry} />
+              ))}
+            </div>
+          )}
+          <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
         </div>
-      )}
+        <AdRail placement="listing-rail-right" slotId={getAdSlotId("listing-rail-right")} />
+      </div>
     </div>
   );
 }
