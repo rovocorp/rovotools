@@ -48,13 +48,15 @@ export const metadata: Metadata = {
     "mobile-web-app-capable": "yes",
   },
   icons: {
-    // Google favicon standards: multi-size ICO + SVG (any theme) +
-    // PNG fallbacks (16/32/48 tab, 192/512 PWA) + 180 Apple touch.
-    // All PNG tab/PWA icons are transparent (no white matte); the
-    // Apple touch + maskable variants are intentionally opaque.
+    // Google favicon standards: multi-size ICO + PNG fallbacks (16/32
+    // simplified pixel mark for crisp tabs, 48 full mark, 192/512 PWA) +
+    // 180 Apple touch. No SVG icon: Google Search favicon crawlers do not
+    // support SVG, and browsers prefer the SVG link when present — a single
+    // bad SVG response blanks the tab icon despite healthy PNG/ICO
+    // fallbacks. No white mattes anywhere; the Apple touch + maskable
+    // variants are intentionally opaque.
     icon: [
       { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
-      { url: "/icon.svg", type: "image/svg+xml" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
