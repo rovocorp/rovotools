@@ -6,17 +6,24 @@ import { dismissCookieBanner } from "./helpers";
 
 registerCoreTools(toolRegistry);
 // Bespoke UIs (no generic form, no file input) have dedicated tests below.
-const slugs = toolRegistry
+// URLs come from the registry canonical path: PDF tools live only at nested
+// canonicals (/tools/pdf/<slug>, flat slugs 404 in the static export — the
+// Apache 301s in public/.htaccess exist only on shared hosting, not under
+// the E2E static server).
+const targets = toolRegistry
   .query({})
-  .map((entry) => entry.definition.slug)
-  .filter((slug) => !BESPOKE_TOOL_SLUGS.has(slug));
+  .filter((entry) => !BESPOKE_TOOL_SLUGS.has(entry.definition.slug))
+  .map((entry) => ({
+    slug: entry.definition.slug,
+    toolUrl: entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`,
+  }));
 
 // Regression sweep for the blocked-inputs bug: on every tool page the first
 // control must be clickable/typeable (an overlay covering the viewport makes
 // Playwright click/type into the void and these assertions fail).
-for (const slug of slugs) {
+for (const { slug, toolUrl } of targets) {
   test(`${slug} — first control accepts input`, async ({ page }) => {
-    await page.goto(`/tools/${slug}`);
+    await page.goto(toolUrl);
     await dismissCookieBanner(page);
 
     // Scope to the tool form: the page also contains a feedback comment box
@@ -65,16 +72,21 @@ for (const slug of slugs) {
   });
 }
 
-test("dev ad placeholders are confined to their slots", async ({ page }) => {
+test("ad placeholders are confined to their slots", async ({ page }) => {
   await page.goto("/tools/bmi-calculator");
-  const labels = page.getByText("Ads by Google", { exact: true });
-  // Single tool-footer unit per tool page.
-  await expect(labels).toHaveCount(1, { timeout: 15000 });
-  for (let i = 0; i < 1; i += 1) {
+  // Dev shows "Ads by Google" placeholders, production builds show neutral
+  // "Advertisement" reserved boxes (or real units after consent).
+  const slots = page.locator('section[aria-label="Advertisement"]');
+  await expect(slots.first()).toBeVisible({ timeout: 15000 });
+  expect(await slots.count()).toBeGreaterThanOrEqual(1);
+  const labels = slots.getByText(/Ads by Google|Advertisement/);
+  expect(await labels.count()).toBeGreaterThanOrEqual(1);
+  for (let i = 0; i < (await labels.count()); i += 1) {
     const label = labels.nth(i);
     await expect(label).toBeVisible();
     const box = await label.boundingBox();
-    // With the overlay bug this box is viewport-sized (~900px tall).
-    expect(box?.height).toBeLessThan(200);
+    // With the overlay bug this box is viewport-sized (~900px tall). Rail
+    // boxes are ~600px by design, so the bound covers both variants.
+    expect(box?.height).toBeLessThan(700);
   }
 });

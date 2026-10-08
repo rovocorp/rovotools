@@ -130,8 +130,8 @@ function renderReservedAdBox(variant: AdSlotVariant): React.ReactElement {
         aria-hidden="true"
         className={
           isRail
-            ? "mx-auto flex min-h-[600px] w-full max-w-[300px] items-center justify-center rounded-xl bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400"
-            : "mx-auto flex min-h-[90px] w-full max-w-[728px] items-center justify-center rounded-xl bg-zinc-100 text-sm text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400"
+            ? "mx-auto flex min-h-[600px] w-full max-w-[300px] items-center justify-center rounded-xl bg-zinc-100 text-sm text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400"
+            : "mx-auto flex min-h-[90px] w-full max-w-[728px] items-center justify-center rounded-xl bg-zinc-100 text-sm text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400"
         }
       >
         {t("en", "ads.label")}

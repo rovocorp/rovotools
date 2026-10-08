@@ -20,7 +20,7 @@ for (const entry of generic) {
     const sample = TOOL_SAMPLES[slug];
     expect(sample, `missing sample for ${slug}`).toBeDefined();
 
-    await page.goto(`/tools/${slug}`);
+    await page.goto(entry.definition.seo?.canonicalPath ?? `/tools/${slug}`);
     await dismissCookieBanner(page);
     for (const field of inputs) {
       // Field ids are simple alphanumeric slugs — no escaping needed.
@@ -122,7 +122,7 @@ test("adsense-earnings-calculator — estimates earnings from pageviews", async 
 });
 
 test("pdf-creator — builds a PDF from typed text", async ({ page }) => {
-  await page.goto("/tools/pdf-creator");
+  await page.goto("/tools/pdf/pdf-creator");
   await dismissCookieBanner(page);
   const text = page.locator("#pdf-creator-text");
   await expect(text).toBeVisible({ timeout: 15000 });

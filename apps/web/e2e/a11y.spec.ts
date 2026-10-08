@@ -32,7 +32,7 @@ const TEMPLATES = [
   "/tools/category/pdf",
   "/tools/bmi-calculator",
   "/tools/adsense-earnings-calculator",
-  "/tools/pdf-creator",
+  "/tools/pdf/pdf-creator",
   "/tools/pdf/merge-pdf",
   "/tools/image-converter",
   "/blog",
