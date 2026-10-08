@@ -7,6 +7,8 @@
 
 import { useSyncExternalStore } from "react";
 
+import type { AdsConsent } from "./ads";
+
 export type AnalyticsConsent = "granted" | "denied" | "unknown";
 
 const CONSENT_KEY = "rovotools:consent";
@@ -161,6 +163,20 @@ export function useConsentPreferences(): ConsentPreferences | null {
 /** Reactive advertising purpose flag. False until explicitly enabled. */
 export function useAdvertisingConsent(): boolean {
   return useConsentPreferences()?.advertising ?? getConsent() === "granted";
+}
+
+/**
+ * Tri-state advertising consent for ad gating. `granted` serves
+ * personalized ads, `denied` serves non-personalized ads (NPA),
+ * `unknown` renders nothing until the visitor decides.
+ */
+export function useAdsConsent(): AdsConsent {
+  const prefs = useConsentPreferences();
+  const legacy = useConsent();
+  if (prefs !== null) {
+    return prefs.advertising ? "granted" : "denied";
+  }
+  return legacy;
 }
 
 /** True once the user made a choice. Useful for queuing

@@ -27,7 +27,7 @@ describe("AdRail", () => {
     expect(aside?.querySelector(".sticky")).not.toBeNull();
   });
 
-  it("renders the real rail unit with consent and collapses without it", () => {
+  it("renders the real rail unit with consent and an NPA unit on reject", () => {
     vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
     setConsent("granted");
     const { container, unmount } = render(<AdRail placement="tool-rail-right" slotId="test-slot" />);
@@ -36,8 +36,14 @@ describe("AdRail", () => {
     cleanup();
     window.localStorage.clear();
     resetConsentMemory();
+    delete window.adsbygoogle;
     setConsent("denied");
     const denied = render(<AdRail placement="tool-rail-right" slotId="test-slot" />);
-    expect(denied.container.querySelector("aside")).toBeNull();
+    // Reject serves non-personalized ads instead of collapsing the rail.
+    expect(denied.container.querySelector("aside ins.adsbygoogle")).not.toBeNull();
+    const queue = window.adsbygoogle as unknown as
+      | { requestNonPersonalizedAds?: number }
+      | undefined;
+    expect(queue?.requestNonPersonalizedAds).toBe(1);
   });
 });

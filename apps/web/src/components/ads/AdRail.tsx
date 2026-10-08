@@ -8,10 +8,12 @@ import { useAdSlotState } from "./useAdSlotState";
 /**
  * Sticky right sidebar ad rail (desktop `xl` screens only, hidden below).
  * Position-sticky inside the content column — never a fixed overlay — per
- * AdSense sticky-ad rules: it cannot cover content, needs no close button,
- * and collapses entirely (rendering null) when ads are disabled, undecided,
- * or unconfigured, so the grid column disappears with it. The rail shows a
- * sized dev placeholder when no publisher ID is set, mirroring AdSlot.
+ * AdSense sticky-ad rules: it cannot cover content and needs no close
+ * button. It collapses only when no publisher is configured and no dev
+ * placeholder applies; with a publisher set it always reserves its column
+ * (real unit after consent, neutral reserved box while undecided) so the
+ * rail never vanishes site-wide in production. The rail shows a sized dev
+ * placeholder when no publisher ID is set, mirroring AdSlot.
  */
 export default function AdRail({
   placement,
@@ -20,8 +22,8 @@ export default function AdRail({
   placement: AdPlacement;
   slotId: string | undefined;
 }): React.ReactElement | null {
-  const { enabled, showDev } = useAdSlotState(placement, slotId);
-  if (!enabled && !showDev) {
+  const { hasPublisher, enabled, showDev } = useAdSlotState(placement, slotId);
+  if (!enabled && !showDev && !hasPublisher) {
     return null;
   }
   return (

@@ -26,19 +26,62 @@ export function getAdSlotId(placement: AdPlacement): string | undefined {
   return id === undefined || id.trim() === "" ? undefined : id.trim();
 }
 
+/**
+ * Publisher-only gate for Auto ads. Manual slot IDs are optional
+ * enhancements: when a slot is configured it is attached as
+ * `data-ad-slot`, otherwise the unit renders with only `data-ad-client`
+ * + `data-ad-format="auto"` and AdSense Auto ads fill it. This keeps
+ * production rendering when only the publisher ID is set (the reported
+ * "placeholders not displaying site-wide" case was `slotId === undefined`
+ * collapsing every slot to null).
+ */
 export function areAdsEnabled(): boolean {
-  return getPublisherId() !== undefined && getAdSlotId("tool-footer") !== undefined;
+  return getPublisherId() !== undefined;
 }
 
 export type AdsConsent = "granted" | "denied" | "unknown";
 
 /**
- * Industry-standard gate (Google EU consent policy): the AdSense SDK and ad
- * units load only with a publisher ID configured AND explicit user consent.
- * Anything else renders nothing (production) or the dev placeholder.
+ * Ad serving mode. `personalized` = full consent, `npa` = user rejected
+ * personalization but still sees non-personalized ads (Google NPA:
+ * contextual only, `&npa=1` on the ad request), `none` = undecided, so no
+ * SDK and no slots yet.
  */
+export type AdMode = "personalized" | "npa" | "none";
+
+/**
+ * Industry-standard gate (Google EU consent policy + NPA support): the
+ * AdSense SDK and ad units load with a publisher ID configured AND a
+ * decided choice. Granted (or TCF Google-vendor consent) serves
+ * personalized ads; an explicit reject serves non-personalized ads
+ * globally instead of hiding all ads. Undecided renders nothing.
+ */
+export function resolveAdMode(
+  publisherId: string | undefined,
+  consent: AdsConsent,
+  tcf: boolean | null,
+): AdMode {
+  if (publisherId === undefined || publisherId.trim() === "") {
+    return "none";
+  }
+  if (tcf === true || consent === "granted") {
+    return "personalized";
+  }
+  // Explicit reject (own banner) or explicit CMP deny (Funding Choices
+  // answered without Google vendor consent): non-personalized ads.
+  if (consent === "denied" || tcf === false) {
+    return "npa";
+  }
+  return "none";
+}
+
 export function shouldLoadAds(publisherId: string | undefined, consent: AdsConsent): boolean {
   return publisherId !== undefined && publisherId.trim() !== "" && consent === "granted";
+}
+
+/** SDK/slots may render non-personalized ads for an explicit reject. */
+export function shouldShowNpaAds(publisherId: string | undefined, consent: AdsConsent): boolean {
+  return publisherId !== undefined && publisherId.trim() !== "" && consent === "denied";
 }
 
 export function adsenseSdkUrl(publisherId: string): string {

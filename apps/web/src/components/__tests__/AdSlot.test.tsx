@@ -11,6 +11,7 @@ afterEach(() => {
   vi.unstubAllEnvs();
   window.localStorage.clear();
   resetConsentMemory();
+  delete window.adsbygoogle;
 });
 
 describe("AdSlot dev placeholder", () => {
@@ -44,19 +45,35 @@ describe("AdSlot dev placeholder", () => {
     expect(container.textContent).not.toContain("Ads by Google");
   });
 
-  it("renders nothing with a publisher ID but denied consent", () => {
+  it("renders a non-personalized (NPA) unit with a publisher ID but denied consent", () => {
     vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
     setConsent("denied");
     const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
-    expect(container.querySelector("section")).toBeNull();
+    const unit = container.querySelector("ins.adsbygoogle");
+    expect(unit).not.toBeNull();
+    expect(unit?.getAttribute("data-ad-client")).toBe("ca-pub-123456789");
+    expect(unit?.getAttribute("data-ad-slot")).toBe("test-slot");
+    // Google NPA API: flag set before the first ad request (-> &npa=1).
+    expect(window.adsbygoogle?.requestNonPersonalizedAds).toBe(1);
+  });
+
+  it("renders a reserved placeholder with a publisher ID but undecided consent", () => {
+    vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
+    const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
+    // No ad request yet, but layout must not collapse in production.
+    expect(container.querySelector("section")).not.toBeNull();
     expect(container.querySelector("ins.adsbygoogle")).toBeNull();
   });
 
-  it("renders nothing with a publisher ID but undecided consent", () => {
+  it("renders a publisher-only unit without a manual slot ID (Auto ads fallback)", () => {
     vi.stubEnv(PUBLISHER_ENV, "ca-pub-123456789");
-    const { container } = render(<AdSlot placement="tool-footer" slotId="test-slot" />);
-    expect(container.querySelector("section")).toBeNull();
-    expect(container.querySelector("ins.adsbygoogle")).toBeNull();
+    setConsent("granted");
+    const { container } = render(<AdSlot placement="tool-footer" slotId={undefined} />);
+    const unit = container.querySelector("ins.adsbygoogle");
+    expect(unit).not.toBeNull();
+    expect(unit?.getAttribute("data-ad-client")).toBe("ca-pub-123456789");
+    expect(unit?.hasAttribute("data-ad-slot")).toBe(false);
+    expect(unit?.getAttribute("data-ad-format")).toBe("auto");
   });
 
   it("rail variant reserves a 300px vertical slot", () => {
