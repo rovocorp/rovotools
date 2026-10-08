@@ -20,3 +20,6 @@ publicHoistPattern:
 
 overrides:
   '@types/react': 19.2.18
+  # GHSA-pqg4-j6r4-53mv (critical): force patched shell-quote through the
+  # mobile react-native > react-devtools-core chain until upstream bumps it.
+  'shell-quote': 1.11.0
