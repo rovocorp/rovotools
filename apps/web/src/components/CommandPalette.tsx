@@ -186,6 +186,7 @@ export default function CommandPalette(): React.ReactElement {
             results.map((tool, index) => (
               <li key={tool.id}>
                 <Link
+                  prefetch={false}
                   href={tool.path}
                   onClick={close}
                   onMouseEnter={() => setActive(index)}
@@ -213,6 +214,7 @@ export default function CommandPalette(): React.ReactElement {
               {recentTools.map((tool) => (
                 <Link
                   key={tool.id}
+                  prefetch={false}
                   href={tool.path}
                   onClick={close}
                   className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"

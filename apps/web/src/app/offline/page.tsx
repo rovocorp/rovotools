@@ -39,7 +39,7 @@ export default function OfflinePage(): React.ReactElement {
       )}
 
       <div className="mt-8">
-        <Link href="/" className="text-sm font-semibold text-indigo-700 hover:underline dark:text-indigo-400">
+        <Link prefetch={false} href="/" className="text-sm font-semibold text-indigo-700 hover:underline dark:text-indigo-400">
           ← {t("en", "common.back")}
         </Link>
       </div>

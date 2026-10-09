@@ -87,6 +87,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         ]}
       />
       <Link
+        prefetch={false}
         href="/tools"
         className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-300"
       >
@@ -95,7 +96,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
       </Link>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <Link href={`/tools/category/${tool.category}`}>
+        <Link prefetch={false} href={`/tools/category/${tool.category}`}>
           <Badge variant="secondary" className="hover:bg-indigo-100 dark:hover:bg-indigo-950">
             {getCategoryLabel(tool.category)}
           </Badge>
@@ -200,6 +201,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
                   </span>
                 ) : null}
                 <Link
+                  prefetch={false}
                   href={step.href}
                   className="rounded-full border border-zinc-200 px-4 py-2 font-semibold text-indigo-600 hover:border-indigo-300 hover:underline dark:border-zinc-700 dark:text-indigo-400"
                 >

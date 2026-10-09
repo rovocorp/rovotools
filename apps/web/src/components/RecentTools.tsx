@@ -73,6 +73,7 @@ export default function RecentTools(): React.ReactElement {
         {recent.map((tool) => (
           <Link
             key={tool.id}
+            prefetch={false}
             href={tool.path}
             className="group rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/10 dark:border-white/10 dark:bg-slate-900/70"
           >

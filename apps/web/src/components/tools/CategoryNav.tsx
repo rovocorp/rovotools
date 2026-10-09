@@ -30,6 +30,7 @@ export default function CategoryNav({
   return (
     <nav aria-label={t("en", "navigation.categories")} className="flex flex-wrap gap-2">
       <Link
+        prefetch={false}
         href={href()}
         aria-current={active === undefined ? "page" : undefined}
         className={cn(
@@ -47,6 +48,7 @@ export default function CategoryNav({
         return (
           <Link
             key={facet.category}
+            prefetch={false}
             href={href(facet.category)}
             aria-current={isActive ? "page" : undefined}
             className={cn(

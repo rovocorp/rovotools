@@ -248,7 +248,7 @@ export default function Home(): React.ReactElement {
                 className="border-0 bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF] font-bold text-white shadow-xl shadow-indigo-500/30 transition-transform hover:scale-[1.02]"
                 asChild
               >
-                <Link href="/tools">
+                <Link prefetch={false} href="/tools">
                   {t("en", "home.browseTools")}
                   <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
                 </Link>
@@ -259,7 +259,7 @@ export default function Home(): React.ReactElement {
                 className="border-slate-200 bg-white/70 font-bold text-slate-700 backdrop-blur hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10"
                 asChild
               >
-                <Link href="/tools#popular">{t("en", "home.readGuides")}</Link>
+                <Link prefetch={false} href="/tools#popular">{t("en", "home.readGuides")}</Link>
               </Button>
             </div>
 
@@ -294,6 +294,7 @@ export default function Home(): React.ReactElement {
                 return (
                   <Link
                     key={link.href}
+                    prefetch={false}
                     href={link.href}
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm backdrop-blur transition-all hover:-translate-y-px hover:shadow-md dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
                   >
@@ -415,6 +416,7 @@ export default function Home(): React.ReactElement {
                 return (
                   <Link
                     key={`${facet.category}-${index}`}
+                    prefetch={false}
                     href={`/tools/category/${facet.category}`}
                     tabIndex={index >= facets.length ? -1 : undefined}
                     aria-hidden={index >= facets.length}
@@ -443,7 +445,7 @@ export default function Home(): React.ReactElement {
             </h2>
             <p className="mt-1 font-medium text-slate-500 dark:text-slate-400">{t("en", "home.featuredSubtitle")}</p>
           </div>
-          <Link href="/tools" className="group inline-flex items-center gap-1 text-sm font-bold text-[#7C3AED] hover:underline dark:text-violet-300">
+          <Link prefetch={false} href="/tools" className="group inline-flex items-center gap-1 text-sm font-bold text-[#7C3AED] hover:underline dark:text-violet-300">
             {t("en", "common.viewAll")}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
@@ -561,6 +563,7 @@ export default function Home(): React.ReactElement {
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
+                prefetch={false}
                 href="/tools"
                 className="inline-flex h-12 items-center gap-2 rounded-2xl bg-white px-6 text-sm font-extrabold text-slate-900 shadow-xl transition-transform hover:scale-[1.03]"
               >
@@ -568,6 +571,7 @@ export default function Home(): React.ReactElement {
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
+                prefetch={false}
                 href="/blog"
                 className="inline-flex h-12 items-center rounded-2xl border border-white/30 bg-white/10 px-6 text-sm font-bold text-white backdrop-blur transition-colors hover:bg-white/20"
               >

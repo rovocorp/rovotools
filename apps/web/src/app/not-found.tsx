@@ -10,10 +10,10 @@ export default function NotFound(): React.ReactElement {
       <p className="mt-2 text-zinc-600 dark:text-zinc-400">The page you are looking for does not exist or was moved.</p>
       <div className="mt-8 flex justify-center gap-3">
         <Button asChild>
-          <Link href="/">Go home</Link>
+          <Link prefetch={false} href="/">Go home</Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href="/tools">Browse tools</Link>
+          <Link prefetch={false} href="/tools">Browse tools</Link>
         </Button>
       </div>
     </div>

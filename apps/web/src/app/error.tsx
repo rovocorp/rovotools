@@ -24,7 +24,7 @@ export default function ErrorPage({
         >
           {t("en", "common.retry")}
         </button>
-        <Link href="/" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+        <Link prefetch={false} href="/" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
           {t("en", "navigation.home")}
         </Link>
       </div>

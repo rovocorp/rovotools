@@ -81,7 +81,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {TOOL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link prefetch={false} href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -95,7 +95,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {COMPANY_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link prefetch={false} href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -109,7 +109,7 @@ export default function Footer(): React.ReactElement {
           <ul className="mt-3 space-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
+                <Link prefetch={false} href={link.href} className={`text-sm font-medium text-[#5B6B82] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}>
                   {link.label}
                 </Link>
               </li>
@@ -127,6 +127,7 @@ export default function Footer(): React.ReactElement {
             Questions, bug reports or suggestions? We usually reply within a few business days.
           </p>
           <Link
+            prefetch={false}
             href="/contact"
             className="mt-4 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-px hover:shadow-xl hover:shadow-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
           >

@@ -34,12 +34,16 @@ Options -Indexes
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
-# Caching: hashed _next/static/* is immutable (1y); images/fonts 30d;
-# HTML revalidates every visit so deploys go live without stale shells.
+# Caching: hashed _next/static/* is immutable (1y); images/fonts 30d.
+# HTML gets a short 5-minute cache window (instead of must-revalidate on
+# every view): repeat navigations serve from the visitor's cache with zero
+# origin hits, which keeps mod_evasive/entry-process limits quiet on
+# throttled shared hosting. Deploys still go live within ~5 minutes, and the
+# service-worker update flow refreshes clients anyway.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 day"
-  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/html "access plus 5 minutes"
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType image/avif "access plus 30 days"
@@ -62,10 +66,10 @@ Options -Indexes
   <LocationMatch "^/_next/static/.*">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </LocationMatch>
-  # HTML shells: always revalidate so new deploys replace the old shell
-  # instead of clients hammering with hard-refresh bursts.
+  # HTML shells: short cache window so repeat views never touch origin
+  # (see above); stale copies may serve briefly while revalidating.
   <FilesMatch "\.(html|htm)$">
-    Header set Cache-Control "public, max-age=0, must-revalidate"
+    Header set Cache-Control "public, max-age=300, stale-while-revalidate=86400"
   </FilesMatch>
   <FilesMatch "\.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2)$">
     Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"

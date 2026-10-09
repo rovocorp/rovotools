@@ -40,6 +40,7 @@ export default function BlogPage(): React.ReactElement {
         {BLOG_POSTS.map((post) => (
           <Link
             key={post.slug}
+            prefetch={false}
             href={`/blog/${post.slug}`}
             className="block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >

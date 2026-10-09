@@ -169,6 +169,7 @@ function ToolsDropdown({ onNavigate }: { onNavigate?: () => void }): React.React
             {TOOLS_SUBMENU.map((item) => (
               <Link
                 key={item.href}
+                prefetch={false}
                 href={item.href}
                 onClick={() => {
                   setOpen(false);
@@ -251,12 +252,13 @@ export default function Header(): React.ReactElement {
       </div>
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090B]/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 group transition-transform hover:scale-[1.01]" aria-label={`${BRAND_NAME} home`}>
+        <Link prefetch={false} href="/" className="flex items-center gap-2 group transition-transform hover:scale-[1.01]" aria-label={`${BRAND_NAME} home`}>
           <RovoToolsImageLogo height={34} priority />
         </Link>
 
         <nav aria-label={t("en", "a11y.primaryNav")} className="hidden items-center gap-6 md:flex">
           <Link
+            prefetch={false}
             href="/"
             className={cn(
               "text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300",
@@ -269,6 +271,7 @@ export default function Header(): React.ReactElement {
           {NAV_LINKS.filter((link) => link.href !== "/").map((link) => (
             <Link
               key={link.href}
+              prefetch={false}
               href={link.href}
               className={cn(
                 "text-sm font-bold text-slate-600 transition-colors hover:text-[#7C3AED] dark:text-slate-300 dark:hover:text-violet-300",
@@ -324,6 +327,7 @@ export default function Header(): React.ReactElement {
       >
         <nav aria-label={t("en", "a11y.mobileNav")} className="space-y-1 px-4 py-3">
           <Link
+            prefetch={false}
             href="/"
             onClick={() => setOpen(false)}
             className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
@@ -348,6 +352,7 @@ export default function Header(): React.ReactElement {
             {TOOLS_SUBMENU.map((item) => (
               <Link
                 key={item.href}
+                prefetch={false}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
@@ -369,6 +374,7 @@ export default function Header(): React.ReactElement {
           {NAV_LINKS.filter((link) => link.href !== "/").map((link) => (
             <Link
               key={link.href}
+              prefetch={false}
               href={link.href}
               onClick={() => setOpen(false)}
               className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"

@@ -83,6 +83,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         ]}
       />
       <Link
+        prefetch={false}
         href="/blog"
         className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-300"
       >
