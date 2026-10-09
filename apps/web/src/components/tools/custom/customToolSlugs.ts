@@ -27,6 +27,9 @@ export const CUSTOM_TOOL_SLUGS = [
   "performance-analyzer",
   "color-picker",
   "tax-calculator",
+  "text-to-speech",
+  "pdf-extract-text",
+  "word-unscrambler",
 ] as const;
 
 export type CustomToolSlug = (typeof CUSTOM_TOOL_SLUGS)[number];
@@ -44,4 +47,6 @@ export const BESPOKE_TOOL_SLUGS: ReadonlySet<string> = new Set([
   "performance-analyzer",
   "color-picker",
   "tax-calculator",
+  "text-to-speech",
+  "word-unscrambler",
 ]);

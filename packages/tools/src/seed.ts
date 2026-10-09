@@ -62,8 +62,22 @@ const bmiInputs: ReadonlyArray<ToolInputField> = [
 ];
 
 const ageInputs: ReadonlyArray<ToolInputField> = [
-  stringField("birthDate", "tools.age-calculator.birthDate", "tools.age-calculator.birthDatePlaceholder"),
-  stringField("asOfDate", "tools.age-calculator.asOfDate", "tools.age-calculator.asOfDatePlaceholder"),
+  {
+    id: "birthDate",
+    type: "string",
+    labelKey: "tools.age-calculator.birthDate",
+    placeholderKey: "tools.age-calculator.birthDatePlaceholder",
+    required: true,
+  },
+  {
+    id: "asOfDate",
+    type: "string",
+    labelKey: "tools.age-calculator.asOfDate",
+    placeholderKey: "tools.age-calculator.asOfDatePlaceholder",
+    required: true,
+    // Resolved to today's date (DD/MM/YYYY) by client runners on load.
+    defaultValue: "today",
+  },
 ];
 
 const tipInputs: ReadonlyArray<ToolInputField> = [

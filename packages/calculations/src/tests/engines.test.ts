@@ -29,6 +29,14 @@ describe("age", () => {
     });
   });
 
+  it("accepts DD/MM/YYYY widget input", () => {
+    expect(calculateAge({ birthDate: "15/01/2000", asOfDate: "11/09/2026" })).toMatchObject({
+      years: 26,
+      months: 7,
+      days: 27,
+    });
+  });
+
   it("handles leap-day birthdays", () => {
     expect(calculateAge({ birthDate: "2000-02-29", asOfDate: "2026-02-28" }).years).toBe(25);
   });

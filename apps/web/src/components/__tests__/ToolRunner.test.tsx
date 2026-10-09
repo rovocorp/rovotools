@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, describe, expect, it } from "vitest";
 import type { ReactElement } from "react";
 import { BROWSER_ONLY_TOOL_IDS, registerCoreTools, toolRegistry } from "@rovotools/tools";
+import { formatSlashDDMMYYYY, tryParseFlexibleDate } from "@rovotools/calculations";
 import type { ToolInputField } from "@rovotools/types";
 import { EXPECTED_SUBSTRINGS, TOOL_SAMPLES as SAMPLES } from "../../../e2e/tool-samples";
 import ToolRunner from "../tools/ToolRunner";
@@ -56,7 +57,16 @@ describe("ToolRunner", () => {
           if (field.type === "boolean") {
             expect(el.checked ? "true" : "false", `${slug}.${field.id} did not accept input`).toBe(sampleValue);
           } else if (field.type !== "select") {
-            expect(el.value, `${slug}.${field.id} did not accept typing`).toBe(sampleValue);
+            // Calendar-widget fields normalize valid dates to DD/MM/YYYY.
+            const calendarFields: Record<string, ReadonlyArray<string>> = {
+              "date-difference-calculator": ["from", "to"],
+              "age-calculator": ["birthDate", "asOfDate"],
+              "date-formatter": ["date"],
+            };
+            const parsed =
+              (calendarFields[slug] ?? []).includes(field.id) ? tryParseFlexibleDate(sampleValue) : null;
+            const expected = parsed !== null ? formatSlashDDMMYYYY(parsed) : sampleValue;
+            expect(el.value, `${slug}.${field.id} did not accept typing`).toBe(expected);
           }
         }
 

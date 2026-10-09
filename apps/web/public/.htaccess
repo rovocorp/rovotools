@@ -1,7 +1,15 @@
+# RovoTools static hosting (Apache / Hostinger shared).
+# Goal: cut origin hits so mod_evasive / entry-process limits don't 429,
+# especially right after deploy when browsers + crawlers refetch everything.
+# Every block is guarded by <IfModule> so missing modules never 500.
+
+# No directory listings: /tools/ must serve tools/index.html, never a listing.
+Options -Indexes
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Legacy tool URLs → canonical survivors (were next.config.ts redirects).
+  # Legacy tool URLs -> canonical survivors (were next.config.ts redirects).
   RewriteRule ^tools/emi-calculator/?$ /tools/loan-calculator/ [R=301,L]
   RewriteRule ^tools/loan-payment-calculator/?$ /tools/loan-calculator/ [R=301,L]
   RewriteRule ^tools/vat-calculator/?$ /tools/tax-calculator/ [R=301,L]
@@ -18,4 +26,52 @@
   RewriteRule ^tools/sign-pdf/?$ /tools/pdf/sign-pdf/ [R=301,L]
   RewriteRule ^tools/pdf-to-word/?$ /tools/pdf/pdf-to-word/ [R=301,L]
   RewriteRule ^tools/pdf-to-excel/?$ /tools/pdf/pdf-to-excel/ [R=301,L]
+  RewriteRule ^tools/pdf-extract-text/?$ /tools/pdf/pdf-extract-text/ [R=301,L]
+</IfModule>
+
+# Compression: fewer bytes, faster drain of concurrent connections.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Caching: hashed _next/static/* is immutable (1y); images/fonts 30d;
+# HTML revalidates every visit so deploys go live without stale shells.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 day"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType image/avif "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/gif "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType application/pdf "access plus 7 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Immutable hashed Next.js assets: cache hard, never revalidate.
+  <FilesMatch "^.*$">
+    Header unset ETag
+  </FilesMatch>
+  <LocationMatch "^/_next/static/.*">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </LocationMatch>
+  # HTML shells: always revalidate so new deploys replace the old shell
+  # instead of clients hammering with hard-refresh bursts.
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2)$">
+    Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
+  </FilesMatch>
+  # Keep crawlers light: sitemap/robots revalidate quickly but allow stale.
+  <FilesMatch "^(sitemap\.xml|robots\.txt)$">
+    Header set Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
+  </FilesMatch>
 </IfModule>

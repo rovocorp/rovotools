@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Crawl-delay: 10
 
 Sitemap: https://rovotools.com/sitemap.xml

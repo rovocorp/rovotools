@@ -1,4 +1,4 @@
-import { parseIsoDate } from "./guards";
+import { parseFlexibleDate } from "./date-difference";
 
 export interface AgeInput {
   readonly birthDate: string;
@@ -15,8 +15,9 @@ export interface AgeResult {
 const MS_PER_DAY = 86_400_000;
 
 export function calculateAge(input: AgeInput): AgeResult {
-  const birth = parseIsoDate(input.birthDate, "birthDate");
-  const asOf = parseIsoDate(input.asOfDate, "asOfDate");
+  // Flexible input: DD/MM/YYYY (widgets), DD-MM-YYYY and legacy YYYY-MM-DD.
+  const birth = parseFlexibleDate(input.birthDate, "birthDate");
+  const asOf = parseFlexibleDate(input.asOfDate, "asOfDate");
   if (asOf.time < birth.time) {
     throw new RangeError("asOfDate must be on or after birthDate.");
   }

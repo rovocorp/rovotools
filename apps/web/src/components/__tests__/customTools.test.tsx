@@ -18,6 +18,7 @@ describe("customTools", () => {
       "performance-analyzer",
       "color-picker",
       "tax-calculator",
+      "word-unscrambler",
     ]) {
       expect(getCustomToolComponent(slug)).toBeDefined();
     }

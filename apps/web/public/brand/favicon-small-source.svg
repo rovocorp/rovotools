@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#0B132B"/>
+  <!-- Bold 2x2 pixel motif (brand colors): stays crisp at 16-32px tab sizes -->
+  <rect x="106" y="106" width="140" height="140" rx="32" fill="#00D2FF"/>
+  <rect x="266" y="106" width="140" height="140" rx="32" fill="#00E676"/>
+  <rect x="106" y="266" width="140" height="140" rx="32" fill="#FFB300"/>
+  <rect x="266" y="266" width="140" height="140" rx="32" fill="#FF5722"/>
+</svg>

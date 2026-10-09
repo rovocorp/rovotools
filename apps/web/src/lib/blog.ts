@@ -205,6 +205,22 @@ export const BLOG_POSTS: ReadonlyArray<BlogPost> = [
       "Decision shortcut: photo → WebP/JPEG, graphic with transparency → PNG/WebP, logo or icon → SVG, animation → WebP/MP4 over GIF.",
     ],
   },
+  {
+    slug: "unscramble-letters-guide",
+    title: "How to Unscramble Letters for Scrabble and Word Games",
+    excerpt: "Blank tiles, bingo hunts, and how anagram solvers actually find words.",
+    date: "2026-10-07",
+    category: "Word games",
+    relatedTools: ["word-unscrambler", "random-word-generator", "readability-checker"],
+    body: [
+      "Start with the longest play, not the cleverest: in Scrabble and Words With Friends, a 7-letter bingo with its 50-point bonus (35 in Words With Friends) usually beats any short high-letter word. The RovoTools Word Unscrambler sorts longest-first for exactly this reason.",
+      "Treat blank tiles as your most valuable asset: bank them for bingos instead of spending them on small plays. In the unscrambler, type ? for each blank and it will try every letter on your behalf.",
+      "Learn the short high-value words first: QI, ZA, QAT, QIS, AX and EX turn awkward racks into points while you wait for a bingo rack. They are all in the unscrambler's ENABLE-derived list.",
+      "For jumbles and newspaper puzzles, switch to Exact mode so only full-rack anagrams show — the intended answer is almost always the longest or highest-scoring match.",
+      "Practice deliberately: draw random letters with the Random Word Generator, scramble them by hand, then check yourself with the unscrambler. Ten minutes a day builds the pattern recognition that wins games.",
+      "One honesty note: the unscrambler uses a public-domain ENABLE-derived list, not the official tournament dictionaries, so confirm rare plays against your event's word list before a tournament.",
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

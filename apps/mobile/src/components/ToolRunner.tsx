@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import type { ToolInputField, ValidationError } from "@rovotools/types";
+import { todaySlashDDMMYYYY } from "@rovotools/calculations";
 import { t } from "@rovotools/localization";
 import { copyText, exportTextFile, mobileShare } from "@/lib/adapters";
 import { formatResultsText, resultsToCsv } from "@/lib/results";
@@ -101,7 +102,7 @@ function FieldControl({
       onChangeText={onChange}
       keyboardType={keyboardType}
       multiline={field.type === "textarea"}
-      placeholder={field.type === "date" ? "YYYY-MM-DD" : undefined}
+      placeholder={field.type === "date" ? "DD/MM/YYYY" : undefined}
       inputRef={inputRef}
       returnKeyType={returnKeyType}
       onSubmitEditing={onSubmitEditing}
@@ -119,7 +120,16 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
   const { track } = useRecents();
   const inputRefs = useRef<Array<TextInput | null>>([]);
 
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>(() => {
+    // Prefill "today" defaults (e.g. Age Calculator "Calculate age at").
+    const initial: Record<string, string> = {};
+    for (const field of entry?.definition.inputs ?? []) {
+      if (field.defaultValue !== undefined && field.defaultValue !== null && String(field.defaultValue) === "today") {
+        initial[field.id] = todaySlashDDMMYYYY();
+      }
+    }
+    return initial;
+  });
   const [errors, setErrors] = useState<ReadonlyArray<ValidationError>>([]);
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const [running, setRunning] = useState(false);

@@ -55,21 +55,38 @@ test("seo-checker — shows a validation error on empty input", async ({ page })
   await expect(page.locator('main [role="alert"]')).toBeVisible({ timeout: 15000 });
 });
 
-test("open-graph-checker — Fetch page fills the textarea from the URL", async ({ page }) => {
-  await page.route("**/example.com/page", (route) =>
-    route.fulfill({ status: 200, contentType: "text/html", body: SAMPLE_HTML }),
-  );
-  await page.goto("/tools/open-graph-checker");
-  await dismissCookieBanner(page);
-  await expect(page.locator("#html")).toBeVisible({ timeout: 15000 });
-  await page.locator("#open-graph-checker-url").fill("https://example.com/page");
-  await page.getByRole("button", { name: "Fetch page" }).click();
-  await expect(page.locator("#html")).toHaveValue(SAMPLE_HTML, { timeout: 15000 });
-  await page.getByRole("button", { name: "Check tags" }).click();
-  const dl = page.locator("main dl");
-  await expect(dl).toBeVisible({ timeout: 15000 });
-  await expect(dl).toContainText("og.png");
-  await expect(page.locator('main [role="alert"]')).toHaveCount(0);
+// The Fetch test mocks the network with page.route. The app's service worker
+// (/sw.js, clientsClaim + skipWaiting) can take control of the page and
+// route fetches around Playwright's interception — notably on WebKit, where
+// the request then hits the real example.com/page (a real 404 with no CORS
+// headers) and the textarea stays empty. Block workers so the mock applies
+// deterministically on every engine.
+test.describe("open-graph-checker — Fetch page", () => {
+  test.use({ serviceWorkers: "block" });
+
+  test("fills the textarea from the URL", async ({ page }) => {
+    await page.route("**/example.com/page", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "text/html",
+        // Cross-origin browser fetch requires a CORS header on the mocked
+        // response, otherwise the fetch rejects and the textarea stays empty.
+        headers: { "Access-Control-Allow-Origin": "*" },
+        body: SAMPLE_HTML,
+      }),
+    );
+    await page.goto("/tools/open-graph-checker");
+    await dismissCookieBanner(page);
+    await expect(page.locator("#html")).toBeVisible({ timeout: 15000 });
+    await page.locator("#open-graph-checker-url").fill("https://example.com/page");
+    await page.getByRole("button", { name: "Fetch page" }).click();
+    await expect(page.locator("#html")).toHaveValue(SAMPLE_HTML, { timeout: 15000 });
+    await page.getByRole("button", { name: "Check tags" }).click();
+    const dl = page.locator("main dl");
+    await expect(dl).toBeVisible({ timeout: 15000 });
+    await expect(dl).toContainText("og.png");
+    await expect(page.locator('main [role="alert"]')).toHaveCount(0);
+  });
 });
 
 test("tag-detector — surfaces a fetch failure without crashing", async ({ page }) => {

@@ -1125,6 +1125,273 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     related: ["color-picker", "color-converter", "css-gradient-generator"],
   },
+  "word-unscrambler": {
+    title: "Word Unscrambler — Unscramble Letters Into Words | RovoTools",
+    description:
+      "Free word unscrambler: enter scrambled letters and find every valid word with Scrabble and Words With Friends scores. No signup, runs on your device.",
+    intro:
+      "Type your tiles and instantly see every dictionary word they can build — longest first, each with its Scrabble and Words With Friends point value. Use ? for a blank tile, filter by length, and toggle exact mode for jumble-style puzzles where every letter must be used.",
+    benefits: [
+      "Subset and exact-anagram modes for Scrabble, Words With Friends, jumbles and crosswords",
+      "Blank-tile (?) support for real rack situations",
+      "Scrabble and Words With Friends scores on every result",
+      "Runs entirely on your device — letters are never sent anywhere",
+    ],
+    howTo: [
+      "Enter 2–15 scrambled letters (add ? for each blank tile).",
+      "Keep All mode for every playable word, or switch to Exact for full-rack anagrams.",
+      "Set a minimum length and press Unscramble.",
+      "Pick your play from the longest, highest-scoring matches.",
+    ],
+    faqs: [
+      {
+        question: "How does the word unscrambler work?",
+        answer:
+          "It compares your tiles against a built-in ENABLE-derived word list using letter-frequency matching, so two S tiles can build a word with two S letters but never three. Results are grouped longest-first with Scrabble and Words With Friends scores.",
+      },
+      {
+        question: "Can I use blank tiles?",
+        answer:
+          "Yes — type ? or * for each blank (up to two). A blank matches any letter, which mirrors how wildcards work in Scrabble and Words With Friends.",
+      },
+      {
+        question: "Is this an official Scrabble dictionary?",
+        answer:
+          "No. Results come from a public-domain ENABLE-derived list that closely matches casual play, but it is not the official TWL/NWL, SOWPODS/CSW or Words With Friends word list. Confirm rare plays against your tournament list.",
+      },
+      {
+        question: "What is the difference between All and Exact mode?",
+        answer:
+          "All mode returns every word your tiles can build, including shorter ones — usually what you want mid-game. Exact mode only returns words using every tile, ideal for jumbles and bingo hunts.",
+      },
+      {
+        question: "Is my input private?",
+        answer:
+          "Yes. Solving runs locally in your browser; your letters are never uploaded, logged or stored.",
+      },
+    ],
+    related: ["random-word-generator", "word-counter", "readability-checker", "case-converter"],
+    workflow: {
+      title: "Sharpen your word game",
+      steps: [
+        { label: "Draw practice letters", href: "/tools/random-word-generator" },
+        { label: "Unscramble them", href: "/tools/word-unscrambler" },
+        { label: "Count your words", href: "/tools/word-counter" },
+      ],
+    },
+  },
+  "readability-checker": {
+    title: "Readability Checker — Flesch Score & Grade Level | RovoTools",
+    description:
+      "Free readability checker: paste text to get Flesch Reading Ease, grade level, word and sentence counts. Private and instant.",
+    intro:
+      "Paste any draft and get an instant readability verdict: Flesch Reading Ease, Flesch-Kincaid grade level, plus word and sentence counts — everything computed on your device.",
+    benefits: [
+      "Flesch Reading Ease and grade level in one click",
+      "Word and sentence counts for context",
+      "Plain-English difficulty band with every score",
+      "Runs locally — drafts never leave your browser",
+    ],
+    howTo: [
+      "Paste your article or essay text.",
+      "Press Check readability.",
+      "Aim for grade 8 or below for general audiences; shorten sentences if the score is high.",
+    ],
+    faqs: [
+      {
+        question: "What is a good Flesch Reading Ease score?",
+        answer:
+          "60–70 is plain English most adults read comfortably; 70–80 is fairly easy; below 30 is very difficult academic or legal prose. Higher is easier.",
+      },
+      {
+        question: "How is the grade level calculated?",
+        answer:
+          "With the standard Flesch-Kincaid formula from average sentence length and average syllables per word. It estimates the US school grade needed to understand the text.",
+      },
+      {
+        question: "Is my text uploaded anywhere?",
+        answer: "No. Scoring runs entirely in your browser and nothing is transmitted or stored.",
+      },
+    ],
+    related: ["word-counter", "reading-time-calculator", "text-cleaner", "keyword-density-checker"],
+  },
+  "invoice-generator": {
+    title: "Invoice Generator — Free Online Invoice Maker | RovoTools",
+    description:
+      "Create a clean invoice online: add line items, tax and your business name, then copy the result. Free, no signup.",
+    intro:
+      "Type the client name, list items as description, quantity and price, add an optional tax rate — and get a tidy invoice with subtotal, tax and total due, ready to copy into an email or document.",
+    benefits: [
+      "Line-item math with subtotal, tax and total done for you",
+      "Any currency symbol and tax/VAT rate",
+      "Copy-ready text for emails, docs and PDFs",
+      "Private by design — figures stay on your device",
+    ],
+    howTo: [
+      "Enter the client name and your business name (optional).",
+      "Add one item per line as: description, quantity, price.",
+      "Set the tax rate and currency, then press Build invoice.",
+      "Copy the invoice into your email or accounting tool.",
+    ],
+    faqs: [
+      {
+        question: "How do I format item lines?",
+        answer:
+          "One per line with commas separating description, quantity and price — for example: Logo design, 1, 450. Descriptions may contain commas; the last two values are always read as quantity and price.",
+      },
+      {
+        question: "Can I use VAT or GST rates?",
+        answer:
+          "Yes — enter any percentage in the tax field. The generator applies it to the subtotal and shows tax and total separately.",
+      },
+      {
+        question: "Is this a legal tax invoice?",
+        answer:
+          "It produces a clear payment request, but formal tax invoices in some regions require invoice numbers, addresses and registration details. Add those in your own document when required.",
+      },
+    ],
+    related: ["tax-calculator", "number-formatter", "pdf-creator", "date-formatter"],
+  },
+  "text-to-speech": {
+    title: "Text to Speech — Read Aloud Online | RovoTools",
+    description:
+      "Free text to speech: paste text and listen with your browser's voices, with speed control. No uploads, no signup.",
+    intro:
+      "Paste any text, pick a speed, and press Speak — your browser reads it aloud using its built-in voices.(decide male/female voices in your system settings). A word count and time estimate help you plan listening sessions.",
+    benefits: [
+      "One-tap Speak, Pause and Stop player",
+      "Speed control from 0.5× to 2×",
+      "Word count and listening-time estimate",
+      "Nothing uploaded — speech uses your device's own voices",
+    ],
+    howTo: [
+      "Paste or type the text to hear.",
+      "Set the speed (1 is normal narration pace).",
+      "Press Speak; use Pause and Stop to control playback.",
+    ],
+    faqs: [
+      {
+        question: "Which voices are available?",
+        answer:
+          "Your operating system and browser provide the voices (for example Microsoft, Apple or Google voices), including other languages where installed. RovoTools simply plays text through them.",
+      },
+      {
+        question: "Is there a text length limit?",
+        answer:
+          "Very long pastes are best split into sections — browsers handle narration most reliably under a few thousand words at a time.",
+      },
+      {
+        question: "Does my text leave my device?",
+        answer:
+          "No upload happens. The text is prepared locally and spoken by your browser's on-device speech engine.",
+      },
+    ],
+    related: ["word-counter", "reading-time-calculator", "readability-checker", "lorem-ipsum-generator"],
+  },
+  "countdown-timer": {
+    title: "Countdown Timer — Count Down to Any Date | RovoTools",
+    description:
+      "Free countdown timer: enter a target date or a duration in seconds and see the exact time remaining.",
+    intro:
+      "Count down to launches, deadlines and holidays — enter a target date and time, or simply a duration in seconds, and get the remaining days, hours, minutes and seconds instantly.",
+    benefits: [
+      "Target-date and duration modes",
+      "Clear days-hours-minutes-seconds readout",
+      "Total seconds for developers and planners",
+      "Free, instant and private",
+    ],
+    howTo: [
+      "Enter a target like 2026-12-31 23:59 — or a duration in seconds.",
+      "Press Start countdown.",
+      "Re-run anytime for a fresh remaining figure.",
+    ],
+    faqs: [
+      {
+        question: "What date formats work?",
+        answer:
+          "Anything your browser understands, such as 2026-12-31 23:59 or 2026-12-31T23:59. Times are interpreted in your local timezone.",
+      },
+      {
+        question: "What happens after the moment passes?",
+        answer: "The timer reports that the moment has passed instead of showing negative time.",
+      },
+    ],
+    related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "age-calculator"],
+  },
+  "random-word-generator": {
+    title: "Random Word Generator — Writing & Game Prompts | RovoTools",
+    description:
+      "Draw random English words for writing prompts, vocabulary practice and word games — with repeatable seeds. Free.",
+    intro:
+      "Draw 1–50 random English words in one click, optionally fixed to one length. Add a seed to replay the exact same draw — perfect for classroom games, writing sprints and unscrambling practice.",
+    benefits: [
+      "1–50 words per draw with optional fixed length",
+      "Seeds make draws repeatable for classes and games",
+      "Draws from the same ENABLE-derived game list as the unscrambler",
+      "Local and instant — no signup",
+    ],
+    howTo: [
+      "Choose how many words to draw.",
+      "Optionally fix the word length for level play.",
+      "Press Draw words — add a seed when everyone should get the same set.",
+    ],
+    faqs: [
+      {
+        question: "How do seeds work?",
+        answer:
+          "The same seed text always produces the same draw on the same list, so a teacher can share one seed and the whole class practices identical words.",
+      },
+      {
+        question: "Can I practice unscrambling with this?",
+        answer:
+          "Yes — draw a long word, scramble its letters by hand, then check yourself with the Word Unscrambler.",
+      },
+    ],
+    related: ["word-unscrambler", "lorem-ipsum-generator", "word-counter", "readability-checker"],
+  },
+  "pdf-extract-text": {
+    title: "Extract Text From PDF — Free Online | RovoTools",
+    description:
+      "Copy text out of any PDF in your browser: page-by-page extraction with .txt download. Files never leave your device.",
+    intro:
+      "Drop in a PDF and get its selectable text back page by page, ready to copy or download as .txt. Scanned image-only PDFs are detected and reported instead of returning gibberish.",
+    benefits: [
+      "Page-by-page text extraction in seconds",
+      "One-click .txt download",
+      "Clear warning for scanned (image-only) PDFs",
+      "100% local — documents never leave your browser",
+    ],
+    howTo: [
+      "Choose a PDF file.",
+      "Press Extract text.",
+      "Copy what you need or download the full .txt.",
+    ],
+    faqs: [
+      {
+        question: "Why does my PDF return no text?",
+        answer:
+          "It is probably a scan or photo of pages rather than real text. Scanned PDFs need OCR first — the tool tells you when this is the case.",
+      },
+      {
+        question: "Is there a file size limit?",
+        answer:
+          "Files up to 100 MB are accepted. Very large documents simply take longer on slower devices.",
+      },
+      {
+        question: "Are my documents uploaded?",
+        answer: "No. Extraction runs with an in-browser PDF engine; your file never leaves your device.",
+      },
+    ],
+    related: ["pdf-to-word", "pdf-to-excel", "word-counter", "text-cleaner"],
+    workflow: {
+      title: "Work with PDFs end to end",
+      steps: [
+        { label: "Extract text from a PDF", href: "/tools/pdf/pdf-extract-text" },
+        { label: "Count the words", href: "/tools/word-counter" },
+        { label: "Create a fresh PDF", href: "/tools/pdf/pdf-creator" },
+      ],
+    },
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {

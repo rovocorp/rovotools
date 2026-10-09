@@ -1,4 +1,5 @@
-﻿import type {
+﻿import { calculateDateDifference, normalizeLetters, parseFlexibleDate, randomCoreWords, unscrambleLetters } from "@rovotools/calculations";
+import type {
   ToolCategory,
   ToolInputField,
   ToolOutputField,
@@ -35,8 +36,13 @@ function flag(id: string, label: string, defaultValue: boolean): ToolInputField 
   return { id, type: "boolean", labelKey: label, required: false, defaultValue };
 }
 
-function out(id: string, label: string): ToolOutputField {
-  return { id, type: "string", labelKey: label };
+function out(id: string, label: string, display?: "table"): ToolOutputField {
+  return display === undefined ? { id, type: "string", labelKey: label } : { id, type: "string", labelKey: label, display };
+}
+
+/** Multi-line string output rendered as a numbered table by generic runners. */
+function linesOut(id: string, label: string): ToolOutputField {
+  return out(id, label, "table");
 }
 
 function numOut(id: string, label: string): ToolOutputField {
@@ -847,28 +853,46 @@ const SPECS: ReadonlyArray<Spec> = [
     id: "date-difference-calculator",
     slug: "date-difference-calculator",
     name: "Date Difference Calculator",
-    description: "Count days, weeks and months between two dates.",
+    description: "Count years, months, days and weeks between two dates.",
     category: "calculator",
     icon: "calendar-days",
-    keywords: ["date difference", "days between", "duration"],
+    keywords: ["date difference", "days between", "duration", "years between", "age between dates"],
     popular: false,
     featured: false,
-    inputs: [str("from", "From date (YYYY-MM-DD)"), str("to", "To date (YYYY-MM-DD)")],
-    outputs: [numOut("days", "Days"), numOut("weeks", "Weeks"), out("monthsApprox", "Approx. months")],
+    inputs: [str("from", "From date (DD/MM/YYYY)"), str("to", "To date (DD/MM/YYYY)")],
+    outputs: [
+      numOut("years", "Years"),
+      out("breakdown", "Breakdown"),
+      numOut("days", "Days"),
+      numOut("weeks", "Weeks"),
+      out("monthsApprox", "Approx. months"),
+    ],
     validate: (input) => {
-      if (Number.isNaN(Date.parse(req(input, "from"))) || Number.isNaN(Date.parse(req(input, "to")))) {
-        return err("from", "Enter two valid dates as YYYY-MM-DD.");
+      let fromTime = 0;
+      let toTime = 0;
+      try {
+        fromTime = parseFlexibleDate(req(input, "from"), "from").time;
+      } catch {
+        return err("from", "Enter a valid From date as DD-MM-YYYY, DD/MM/YYYY or YYYY-MM-DD.");
+      }
+      try {
+        toTime = parseFlexibleDate(req(input, "to"), "to").time;
+      } catch {
+        return err("to", "Enter a valid To date as DD-MM-YYYY, DD/MM/YYYY or YYYY-MM-DD.");
+      }
+      if (toTime < fromTime) {
+        return err("to", "Wrong date: To date must be on or after From date.");
       }
       return ok();
     },
     execute: async (input) => {
-      const days = Math.round(
-        (Date.parse(req(input, "to")) - Date.parse(req(input, "from"))) / 86400000,
-      );
+      const diff = calculateDateDifference({ from: req(input, "from"), to: req(input, "to") });
       return {
-        days: Math.abs(days),
-        weeks: Math.floor(Math.abs(days) / 7),
-        monthsApprox: String(Math.round((Math.abs(days) / 30.44) * 10) / 10),
+        years: diff.years,
+        breakdown: diff.breakdown,
+        days: diff.totalDays,
+        weeks: diff.weeks,
+        monthsApprox: diff.monthsApprox,
       };
     },
   },
@@ -1289,7 +1313,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [area("original", "Original text"), area("modified", "Modified text")],
-    outputs: [out("summary", "Summary"), out("diff", "Line diff (- removed, + added)")],
+    outputs: [out("summary", "Summary"), linesOut("diff", "Line diff (- removed, + added)")],
     validate: (input) => {
       if (req(input, "original") === "" && req(input, "modified") === "") {
         return err("original", "Enter text in at least one box.");
@@ -1458,7 +1482,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [area("text", "Lines (one per line)"), flag("caseSensitive", "Case sensitive", true)],
-    outputs: [out("cleaned", "Deduplicated lines"), numOut("removed", "Duplicates removed")],
+    outputs: [linesOut("cleaned", "Deduplicated lines"), numOut("removed", "Duplicates removed")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some lines.") : ok()),
     execute: async (input) => {
       const sensitive = String(input["caseSensitive"] ?? "true") === "true";
@@ -1485,7 +1509,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [area("text", "Text input"), flag("trim", "Trim each line", true)],
-    outputs: [out("cleaned", "Cleaned text"), numOut("removed", "Lines removed")],
+    outputs: [linesOut("cleaned", "Cleaned text"), numOut("removed", "Lines removed")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some text.") : ok()),
     execute: async (input) => {
       const trim = String(input["trim"] ?? "true") === "true";
@@ -1505,7 +1529,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [area("text", "Messy text input")],
-    outputs: [out("cleaned", "Cleaned text")],
+    outputs: [linesOut("cleaned", "Cleaned text")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some text.") : ok()),
     execute: async (input) => {
       const cleaned = req(input, "text")
@@ -1555,7 +1579,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [str("count", "How many (default 3)", false), str("unit", "Unit: paragraphs (default), sentences or words", false)],
-    outputs: [out("text", "Generated text")],
+    outputs: [linesOut("text", "Generated text")],
     validate: () => ok(),
     execute: async (input) => {
       const bank = "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum".split(" ");
@@ -1612,6 +1636,272 @@ const SPECS: ReadonlyArray<Spec> = [
       const minutes = words / wpm;
       const label = minutes < 1 ? `${Math.max(1, Math.round(minutes * 60))} sec` : `${Math.round(minutes * 10) / 10} min`;
       return { readingTime: `${label} at ${wpm} wpm`, words };
+    },
+  },
+  {
+    id: "word-unscrambler",
+    slug: "word-unscrambler",
+    name: "Word Unscrambler",
+    description: "Unscramble letters into every valid word with Scrabble and Words With Friends scores — all on your device.",
+    category: "text",
+    icon: "puzzle",
+    keywords: ["word unscrambler", "unscramble words", "unscramble letters", "anagram solver", "scrabble word finder", "words with friends cheat"],
+    popular: true,
+    featured: false,
+    inputs: [area("letters", "Scrambled letters (A-Z, ? for a blank tile)"), str("mode", "Mode: all (default) or exact", false), str("minLength", "Minimum word length (default 2)", false), str("maxResults", "Max results, up to 300 (default 100)", false)],
+    outputs: [out("words", "Matching words"), numOut("count", "Words found"), out("longest", "Longest match")],
+    validate: (input) => {
+      const letters = normalizeLetters(req(input, "letters"));
+      if (letters === "") {
+        return err("letters", "Enter 2-15 scrambled letters.");
+      }
+      if (letters.length < 2 || letters.length > 15) {
+        return err("letters", "Use between 2 and 15 tiles.");
+      }
+      if (!/^[a-z?*]+$/.test(letters)) {
+        return err("letters", "Use letters A-Z plus ? or * for blank tiles.");
+      }
+      if ((letters.match(/[?*]/g) ?? []).length > 2) {
+        return err("letters", "Up to 2 blank tiles are supported.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const letters = normalizeLetters(req(input, "letters"));
+      const rawMode = req(input, "mode").toLowerCase();
+      const rawMin = req(input, "minLength");
+      const rawMax = req(input, "maxResults");
+      const results = unscrambleLetters(letters, {
+        mode: rawMode === "exact" ? "exact" : "all",
+        minLength: rawMin === "" ? 2 : Math.min(15, Math.max(2, Math.floor(Number(rawMin)) || 2)),
+        limit: rawMax === "" ? 100 : Math.min(300, Math.max(1, Math.floor(Number(rawMax)) || 100)),
+      });
+      const lines = results.map((r) => `${r.word} — ${r.length} letters, Scrabble ${r.scrabble}, WWF ${r.wwf}`);
+      return {
+        words: lines.join("\n") === "" ? "No dictionary words found — try a blank tile (?) or shorter input." : lines.join("\n"),
+        count: results.length,
+        longest: results.length === 0 ? "—" : (results[0] as { word: string }).word,
+      };
+    },
+  },
+  {
+    id: "readability-checker",
+    slug: "readability-checker",
+    name: "Readability Checker",
+    description: "Score any text with Flesch Reading Ease and grade level — instant, private, in your browser.",
+    category: "text",
+    icon: "book-open-check",
+    keywords: ["readability checker", "flesch kincaid", "reading level", "flesch reading ease", "grade level checker"],
+    popular: false,
+    featured: false,
+    inputs: [area("text", "Text to score")],
+    outputs: [out("grade", "Reading grade"), numOut("readingEase", "Flesch Reading Ease"), numOut("words", "Words"), numOut("sentences", "Sentences")],
+    validate: (input) => (req(input, "text") === "" ? err("text", "Paste the text to score.") : ok()),
+    execute: async (input) => {
+      const text = req(input, "text");
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      const sentences = Math.max(1, (text.match(/[.!?…]+/g) ?? []).length);
+      let syllables = 0;
+      for (const raw of words) {
+        const clean = raw.toLowerCase().replace(/[^a-z]/g, "");
+        if (clean === "") {
+          continue;
+        }
+        const groups = clean.replace(/e$/u, "").match(/[aeiouy]+/g) ?? [];
+        syllables += Math.max(1, groups.length);
+      }
+      const perSentence = words.length / sentences;
+      const perWord = words.length === 0 ? 0 : syllables / words.length;
+      const ease = Math.round((206.835 - 1.015 * perSentence - 84.6 * perWord) * 10) / 10;
+      const grade = Math.round((0.39 * perSentence + 11.8 * perWord - 15.59) * 10) / 10;
+      return {
+        grade: `Grade ${grade} (${grade <= 6 ? "easy" : grade <= 10 ? "plain English" : grade <= 14 ? "fairly difficult" : "very difficult"})`,
+        readingEase: ease,
+        words: words.length,
+        sentences,
+      };
+    },
+  },
+  {
+    id: "invoice-generator",
+    slug: "invoice-generator",
+    name: "Invoice Generator",
+    description: "Build a clean invoice from line items with tax totals — copy or download it, free and private.",
+    category: "finance",
+    icon: "receipt",
+    keywords: ["invoice generator", "free invoice", "invoice maker", "invoice template", "create invoice online"],
+    popular: true,
+    featured: false,
+    inputs: [str("business", "Your business name (optional)", false), str("client", "Bill to (client name)"), area("items", "Items, one per line: description, qty, price"), str("taxRate", "Tax / VAT % (default 0)", false), str("currency", "Currency symbol (default $)", false)],
+    outputs: [linesOut("invoice", "Invoice"), numOut("subtotal", "Subtotal"), numOut("tax", "Tax"), numOut("total", "Total")],
+    validate: (input) => {
+      if (req(input, "client") === "") {
+        return err("client", "Enter the client name.");
+      }
+      if (req(input, "items") === "") {
+        return err("items", "Add at least one item line.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const currency = req(input, "currency") === "" ? "$" : req(input, "currency");
+      const taxRate = req(input, "taxRate") === "" ? 0 : Math.max(0, Number(req(input, "taxRate")) || 0);
+      const lines = req(input, "items").split("\n").map((l) => l.trim()).filter(Boolean);
+      const rows: Array<string> = [];
+      let subtotal = 0;
+      for (const line of lines) {
+        const parts = line.split(",").map((p) => p.trim());
+        const price = Number(parts[parts.length - 1]);
+        const qty = Number(parts[parts.length - 2]);
+        const desc = parts.slice(0, -2).join(", ") === "" ? line : parts.slice(0, -2).join(", ");
+        if (!Number.isFinite(qty) || !Number.isFinite(price)) {
+          continue;
+        }
+        const amount = qty * price;
+        subtotal += amount;
+        rows.push(`${desc} — ${qty} × ${currency}${price.toFixed(2)} = ${currency}${amount.toFixed(2)}`);
+      }
+      subtotal = Math.round(subtotal * 100) / 100;
+      const tax = Math.round(subtotal * (taxRate / 100) * 100) / 100;
+      const total = Math.round((subtotal + tax) * 100) / 100;
+      const header = `${req(input, "business") === "" ? "INVOICE" : req(input, "business")} — Bill to: ${req(input, "client")}`;
+      return {
+        invoice: [header, "", ...rows, "", `Subtotal: ${currency}${subtotal.toFixed(2)}`, `Tax (${taxRate}%): ${currency}${tax.toFixed(2)}`, `Total due: ${currency}${total.toFixed(2)}`].join("\n"),
+        subtotal,
+        tax,
+        total,
+      };
+    },
+  },
+  {
+    id: "text-to-speech",
+    slug: "text-to-speech",
+    name: "Text to Speech",
+    description: "Listen to any text read aloud in your browser with speed control — free, no uploads.",
+    category: "text",
+    icon: "audio-lines",
+    keywords: ["text to speech", "tts", "read aloud", "text reader", "speak text online"],
+    popular: true,
+    featured: false,
+    inputs: [area("text", "Text to speak"), str("rate", "Speed 0.5–2 (default 1)", false)],
+    outputs: [out("prepared", "Prepared text"), numOut("words", "Words"), numOut("estimatedSeconds", "Estimated seconds"), out("status", "Status")],
+    validate: (input) => {
+      if (req(input, "text") === "") {
+        return err("text", "Enter the text to speak.");
+      }
+      const raw = req(input, "rate");
+      if (raw !== "" && (Number.isNaN(Number(raw)) || Number(raw) < 0.5 || Number(raw) > 2)) {
+        return err("rate", "Speed must be between 0.5 and 2.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const text = req(input, "text").replace(/\s+/g, " ").trim();
+      const rate = req(input, "rate") === "" ? 1 : Number(req(input, "rate"));
+      const words = text === "" ? 0 : text.split(" ").length;
+      return {
+        prepared: text,
+        words,
+        estimatedSeconds: Math.round((words / (150 * rate)) * 60 * 10) / 10,
+        status: "Ready — press Speak in the player below. Speech runs locally via your browser's voices.",
+      };
+    },
+  },
+  {
+    id: "countdown-timer",
+    slug: "countdown-timer",
+    name: "Countdown Timer",
+    description: "Count down to any date and time, or from a number of seconds — free online timer.",
+    category: "calculator",
+    icon: "timer",
+    keywords: ["countdown timer", "countdown to date", "online timer", "days until", "time remaining"],
+    popular: false,
+    featured: false,
+    inputs: [str("target", "Target date & time, e.g. 2026-12-31 23:59 (optional)", false), str("seconds", "...or duration in seconds (optional)", false)],
+    outputs: [out("remaining", "Time remaining"), numOut("totalSeconds", "Total seconds")],
+    validate: (input) => {
+      const target = req(input, "target");
+      const seconds = req(input, "seconds");
+      if (target === "" && seconds === "") {
+        return err("target", "Enter a target date or a duration in seconds.");
+      }
+      if (target !== "" && Number.isNaN(Date.parse(target))) {
+        return err("target", "That date could not be understood — try 2026-12-31 23:59.");
+      }
+      if (seconds !== "" && (Number.isNaN(Number(seconds)) || Number(seconds) < 0)) {
+        return err("seconds", "Duration must be 0 or more seconds.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const target = req(input, "target");
+      const total = target !== "" ? Math.max(0, Math.floor((Date.parse(target) - Date.now()) / 1000)) : Math.floor(Number(req(input, "seconds")));
+      const days = Math.floor(total / 86400);
+      const hours = Math.floor((total % 86400) / 3600);
+      const minutes = Math.floor((total % 3600) / 60);
+      const secs = total % 60;
+      const parts: Array<string> = [];
+      if (days > 0) {
+        parts.push(`${days}d`);
+      }
+      if (hours > 0 || days > 0) {
+        parts.push(`${hours}h`);
+      }
+      if (minutes > 0 || hours > 0 || days > 0) {
+        parts.push(`${minutes}m`);
+      }
+      parts.push(`${secs}s`);
+      return { remaining: total === 0 && target !== "" ? "That moment has passed." : parts.join(" "), totalSeconds: total };
+    },
+  },
+  {
+    id: "random-word-generator",
+    slug: "random-word-generator",
+    name: "Random Word Generator",
+    description: "Draw random English words for games, writing prompts and practice — with repeatable seeds.",
+    category: "text",
+    icon: "dices",
+    keywords: ["random word generator", "random words", "writing prompts", "word picker", "vocabulary practice"],
+    popular: false,
+    featured: false,
+    inputs: [str("count", "How many (default 10, max 50)", false), str("length", "Exact word length (blank for any)", false), str("seed", "Seed for repeatable results (optional)", false)],
+    outputs: [linesOut("words", "Random words"), numOut("count", "Count")],
+    validate: (input) => {
+      const rawCount = req(input, "count");
+      const rawLength = req(input, "length");
+      if (rawCount !== "" && (Number.isNaN(Number(rawCount)) || Number(rawCount) < 1 || Number(rawCount) > 50)) {
+        return err("count", "Count must be between 1 and 50.");
+      }
+      if (rawLength !== "" && (Number.isNaN(Number(rawLength)) || Number(rawLength) < 2 || Number(rawLength) > 15)) {
+        return err("length", "Length must be between 2 and 15 letters.");
+      }
+      return ok();
+    },
+    execute: async (input) => {
+      const count = req(input, "count") === "" ? 10 : Math.min(50, Math.max(1, Math.floor(Number(req(input, "count")))));
+      const rawLength = req(input, "length");
+      const length = rawLength === "" ? undefined : Math.floor(Number(rawLength));
+      const words = randomCoreWords(count, length, req(input, "seed"));
+      return { words: words.join("\n"), count: words.length };
+    },
+  },
+  {
+    id: "pdf-extract-text",
+    slug: "pdf-extract-text",
+    name: "PDF Extract Text",
+    description: "Pull selectable text out of any PDF page by page — right in your browser, nothing uploaded.",
+    category: "pdf",
+    icon: "file-text",
+    keywords: ["pdf extract text", "pdf to text", "extract text from pdf", "copy text from pdf", "pdf text extractor"],
+    popular: true,
+    featured: false,
+    browserOnly: true,
+    canonicalPath: "/tools/pdf/pdf-extract-text",
+    inputs: [{ id: "pdf", type: "file", labelKey: "PDF file", required: true }],
+    outputs: [out("text", "Extracted text (download in the tool below)"), numOut("pages", "Pages read")],
+    validate: (input) => (filePresent(input, "pdf") ? ok() : err("pdf", "Choose a PDF to extract.")),
+    execute: async () => {
+      throw new Error("Text extraction runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
     },
   },
   {
@@ -2356,12 +2646,22 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["date formatter", "format date", "iso date"],
     popular: false,
     featured: false,
-    inputs: [str("date", "Date (YYYY-MM-DD or full ISO). Empty = today.", false)],
+    inputs: [str("date", "Date (DD/MM/YYYY or full ISO). Empty = today.", false)],
     outputs: [out("iso", "ISO date"), out("long", "Long format"), out("short", "Short format"), out("utc", "UTC")],
     validate: () => ok(),
     execute: async (input) => {
       const raw = req(input, "date");
-      const date = raw === "" ? new Date() : new Date(raw);
+      let date: Date;
+      if (raw === "") {
+        date = new Date();
+      } else {
+        try {
+          const parsed = parseFlexibleDate(raw, "date");
+          date = new Date(parsed.year, parsed.month - 1, parsed.day);
+        } catch {
+          date = new Date(raw);
+        }
+      }
       if (Number.isNaN(date.getTime())) {
         throw new RangeError("Enter a valid date.");
       }
@@ -2384,7 +2684,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [str("min", "Minimum (default 1)", false), str("max", "Maximum (default 100)", false), str("count", "How many (default 1, max 50)", false)],
-    outputs: [out("numbers", "Random numbers (one per line)")],
+    outputs: [linesOut("numbers", "Random numbers (one per line)")],
     validate: () => ok(),
     execute: async (input) => {
       const pickNum = (id: string, fallback: number): number => {
@@ -2450,7 +2750,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [area("text", "Article text"), str("top", "Top phrases to show (default 10, max 50)", false), str("maxWords", "Longest phrase in words, 1-3 (default 3)", false)],
-    outputs: [numOut("totalWords", "Total words"), out("topPhrases", "Top phrases (phrase — count, %)"), out("note", "How to read this")],
+    outputs: [numOut("totalWords", "Total words"), linesOut("topPhrases", "Top phrases (phrase — count, %)"), out("note", "How to read this")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Paste article text to analyse.") : ok()),
     execute: async (input) => {
       const { words, phrases } = keywordFrequencies(req(input, "text"), keywordPhraseLength(req(input, "maxWords")));
@@ -2476,7 +2776,7 @@ const SPECS: ReadonlyArray<Spec> = [
     popular: false,
     featured: false,
     inputs: [str("preset", "Preset: wordpress (default), blogger, shopify or custom", false), str("sitemap", "Sitemap URL (optional)", false), area("disallow", "Extra Disallow paths, one per line (optional)", false), area("allow", "Extra Allow paths, one per line (optional)", false)],
-    outputs: [out("robotsTxt", "robots.txt"), numOut("rules", "Allow/Disallow lines")],
+    outputs: [linesOut("robotsTxt", "robots.txt"), numOut("rules", "Allow/Disallow lines")],
     validate: () => ok(),
     execute: async (input) => {
       const robotsTxt = buildRobotsTxt(
@@ -3403,6 +3703,13 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "slug-generator": { action: "Generate slug", running: "Generating..." },
   "lorem-ipsum-generator": { action: "Generate text", running: "Generating..." },
   "reading-time-calculator": { action: "Estimate reading time", running: "Estimating..." },
+  "word-unscrambler": { action: "Unscramble", running: "Unscrambling..." },
+  "readability-checker": { action: "Check readability", running: "Scoring..." },
+  "invoice-generator": { action: "Build invoice", running: "Building..." },
+  "text-to-speech": { action: "Prepare speech", running: "Preparing..." },
+  "countdown-timer": { action: "Start countdown", running: "Calculating..." },
+  "random-word-generator": { action: "Draw words", running: "Drawing..." },
+  "pdf-extract-text": { action: "Extract text", running: "Extracting..." },
   "password-generator": { action: "Generate password", running: "Generating..." },
   "password-strength-checker": { action: "Check strength", running: "Checking..." },
   "hash-generator": { action: "Generate hash", running: "Generating..." },

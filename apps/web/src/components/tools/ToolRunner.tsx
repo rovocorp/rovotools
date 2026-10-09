@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Copy, Download, Heart, RotateCcw, Wifi } from "lucide-react";
 import { getFieldLabel, getFieldPlaceholder, getOutputLabel, registerCoreTools, toolRegistry } from "@rovotools/tools";
+import { todaySlashDDMMYYYY } from "@rovotools/calculations";
 import type { ToolInputField, ValidationError } from "@rovotools/types";
 import { t } from "@rovotools/localization";
 import { useFavorites } from "@/hooks/useFavorites";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import DateInput from "@/components/tools/DateInput";
 import { cn } from "@/lib/utils";
 
 registerCoreTools(toolRegistry);
@@ -50,14 +52,29 @@ function QrPreview({ payload }: { payload: string }): React.ReactElement {
 function initialValues(fields: ReadonlyArray<ToolInputField>): Record<string, string> {
   const values: Record<string, string> = {};
   for (const field of fields) {
-    values[field.id] =
-      field.defaultValue === undefined || field.defaultValue === null
-        ? field.type === "boolean"
-          ? "false"
-          : ""
-        : String(field.defaultValue);
+    if (field.defaultValue !== undefined && field.defaultValue !== null && String(field.defaultValue) === "today") {
+      // "Calculate age at" style defaults: prefill with today's date.
+      values[field.id] = todaySlashDDMMYYYY();
+    } else {
+      values[field.id] =
+        field.defaultValue === undefined || field.defaultValue === null
+          ? field.type === "boolean"
+            ? "false"
+            : ""
+          : String(field.defaultValue);
+    }
   }
   return values;
+}
+
+// Fields rendered with the hybrid text + calendar-picker widget
+// (DD/MM/YYYY) instead of a plain text box.
+function isCalendarField(toolId: string, fieldId: string): boolean {
+  return (
+    (toolId === "date-difference-calculator" && (fieldId === "from" || fieldId === "to")) ||
+    (toolId === "age-calculator" && (fieldId === "birthDate" || fieldId === "asOfDate")) ||
+    (toolId === "date-formatter" && fieldId === "date")
+  );
 }
 
 function FieldInput({
@@ -132,6 +149,40 @@ function FieldInput({
         required={field.required}
       />
     </div>
+  );
+}
+
+function TableOutput({ value }: { value: string }): React.ReactElement {
+  const rows = value.split("\n");
+  // Drop a single trailing empty row from a trailing newline; keep the rest
+  // (blank lines inside cleaned text are meaningful).
+  const trimmed = rows.length > 1 && rows[rows.length - 1]?.trim() === "" ? rows.slice(0, -1) : rows;
+  const capped = trimmed.slice(0, 500);
+  return (
+    <table className="mt-2 w-full border-collapse text-left text-sm font-normal">
+      <thead>
+        <tr className="border-b border-zinc-200 dark:border-zinc-700">
+          <th scope="col" className="w-10 px-2 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            #
+          </th>
+          <th scope="col" className="px-2 py-1 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Result
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {capped.map((line, index) => (
+          <tr key={`${index}-${line.slice(0, 24)}`} className="border-b border-zinc-100 last:border-0 dark:border-zinc-800">
+            <th scope="row" className="w-10 px-2 py-1 align-top font-mono text-xs text-zinc-500 dark:text-zinc-400">
+              {index + 1}
+            </th>
+            <td className="break-words px-2 py-1 font-mono text-zinc-900 dark:text-zinc-100">
+              {line === "" ? <span className="text-zinc-400">(blank)</span> : line}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -283,14 +334,26 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {tool.inputs.map((field) => (
-              <FieldInput
-                key={field.id}
-                field={field}
-                value={values[field.id] ?? ""}
-                onChange={(value) => setValues((prev) => ({ ...prev, [field.id]: value }))}
-              />
-            ))}
+            {tool.inputs.map((field) =>
+              isCalendarField(tool.id, field.id) ? (
+                <DateInput
+                  key={field.id}
+                  id={field.id}
+                  label={getFieldLabel("en", field)}
+                  value={values[field.id] ?? ""}
+                  onChange={(value) => setValues((prev) => ({ ...prev, [field.id]: value }))}
+                  placeholder={getFieldPlaceholder("en", field) || "DD-MM-YYYY"}
+                  required={field.required}
+                />
+              ) : (
+                <FieldInput
+                  key={field.id}
+                  field={field}
+                  value={values[field.id] ?? ""}
+                  onChange={(value) => setValues((prev) => ({ ...prev, [field.id]: value }))}
+                />
+              ),
+            )}
             {errors.length > 0 ? (
               <ul aria-live="polite" className="space-y-1 rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
                 {errors.map((error, index) => (
@@ -345,7 +408,11 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                     {getOutputLabel("en", output)}
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                    {String(result[output.id] ?? "—")}
+                    {output.display === "table" ? (
+                      <TableOutput value={String(result[output.id] ?? "—")} />
+                    ) : (
+                      String(result[output.id] ?? "—")
+                    )}
                   </dd>
                 </div>
               ))}

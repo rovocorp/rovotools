@@ -76,17 +76,25 @@ test("ad placeholders are confined to their slots", async ({ page }) => {
   await page.goto("/tools/bmi-calculator");
   // Dev shows "Ads by Google" placeholders, production builds show neutral
   // "Advertisement" reserved boxes (or real units after consent).
+  // The right rail is desktop-xl only (hidden below 1280px) but stays in
+  // the DOM: skip hidden labels so small-viewport projects only assert on
+  // the visible leaderboard slot.
   const slots = page.locator('section[aria-label="Advertisement"]');
   await expect(slots.first()).toBeVisible({ timeout: 15000 });
   expect(await slots.count()).toBeGreaterThanOrEqual(1);
   const labels = slots.getByText(/Ads by Google|Advertisement/);
   expect(await labels.count()).toBeGreaterThanOrEqual(1);
+  let visibleCount = 0;
   for (let i = 0; i < (await labels.count()); i += 1) {
     const label = labels.nth(i);
-    await expect(label).toBeVisible();
+    if (!(await label.isVisible())) {
+      continue;
+    }
+    visibleCount += 1;
     const box = await label.boundingBox();
     // With the overlay bug this box is viewport-sized (~900px tall). Rail
     // boxes are ~600px by design, so the bound covers both variants.
     expect(box?.height).toBeLessThan(700);
   }
+  expect(visibleCount).toBeGreaterThanOrEqual(1);
 });

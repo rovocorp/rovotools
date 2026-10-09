@@ -48,6 +48,19 @@ const pwaConfig = withPWA({
       },
     },
     {
+      // Hashed Next.js assets are immutable: cache hard, never revalidate.
+      // Must sit BEFORE pages-cache so _next/* never hits the page handler.
+      urlPattern: /\/_next\/static\/.*/i,
+      handler: "CacheFirst",
+      options: {
+        cacheName: "next-static-cache",
+        expiration: {
+          maxEntries: 100,
+          maxAgeSeconds: 60 * 60 * 24 * 365,
+        },
+      },
+    },
+    {
       urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/i,
       handler: "CacheFirst",
       options: {
@@ -59,12 +72,44 @@ const pwaConfig = withPWA({
       },
     },
     {
-      // Same-origin pages: serve the cached shell instantly while
-      // revalidating in the background. Bounded to respect storage limits.
-      urlPattern: /^https?:\/\/[^/]+\/.*/i,
-      handler: "StaleWhileRevalidate",
+      // Same-origin documents only: NetworkFirst (3s timeout → cache
+      // fallback) instead of StaleWhileRevalidate. SWR fired a background
+      // revalidation on EVERY hit, doubling origin requests after each
+      // deploy and tripping shared-hosting 429s. The function form also
+      // excludes _next/*, static files, and crawler endpoints so only real
+      // page navigations are cached (max 30 shells / 7d).
+      urlPattern: ({ url, sameOrigin }: { url: URL; sameOrigin: boolean }) => {
+        if (!sameOrigin) {
+          return false;
+        }
+        const path = url.pathname;
+        if (path.startsWith("/_next/")) {
+          return false;
+        }
+        if (
+          /\.(?:js|css|map|json|txt|xml|png|jpg|jpeg|svg|gif|webp|avif|ico|woff2?|ttf|pdf|zip)$/i.test(
+            path,
+          )
+        ) {
+          return false;
+        }
+        if (
+          path === "/sw.js" ||
+          path === "/manifest.json" ||
+          path === "/robots.txt" ||
+          path === "/sitemap.xml" ||
+          path === "/ads.txt" ||
+          path === "/app-ads.txt"
+        ) {
+          return false;
+        }
+        return true;
+      },
+      handler: "NetworkFirst",
+      method: "GET",
       options: {
         cacheName: "pages-cache",
+        networkTimeoutSeconds: 3,
         expiration: {
           maxEntries: 30,
           maxAgeSeconds: 60 * 60 * 24 * 7,

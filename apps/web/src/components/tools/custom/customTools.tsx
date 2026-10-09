@@ -35,6 +35,9 @@ const customToolComponents: Record<CustomToolSlug, ComponentType> = {
   'performance-analyzer': dynamic(() => import('./SeoCheckers').then((m) => ({ default: m.PerformanceAnalyzer })), { ssr: false }),
   'color-picker': dynamic(() => import('./ColorPicker'), { ssr: false }),
   'tax-calculator': dynamic(() => import('./TaxCalculator'), { ssr: false }),
+  'text-to-speech': dynamic(() => import('./TextToSpeech'), { ssr: false }),
+  'pdf-extract-text': dynamic(() => import('./PdfExtractText'), { ssr: false }),
+  'word-unscrambler': dynamic(() => import('./WordUnscrambler'), { ssr: false }),
 };
 
 export function getCustomToolComponent(slug: string): ComponentType | undefined {

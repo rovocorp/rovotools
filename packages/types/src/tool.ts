@@ -50,6 +50,10 @@ export interface ToolOutputField {
   readonly type: ToolInputType;
   readonly labelKey: string;
   readonly descriptionKey?: string;
+  // Hint for generic runners: "table" renders a multi-line string value as
+  // one numbered row per line instead of a single collapsed blob. Web-only
+  // presentation — engines, validation and mobile are unaffected.
+  readonly display?: "table";
 }
 
 export type SitemapChangeFrequency =

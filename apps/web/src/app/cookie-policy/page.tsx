@@ -36,12 +36,16 @@ export default function CookiePolicyPage(): React.ReactElement {
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">Optional cookies</h2>
         <p>
-          Anonymous analytics and advertising partners only load after you allow them via the
-          consent banner (“Accept”) or the “Customize” settings. Our advertising partner is
-          Google AdSense (see our ads.txt for the authorized seller account); in the EU/UK,
-          consent is collected through Google Funding Choices (a certified consent-management
-          platform), and Google may use cookies to serve and measure personalized or
-          non-personalized ads depending on your consent choice and region. See{" "}
+          Anonymous analytics only loads after you allow it via the consent banner (“Accept”)
+          or the “Customize” settings. Advertising (Google AdSense) always shows to keep the
+          tools free: accepting enables personalized ads, while rejecting switches to
+          non-personalized ads (contextual only, no ad personalization; limited cookies may
+          still be used for frequency capping and aggregated reporting). Our advertising
+          partner is Google AdSense (see our ads.txt for the authorized seller account); in
+          the EU/UK, consent is collected through Google Funding Choices (a certified
+          consent-management platform), and Google may use cookies to serve and measure
+          personalized or non-personalized ads depending on your consent choice and
+          region. See{" "}
           <a
             href="https://policies.google.com/technologies/ads"
             target="_blank"
@@ -72,8 +76,8 @@ export default function CookiePolicyPage(): React.ReactElement {
         </p>
         <p>
           You can change your mind at any time: use the “Cookie Settings” link in the site footer
-          to re-open consent settings, where “Reject all” disables analytics and ads entirely —
-          the tools keep working. You can also clear this site&apos;s data in your browser
+          to re-open consent settings, where “Reject all” disables analytics and switches ads
+          to non-personalized — the tools keep working. You can also clear this site&apos;s data in your browser
           settings; the banner will appear again.
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">What we never do</h2>

@@ -48,8 +48,10 @@ export default function PrivacyPage(): React.ReactElement {
         </h2>
         <p>
           We use local storage for preferences such as theme, favorites and your cookie choice.
-          Anonymous analytics and non-intrusive advertising (Google AdSense) run only after you accept cookies via
-          the consent banner, and never see your tool inputs, files or passwords. See our{" "}
+          Anonymous analytics runs only after you accept cookies via the consent banner.
+          Non-intrusive advertising (Google AdSense) always shows to keep the tools free:
+          accepting enables personalized ads, rejecting shows non-personalized
+          (contextual-only) ads. Ads never see your tool inputs, files or passwords. See our{" "}
           <a href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             Cookie Policy
           </a>

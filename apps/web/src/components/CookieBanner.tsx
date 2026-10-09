@@ -103,7 +103,8 @@ export default function CookieBanner(): React.ReactElement {
         </h2>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
           RovoTools works without tracking. Choose which optional purposes may run. Rejecting
-          disables analytics and ads entirely — the tools keep working.{" "}
+          disables analytics; ads keep showing but switch to non-personalized (contextual only,
+          no ad personalization) — the tools keep working.{" "}
           <Link href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             Cookie Policy
           </Link>
@@ -117,7 +118,7 @@ export default function CookieBanner(): React.ReactElement {
           />
           <Toggle
             label="Advertising (Google AdSense)"
-            description="Loads Google ads, which may use cookies to serve and measure ads."
+            description="Shows ads to keep the tools free. Accept for personalized ads; rejecting still shows non-personalized (contextual-only) ads."
             checked={advertising}
             onChange={setAdvertising}
           />
@@ -161,7 +162,7 @@ export default function CookieBanner(): React.ReactElement {
       </p>
       <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
         RovoTools works without tracking. Optional anonymous analytics and advertising (Google
-        AdSense) only run if you accept.{" "}
+        AdSense) personalize only if you accept — otherwise you see non-personalized ads.{" "}
         <Link href="/cookie-policy" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
           Cookie Policy
         </Link>
