@@ -82,11 +82,11 @@ jobs:
       - name: Build
         run: pnpm build:web
 
-      - name: Verify static export artifacts
+      - name: Verify SSR build artifacts
         run: |
-          test -f apps/web/public/sw.js || (echo "sw.js missing" && exit 1)
-          test -f apps/web/out/index.html || (echo "out/index.html missing" && exit 1)
-          test -f apps/web/out/sitemap.xml || (echo "out/sitemap.xml missing" && exit 1)
+          test -f apps/web/.next/BUILD_ID || (echo ".next/BUILD_ID missing — next build failed" && exit 1)
+          test -d apps/web/.next/static || (echo ".next/static missing — next build failed" && exit 1)
+          test -f apps/web/public/manifest.json || (echo "public/manifest.json missing" && exit 1)
 
   e2e:
     name: E2E (Playwright, all engines)

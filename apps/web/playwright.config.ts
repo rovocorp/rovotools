@@ -26,9 +26,9 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   // Requires a production build first: `pnpm build` (then `pnpm e2e`).
-  // Serves the static export (the actual shared-hosting artifact in out/).
+  // Serves the SSR production server (same `next start` Hostinger runs).
   webServer: {
-    command: `pnpm dlx serve@14 out --listen ${e2ePort}`,
+    command: `pnpm exec next start -p ${e2ePort}`,
     url: `http://localhost:${e2ePort}`,
     reuseExistingServer: false,
     timeout: 180000,
