@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Download } from 'lucide-react';
-import { getOutputLabel, registerCoreTools, toolRegistry } from '@rovotools/tools';
+import { getOutputLabel, registerCoreTools, toolRegistry } from '@/shared/tools';
 import { isBlockedHostname, isPrivateIPv4, parseTargetUrl } from '@/lib/fetch-guard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
 // The generic ToolRunner seeds the client registry at module scope, but this
-// bespoke shell replaces the runner — seed here so require() works on these
+// bespoke shell replaces the runner â€” seed here so require() works on these
 // pages.
 registerCoreTools(toolRegistry);
 
@@ -81,7 +81,7 @@ export default function FetchAnalyzer({
       }
       const html = await response.text();
       setContent(html.slice(0, 2 * 1024 * 1024));
-      setFetchNote(`Fetched ${parsed.toString()} — review, then Analyze. Sites blocking cross-origin reads must be pasted manually.`);
+      setFetchNote(`Fetched ${parsed.toString()} â€” review, then Analyze. Sites blocking cross-origin reads must be pasted manually.`);
     } catch {
       setError('Could not fetch that page in the browser (CORS or network). Paste the markup manually instead.');
     } finally {
@@ -110,7 +110,7 @@ export default function FetchAnalyzer({
     <div className="space-y-4">
       <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm dark:border-zinc-800 dark:bg-zinc-900/60">
         <div className="space-y-1.5">
-          <Label htmlFor={`${toolId}-url`}>Fetch from a live URL (optional — {fetchHint})</Label>
+          <Label htmlFor={`${toolId}-url`}>Fetch from a live URL (optional â€” {fetchHint})</Label>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               id={`${toolId}-url`}
@@ -127,7 +127,7 @@ export default function FetchAnalyzer({
               className="shrink-0"
             >
               <Download className={cn('h-4 w-4', fetchState === 'loading' && 'animate-spin')} aria-hidden="true" />
-              {fetchState === 'loading' ? 'Fetching…' : 'Fetch page'}
+              {fetchState === 'loading' ? 'Fetchingâ€¦' : 'Fetch page'}
             </Button>
           </div>
           {fetchNote !== null ? <p className="text-xs text-zinc-500 dark:text-zinc-400">{fetchNote}</p> : null}
@@ -164,7 +164,7 @@ export default function FetchAnalyzer({
                 {getOutputLabel('en', field)}
               </dt>
               <dd className="mt-1 whitespace-pre-wrap break-words text-sm text-zinc-900 dark:text-zinc-100">
-                {String(result[field.id] ?? '—')}
+                {String(result[field.id] ?? 'â€”')}
               </dd>
             </div>
           ))}

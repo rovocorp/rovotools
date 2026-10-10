@@ -1,9 +1,9 @@
-// @vitest-environment jsdom
+﻿// @vitest-environment jsdom
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, describe, expect, it } from "vitest";
 import type { ReactElement } from "react";
-import { registerCoreTools, toolRegistry } from "@rovotools/tools";
+import { registerCoreTools, toolRegistry } from "@/shared/tools";
 import { TOOL_SAMPLES as SAMPLES } from "../../../e2e/tool-samples";
 import ToolRunner from "../tools/ToolRunner";
 

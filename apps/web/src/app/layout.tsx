@@ -1,8 +1,8 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
-import { t } from "@rovotools/localization";
+import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@/shared/config";
+import { t } from "@/shared/localization";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import CommandPalette from "@/components/CommandPalette";

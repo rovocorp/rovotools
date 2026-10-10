@@ -1,6 +1,6 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { WEB_URL } from "@rovotools/config";
+import { WEB_URL } from "@/shared/config";
 
 export interface Crumb {
   readonly label: string;

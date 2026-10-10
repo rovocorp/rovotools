@@ -1,6 +1,6 @@
-import type { MetadataRoute } from "next";
-import { WEB_URL } from "@rovotools/config";
-import { getAllCategoryMetadata } from "@rovotools/tools";
+﻿import type { MetadataRoute } from "next";
+import { WEB_URL } from "@/shared/config";
+import { getAllCategoryMetadata } from "@/shared/tools";
 import { BLOG_POSTS } from "@/lib/blog";
 import { getToolRegistry } from "@/lib/registry";
 

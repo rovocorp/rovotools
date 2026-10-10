@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { WifiOff } from "lucide-react";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import ToolCard from "@/components/tools/ToolCard";
 import { getToolRegistry } from "@/lib/registry";
 
@@ -40,7 +40,7 @@ export default function OfflinePage(): React.ReactElement {
 
       <div className="mt-8">
         <Link prefetch={false} href="/" className="text-sm font-semibold text-indigo-700 hover:underline dark:text-indigo-400">
-          ← {t("en", "common.back")}
+          â† {t("en", "common.back")}
         </Link>
       </div>
     </div>

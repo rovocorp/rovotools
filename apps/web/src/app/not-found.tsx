@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { t } from "@rovotools/localization";
+﻿import Link from "next/link";
+import { t } from "@/shared/localization";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound(): React.ReactElement {

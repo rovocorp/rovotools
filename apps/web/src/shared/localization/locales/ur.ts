@@ -1,0 +1,41 @@
+import type { Translations } from "../loader";
+
+export const ur: Translations = {
+  common: {
+    loading: "لوڈنگ جاری...",
+    error: "ایک بغیر ہوا",
+    success: "کامیابی",
+    cancel: "منسوخ کریں",
+    save: "محفوظ کریں",
+    delete: "ڈیلیٹ کریں",
+    edit: "ادیٹ کریں",
+    search: "تلاش کریں",
+    filter: "فیلٹر",
+    submit: "جمع کریں",
+    reset: "دوبارہ ترتیب دیں",
+    back: "واپسی",
+    next: "اگلا",
+    previous: "پچھلا",
+    done: "مکمل",
+    close: "بند کریں",
+    required: "یہ میدان ضروری ہے",
+    invalid: "ناممکن انپٹ",
+  },
+  tool: {
+    name: "نام",
+    description: "تفصیل",
+    category: "زمرہ",
+    execute: "انجام دیں",
+    result: "نتیجہ",
+    inputs: "انپٹ",
+    outputs: "آؤٹپٹ",
+    calculating: "حساب کر رہے ہیں...",
+    noResults: "کوئی نتیجہ نہیں",
+  },
+  navigation: {
+    home: "ہوم",
+    tools: "ٹولز",
+    settings: "سیٹنگز",
+    profile: "پروفائل",
+  },
+};

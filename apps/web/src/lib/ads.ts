@@ -1,7 +1,7 @@
-import type { AdPlacement } from "@rovotools/tools";
+﻿import type { AdPlacement } from "@/shared/tools";
 
 /**
- * Default publisher ID (public — also in public/ads.txt). Env override wins.
+ * Default publisher ID (public â€” also in public/ads.txt). Env override wins.
  * Production-only default: dev/CI/tests keep publisher unset so placeholders
  * and consent-gating tests stay meaningful; production serves Auto ads even
  * when the hosting environment does not set the variable.

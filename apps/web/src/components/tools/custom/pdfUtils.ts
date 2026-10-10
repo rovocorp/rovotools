@@ -1,10 +1,10 @@
-// Browser helpers shared by the PDF custom tools. Heavy engines are loaded
+﻿// Browser helpers shared by the PDF custom tools. Heavy engines are loaded
 // lazily so each tool page only downloads the code it needs; the pdf.js
 // worker is served from /pdf.worker.min.mjs (copied at build/dev time by
 // scripts/copy-pdf-worker.mjs) so rendering works fully offline.
 
 import type { PDFDocumentProxy } from "pdfjs-dist";
-import { assertBytesWithinLimit } from "@rovotools/core";
+import { assertBytesWithinLimit } from "@/shared/core";
 
 /** Matches the "up to 100 MB" promise shown on the upload UI. */
 export const WEB_MAX_UPLOAD_BYTES = 100 * 1024 * 1024;
@@ -37,7 +37,7 @@ export function isImageFile(file: File): boolean {
 }
 
 /**
- * Transcode any browser-decodable image (WebP, GIF, BMP, …) to PNG bytes
+ * Transcode any browser-decodable image (WebP, GIF, BMP, â€¦) to PNG bytes
  * so it can be embedded into a PDF with pdf-lib (which only embeds
  * JPG/PNG). JPG/PNG inputs should bypass this and embed losslessly.
  */

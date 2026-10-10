@@ -1,8 +1,8 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowLeft, Wifi, WifiOff } from "lucide-react";
-import { buildCustomSchemeUrl, getToolDisplay, getToolPageCopy } from "@rovotools/tools";
-import { t } from "@rovotools/localization";
-import { WEB_URL } from "@rovotools/config";
+import { buildCustomSchemeUrl, getToolDisplay, getToolPageCopy } from "@/shared/tools";
+import { t } from "@/shared/localization";
+import { WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
@@ -117,7 +117,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
           href={buildCustomSchemeUrl({ kind: "tool", slug: tool.slug }) ?? `/tools/${tool.slug}`}
           className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
         >
-          {t("en", "tool.openInApp")} →
+          {t("en", "tool.openInApp")} â†’
         </a>
       </p>
 
@@ -129,14 +129,14 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         <WifiOff className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
         {runsLocally ? (
           <p>
-            <strong>🔒 Your file is processed locally in your browser whenever supported.</strong>{" "}
-            This tool runs entirely on your device — nothing you type or upload is sent to a server, logged, or stored.
+            <strong>ðŸ”’ Your file is processed locally in your browser whenever supported.</strong>{" "}
+            This tool runs entirely on your device â€” nothing you type or upload is sent to a server, logged, or stored.
           </p>
         ) : (
           <p>
-            <strong>🔒 Privacy-conscious by design.</strong>{" "}
+            <strong>ðŸ”’ Privacy-conscious by design.</strong>{" "}
             This tool needs an internet connection for part of its work (for example, fetching a public resource).
-            Only the data required for that step leaves your device — nothing is logged or stored, and everything else runs locally.
+            Only the data required for that step leaves your device â€” nothing is logged or stored, and everything else runs locally.
           </p>
         )}
       </div>
@@ -197,7 +197,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
               <li key={step.href} className="flex items-center gap-2">
                 {index > 0 ? (
                   <span aria-hidden="true" className="font-bold text-zinc-400">
-                    →
+                    â†’
                   </span>
                 ) : null}
                 <Link

@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test";
-import { registerCoreTools, toolRegistry } from "@rovotools/tools";
+﻿import { expect, test } from "@playwright/test";
+import { registerCoreTools, toolRegistry } from "@/shared/tools";
 import { BESPOKE_TOOL_SLUGS } from "../src/components/tools/custom/customToolSlugs";
 import { ensureFixtureImage, fixturePath } from "./fixtures";
 import { dismissCookieBanner } from "./helpers";
@@ -7,7 +7,7 @@ import { dismissCookieBanner } from "./helpers";
 registerCoreTools(toolRegistry);
 // Bespoke UIs (no generic form, no file input) have dedicated tests below.
 // URLs come from the registry canonical path: PDF tools live only at nested
-// canonicals (/tools/pdf/<slug>, flat slugs 404 in the static export — the
+// canonicals (/tools/pdf/<slug>, flat slugs 404 in the static export â€” the
 // Apache 301s in public/.htaccess exist only on shared hosting, not under
 // the E2E static server).
 const targets = toolRegistry
@@ -22,7 +22,7 @@ const targets = toolRegistry
 // control must be clickable/typeable (an overlay covering the viewport makes
 // Playwright click/type into the void and these assertions fail).
 for (const { slug, toolUrl } of targets) {
-  test(`${slug} — first control accepts input`, async ({ page }) => {
+  test(`${slug} â€” first control accepts input`, async ({ page }) => {
     await page.goto(toolUrl);
     await dismissCookieBanner(page);
 

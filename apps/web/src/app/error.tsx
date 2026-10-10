@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 
 export default function ErrorPage({
   error,

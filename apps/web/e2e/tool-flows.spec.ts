@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+﻿import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
-import { BROWSER_ONLY_TOOL_IDS, registerCoreTools, toolRegistry } from "@rovotools/tools";
+import { BROWSER_ONLY_TOOL_IDS, registerCoreTools, toolRegistry } from "@/shared/tools";
 import { BESPOKE_TOOL_SLUGS } from "../src/components/tools/custom/customToolSlugs";
 import { ensureFixtureImage, fixturePath } from "./fixtures";
 import { dismissCookieBanner } from "./helpers";
@@ -16,14 +16,14 @@ const generic = toolRegistry
 // a complete result renders for every generic-runner tool.
 for (const entry of generic) {
   const { slug, inputs, outputs } = entry.definition;
-  test(`${slug} — executes and renders every output`, async ({ page }) => {
+  test(`${slug} â€” executes and renders every output`, async ({ page }) => {
     const sample = TOOL_SAMPLES[slug];
     expect(sample, `missing sample for ${slug}`).toBeDefined();
 
     await page.goto(entry.definition.seo?.canonicalPath ?? `/tools/${slug}`);
     await dismissCookieBanner(page);
     for (const field of inputs) {
-      // Field ids are simple alphanumeric slugs — no escaping needed.
+      // Field ids are simple alphanumeric slugs â€” no escaping needed.
       const control = page.locator(`#${field.id}`);
       await expect(control).toBeVisible({ timeout: 15000 });
       if (field.type === "boolean") {
@@ -54,7 +54,7 @@ async function uploadFixture(page: Page): Promise<void> {
   await fileInput.setInputFiles(path);
 }
 
-test("image-converter — converts an uploaded image", async ({ page }) => {
+test("image-converter â€” converts an uploaded image", async ({ page }) => {
   await page.goto("/tools/image-converter");
   await uploadFixture(page);
   await expect(page.locator("main").getByText("1 file selected")).toBeVisible({ timeout: 15000 });
@@ -63,7 +63,7 @@ test("image-converter — converts an uploaded image", async ({ page }) => {
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("image-compressor — compresses an uploaded image", async ({ page }) => {
+test("image-compressor â€” compresses an uploaded image", async ({ page }) => {
   await page.goto("/tools/image-compressor");
   await uploadFixture(page);
   await expect(page.locator("main").getByText("1 file selected")).toBeVisible({ timeout: 15000 });
@@ -72,7 +72,7 @@ test("image-compressor — compresses an uploaded image", async ({ page }) => {
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("favicon-generator — builds a favicon set from an uploaded image", async ({ page }) => {
+test("favicon-generator â€” builds a favicon set from an uploaded image", async ({ page }) => {
   await page.goto("/tools/favicon-generator");
   await uploadFixture(page);
   // Generation starts automatically on file choice.
@@ -80,7 +80,7 @@ test("favicon-generator — builds a favicon set from an uploaded image", async 
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("color-picker-from-image — samples colors from an uploaded image", async ({ page }) => {
+test("color-picker-from-image â€” samples colors from an uploaded image", async ({ page }) => {
   await page.goto("/tools/color-picker-from-image");
   await uploadFixture(page);
   await expect(page.locator("main").getByText(/fixture-.*\.png/)).toBeVisible({ timeout: 15000 });
@@ -88,7 +88,7 @@ test("color-picker-from-image — samples colors from an uploaded image", async 
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("image-resizer — resizes an uploaded image", async ({ page }) => {
+test("image-resizer â€” resizes an uploaded image", async ({ page }) => {
   await page.goto("/tools/image-resizer");
   await uploadFixture(page);
   await expect(page.locator("main").getByText(/fixture-.*\.png/)).toBeVisible({ timeout: 15000 });
@@ -97,7 +97,7 @@ test("image-resizer — resizes an uploaded image", async ({ page }) => {
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("image-cropper — crops an uploaded image", async ({ page }) => {
+test("image-cropper â€” crops an uploaded image", async ({ page }) => {
   await page.goto("/tools/image-cropper");
   await uploadFixture(page);
   await expect(page.locator('main img[alt="Crop source"]')).toBeVisible({ timeout: 15000 });
@@ -108,20 +108,20 @@ test("image-cropper — crops an uploaded image", async ({ page }) => {
 });
 
 // Bespoke UIs excluded from the generic sweep above: dedicated coverage.
-test("adsense-earnings-calculator — estimates earnings from pageviews", async ({ page }) => {
+test("adsense-earnings-calculator â€” estimates earnings from pageviews", async ({ page }) => {
   await page.goto("/tools/adsense-earnings-calculator");
   await dismissCookieBanner(page);
   const pageviews = page.locator("#adsense-pageviews");
   await expect(pageviews).toBeVisible({ timeout: 15000 });
   await pageviews.fill("100000");
   await page.getByRole("button", { name: "Calculate earnings" }).click();
-  // 100000 pageviews × 1.5% CTR × $0.25 CPC at the default 1:1 USD rate.
+  // 100000 pageviews Ã— 1.5% CTR Ã— $0.25 CPC at the default 1:1 USD rate.
   await expect(page.getByText("Est. monthly earnings")).toBeVisible({ timeout: 15000 });
   await expect(page.locator("main")).toContainText("375");
   await expect(page.locator('main [role="alert"]')).toHaveCount(0);
 });
 
-test("pdf-creator — builds a PDF from typed text", async ({ page }) => {
+test("pdf-creator â€” builds a PDF from typed text", async ({ page }) => {
   await page.goto("/tools/pdf/pdf-creator");
   await dismissCookieBanner(page);
   const text = page.locator("#pdf-creator-text");

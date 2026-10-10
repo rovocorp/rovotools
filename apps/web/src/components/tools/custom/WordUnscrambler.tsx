@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import { Copy, Download, RotateCcw, Shuffle } from 'lucide-react';
-import { unscrambleLetters } from '@rovotools/calculations';
-import type { UnscrambledWord } from '@rovotools/calculations';
+import { unscrambleLetters } from '@/shared/calculations';
+import type { UnscrambledWord } from '@/shared/calculations';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -18,7 +18,7 @@ function normalize(raw: string): string {
 function validateLetters(raw: string): string | null {
   const letters = normalize(raw);
   if (letters === '') {
-    return 'Enter 2–15 scrambled letters.';
+    return 'Enter 2â€“15 scrambled letters.';
   }
   if (letters.length < 2 || letters.length > 15) {
     return 'Use between 2 and 15 tiles.';
@@ -112,7 +112,7 @@ export default function WordUnscrambler(): React.ReactElement {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="wu-letters">Scrambled letters (A–Z, ? for a blank tile)</Label>
+            <Label htmlFor="wu-letters">Scrambled letters (Aâ€“Z, ? for a blank tile)</Label>
             <textarea
               id="wu-letters"
               value={letters}
@@ -158,7 +158,7 @@ export default function WordUnscrambler(): React.ReactElement {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="wu-max">Max results (1–300)</Label>
+              <Label htmlFor="wu-max">Max results (1â€“300)</Label>
               <input
                 id="wu-max"
                 inputMode="numeric"
@@ -191,11 +191,11 @@ export default function WordUnscrambler(): React.ReactElement {
         <CardContent>
           {results === null ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              Enter your tiles and press Unscramble — every dictionary word they can build appears here, grouped by length with Scrabble and Words With Friends scores.
+              Enter your tiles and press Unscramble â€” every dictionary word they can build appears here, grouped by length with Scrabble and Words With Friends scores.
             </p>
           ) : results.length === 0 ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              No dictionary words found — try a blank tile (?) or fewer letters.
+              No dictionary words found â€” try a blank tile (?) or fewer letters.
             </p>
           ) : (
             <div className="space-y-5">
@@ -204,7 +204,7 @@ export default function WordUnscrambler(): React.ReactElement {
                   {results.length} word{results.length === 1 ? '' : 's'} found
                   {results[0] !== undefined ? (
                     <span className="font-normal text-zinc-600 dark:text-zinc-400">
-                      {' '}· longest: <strong>{results[0].word}</strong>
+                      {' '}Â· longest: <strong>{results[0].word}</strong>
                     </span>
                   ) : null}
                 </p>

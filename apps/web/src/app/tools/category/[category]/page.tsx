@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllCategoryMetadata, getCategoryMetadata } from "@rovotools/tools";
-import { t, tx } from "@rovotools/localization";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { getAllCategoryMetadata, getCategoryMetadata } from "@/shared/tools";
+import { t, tx } from "@/shared/localization";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";

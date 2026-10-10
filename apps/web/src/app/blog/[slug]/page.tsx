@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { t } from "@rovotools/localization";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { t } from "@/shared/localization";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import { BLOG_POSTS, getBlogPost } from "@/lib/blog";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/Breadcrumbs";

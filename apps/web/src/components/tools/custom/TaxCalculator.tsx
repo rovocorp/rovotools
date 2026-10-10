@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
@@ -8,13 +8,13 @@ import {
   getTaxRegionStandard,
   registerCoreTools,
   toolRegistry,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 // The generic ToolRunner seeds the client registry at module scope, but this
-// bespoke UI replaces the runner — seed here so require() works on this page.
+// bespoke UI replaces the runner â€” seed here so require() works on this page.
 registerCoreTools(toolRegistry);
 
 interface ExtraRow {
@@ -45,7 +45,7 @@ export default function TaxCalculator(): React.ReactElement {
   function onRegionChange(value: string): void {
     setRegion(value);
     // The regional standard fills the Rate box automatically and stays
-    // editable — clearing it falls back to the same standard.
+    // editable â€” clearing it falls back to the same standard.
     const standard = value === '' ? null : getTaxRegionStandard(value);
     setRate(standard === null ? '' : String(standard));
   }
@@ -98,7 +98,7 @@ export default function TaxCalculator(): React.ReactElement {
             onChange={(e) => onRegionChange(e.target.value)}
             className="h-10 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900"
           >
-            <option value="">Select a country…</option>
+            <option value="">Select a countryâ€¦</option>
             {regionOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {getOutputLabel('en', { id: option.value, type: 'string', labelKey: option.labelKey })}
@@ -120,7 +120,7 @@ export default function TaxCalculator(): React.ReactElement {
           />
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
             {autoStandard !== null
-              ? `Regional standard ${autoStandard}% — auto-filled and editable.`
+              ? `Regional standard ${autoStandard}% â€” auto-filled and editable.`
               : 'Select a region to auto-fill the standard, or type any rate.'}
           </p>
         </div>
@@ -159,7 +159,7 @@ export default function TaxCalculator(): React.ReactElement {
         </div>
         {rows.length === 0 ? (
           <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-            None — add state, county, city or special levies to stack them on top of the base rate.
+            None â€” add state, county, city or special levies to stack them on top of the base rate.
           </p>
         ) : (
           <ul className="mt-3 space-y-2">
@@ -214,7 +214,7 @@ export default function TaxCalculator(): React.ReactElement {
                 {getOutputLabel('en', field)}
               </dt>
               <dd className="mt-1 whitespace-pre-wrap break-words text-sm text-zinc-900 dark:text-zinc-100">
-                {String(result[field.id] ?? '—')}
+                {String(result[field.id] ?? 'â€”')}
               </dd>
             </div>
           ))}
@@ -222,7 +222,7 @@ export default function TaxCalculator(): React.ReactElement {
       ) : null}
 
       <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-        Standard rates reviewed {TAX_TABLE_REVIEWED}. Estimates for planning — verify critical figures with official sources.
+        Standard rates reviewed {TAX_TABLE_REVIEWED}. Estimates for planning â€” verify critical figures with official sources.
       </p>
     </div>
   );

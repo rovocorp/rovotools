@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 // Small browser-only helpers shared by the custom image tool components
-// (steps 8-13). Pure calculation helpers live in @rovotools/tools so they can
+// (steps 8-13). Pure calculation helpers live in @/shared/tools so they can
 // be unit-tested in Node; everything here needs DOM/canvas APIs.
 
-import { assertImageFileSize } from "@rovotools/tools";
+import { assertImageFileSize } from "@/shared/tools";
 
 export function loadImageElement(file: Blob): Promise<HTMLImageElement> {
   // Every image tool funnels through here: reject oversized drops on

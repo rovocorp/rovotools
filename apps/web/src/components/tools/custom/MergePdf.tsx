@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp, Download, FilePlus, RotateCcw, Trash2 } from 'lucide-react';
-import { countPdfPages, mergePdfs } from '@rovotools/tools';
+import { countPdfPages, mergePdfs } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -33,12 +33,12 @@ export default function MergePdf(): React.ReactElement {
   function addFiles(incoming: Iterable<File>): void {
     const pdfs = Array.from(incoming).filter(isPdfFile);
     if (pdfs.length === 0) {
-      setError('Only PDF files can be merged — images and documents need converting first.');
+      setError('Only PDF files can be merged â€” images and documents need converting first.');
       return;
     }
     const next = [...files, ...pdfs];
     if (next.length > 20) {
-      setError('Merging is capped at 20 files — the first 20 were kept.');
+      setError('Merging is capped at 20 files â€” the first 20 were kept.');
     } else {
       setError(null);
     }
@@ -134,7 +134,7 @@ export default function MergePdf(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop PDFs here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">2–20 PDF files · order matters</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">2â€“20 PDF files Â· order matters</span>
           </button>
           <input
             aria-label="Upload PDF files"
@@ -203,7 +203,7 @@ export default function MergePdf(): React.ReactElement {
               disabled={files.length < 2 || busy}
               onClick={() => void handleMerge()}
             >
-              {busy ? 'Merging…' : `Merge ${files.length} PDFs`}
+              {busy ? 'Mergingâ€¦' : `Merge ${files.length} PDFs`}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -225,7 +225,7 @@ export default function MergePdf(): React.ReactElement {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {files.length} files combined · {result.pages} pages ·{' '}
+                {files.length} files combined Â· {result.pages} pages Â·{' '}
                 {(result.bytes.length / 1024).toFixed(1)} KB
               </p>
               <iframe

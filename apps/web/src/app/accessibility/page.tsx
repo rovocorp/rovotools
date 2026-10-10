@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { BRAND_NAME, SUPPORT_EMAIL, WEB_URL } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { BRAND_NAME, SUPPORT_EMAIL, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
@@ -35,8 +35,8 @@ export default function AccessibilityPage(): React.ReactElement {
           status messages for results and errors, and full support for reduced-motion preferences.
         </p>
         <p>
-          If you encounter an accessibility barrier — an unlabeled control, a contrast issue, or a
-          keyboard trap — please tell us via the{" "}
+          If you encounter an accessibility barrier â€” an unlabeled control, a contrast issue, or a
+          keyboard trap â€” please tell us via the{" "}
           <a href="/contact" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
             contact form
           </a>{" "}

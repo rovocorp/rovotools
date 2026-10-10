@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, ImagePlus, RotateCcw } from 'lucide-react';
@@ -7,7 +7,7 @@ import {
   findQualityForTarget,
   imageQualityToRatio,
   normalizeImageQuality,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -85,7 +85,7 @@ export default function ImageCompressor(): React.ReactElement {
       return;
     }
     if (next.length > 20) {
-      setError('Batches are capped at 20 images — the first 20 were kept.');
+      setError('Batches are capped at 20 images â€” the first 20 were kept.');
     } else {
       setError(null);
     }
@@ -199,7 +199,7 @@ export default function ImageCompressor(): React.ReactElement {
           >
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop images here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG · PNG · WEBP · up to 20 at once</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG Â· PNG Â· WEBP Â· up to 20 at once</span>
           </button>
           <input
             aria-label="Upload images"
@@ -212,7 +212,7 @@ export default function ImageCompressor(): React.ReactElement {
           />
           {files.length > 0 ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              {files.length} file{files.length === 1 ? '' : 's'} selected ·{' '}
+              {files.length} file{files.length === 1 ? '' : 's'} selected Â·{' '}
               {formatBytes(originalBytes)} total
             </p>
           ) : null}
@@ -232,7 +232,7 @@ export default function ImageCompressor(): React.ReactElement {
           </div>
           {mode === 'quality' ? (
             <div className="space-y-1.5">
-              <Label htmlFor="image-compressor-quality">JPEG quality — {quality}%</Label>
+              <Label htmlFor="image-compressor-quality">JPEG quality â€” {quality}%</Label>
               <input
                 id="image-compressor-quality"
                 type="range"
@@ -282,7 +282,7 @@ export default function ImageCompressor(): React.ReactElement {
               onChange={(event) => setWebp(event.target.checked)}
               className="h-4 w-4 rounded accent-indigo-600"
             />
-            Convert output to WebP as well (usually 25–35% smaller than JPG)
+            Convert output to WebP as well (usually 25â€“35% smaller than JPG)
           </label>
           <label className="flex cursor-pointer items-center gap-2 text-sm">
             <input
@@ -307,7 +307,7 @@ export default function ImageCompressor(): React.ReactElement {
               disabled={files.length === 0 || busy}
               onClick={() => void handleCompress()}
             >
-              {busy ? 'Compressing…' : 'Compress images'}
+              {busy ? 'Compressingâ€¦' : 'Compress images'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -329,7 +329,7 @@ export default function ImageCompressor(): React.ReactElement {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {formatBytes(originalBytes)} → {formatBytes(compressedBytes)} · saved{' '}
+                {formatBytes(originalBytes)} â†’ {formatBytes(compressedBytes)} Â· saved{' '}
                 {formatBytes(Math.max(0, originalBytes - compressedBytes))}
               </p>
               {results.map((result) => (
@@ -349,7 +349,7 @@ export default function ImageCompressor(): React.ReactElement {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{result.name}</p>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                      {formatBytes(result.fromBytes)} → {formatBytes(result.toBytes)}
+                      {formatBytes(result.fromBytes)} â†’ {formatBytes(result.toBytes)}
                     </p>
                   </div>
                   <Button

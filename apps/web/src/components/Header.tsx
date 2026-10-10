@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -17,8 +17,8 @@ import {
   Type,
   X,
 } from "lucide-react";
-import { BRAND_NAME } from "@rovotools/config";
-import { t } from "@rovotools/localization";
+import { BRAND_NAME } from "@/shared/config";
+import { t } from "@/shared/localization";
 import { useTheme } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import { RovoToolsImageLogo } from "@/components/RovoToolsLogo";
@@ -247,7 +247,7 @@ export default function Header(): React.ReactElement {
       <div className="w-full bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF]">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-1.5 text-xs font-bold text-white sm:px-6 lg:px-8">
           <Lock className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>Most tools run locally in your browser — network tools are labelled.</span>
+          <span>Most tools run locally in your browser â€” network tools are labelled.</span>
         </div>
       </div>
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090B]/80">

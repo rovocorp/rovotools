@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
-import { countPdfPages, parsePageRanges, replaceExtension } from '@rovotools/tools';
+import { countPdfPages, parsePageRanges, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -76,7 +76,7 @@ export default function PdfToJpg(): React.ReactElement {
           : parsePageRanges(pages, total);
       const done: Array<RenderedImage> = [];
       for (const pageIndex of wanted) {
-        setStatus(`Rendering page ${pageIndex + 1} of ${total}…`);
+        setStatus(`Rendering page ${pageIndex + 1} of ${total}â€¦`);
         const rendered = await renderPdfPageToJpeg(bytes, pageIndex, parsedScale);
         done.push({
           url: rendered.url,
@@ -144,7 +144,7 @@ export default function PdfToJpg(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a PDF here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF · up to 100 MB</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF Â· up to 100 MB</span>
           </button>
           <input
             aria-label="Upload PDF files"
@@ -160,7 +160,7 @@ export default function PdfToJpg(): React.ReactElement {
           {file !== null ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               <span className="font-semibold text-zinc-900 dark:text-zinc-100">{file.name}</span>
-              {pageCount !== null ? ` · ${pageCount} pages` : ''}
+              {pageCount !== null ? ` Â· ${pageCount} pages` : ''}
             </p>
           ) : null}
           <div className="space-y-1.5">
@@ -183,9 +183,9 @@ export default function PdfToJpg(): React.ReactElement {
               onChange={(event) => setScale(event.target.value)}
               className="h-10 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900"
             >
-              <option value="1">1x — smallest files</option>
-              <option value="2">2x — crisp on screens</option>
-              <option value="3">3x — best for print</option>
+              <option value="1">1x â€” smallest files</option>
+              <option value="2">2x â€” crisp on screens</option>
+              <option value="3">3x â€” best for print</option>
             </select>
           </div>
           {status !== null ? <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p> : null}
@@ -203,7 +203,7 @@ export default function PdfToJpg(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleConvert()}
             >
-              {busy ? 'Rendering…' : 'Convert to JPG'}
+              {busy ? 'Renderingâ€¦' : 'Convert to JPG'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -241,7 +241,7 @@ export default function PdfToJpg(): React.ReactElement {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{result.name}</p>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                      {result.width} × {result.height}px
+                      {result.width} Ã— {result.height}px
                     </p>
                   </div>
                   <Button

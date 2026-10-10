@@ -1,13 +1,13 @@
-"use client";
+﻿"use client";
 
-import { t } from "@rovotools/localization";
-import type { AdPlacement } from "@rovotools/tools";
+import { t } from "@/shared/localization";
+import type { AdPlacement } from "@/shared/tools";
 import AdSlot from "./AdSlot";
 import { useAdSlotState } from "./useAdSlotState";
 
 /**
  * Sticky right sidebar ad rail (desktop `xl` screens only, hidden below).
- * Position-sticky inside the content column — never a fixed overlay — per
+ * Position-sticky inside the content column â€” never a fixed overlay â€” per
  * AdSense sticky-ad rules: it cannot cover content and needs no close
  * button. It collapses only when no publisher is configured and no dev
  * placeholder applies; with a publisher set it always reserves its column

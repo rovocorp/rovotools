@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRef, useState } from 'react';
 import { Download, ImagePlus, RotateCcw } from 'lucide-react';
@@ -10,7 +10,7 @@ import {
   imageQualityToRatio,
   type CropBox,
   type WebImageFormat,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -227,7 +227,7 @@ export default function ImageCropper(): React.ReactElement {
       }
       setResult({
         name: replaceExtension(file.name, info.extension),
-        dimensions: `${outW} × ${outH}`,
+        dimensions: `${outW} Ã— ${outH}`,
         bytes: blob.size,
         url: URL.createObjectURL(blob),
         blob,
@@ -280,7 +280,7 @@ export default function ImageCropper(): React.ReactElement {
               >
                 <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
                 <span className="font-semibold">Drop an image here, or click to browse</span>
-                <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG · PNG · WEBP</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG Â· PNG Â· WEBP</span>
               </button>
               <input
                 aria-label="Upload images"
@@ -391,7 +391,7 @@ export default function ImageCropper(): React.ReactElement {
               {upscales ? (
                 <p className="text-xs text-amber-700 dark:text-amber-400">
                   This crop is smaller than 1280px wide, so it will be scaled up to reach the
-                  YouTube size — that softens it. Crop a wider region where you can.
+                  YouTube size â€” that softens it. Crop a wider region where you can.
                 </p>
               ) : null}
             </>
@@ -424,7 +424,7 @@ export default function ImageCropper(): React.ReactElement {
               disabled={file === null || box === null || busy}
               onClick={() => void handleCrop()}
             >
-              {busy ? 'Cropping…' : 'Crop image'}
+              {busy ? 'Croppingâ€¦' : 'Crop image'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -451,7 +451,7 @@ export default function ImageCropper(): React.ReactElement {
                 loading="lazy"
               />
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {result.dimensions} · {formatBytes(result.bytes)}
+                {result.dimensions} Â· {formatBytes(result.bytes)}
               </p>
               <Button
                 type="button"

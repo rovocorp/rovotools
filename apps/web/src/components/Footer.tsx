@@ -1,7 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import { COMPANY_NAME, SOCIAL_LINKS } from "@rovotools/config";
-import { t } from "@rovotools/localization";
+import { COMPANY_NAME, SOCIAL_LINKS } from "@/shared/config";
+import { t } from "@/shared/localization";
 import { RovoToolsImageLogo } from "@/components/RovoToolsLogo";
 import CookieSettingsButton from "@/components/CookieSettingsButton";
 
@@ -53,7 +53,7 @@ export default function Footer(): React.ReactElement {
                 <span
                   key={social.label}
                   role="img"
-                  title={`${social.label} — coming soon`}
+                  title={`${social.label} â€” coming soon`}
                   aria-label={`${social.label} (coming soon)`}
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] dark:text-[#A7A7B3]"
                 >
@@ -139,7 +139,7 @@ export default function Footer(): React.ReactElement {
       <div className="border-t border-[#E1E8F2] dark:border-[#26262C]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-[#5B6B82] sm:flex-row sm:px-6 lg:px-8">
           <p>
-            © {new Date().getFullYear()} {COMPANY_NAME}. {t("en", "footer.rights")}
+            Â© {new Date().getFullYear()} {COMPANY_NAME}. {t("en", "footer.rights")}
           </p>
           <p className="font-medium">
             {t("en", "footer.poweredBy")}

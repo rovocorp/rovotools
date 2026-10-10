@@ -13,17 +13,20 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedSideEffectImports": true,
+    "verbatimModuleSyntax": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowImportingTsExtensions": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@rovotools/core": ["../../../packages/core/src/index.ts"],
-      "@rovotools/calculations": ["../../../packages/calculations/src/index.ts"],
-      "@rovotools/validation": ["../../../packages/validation/src/index.ts"],
-      "@rovotools/localization": ["../../../packages/localization/src/index.ts"],
-      "@rovotools/tools": ["../../../packages/tools/src/index.ts"],
-      "@rovotools/types": ["../../../packages/types/src/index.ts"],
-      "@rovotools/ui": ["../../../packages/ui/src/index.ts"],
-      "@rovotools/config": ["../../../packages/config/src/index.ts"],
-      "@rovotools/theme": ["../../../packages/theme/src/index.ts"],
       "@/*": ["./src/*"]
     }
   },
@@ -35,5 +38,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  // Same exclusion as tsconfig.json: vendored shared tests mirror the
+  // workspace packages (never typechecked there either) but still run.
+  "exclude": ["node_modules", "src/shared/**/*.test.ts", "src/shared/**/*.test.tsx"]
 }

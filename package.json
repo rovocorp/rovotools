@@ -19,18 +19,10 @@
     "test": "pnpm -r test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
-  "packageManager": "pnpm@10.22.0+sha512-vwSe/plbKPUn/StBrgR0zikYb37cs79UUIe9Yfu+uyv3U2LRMH/aCcLSiOHkmXh6wS1Py2F6l0cYpgUfLu50HA==",
+  "packageManager": "pnpm@10.22.0",
   "engines": {
     "node": "22.x",
-    "pnpm": ">=10.0.0 <11.0.0"
+    "pnpm": ">=10.0.0"
   },
-  "keywords": [
-    "rovotools",
-    "tools",
-    "multi-platform",
-    "web",
-    "mobile",
-    "react-native",
-    "nextjs"
-  ]
+  "keywords": ["rovotools", "tools", "multi-platform", "web", "mobile", "react-native", "nextjs"]
 }

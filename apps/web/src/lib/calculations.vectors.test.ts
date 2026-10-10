@@ -1,11 +1,11 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 import {
   CALCULATION_VECTORS,
   INVALID_VECTORS,
   compareResult,
   errorNameOf,
   runVector,
-} from "@rovotools/calculations";
+} from "@/shared/calculations";
 
 describe("shared calculation vectors on web", () => {
   it.each(CALCULATION_VECTORS.map((vector) => [vector.label, vector] as const))(

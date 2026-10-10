@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, ImagePlus, RotateCcw, Trash2 } from 'lucide-react';
-import { countPdfPages, detectImageType, imagesToPdf, replaceExtension } from '@rovotools/tools';
+import { countPdfPages, detectImageType, imagesToPdf, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -38,12 +38,12 @@ export default function JpgToPdf(): React.ReactElement {
   function addFiles(incoming: Iterable<File>): void {
     const images = Array.from(incoming).filter(isImageFile);
     if (images.length === 0) {
-      setError('Only image files can go into the PDF — JPG, PNG, WebP and other common photos.');
+      setError('Only image files can go into the PDF â€” JPG, PNG, WebP and other common photos.');
       return;
     }
     const next = [...files, ...images];
     if (next.length > 20) {
-      setError('One PDF holds up to 20 images — the first 20 were kept.');
+      setError('One PDF holds up to 20 images â€” the first 20 were kept.');
     } else {
       setError(null);
     }
@@ -63,7 +63,7 @@ export default function JpgToPdf(): React.ReactElement {
       for (const file of files) {
         const raw = await fileToBytes(file);
         // pdf-lib embeds JPG/PNG losslessly; anything else the browser
-        // accepted (WebP, GIF, BMP, …) is transcoded to PNG first so no
+        // accepted (WebP, GIF, BMP, â€¦) is transcoded to PNG first so no
         // supported input is ever rejected at conversion time.
         const data = detectImageType(raw) === null ? await imageBlobToPngBytes(file) : raw;
         images.push({ data, name: file.name });
@@ -129,7 +129,7 @@ export default function JpgToPdf(): React.ReactElement {
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop images here, or click to browse</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
-              JPG · PNG · WEBP · up to 20 · one page each
+              JPG Â· PNG Â· WEBP Â· up to 20 Â· one page each
             </span>
           </button>
           <input
@@ -181,7 +181,7 @@ export default function JpgToPdf(): React.ReactElement {
               <option value="fit">Exact fit (page matches each photo)</option>
             </select>
             <p className="text-xs text-zinc-600 dark:text-zinc-400">
-              Photos are embedded losslessly — the PDF keeps the original pixels.
+              Photos are embedded losslessly â€” the PDF keeps the original pixels.
             </p>
           </div>
           {error !== null ? (
@@ -198,7 +198,7 @@ export default function JpgToPdf(): React.ReactElement {
               disabled={files.length === 0 || busy}
               onClick={() => void handleConvert()}
             >
-              {busy ? 'Converting…' : 'Convert to PDF'}
+              {busy ? 'Convertingâ€¦' : 'Convert to PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import type { ToolCategory, ToolCategoryFacet } from "@rovotools/types";
-import { t } from "@rovotools/localization";
+﻿import Link from "next/link";
+import type { ToolCategory, ToolCategoryFacet } from "@/shared/types";
+import { t } from "@/shared/localization";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getCategoryLabel } from "@/lib/category-label";

@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
-import { t } from "@rovotools/localization";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { t } from "@/shared/localization";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import { BLOG_POSTS } from "@/lib/blog";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdSlot from "@/components/ads/AdSlot";
@@ -35,7 +35,7 @@ export default function BlogPage(): React.ReactElement {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Breadcrumbs crumbs={[{ label: "Home", href: "/" }, { label: t("en", "navigation.blog") }]} />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "navigation.blog")}</h1>
-      <p className="mt-2 text-zinc-600 dark:text-zinc-400">Guides that explain what our tools compute — and why.</p>
+      <p className="mt-2 text-zinc-600 dark:text-zinc-400">Guides that explain what our tools compute â€” and why.</p>
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {BLOG_POSTS.map((post) => (
           <Link
@@ -51,7 +51,7 @@ export default function BlogPage(): React.ReactElement {
                 </Badge>
                 <CardTitle className="mt-2">{post.title}</CardTitle>
                 <CardDescription>
-                  {post.date} · {post.excerpt}
+                  {post.date} Â· {post.excerpt}
                 </CardDescription>
               </CardHeader>
               <CardContent>

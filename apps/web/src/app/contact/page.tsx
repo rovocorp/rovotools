@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { WEB_URL, SUPPORT_EMAIL, BRAND_NAME } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { WEB_URL, SUPPORT_EMAIL, BRAND_NAME } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Contact Us | RovoTools",
-  description: "Contact the RovoTools team — support, feedback and business enquiries.",
+  description: "Contact the RovoTools team â€” support, feedback and business enquiries.",
   alternates: { canonical: "/contact" },
   openGraph: {
     siteName: BRAND_NAME,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       },
     ],
     title: "Contact Us | RovoTools",
-    description: "Contact the RovoTools team — support, feedback and business enquiries.",
+    description: "Contact the RovoTools team â€” support, feedback and business enquiries.",
     type: "website",
     url: `${WEB_URL}/contact`,
   },
@@ -29,7 +29,7 @@ export default function ContactPage(): React.ReactElement {
       <Breadcrumbs crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">Contact Us</h1>
       <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-        Questions, bug reports or suggestions? Email us directly — we usually reply within a few business days.
+        Questions, bug reports or suggestions? Email us directly â€” we usually reply within a few business days.
       </p>
       <div className="mt-8">
         <a

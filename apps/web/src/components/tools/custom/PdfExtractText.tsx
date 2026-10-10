@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useRef, useState } from 'react';
 import { Download, FileText, RotateCcw } from 'lucide-react';
-import { countPdfPages, replaceExtension } from '@rovotools/tools';
+import { countPdfPages, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { downloadBytes, extractPdfTextPages, fileToBytes, isPdfFile } from './pdfUtils';
@@ -34,15 +34,15 @@ export default function PdfExtractText(): React.ReactElement {
     setBusy(true);
     setError(null);
     try {
-      setStatus('Reading pages…');
+      setStatus('Reading pagesâ€¦');
       const bytes = await fileToBytes(file);
       const total = await countPdfPages(bytes);
-      setStatus(`Extracting text from ${total} page${total === 1 ? '' : 's'}…`);
+      setStatus(`Extracting text from ${total} page${total === 1 ? '' : 's'}â€¦`);
       const extracted = await extractPdfTextPages(bytes);
       const joined = extracted.map((lines) => lines.join('\n'));
       if (joined.every((page) => page.trim() === '')) {
         throw new RangeError(
-          'No selectable text found — this PDF looks scanned (image-only). It needs OCR first.',
+          'No selectable text found â€” this PDF looks scanned (image-only). It needs OCR first.',
         );
       }
       setPages(joined);
@@ -109,7 +109,7 @@ export default function PdfExtractText(): React.ReactElement {
         >
           <FileText className="mx-auto h-8 w-8" aria-hidden="true" />
           <p className="mt-2 font-semibold">{file === null ? 'Drop a PDF here or click to choose' : file.name}</p>
-          <p className="mt-1 text-xs">Up to 100 MB · processed on your device</p>
+          <p className="mt-1 text-xs">Up to 100 MB Â· processed on your device</p>
           <input
             ref={inputRef}
             type="file"
@@ -126,7 +126,7 @@ export default function PdfExtractText(): React.ReactElement {
         ) : null}
         <div className="flex flex-wrap gap-2">
           <Button type="button" onClick={handleExtract} disabled={file === null || busy}>
-            {busy ? 'Extracting…' : 'Extract text'}
+            {busy ? 'Extractingâ€¦' : 'Extract text'}
           </Button>
           {pages !== null ? (
             <Button type="button" variant="outline" onClick={handleDownload}>
@@ -142,7 +142,7 @@ export default function PdfExtractText(): React.ReactElement {
         {pages !== null ? (
           <div className="space-y-3">
             <p role="status" className="text-sm text-zinc-600 dark:text-zinc-400">
-              {pages.length} page{pages.length === 1 ? '' : 's'} · {totalLines} lines of text
+              {pages.length} page{pages.length === 1 ? '' : 's'} Â· {totalLines} lines of text
             </p>
             <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm dark:border-zinc-800 dark:bg-zinc-900">
               {pages.map((page, index) => (

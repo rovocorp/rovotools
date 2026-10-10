@@ -1,4 +1,4 @@
-import { createRateLimiter } from "@rovotools/core";
+﻿import { createRateLimiter } from "@/shared/core";
 
 export function buildContentSecurityPolicy(options?: { adsense?: boolean; dev?: boolean }): string {
   const scriptSrc = ["'self'", "'unsafe-inline'"];

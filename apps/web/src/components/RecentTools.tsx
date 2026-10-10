@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { History } from "lucide-react";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import { getToolRegistry } from "@/lib/registry";
 
 interface PublicTool {

@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
 import { extractRawText } from 'mammoth';
-import { countPdfPages, createTextPdf, replaceExtension } from '@rovotools/tools';
+import { countPdfPages, createTextPdf, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -58,7 +58,7 @@ export default function WordToPdf(): React.ReactElement {
     setBusy(true);
     setError(null);
     try {
-      setStatus('Reading document…');
+      setStatus('Reading documentâ€¦');
       const bytes = await fileToBytes(file);
       const extracted = await extractRawText({ arrayBuffer: bytes.slice().buffer as ArrayBuffer });
       const text = extracted.value.replace(/\r\n/g, '\n').trim();
@@ -67,7 +67,7 @@ export default function WordToPdf(): React.ReactElement {
           'No readable text found in that document (it may be empty or image-only).',
         );
       }
-      setStatus('Building PDF…');
+      setStatus('Building PDFâ€¦');
       const title = file.name.replace(/\.docx$/i, '');
       const pdf = await createTextPdf(text, { title });
       if (result !== null) {
@@ -132,7 +132,7 @@ export default function WordToPdf(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a .docx here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Word .docx · up to 100 MB</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Word .docx Â· up to 100 MB</span>
           </button>
           <input
             aria-label="Upload Word document"
@@ -152,7 +152,7 @@ export default function WordToPdf(): React.ReactElement {
           ) : null}
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
             Text, headings and lists carry over cleanly. Pixel-perfect layout (floating images,
-            intricate tables) may simplify — this is a private on-device conversion.
+            intricate tables) may simplify â€” this is a private on-device conversion.
           </p>
           {status !== null ? <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p> : null}
           {error !== null ? (
@@ -169,7 +169,7 @@ export default function WordToPdf(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleConvert()}
             >
-              {busy ? 'Converting…' : 'Convert to PDF'}
+              {busy ? 'Convertingâ€¦' : 'Convert to PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />

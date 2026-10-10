@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
-import { formatSlashDDMMYYYY, toIsoDate, tryParseFlexibleDate } from "@rovotools/calculations";
+import { formatSlashDDMMYYYY, toIsoDate, tryParseFlexibleDate } from "@/shared/calculations";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -21,7 +21,7 @@ interface DateInputProps {
  *
  * Typing digits auto-inserts "/" after DD and MM (maskSlashDate), so
  * typing 1 5 0 1 1 9 9 0 yields 15/01/1990 with no extra keystrokes.
- * Year-first ISO entry (1990-…) is left alone and normalized on blur.
+ * Year-first ISO entry (1990-â€¦) is left alone and normalized on blur.
  */
 export function maskSlashDate(raw: string): string {
   if (raw === "") {

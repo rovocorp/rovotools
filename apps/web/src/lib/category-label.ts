@@ -1,4 +1,4 @@
-import { getAllCategoryMetadata } from "@rovotools/tools";
+﻿import { getAllCategoryMetadata } from "@/shared/tools";
 
 /**
  * Display label for a tool category slug.

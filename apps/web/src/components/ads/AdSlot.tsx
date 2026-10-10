@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
-import type { AdPlacement } from "@rovotools/tools";
-import { t } from "@rovotools/localization";
+import type { AdPlacement } from "@/shared/tools";
+import { t } from "@/shared/localization";
 import { useAdSlotState } from "./useAdSlotState";
 
 declare global {
@@ -27,7 +27,7 @@ function renderDummyAdSlot(
 ): React.ReactElement | null {
   // Show dummy only when no publisher ID is configured
   // (local dev, CI, or tests). Do NOT render dummy when publisherId is set
-  // — real ads will take over once the SDK loads.
+  // â€” real ads will take over once the SDK loads.
   if (publisherId !== undefined && publisherId.trim() !== "") {
     return null; // real AdSense will render
   }
@@ -35,7 +35,7 @@ function renderDummyAdSlot(
   const isRail = variant === "rail";
   // Render a stable placeholder so layout isn't broken in dev.
   // NOTE: the slot container must stay `relative` and the overlay label
-  // `pointer-events-none` — otherwise the absolutely-positioned label
+  // `pointer-events-none` â€” otherwise the absolutely-positioned label
   // escapes to the viewport and silently swallows all clicks on the page.
   return (
     <section
@@ -78,7 +78,7 @@ function renderRealAdUnit(
 ): React.ReactElement {
   const isRail = variant === "rail";
   // Real ad unit: same reserved layout as the dev placeholder so the page
-  // never shifts when the creative loads. No overlay label — the creative
+  // never shifts when the creative loads. No overlay label â€” the creative
   // carries its own "AdChoices"/"Sponsored" marking per AdSense policy.
   // data-ad-slot is optional: when a manual slot ID is configured it is
   // attached, otherwise the unit renders publisher-only and AdSense Auto
@@ -115,7 +115,7 @@ function renderRealAdUnit(
 function renderReservedAdBox(variant: AdSlotVariant): React.ReactElement {
   const isRail = variant === "rail";
   // Production placeholder when the publisher is configured but no ad can be
-  // requested yet (visitor undecided — no SDK, no ad request per EU consent
+  // requested yet (visitor undecided â€” no SDK, no ad request per EU consent
   // policy). Neutral reserved layout only: same dimensions as the real unit
   // so pages never collapse or shift, no fake creative, no ad request.
   return (
@@ -170,7 +170,7 @@ export default function AdSlot({
         window.adsbygoogle.requestNonPersonalizedAds = 1;
       }
       // Pure Auto ads mode (no manual slot ID): the SDK loaded by
-      // AdSenseScript handles placement automatically once consent exists —
+      // AdSenseScript handles placement automatically once consent exists â€”
       // pushing a slot-less <ins> would only log an invalid-request error,
       // so skip the push and let Auto ads fill.
       if (slotId === undefined || slotId.trim() === "") {

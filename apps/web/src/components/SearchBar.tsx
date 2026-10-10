@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import { Input } from "@/components/ui/input";
 
 function SearchField({ initialQuery }: { initialQuery: string }): React.ReactElement {

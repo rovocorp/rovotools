@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
-import { countPdfPages, parsePageRanges, splitPdfDocument, withSuffix } from '@rovotools/tools';
+import { countPdfPages, parsePageRanges, splitPdfDocument, withSuffix } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -121,7 +121,7 @@ export default function SplitPdf(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a PDF here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF · up to 100 MB</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF Â· up to 100 MB</span>
           </button>
           <input
             aria-label="Upload PDF files"
@@ -137,7 +137,7 @@ export default function SplitPdf(): React.ReactElement {
           {file !== null ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               <span className="font-semibold text-zinc-900 dark:text-zinc-100">{file.name}</span>
-              {pageCount !== null ? ` · ${pageCount} pages` : ''}
+              {pageCount !== null ? ` Â· ${pageCount} pages` : ''}
             </p>
           ) : null}
           <div className="space-y-1.5">
@@ -149,7 +149,7 @@ export default function SplitPdf(): React.ReactElement {
               onChange={(event) => setRanges(event.target.value)}
             />
             <p className="text-xs text-zinc-600 dark:text-zinc-400">
-              Singles and ranges separated by commas — 1,4-6,9 keeps pages 1, 4, 5, 6 and 9. The
+              Singles and ranges separated by commas â€” 1,4-6,9 keeps pages 1, 4, 5, 6 and 9. The
               original file is never modified.
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function SplitPdf(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleSplit()}
             >
-              {busy ? 'Splitting…' : 'Split PDF'}
+              {busy ? 'Splittingâ€¦' : 'Split PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />

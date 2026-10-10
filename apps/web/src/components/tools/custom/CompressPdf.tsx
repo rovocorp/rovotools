@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
-import { countPdfPages, formatBytes, imagesToPdf, resavePdf, withSuffix } from '@rovotools/tools';
+import { countPdfPages, formatBytes, imagesToPdf, resavePdf, withSuffix } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -58,19 +58,19 @@ export default function CompressPdf(): React.ReactElement {
       const total = await countPdfPages(bytes);
       let compressed: Uint8Array;
       if (mode === 'lossless') {
-        setStatus('Re-saving with object streams…');
+        setStatus('Re-saving with object streamsâ€¦');
         compressed = await resavePdf(bytes);
       } else {
         // Compact mode rasterizes every page to JPEG and rebuilds the PDF.
-        // Text stays readable but is no longer selectable — say so plainly.
+        // Text stays readable but is no longer selectable â€” say so plainly.
         const images: Array<{ data: Uint8Array; name?: string }> = [];
         for (let page = 0; page < total; page += 1) {
-          setStatus(`Rendering page ${page + 1} of ${total}…`);
+          setStatus(`Rendering page ${page + 1} of ${total}â€¦`);
           const rendered = await renderPdfPageToJpeg(bytes, page, 1.5, quality / 100);
           images.push({ data: new Uint8Array(await rendered.blob.arrayBuffer()) });
           URL.revokeObjectURL(rendered.url);
         }
-        setStatus('Rebuilding PDF…');
+        setStatus('Rebuilding PDFâ€¦');
         compressed = await imagesToPdf(images, { orientation: 'fit' });
       }
       if (result !== null) {
@@ -139,7 +139,7 @@ export default function CompressPdf(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a PDF here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF · up to 100 MB</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Single PDF Â· up to 100 MB</span>
           </button>
           <input
             aria-label="Upload PDF files"
@@ -154,7 +154,7 @@ export default function CompressPdf(): React.ReactElement {
           />
           {file !== null ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">{file.name}</span> ·{' '}
+              <span className="font-semibold text-zinc-900 dark:text-zinc-100">{file.name}</span> Â·{' '}
               {formatBytes(file.size)}
             </p>
           ) : null}
@@ -179,7 +179,7 @@ export default function CompressPdf(): React.ReactElement {
             </p>
           ) : (
             <div className="space-y-1.5">
-              <Label htmlFor="compress-pdf-quality">JPEG quality — {quality}%</Label>
+              <Label htmlFor="compress-pdf-quality">JPEG quality â€” {quality}%</Label>
               <input
                 id="compress-pdf-quality"
                 type="range"
@@ -190,7 +190,7 @@ export default function CompressPdf(): React.ReactElement {
                 className="w-full accent-indigo-600"
               />
               <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                Pages are re-rendered as images, so files shrink dramatically — but text is no
+                Pages are re-rendered as images, so files shrink dramatically â€” but text is no
                 longer selectable. Best for scans and image-heavy documents.
               </p>
             </div>
@@ -210,7 +210,7 @@ export default function CompressPdf(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleCompress()}
             >
-              {busy ? 'Compressing…' : 'Compress PDF'}
+              {busy ? 'Compressingâ€¦' : 'Compress PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -232,12 +232,12 @@ export default function CompressPdf(): React.ReactElement {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {formatBytes(result.fromBytes)} → {formatBytes(result.bytes.length)} · saved{' '}
+                {formatBytes(result.fromBytes)} â†’ {formatBytes(result.bytes.length)} Â· saved{' '}
                 {formatBytes(saved)}
               </p>
               {saved === 0 ? (
                 <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-                  Already lean — this PDF did not shrink. Try Compact mode for image-heavy files.
+                  Already lean â€” this PDF did not shrink. Try Compact mode for image-heavy files.
                 </p>
               ) : null}
               <iframe

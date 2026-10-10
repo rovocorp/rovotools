@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -17,8 +17,8 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
-import { t } from "@rovotools/localization";
-import type { ToolRegistryEntry } from "@rovotools/types";
+import { t } from "@/shared/localization";
+import type { ToolRegistryEntry } from "@/shared/types";
 import ToolCard from "@/components/tools/ToolCard";
 import CategoryNav from "@/components/tools/CategoryNav";
 import RecentTools from "@/components/RecentTools";
@@ -30,7 +30,7 @@ import { getToolRegistry } from "@/lib/registry";
 import { getCategoryStyle } from "@/lib/category-colors";
 import { getCategoryLabel } from "@/lib/category-label";
 import { cn } from "@/lib/utils";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import HeroNetwork from "@/components/hero/HeroNetwork";
 import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo-copy";
 
@@ -200,7 +200,7 @@ export default function Home(): React.ReactElement {
                 New
               </span>
               <span className="text-slate-700 dark:text-slate-200">
-                🛡️ {t("en", "home.heroBadge")} · {totalTools}+ free tools
+                ðŸ›¡ï¸ {t("en", "home.heroBadge")} Â· {totalTools}+ free tools
               </span>
             </div>
 
@@ -230,7 +230,7 @@ export default function Home(): React.ReactElement {
                 name="q"
                 type="search"
                 autoComplete="off"
-                placeholder="Try “compress image”, “format JSON” or “calculate BMI”…"
+                placeholder="Try â€œcompress imageâ€, â€œformat JSONâ€ or â€œcalculate BMIâ€â€¦"
                 className="h-11 w-full bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
               />
               <button
@@ -332,7 +332,7 @@ export default function Home(): React.ReactElement {
                   </span>
                   <div>
                     <p className="text-sm font-extrabold text-slate-900 dark:text-white">JSON Formatter</p>
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Validate · Format · Minify — instantly</p>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Validate Â· Format Â· Minify â€” instantly</p>
                   </div>
                   <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                     <Check className="h-3 w-3" aria-hidden="true" /> Valid
@@ -393,7 +393,7 @@ export default function Home(): React.ReactElement {
                   <span key={i} className={cn("h-5 rounded-[4px]", cls)} />
                 ))}
               </div>
-              <p className="mt-2 text-[10px] font-bold text-slate-500 dark:text-slate-400">Scan-ready · offline</p>
+              <p className="mt-2 text-[10px] font-bold text-slate-500 dark:text-slate-400">Scan-ready Â· offline</p>
             </div>
 
             {/* Floating pill */}
@@ -558,7 +558,7 @@ export default function Home(): React.ReactElement {
                 {totalTools}+ tools. Zero sign-up. Zero uploads.
               </h2>
               <p className="mt-2 font-medium text-white/85">
-                Convert, compress, generate and calculate — everything runs in your browser.
+                Convert, compress, generate and calculate â€” everything runs in your browser.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

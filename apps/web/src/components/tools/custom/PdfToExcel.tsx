@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
 import * as XLSX from 'xlsx';
-import { MAX_SPREADSHEET_ROWS, sanitizeSpreadsheetCell } from '@rovotools/core';
-import { countPdfPages, replaceExtension } from '@rovotools/tools';
+import { MAX_SPREADSHEET_ROWS, sanitizeSpreadsheetCell } from '@/shared/core';
+import { countPdfPages, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -44,7 +44,7 @@ export default function PdfToExcel(): React.ReactElement {
     setBusy(true);
     setError(null);
     try {
-      setStatus('Extracting text…');
+      setStatus('Extracting textâ€¦');
       const bytes = await fileToBytes(file);
       const total = await countPdfPages(bytes);
       const pages = await extractPdfTextPages(bytes);
@@ -56,7 +56,7 @@ export default function PdfToExcel(): React.ReactElement {
         }
         lines.forEach((line, lineIndex) => {
           // PDF text is untrusted input: sanitize before it becomes a cell,
-          // or `=cmd|…` lines would execute as formulas when opened in Excel.
+          // or `=cmd|â€¦` lines would execute as formulas when opened in Excel.
           rows.push([String(pageIndex + 1), String(lineIndex + 1), sanitizeSpreadsheetCell(line)]);
         });
       });
@@ -67,10 +67,10 @@ export default function PdfToExcel(): React.ReactElement {
       }
       if (rows.length <= 1) {
         throw new RangeError(
-          'No selectable text found — this PDF looks scanned (image-only). It needs OCR first.',
+          'No selectable text found â€” this PDF looks scanned (image-only). It needs OCR first.',
         );
       }
-      setStatus('Building spreadsheet…');
+      setStatus('Building spreadsheetâ€¦');
       const sheet = XLSX.utils.aoa_to_sheet(rows);
       sheet['!cols'] = [{ wch: 8 }, { wch: 8 }, { wch: 100 }];
       const workbook = XLSX.utils.book_new();
@@ -134,7 +134,7 @@ export default function PdfToExcel(): React.ReactElement {
           >
             <FilePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a PDF here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">Text-based PDF · up to 100 MB</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">Text-based PDF Â· up to 100 MB</span>
           </button>
           <input
             aria-label="Upload PDF files"
@@ -153,7 +153,7 @@ export default function PdfToExcel(): React.ReactElement {
             </p>
           ) : null}
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
-            Lines become rows in reading order — true table detection needs server-side analysis, so
+            Lines become rows in reading order â€” true table detection needs server-side analysis, so
             tidy columns in your spreadsheet afterwards.
           </p>
           {status !== null ? <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p> : null}
@@ -171,7 +171,7 @@ export default function PdfToExcel(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleConvert()}
             >
-              {busy ? 'Converting…' : 'Convert to Excel'}
+              {busy ? 'Convertingâ€¦' : 'Convert to Excel'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -193,7 +193,7 @@ export default function PdfToExcel(): React.ReactElement {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {result.pages} page{result.pages === 1 ? '' : 's'} processed · {result.rows} rows
+                {result.pages} page{result.pages === 1 ? '' : 's'} processed Â· {result.rows} rows
                 extracted
               </p>
               <Button

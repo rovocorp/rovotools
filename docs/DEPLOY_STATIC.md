@@ -1,5 +1,12 @@
 # Deploying RovoTools via File Manager (static upload)
 
+> **SUPERSEDED.** The web app now deploys as a Next.js SSR app on Hostinger
+> "Node.js web app" hosting straight from GitHub (root directory `apps/web`,
+> `pnpm install` → `next build` → `next start`). This static-upload flow
+> (`out/` zip → `public_html`) no longer applies: `output: 'export'` was
+> removed and no `out.zip`/`web-out.zip` artifact is produced. Kept for
+> reference only.
+
 Use this when deploying the pre-built static site to shared hosting
 (`public_html`). No build, no install, no Node.js flow — framework
 auto-detection is never involved, so it cannot fail with

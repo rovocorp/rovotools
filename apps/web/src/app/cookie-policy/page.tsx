@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { BRAND_NAME, WEB_URL } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { BRAND_NAME, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
@@ -30,14 +30,14 @@ export default function CookiePolicyPage(): React.ReactElement {
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">Cookie Policy</h1>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>
-          {BRAND_NAME} keeps tracking to a minimum. Essential functionality — theme preference,
-          favourites, recently used tools and offline support — uses your browser&apos;s local
+          {BRAND_NAME} keeps tracking to a minimum. Essential functionality â€” theme preference,
+          favourites, recently used tools and offline support â€” uses your browser&apos;s local
           storage and does not require consent.
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">Optional cookies</h2>
         <p>
-          Anonymous analytics only loads after you allow it via the consent banner (“Accept”)
-          or the “Customize” settings. Advertising (Google AdSense) always shows to keep the
+          Anonymous analytics only loads after you allow it via the consent banner (â€œAcceptâ€)
+          or the â€œCustomizeâ€ settings. Advertising (Google AdSense) always shows to keep the
           tools free: accepting enables personalized ads, while rejecting switches to
           non-personalized ads (contextual only, no ad personalization; limited cookies may
           still be used for frequency capping and aggregated reporting). Our advertising
@@ -75,9 +75,9 @@ export default function CookiePolicyPage(): React.ReactElement {
           .
         </p>
         <p>
-          You can change your mind at any time: use the “Cookie Settings” link in the site footer
-          to re-open consent settings, where “Reject all” disables analytics and switches ads
-          to non-personalized — the tools keep working. You can also clear this site&apos;s data in your browser
+          You can change your mind at any time: use the â€œCookie Settingsâ€ link in the site footer
+          to re-open consent settings, where â€œReject allâ€ disables analytics and switches ads
+          to non-personalized â€” the tools keep working. You can also clear this site&apos;s data in your browser
           settings; the banner will appear again.
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">What we never do</h2>

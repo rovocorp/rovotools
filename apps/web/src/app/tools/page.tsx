@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Suspense } from "react";
-import { t } from "@rovotools/localization";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { t } from "@/shared/localization";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";

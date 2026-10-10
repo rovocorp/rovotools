@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 import type {
   KeyValueStorageAdapter,
   ShareAdapter,
   ShareResult,
-} from "@rovotools/types";
+} from "@/shared/types";
 
 function canUseWebShare(): boolean {
   return typeof navigator !== "undefined" && typeof navigator.share === "function";

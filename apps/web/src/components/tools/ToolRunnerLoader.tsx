@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { createElement } from "react";
 import dynamic from "next/dynamic";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import { getCustomToolComponent } from "@/components/tools/custom/customTools";
 
 const ToolRunner = dynamic(() => import("@/components/tools/ToolRunner"), {

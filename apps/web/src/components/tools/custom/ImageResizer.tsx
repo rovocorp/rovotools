@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, ImagePlus, Lock, LockOpen, RotateCcw } from 'lucide-react';
@@ -8,7 +8,7 @@ import {
   imageQualityToRatio,
   scaleDimensions,
   type WebImageFormat,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import {
   canvasToBlob,
   downloadBlob,
@@ -148,7 +148,7 @@ export default function ImageResizer(): React.ReactElement {
       }
       setResult({
         name: replaceExtension(file.name, info.extension),
-        dimensions: `${size.width} × ${size.height}`,
+        dimensions: `${size.width} Ã— ${size.height}`,
         bytes: blob.size,
         url: URL.createObjectURL(blob),
         blob,
@@ -194,8 +194,8 @@ export default function ImageResizer(): React.ReactElement {
             <span className="font-semibold">Drop an image here, or click to browse</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
               {file === null
-                ? 'JPG · PNG · WEBP'
-                : `${file.name} · ${natural === null ? '' : `${natural.width} × ${natural.height}`}`}
+                ? 'JPG Â· PNG Â· WEBP'
+                : `${file.name} Â· ${natural === null ? '' : `${natural.width} Ã— ${natural.height}`}`}
             </span>
           </button>
           <input
@@ -286,7 +286,7 @@ export default function ImageResizer(): React.ReactElement {
             </div>
           ) : (
             <div className="space-y-1.5">
-              <Label htmlFor="image-resizer-scale">Scale — {scale}%</Label>
+              <Label htmlFor="image-resizer-scale">Scale â€” {scale}%</Label>
               <input
                 id="image-resizer-scale"
                 type="range"
@@ -332,7 +332,7 @@ export default function ImageResizer(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleResize()}
             >
-              {busy ? 'Resizing…' : 'Resize image'}
+              {busy ? 'Resizingâ€¦' : 'Resize image'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -363,7 +363,7 @@ export default function ImageResizer(): React.ReactElement {
                 loading="lazy"
               />
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {result.dimensions} · {formatBytes(result.bytes)}
+                {result.dimensions} Â· {formatBytes(result.bytes)}
               </p>
               <Button
                 type="button"

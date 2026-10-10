@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import { OPEN_SEARCH_EVENT } from "@/components/Header";
 import { getCategoryLabel } from "@/lib/category-label";
 import { getToolRegistry } from "@/lib/registry";
@@ -171,7 +171,7 @@ export default function CommandPalette(): React.ReactElement {
               setQuery(event.target.value);
               setActive(0);
             }}
-            placeholder={`${t("en", "common.search")} tools… (try "compress pdf", "jwt", "qr")`}
+            placeholder={`${t("en", "common.search")} toolsâ€¦ (try "compress pdf", "jwt", "qr")`}
             aria-label={t("en", "a11y.searchTools")}
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-zinc-400"
           />

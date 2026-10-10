@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { Copy, Download, Heart, RotateCcw, Wifi } from "lucide-react";
-import { getFieldLabel, getFieldPlaceholder, getOutputLabel, registerCoreTools, toolRegistry } from "@rovotools/tools";
-import { todaySlashDDMMYYYY } from "@rovotools/calculations";
-import type { ToolInputField, ValidationError } from "@rovotools/types";
-import { t } from "@rovotools/localization";
+import { getFieldLabel, getFieldPlaceholder, getOutputLabel, registerCoreTools, toolRegistry } from "@/shared/tools";
+import { todaySlashDDMMYYYY } from "@/shared/calculations";
+import type { ToolInputField, ValidationError } from "@/shared/types";
+import { t } from "@/shared/localization";
 import { useFavorites } from "@/hooks/useFavorites";
 import { webShare, webStorage } from "@/lib/adapters";
 import { Badge } from "@/components/ui/badge";
@@ -255,7 +255,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
     if (result === null) {
       return "";
     }
-    return tool.outputs.map((output) => `${getOutputLabel("en", output)}: ${String(result[output.id] ?? "—")}`).join("\n");
+    return tool.outputs.map((output) => `${getOutputLabel("en", output)}: ${String(result[output.id] ?? "â€”")}`).join("\n");
   }
 
   async function handleCopy(): Promise<void> {
@@ -313,7 +313,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
     if (result === null) {
       return;
     }
-    const lines = tool.outputs.map((output) => `${output.id}: ${String(result[output.id] ?? "—")}`);
+    const lines = tool.outputs.map((output) => `${output.id}: ${String(result[output.id] ?? "â€”")}`);
     const outcome = await webShare.shareText(`${tool.name}\n${lines.join("\n")}`, tool.name);
     setShareStatus(
       outcome.method === "sheet"
@@ -409,9 +409,9 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     {output.display === "table" ? (
-                      <TableOutput value={String(result[output.id] ?? "—")} />
+                      <TableOutput value={String(result[output.id] ?? "â€”")} />
                     ) : (
-                      String(result[output.id] ?? "—")
+                      String(result[output.id] ?? "â€”")
                     )}
                   </dd>
                 </div>

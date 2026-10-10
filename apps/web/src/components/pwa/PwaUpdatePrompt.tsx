@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
-import { t } from "@rovotools/localization";
+import { t } from "@/shared/localization";
 import { SW_UPDATE_EVENT } from "@/components/PWARegister";
 import { useConsentDecided } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";

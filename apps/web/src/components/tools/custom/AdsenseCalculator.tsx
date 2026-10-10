@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Copy, ExternalLink, RefreshCw } from 'lucide-react';
@@ -14,7 +14,7 @@ import {
   resolveFxRate,
   toolRegistry,
   type LiveFxRates,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils';
 const CACHE_KEY = 'rovotools:fx-usd';
 
 // The generic ToolRunner seeds the client registry at module scope, but this
-// bespoke UI replaces the runner — seed here so require() works on this page.
+// bespoke UI replaces the runner â€” seed here so require() works on this page.
 registerCoreTools(toolRegistry);
 
 interface FxCache {
@@ -183,7 +183,7 @@ export default function AdsenseCalculator(): React.ReactElement {
         <div className="flex flex-wrap items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="font-semibold">
-              1 USD = {rate === '' ? '…' : rate} {currency} ({symbol})
+              1 USD = {rate === '' ? 'â€¦' : rate} {currency} ({symbol})
             </p>
             <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">{rateNote}</p>
           </div>
@@ -198,7 +198,7 @@ export default function AdsenseCalculator(): React.ReactElement {
               className={cn('h-4 w-4', refreshState === 'loading' && 'animate-spin')}
               aria-hidden="true"
             />
-            {refreshState === 'loading' ? 'Refreshing…' : 'Refresh live rates'}
+            {refreshState === 'loading' ? 'Refreshingâ€¦' : 'Refresh live rates'}
           </Button>
           <a
             href={googleFinanceUrl('USD', currency)}
@@ -206,17 +206,17 @@ export default function AdsenseCalculator(): React.ReactElement {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
           >
-            Check live USD→{currency} on Google{' '}
+            Check live USDâ†’{currency} on Google{' '}
             <ExternalLink className="h-3 w-3" aria-hidden="true" />
           </a>
         </div>
         {refreshState === 'error' ? (
           <p role="alert" className="mt-2 text-xs text-red-600">
-            Live rates are unavailable right now — the built-in approximate rate is used instead.
+            Live rates are unavailable right now â€” the built-in approximate rate is used instead.
           </p>
         ) : null}
         <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
-          Rates by {FX_API_ATTRIBUTION}. Fetched only when you tap refresh — nothing is requested
+          Rates by {FX_API_ATTRIBUTION}. Fetched only when you tap refresh â€” nothing is requested
           automatically.
         </p>
       </div>

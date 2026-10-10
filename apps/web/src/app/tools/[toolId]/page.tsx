@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { t } from "@rovotools/localization";
-import { WEB_URL, BRAND_NAME } from "@rovotools/config";
+import { t } from "@/shared/localization";
+import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import ToolDetail from "@/components/tools/ToolDetail";
 import { getToolRegistry } from "@/lib/registry";
 import { getToolStaticParams } from "./generate";

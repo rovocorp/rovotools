@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, FilePlus, RotateCcw } from 'lucide-react';
-import { countPdfPages, stampSignatureOnPdf, withSuffix } from '@rovotools/tools';
+import { countPdfPages, stampSignatureOnPdf, withSuffix } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -240,8 +240,8 @@ export default function SignPdf(): React.ReactElement {
             <span className="font-semibold">Drop a PDF here, or click to browse</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
               {file === null
-                ? 'Single PDF · up to 100 MB'
-                : `${file.name}${pageCount !== null ? ` · ${pageCount} pages` : ''}`}
+                ? 'Single PDF Â· up to 100 MB'
+                : `${file.name}${pageCount !== null ? ` Â· ${pageCount} pages` : ''}`}
             </span>
           </button>
           <input
@@ -314,7 +314,7 @@ export default function SignPdf(): React.ReactElement {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="sign-pdf-width">Size — {widthPct}%</Label>
+              <Label htmlFor="sign-pdf-width">Size â€” {widthPct}%</Label>
               <input
                 id="sign-pdf-width"
                 type="range"
@@ -326,7 +326,7 @@ export default function SignPdf(): React.ReactElement {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="sign-pdf-x">From left — {xPct}%</Label>
+              <Label htmlFor="sign-pdf-x">From left â€” {xPct}%</Label>
               <input
                 id="sign-pdf-x"
                 type="range"
@@ -338,7 +338,7 @@ export default function SignPdf(): React.ReactElement {
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="sign-pdf-y">From bottom — {yPct}%</Label>
+              <Label htmlFor="sign-pdf-y">From bottom â€” {yPct}%</Label>
               <input
                 id="sign-pdf-y"
                 type="range"
@@ -351,7 +351,7 @@ export default function SignPdf(): React.ReactElement {
             </div>
           </div>
           <p className="text-xs text-zinc-600 dark:text-zinc-400">
-            A visible signature for everyday agreements — for regulated contracts use a qualified
+            A visible signature for everyday agreements â€” for regulated contracts use a qualified
             e-signature provider.
           </p>
           {error !== null ? (
@@ -368,7 +368,7 @@ export default function SignPdf(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => void handleSign()}
             >
-              {busy ? 'Signing…' : 'Sign PDF'}
+              {busy ? 'Signingâ€¦' : 'Sign PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />

@@ -1,4 +1,4 @@
-import { registerCoreTools, toolRegistry, type ToolRegistry } from "@rovotools/tools";
+﻿import { registerCoreTools, toolRegistry, type ToolRegistry } from "@/shared/tools";
 
 let seeded = false;
 

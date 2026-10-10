@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Download, ImagePlus, RotateCcw } from 'lucide-react';
@@ -10,7 +10,7 @@ import {
   normalizeImageFormat,
   normalizeImageQuality,
   type WebImageFormat,
-} from '@rovotools/tools';
+} from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -54,7 +54,7 @@ export default function ImageConverter(): React.ReactElement {
       return;
     }
     if (next.length > 20) {
-      setError('Convert up to 20 images at once — the first 20 were kept.');
+      setError('Convert up to 20 images at once â€” the first 20 were kept.');
     } else {
       setError(null);
     }
@@ -151,7 +151,7 @@ export default function ImageConverter(): React.ReactElement {
           >
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop images here, or click to browse</span>
-            <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG · PNG · WEBP · up to 20 at once</span>
+            <span className="text-xs text-zinc-600 dark:text-zinc-400">JPG Â· PNG Â· WEBP Â· up to 20 at once</span>
           </button>
           <input
             aria-label="Upload images"
@@ -166,7 +166,7 @@ export default function ImageConverter(): React.ReactElement {
           />
           {files.length > 0 ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
-              {files.length} file{files.length === 1 ? '' : 's'} selected ·{' '}
+              {files.length} file{files.length === 1 ? '' : 's'} selected Â·{' '}
               {formatBytes(files.reduce((sum, file) => sum + file.size, 0))} total
             </p>
           ) : null}
@@ -187,7 +187,7 @@ export default function ImageConverter(): React.ReactElement {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="image-converter-quality">
-              Quality{qualityApplies ? ` — ${quality}%` : ' (PNG is lossless: setting ignored)'}
+              Quality{qualityApplies ? ` â€” ${quality}%` : ' (PNG is lossless: setting ignored)'}
             </Label>
             <input
               id="image-converter-quality"
@@ -214,7 +214,7 @@ export default function ImageConverter(): React.ReactElement {
               disabled={files.length === 0 || busy}
               onClick={() => void handleConvert()}
             >
-              {busy ? 'Converting…' : 'Convert images'}
+              {busy ? 'Convertingâ€¦' : 'Convert images'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -252,7 +252,7 @@ export default function ImageConverter(): React.ReactElement {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{result.name}</p>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                      {formatBytes(result.fromBytes)} → {formatBytes(result.toBytes)}
+                      {formatBytes(result.fromBytes)} â†’ {formatBytes(result.toBytes)}
                     </p>
                   </div>
                   <Button

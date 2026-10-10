@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { Download, RotateCcw } from 'lucide-react';
-import { countPdfPages, createTextPdf, replaceExtension } from '@rovotools/tools';
+import { countPdfPages, createTextPdf, replaceExtension } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -87,11 +87,11 @@ export default function PdfCreator(): React.ReactElement {
               value={text}
               onChange={(event) => setText(event.target.value)}
               rows={12}
-              placeholder="Paste or type the text for your PDF…"
+              placeholder="Paste or type the text for your PDFâ€¦"
               className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
             />
             <p className="text-xs text-zinc-600 dark:text-zinc-400">
-              {text.trim() === '' ? 'No text yet.' : `${text.trim().split(/\s+/).length} words`} ·
+              {text.trim() === '' ? 'No text yet.' : `${text.trim().split(/\s+/).length} words`} Â·
               pages are added automatically on A4
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function PdfCreator(): React.ReactElement {
           ) : null}
           <div className="flex flex-wrap gap-2">
             <Button type="button" disabled={busy} onClick={() => void handleCreate()}>
-              {busy ? 'Creating…' : 'Create PDF'}
+              {busy ? 'Creatingâ€¦' : 'Create PDF'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -127,7 +127,7 @@ export default function PdfCreator(): React.ReactElement {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {result.pages} page{result.pages === 1 ? '' : 's'} ·{' '}
+                {result.pages} page{result.pages === 1 ? '' : 's'} Â·{' '}
                 {(result.bytes.length / 1024).toFixed(1)} KB
               </p>
               <iframe

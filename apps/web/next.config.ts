@@ -6,13 +6,24 @@ const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-// Static shared-hosting build: `output: "export"` writes self-contained
-// HTML/CSS/JS to `out/` for upload to `public_html`. No Node server, no DB,
-// no API routes. Legacy URL redirects live in `public/.htaccess` (Apache)
-// because `redirects()` requires a server and breaks `output: export`.
+// next-pwa and the bundle analyzer are webpack plugins. Next 16 builds with
+// Turbopack by default (`next build`), which hard-fails when a `webpack` key
+// exists in the config — so both wrappers apply ONLY to explicit
+// `--webpack` runs. Bare `next build`/`next dev` (Hostinger, Turbopack) get
+// the plain config; PWA shell regeneration happens on `--webpack` builds.
+// Consequence: Hostinger's Turbopack build does not regenerate public/sw.js
+// (the last committed shell is served; precache may be stale — site works
+// online, offline is degraded until the SW pipeline moves off webpack).
+const useWebpack = process.argv.includes("--webpack");
+const wrap = useWebpack ? (config: NextConfig): NextConfig => withAnalyzer(pwaConfig(config)) : (config: NextConfig): NextConfig => config;
+
+// Hostinger "Node.js web app" hosting (SSR via `next start`): no static
+// export — pages render on the server, data URLs resolve at request time.
+// Legacy URL redirects live in `public/.htaccess` for Apache-fronted hosts;
+// `redirects()` is intentionally unused so the config stays valid if the
+// app is ever exported statically again.
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: "export",
   trailingSlash: true,
 
   images: {
@@ -119,4 +130,4 @@ const pwaConfig = withPWA({
   ],
 });
 
-export default withAnalyzer(pwaConfig(nextConfig));
+export default wrap(nextConfig);

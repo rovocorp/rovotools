@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About Us | RovoTools",
-  description: "Learn about RovoTools — free online tools for everyday work, built by RovoCorp LTD.",
+  description: "Learn about RovoTools â€” free online tools for everyday work, built by RovoCorp LTD.",
   alternates: { canonical: "/about" },
   openGraph: {
     siteName: BRAND_NAME,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       },
     ],
     title: "About Us | RovoTools",
-    description: "Learn about RovoTools — free online tools for everyday work, built by RovoCorp LTD.",
+    description: "Learn about RovoTools â€” free online tools for everyday work, built by RovoCorp LTD.",
     type: "website",
     url: `${WEB_URL}/about`,
   },
@@ -38,7 +38,7 @@ export default function AboutPage(): React.ReactElement {
           Who it is for
         </h2>
         <p>
-          Students, developers, creators, professionals and everyday users — anyone who needs a
+          Students, developers, creators, professionals and everyday users â€” anyone who needs a
           quick calculation, conversion or file task done without installing software or creating
           an account.
         </p>

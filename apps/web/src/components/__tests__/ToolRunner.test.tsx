@@ -1,11 +1,11 @@
-// @vitest-environment jsdom
+﻿// @vitest-environment jsdom
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterEach, describe, expect, it } from "vitest";
 import type { ReactElement } from "react";
-import { BROWSER_ONLY_TOOL_IDS, registerCoreTools, toolRegistry } from "@rovotools/tools";
-import { formatSlashDDMMYYYY, tryParseFlexibleDate } from "@rovotools/calculations";
-import type { ToolInputField } from "@rovotools/types";
+import { BROWSER_ONLY_TOOL_IDS, registerCoreTools, toolRegistry } from "@/shared/tools";
+import { formatSlashDDMMYYYY, tryParseFlexibleDate } from "@/shared/calculations";
+import type { ToolInputField } from "@/shared/types";
 import { EXPECTED_SUBSTRINGS, TOOL_SAMPLES as SAMPLES } from "../../../e2e/tool-samples";
 import ToolRunner from "../tools/ToolRunner";
 

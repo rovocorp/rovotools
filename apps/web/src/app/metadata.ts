@@ -1,6 +1,6 @@
-import type { Metadata, Viewport } from "next";
-import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@rovotools/config";
-import { t } from "@rovotools/localization";
+﻿import type { Metadata, Viewport } from "next";
+import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@/shared/config";
+import { t } from "@/shared/localization";
 
 const DESCRIPTION = t("en", "seo.siteDescription");
 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: `${BRAND_NAME} — Free Online Tools for Everyday Work`,
+        alt: `${BRAND_NAME} â€” Free Online Tools for Everyday Work`,
       },
     ],
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     // Google favicon standards: multi-size ICO + PNG fallbacks (16/32
     // simplified pixel mark for crisp tabs, 48 full mark, 192/512 PWA) +
     // 180 Apple touch. No SVG icon: Google Search favicon crawlers do not
-    // support SVG, and browsers prefer the SVG link when present — a single
+    // support SVG, and browsers prefer the SVG link when present â€” a single
     // bad SVG response blanks the tab icon despite healthy PNG/ICO
     // fallbacks. No white mattes anywhere; the Apple touch + maskable
     // variants are intentionally opaque.

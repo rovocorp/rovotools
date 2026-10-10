@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Copy, Download, ImagePlus, RotateCcw } from 'lucide-react';
-import { FAVICON_SIZES, buildFaviconHtml, centerSquareCrop } from '@rovotools/tools';
+import { FAVICON_SIZES, buildFaviconHtml, centerSquareCrop } from '@/shared/tools';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { canvasToBlob, downloadBlob, loadImageElement } from './imageUtils';
@@ -97,7 +97,7 @@ export default function FaviconGenerator(): React.ReactElement {
       await navigator.clipboard.writeText(html);
       setCopied(true);
     } catch {
-      setError('Copying failed — select the HTML below and copy it manually.');
+      setError('Copying failed â€” select the HTML below and copy it manually.');
     }
   }
 
@@ -121,7 +121,7 @@ export default function FaviconGenerator(): React.ReactElement {
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop a logo here, or click to browse</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
-              {file === null ? 'Square images work best — wide ones get center-cropped' : file.name}
+              {file === null ? 'Square images work best â€” wide ones get center-cropped' : file.name}
             </span>
           </button>
           <input
@@ -146,7 +146,7 @@ export default function FaviconGenerator(): React.ReactElement {
               disabled={file === null || busy}
               onClick={() => (file === null ? undefined : void handleGenerate(file))}
             >
-              {busy ? 'Generating…' : results.length > 0 ? 'Regenerate' : 'Generate favicons'}
+              {busy ? 'Generatingâ€¦' : results.length > 0 ? 'Regenerate' : 'Generate favicons'}
             </Button>
             <Button type="button" variant="outline" onClick={handleReset}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
@@ -164,7 +164,7 @@ export default function FaviconGenerator(): React.ReactElement {
           {results.length === 0 ? (
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               {busy
-                ? 'Drawing every size…'
+                ? 'Drawing every sizeâ€¦'
                 : 'All six sizes previewed at their real dimensions will appear here.'}
             </p>
           ) : (
@@ -187,7 +187,7 @@ export default function FaviconGenerator(): React.ReactElement {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{result.filename}</p>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">
-                      {result.size} × {result.size} · {result.label}
+                      {result.size} Ã— {result.size} Â· {result.label}
                     </p>
                   </div>
                   <Button

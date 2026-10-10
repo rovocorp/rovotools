@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { en } from "@rovotools/localization";
+﻿import { describe, expect, it } from "vitest";
+import { en } from "@/shared/localization";
 import { HOME_DESCRIPTION, HOME_TITLE } from "../seo-copy";
 
 // Google truncates meta descriptions at ~155-160 chars and titles at ~60.

@@ -1,4 +1,4 @@
-import type { ToolCategory } from "@rovotools/types";
+﻿import type { ToolCategory } from "@/shared/types";
 
 export interface CategoryStyle {
   readonly gradient: string;

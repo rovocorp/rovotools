@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { createPolicy, isPlacementAllowed, type AdPlacement } from "@rovotools/tools";
+import { createPolicy, isPlacementAllowed, type AdPlacement } from "@/shared/tools";
 import { useAdsConsent } from "@/lib/analytics";
 import { getPublisherId, resolveAdMode, type AdMode } from "@/lib/ads";
 import { useTCFAdvertising } from "@/lib/tcf";

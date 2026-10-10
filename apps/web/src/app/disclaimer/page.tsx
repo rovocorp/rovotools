@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { BRAND_NAME, WEB_URL } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { BRAND_NAME, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
@@ -30,8 +30,8 @@ export default function DisclaimerPage(): React.ReactElement {
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">Disclaimer</h1>
       <div className="mt-6 space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
         <p>
-          {BRAND_NAME} tools are provided “as is” for general information and everyday tasks. While
-          we test our calculation engines, results may contain errors — always verify critical
+          {BRAND_NAME} tools are provided â€œas isâ€ for general information and everyday tasks. While
+          we test our calculation engines, results may contain errors â€” always verify critical
           figures (financial, health, legal or engineering decisions) with a qualified professional
           or authoritative source.
         </p>

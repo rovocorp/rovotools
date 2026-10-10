@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { BRAND_NAME, SUPPORT_EMAIL, WEB_URL } from "@rovotools/config";
+﻿import type { Metadata } from "next";
+import { BRAND_NAME, SUPPORT_EMAIL, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
