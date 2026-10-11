@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Copy, Download, Heart, RotateCcw, Wifi } from "lucide-react";
-import { getFieldLabel, getFieldPlaceholder, getOutputLabel, registerCoreTools, toolRegistry } from "@/shared/tools";
+// Direct module imports (not the @/shared/tools barrel): this is a client
+// component on every tool page, and the barrel would pull pdf-lib, seo-copy
+// and the whole catalog surface into the browser chunk graph.
+import { getFieldLabel, getFieldPlaceholder, getOutputLabel } from "@/shared/tools/display";
+import { registerCoreTools } from "@/shared/tools/seed";
+import { toolRegistry } from "@/shared/tools/registry";
 import { todaySlashDDMMYYYY } from "@/shared/calculations";
 import type { ToolInputField, ValidationError } from "@/shared/types";
 import { t } from "@/shared/localization";
@@ -177,7 +182,7 @@ function TableOutput({ value }: { value: string }): React.ReactElement {
               {index + 1}
             </th>
             <td className="break-words px-2 py-1 font-mono text-zinc-900 dark:text-zinc-100">
-              {line === "" ? <span className="text-zinc-400">(blank)</span> : line}
+              {line === "" ? <span className="text-zinc-500 dark:text-zinc-400">(blank)</span> : line}
             </td>
           </tr>
         ))}
@@ -255,7 +260,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
     if (result === null) {
       return "";
     }
-    return tool.outputs.map((output) => `${getOutputLabel("en", output)}: ${String(result[output.id] ?? "â€”")}`).join("\n");
+    return tool.outputs.map((output) => `${getOutputLabel("en", output)}: ${String(result[output.id] ?? "—")}`).join("\n");
   }
 
   async function handleCopy(): Promise<void> {
@@ -313,7 +318,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
     if (result === null) {
       return;
     }
-    const lines = tool.outputs.map((output) => `${output.id}: ${String(result[output.id] ?? "â€”")}`);
+    const lines = tool.outputs.map((output) => `${output.id}: ${String(result[output.id] ?? "—")}`);
     const outcome = await webShare.shareText(`${tool.name}\n${lines.join("\n")}`, tool.name);
     setShareStatus(
       outcome.method === "sheet"
@@ -409,9 +414,9 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
                   </dt>
                   <dd className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     {output.display === "table" ? (
-                      <TableOutput value={String(result[output.id] ?? "â€”")} />
+                      <TableOutput value={String(result[output.id] ?? "—")} />
                     ) : (
-                      String(result[output.id] ?? "â€”")
+                      String(result[output.id] ?? "—")
                     )}
                   </dd>
                 </div>

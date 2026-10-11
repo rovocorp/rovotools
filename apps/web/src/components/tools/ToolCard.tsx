@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import { ArrowRight, Braces, FileText, Image as ImageIcon, Lock, Palette, QrCode, Calculator, type LucideIcon } from "lucide-react";
-import { getToolDisplay } from "@/shared/tools";
+import { getToolDisplay } from "@/shared/tools/display";
 import type { ToolRegistryEntry } from "@/shared/types";
 import { t } from "@/shared/localization";
 import { Badge } from "@/components/ui/badge";
@@ -29,7 +29,7 @@ export default function ToolCard({ entry }: { entry: ToolRegistryEntry }): React
   // PDF tools live at nested landing pages (e.g. /tools/pdf/merge-pdf);
   // every other tool keeps its flat /tools/<slug> route.
   const href = tool.seo?.canonicalPath ?? `/tools/${tool.slug}`;
-  // NOTE: prefetch={false} â€” this card renders ~90 times on /tools/ and the
+  // NOTE: prefetch={false} — this card renders ~90 times on /tools/ and the
   // static export has no RSC prefetch payloads: every prefetch 404s, and on
   // throttled shared hosting those wasted hits trip HTTP 429. Same rule
   // applies to every next/link site-wide.

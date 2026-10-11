@@ -31,7 +31,7 @@ function loadRecent(): ReadonlyArray<PublicTool> {
       slug: entry.definition.slug,
       name: entry.definition.name,
       description: entry.definition.description,
-      path: `/tools/${entry.definition.slug}`,
+      path: entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`,
     }));
     const byId = new Map(tools.map((tool) => [tool.id, tool]));
     return ids.map((id) => byId.get(id)).filter((tool): tool is PublicTool => tool !== undefined).slice(0, 4);

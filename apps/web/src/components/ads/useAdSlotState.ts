@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { createPolicy, isPlacementAllowed, type AdPlacement } from "@/shared/tools";
+import { createPolicy, isPlacementAllowed, type AdPlacement } from "@/shared/tools/monetization";
 import { useAdsConsent } from "@/lib/analytics";
 import { getPublisherId, resolveAdMode, type AdMode } from "@/lib/ads";
 import { useTCFAdvertising } from "@/lib/tcf";

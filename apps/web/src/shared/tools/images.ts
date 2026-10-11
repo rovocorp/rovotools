@@ -76,7 +76,7 @@ export interface FitDimensions {
   readonly height: number;
 }
 
-// Aspect-fit inside maxWÃ—maxH. Never upscales: smaller sources keep native size.
+// Aspect-fit inside maxW×maxH. Never upscales: smaller sources keep native size.
 export function computeFitDimensions(
   srcWidth: number,
   srcHeight: number,
@@ -120,7 +120,7 @@ export function assertImageFileSize(byteLength: number, maxBytes = MAX_IMAGE_BYT
 }
 
 // Scale dimensions by a percentage. Values above 100 upscale (soft result);
-// the caller warns about that â€” browsers cannot invent detail.
+// the caller warns about that — browsers cannot invent detail.
 export function scaleDimensions(srcWidth: number, srcHeight: number, percent: number): FitDimensions {
   if (![srcWidth, srcHeight].every((n) => Number.isFinite(n) && n > 0)) {
     throw new RangeError("Source dimensions must be positive numbers.");
@@ -141,10 +141,10 @@ export interface ResizePreset {
 }
 
 export const IMAGE_RESIZE_PRESETS: ReadonlyArray<ResizePreset> = [
-  { label: "1920Ã—1080 Full HD", width: 1920, height: 1080 },
-  { label: "1280Ã—720 YouTube", width: 1280, height: 720 },
-  { label: "1080Ã—1080 Instagram", width: 1080, height: 1080 },
-  { label: "1200Ã—630 Open Graph", width: 1200, height: 630 },
+  { label: "1920×1080 Full HD", width: 1920, height: 1080 },
+  { label: "1280×720 YouTube", width: 1280, height: 720 },
+  { label: "1080×1080 Instagram", width: 1080, height: 1080 },
+  { label: "1200×630 Open Graph", width: 1200, height: 630 },
   { label: "800px wide blog", width: 800, height: null },
 ];
 
@@ -163,7 +163,7 @@ export const IMAGE_CROP_RATIOS: ReadonlyArray<CropRatio> = [
   { key: "4:5", label: "4:5 portrait", w: 4, h: 5 },
   { key: "16:9", label: "16:9 widescreen", w: 16, h: 9 },
   { key: "4:3", label: "4:3 classic", w: 4, h: 3 },
-  { key: "youtube", label: "YouTube 1280Ã—720", w: 16, h: 9, exportWidth: 1280, exportHeight: 720 },
+  { key: "youtube", label: "YouTube 1280×720", w: 16, h: 9, exportWidth: 1280, exportHeight: 720 },
 ];
 
 export interface CropBox {
@@ -173,7 +173,7 @@ export interface CropBox {
   readonly height: number;
 }
 
-// Largest centered box with the given ratio inside srcWÃ—srcH.
+// Largest centered box with the given ratio inside srcW×srcH.
 // A null ratio means the full image.
 export function fitCropBox(srcWidth: number, srcHeight: number, ratioW: number | null, ratioH: number | null): CropBox {
   if (![srcWidth, srcHeight].every((n) => Number.isFinite(n) && n > 0)) {
@@ -238,7 +238,7 @@ export function buildFaviconHtml(): string {
   ].join("\n");
 }
 
-// Largest centered square inside srcWÃ—srcH (favicons are square).
+// Largest centered square inside srcW×srcH (favicons are square).
 export function centerSquareCrop(srcWidth: number, srcHeight: number): { x: number; y: number; size: number } {
   if (![srcWidth, srcHeight].every((n) => Number.isFinite(n) && n > 0)) {
     throw new RangeError("Source dimensions must be positive numbers.");

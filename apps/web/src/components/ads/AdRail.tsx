@@ -7,7 +7,7 @@ import { useAdSlotState } from "./useAdSlotState";
 
 /**
  * Sticky right sidebar ad rail (desktop `xl` screens only, hidden below).
- * Position-sticky inside the content column â€” never a fixed overlay â€” per
+ * Position-sticky inside the content column — never a fixed overlay — per
  * AdSense sticky-ad rules: it cannot cover content and needs no close
  * button. It collapses only when no publisher is configured and no dev
  * placeholder applies; with a publisher set it always reserves its column

@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { getAllCategoryMetadata } from "@/shared/tools";
+import { getAllCategoryMetadata } from "@/shared/tools/categories";
 import { tx } from "@/shared/localization";
 import { t } from "@/shared/localization";
 import SearchBar from "@/components/SearchBar";
@@ -46,7 +46,7 @@ export default function ToolsExplorer(): React.ReactElement {
         {ordered.length === 1
           ? t("en", "tool.oneTool")
           : tx("en", "tool.manyTools", { count: ordered.length })}
-        {query !== "" ? ` â€” â€œ${query}â€` : ""}
+        {query !== "" ? ` — “${query}”` : ""}
       </p>
 
       <div className="mt-6 max-w-xl">

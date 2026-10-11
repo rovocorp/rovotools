@@ -17,9 +17,9 @@
   once, async. No other third-party code.
 - Middleware adds negligible latency (header set + Map lookup, no I/O).
 - Static generation for tool/category/blog pages; API routes are dynamic.
-- Known gap: `next build` is currently blocked by the pre-existing
-  Turbopack/next-pwa-webpack conflict (see P20 audit). Bundle budgets cannot
-  be measured until that is resolved.
+- Build runs `next build --webpack` (pinned in the build script): next-pwa's
+  workbox plugin only emits `public/sw.js` under webpack, so a Turbopack
+  build would silently ship a stale service worker (see `next.config.ts`).
 
 ## Mobile findings
 

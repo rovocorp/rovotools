@@ -6,7 +6,6 @@ import { WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
-import FeedbackWidget from "@/components/FeedbackWidget";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolRunnerLoader from "@/components/tools/ToolRunnerLoader";
 import { Badge } from "@/components/ui/badge";
@@ -117,7 +116,7 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
           href={buildCustomSchemeUrl({ kind: "tool", slug: tool.slug }) ?? `/tools/${tool.slug}`}
           className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
         >
-          {t("en", "tool.openInApp")} â†’
+          {t("en", "tool.openInApp")} →
         </a>
       </p>
 
@@ -129,14 +128,14 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         <WifiOff className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
         {runsLocally ? (
           <p>
-            <strong>ðŸ”’ Your file is processed locally in your browser whenever supported.</strong>{" "}
-            This tool runs entirely on your device â€” nothing you type or upload is sent to a server, logged, or stored.
+            <strong>🔒 Your file is processed locally in your browser whenever supported.</strong>{" "}
+            This tool runs entirely on your device — nothing you type or upload is sent to a server, logged, or stored.
           </p>
         ) : (
           <p>
-            <strong>ðŸ”’ Privacy-conscious by design.</strong>{" "}
+            <strong>🔒 Privacy-conscious by design.</strong>{" "}
             This tool needs an internet connection for part of its work (for example, fetching a public resource).
-            Only the data required for that step leaves your device â€” nothing is logged or stored, and everything else runs locally.
+            Only the data required for that step leaves your device — nothing is logged or stored, and everything else runs locally.
           </p>
         )}
       </div>
@@ -196,8 +195,11 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
             {copy.workflow.steps.map((step, index) => (
               <li key={step.href} className="flex items-center gap-2">
                 {index > 0 ? (
-                  <span aria-hidden="true" className="font-bold text-zinc-400">
-                    â†’
+                  // Contrast-safe in light theme too: bare zinc-400 on the
+                  // page background is 2.5:1 (axe serious). zinc-500 clears
+                  // 4.5:1 on light; dark keeps zinc-400 (passes on dark).
+                  <span aria-hidden="true" className="font-bold text-zinc-500 dark:text-zinc-400">
+                    →
                   </span>
                 ) : null}
                 <Link
@@ -212,8 +214,6 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
           </ol>
         </section>
       ) : null}
-
-      <FeedbackWidget toolId={tool.id} />
 
       <section aria-labelledby="capabilities-heading" className="mt-12">
         <h2 id="capabilities-heading" className="text-xl font-bold sm:text-2xl">

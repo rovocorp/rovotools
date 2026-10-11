@@ -74,26 +74,26 @@ const PDF_WORKFLOW: ToolWorkflow = {
 const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
   "adsense-earnings-calculator": {
     description:
-      "Estimate AdSense revenue from pageviews using CTR and CPC, or RPM â€” in USD, EUR, GBP, INR and 8 more currencies with live rates.",
+      "Estimate AdSense revenue from pageviews using CTR and CPC, or RPM — in USD, EUR, GBP, INR and 8 more currencies with live rates.",
     intro:
       "Estimate ad revenue from pageviews using click-through rate and cost-per-click, or revenue per mille. Pick your currency from the dropdown, refresh live USD rates or enter a custom rate, and get monthly and daily estimates.",
     benefits: [
       "Two modes: CTR + CPC for traffic estimates, RPM for known rates",
-      "12 currencies with a dropdown â€” no more USD-or-INR limit",
+      "12 currencies with a dropdown — no more USD-or-INR limit",
       "Live USD rates on tap, with a custom-rate override box",
-      "Planning estimate computed on your device â€” figures stay private",
+      "Planning estimate computed on your device — figures stay private",
     ],
     howTo: [
       "Enter your monthly pageviews.",
       "Choose CTR + CPC mode (with your click rate and cost per click) or RPM mode (with revenue per 1000 views).",
-      "Pick a currency from the dropdown and tap Refresh live rates â€” or type a custom USD rate.",
+      "Pick a currency from the dropdown and tap Refresh live rates — or type a custom USD rate.",
       "Press Execute to see estimated monthly and daily earnings.",
     ],
     faqs: [
       {
         question: "Where do the currency rates come from?",
         answer:
-          "Tap Refresh live rates to fetch current USD rates (via open.er-api.com), or type your own rate. Without a refresh the tool uses built-in approximate rates â€” check the assumptions line to see which rate applied.",
+          "Tap Refresh live rates to fetch current USD rates (via open.er-api.com), or type your own rate. Without a refresh the tool uses built-in approximate rates — check the assumptions line to see which rate applied.",
       },
       {
         question: "Are these earnings guaranteed?",
@@ -108,16 +108,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["roi-calculator", "compound-interest-calculator", "loan-calculator", "percentage-calculator"],
   },
   "image-compressor": {
-    title: "Image Compressor â€” Compress Images Online | RovoTools",
+    title: "Image Compressor — Compress Images Online | RovoTools",
     description:
       "Compress JPG, PNG and WebP images online to reduce file size while maintaining good visual quality. Fast, simple and easy to use.",
     intro:
       "Compress images online and reduce JPG, PNG or WebP file sizes for websites, email, social media and online uploads. Adjust the compression settings and compare the result before downloading.",
     benefits: [
-      "Shrink images by quality (1â€“100) or to an exact target size in KB",
+      "Shrink images by quality (1–100) or to an exact target size in KB",
       "Batch mode handles up to 20 images at once",
       "Optional WebP output and 1920px width cap",
-      "Everything runs on your device â€” images never leave your browser",
+      "Everything runs on your device — images never leave your browser",
     ],
     howTo: [
       "Select or drop up to 20 JPG, PNG or WebP images.",
@@ -151,7 +151,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-resizer": {
-    title: "Image Resizer â€” Resize Images Online | RovoTools",
+    title: "Image Resizer — Resize Images Online | RovoTools",
     description:
       "Resize JPG, PNG and WebP images by exact pixels or percentage with the aspect ratio locked. Includes presets for YouTube, Instagram and Open Graph.",
     intro:
@@ -160,7 +160,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       "Exact pixel dimensions or simple percentage scaling",
       "Aspect ratio stays locked so photos never stretch",
       "One-click presets for YouTube, Instagram and Open Graph",
-      "Processed locally in your browser â€” nothing is uploaded",
+      "Processed locally in your browser — nothing is uploaded",
     ],
     howTo: [
       "Select or drop a JPG, PNG or WebP image.",
@@ -184,16 +184,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-converter": {
-    title: "Image Converter â€” Convert JPG, PNG & WebP | RovoTools",
+    title: "Image Converter — Convert JPG, PNG & WebP | RovoTools",
     description:
       "Convert images between JPG, PNG and WebP online with quality control. Convert one file or up to twenty at a time, free.",
     intro:
       "Convert images between PNG, JPG and WebP with full quality control. Process one file or twenty at a time, entirely on your device.",
     benefits: [
       "Convert between JPG, PNG and WebP formats",
-      "Quality slider (1â€“100) for JPEG and WebP output",
+      "Quality slider (1–100) for JPEG and WebP output",
       "Batch conversion of up to 20 images",
-      "Runs locally â€” your images are never uploaded",
+      "Runs locally — your images are never uploaded",
     ],
     howTo: [
       "Select or drop up to 20 images.",
@@ -204,7 +204,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     faqs: [
       {
         question: "Which conversions are supported?",
-        answer: "JPG, PNG and WebP in any combination â€” for example PNG to WebP or JPG to PNG.",
+        answer: "JPG, PNG and WebP in any combination — for example PNG to WebP or JPG to PNG.",
       },
       {
         question: "Does converting change image quality?",
@@ -216,9 +216,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "merge-pdf": {
-    title: "Merge PDF â€” Combine PDF Files Online | RovoTools",
+    title: "Merge PDF — Combine PDF Files Online | RovoTools",
     description:
-      "Merge 2-20 PDF files into one document in your chosen order. Free, no signup â€” files never leave your device.",
+      "Merge 2-20 PDF files into one document in your chosen order. Free, no signup — files never leave your device.",
     intro:
       "Combine multiple PDFs into a single document. Drop your files, arrange them in order, and download the merged PDF instantly.",
     benefits: [
@@ -245,9 +245,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "split-pdf": {
-    title: "Split PDF â€” Extract Pages Online | RovoTools",
+    title: "Split PDF — Extract Pages Online | RovoTools",
     description:
-      "Split a PDF by extracting the pages you need, e.g. 1-3,5. Free, no signup â€” files never leave your device.",
+      "Split a PDF by extracting the pages you need, e.g. 1-3,5. Free, no signup — files never leave your device.",
     intro:
       "Extract specific pages from a PDF into a brand-new file. Enter ranges like 1-3,5 and download just those pages.",
     benefits: [
@@ -274,9 +274,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "compress-pdf": {
-    title: "Compress PDF â€” Reduce PDF Size Online | RovoTools",
+    title: "Compress PDF — Reduce PDF Size Online | RovoTools",
     description:
-      "Shrink a PDF with lossless re-save plus optional image downscaling. Free, no signup â€” files never leave your device.",
+      "Shrink a PDF with lossless re-save plus optional image downscaling. Free, no signup — files never leave your device.",
     intro:
       "Reduce your PDF's file size for email and uploads. Pick a strength, compare before/after, and download the smaller file.",
     benefits: [
@@ -293,7 +293,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Will compression hurt quality?",
         answer:
-          "Light and balanced modes are visually lossless for most documents. Strong mode downscales large images â€” compare the preview before downloading.",
+          "Light and balanced modes are visually lossless for most documents. Strong mode downscales large images — compare the preview before downloading.",
       },
       {
         question: "Are my PDFs uploaded anywhere?",
@@ -304,15 +304,15 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "jpg-to-pdf": {
-    title: "JPG to PDF â€” Convert Images to PDF Online | RovoTools",
+    title: "JPG to PDF — Convert Images to PDF Online | RovoTools",
     description:
-      "Turn JPG, PNG or WebP photos into a PDF, one page per image. Free, no signup â€” files never leave your device.",
+      "Turn JPG, PNG or WebP photos into a PDF, one page per image. Free, no signup — files never leave your device.",
     intro:
       "Convert photos into a shareable PDF document. Choose portrait, landscape or exact-fit pages and download instantly.",
     benefits: [
       "One page per image, up to 20 images",
       "Portrait, landscape or exact-fit pages",
-      "Photos embedded losslessly â€” no recompression",
+      "Photos embedded losslessly — no recompression",
     ],
     howTo: [
       "Select up to 20 JPG or PNG images.",
@@ -333,9 +333,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-jpg": {
-    title: "PDF to JPG â€” Convert PDF Pages to Images Online | RovoTools",
+    title: "PDF to JPG — Convert PDF Pages to Images Online | RovoTools",
     description:
-      "Render PDF pages as JPG images at 1x-3x scale. Free, no signup â€” files never leave your device.",
+      "Render PDF pages as JPG images at 1x-3x scale. Free, no signup — files never leave your device.",
     intro:
       "Turn PDF pages into shareable images. Pick the pages and render scale, then download each page as a JPG.",
     benefits: [
@@ -362,9 +362,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "word-to-pdf": {
-    title: "Word to PDF â€” Convert DOCX Online | RovoTools",
+    title: "Word to PDF — Convert DOCX Online | RovoTools",
     description:
-      "Convert a .docx document into a clean PDF in your browser. Free, no signup â€” files never leave your device.",
+      "Convert a .docx document into a clean PDF in your browser. Free, no signup — files never leave your device.",
     intro:
       "Turn a Word document into a PDF that prints the same everywhere. Text and structure are preserved; complex formatting may simplify.",
     benefits: [
@@ -381,7 +381,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Will my formatting survive?",
         answer:
-          "Text, headings and lists carry over cleanly. Pixel-perfect layout (floating images, intricate tables) may simplify â€” this is a private on-device conversion, not a desktop Word export.",
+          "Text, headings and lists carry over cleanly. Pixel-perfect layout (floating images, intricate tables) may simplify — this is a private on-device conversion, not a desktop Word export.",
       },
       {
         question: "Are my documents uploaded anywhere?",
@@ -392,9 +392,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-creator": {
-    title: "PDF Creator â€” Make a PDF Online Free | RovoTools",
+    title: "PDF Creator — Make a PDF Online Free | RovoTools",
     description:
-      "Create a multi-page PDF from text with a title. Free, no signup â€” everything runs on your device.",
+      "Create a multi-page PDF from text with a title. Free, no signup — everything runs on your device.",
     intro:
       "Write or paste text, add a title, and generate a clean multi-page A4 PDF you can download instantly.",
     benefits: [
@@ -410,7 +410,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     faqs: [
       {
         question: "How many pages can it make?",
-        answer: "As many as your text needs â€” pages are added automatically with comfortable margins.",
+        answer: "As many as your text needs — pages are added automatically with comfortable margins.",
       },
       {
         question: "Is my text uploaded anywhere?",
@@ -421,9 +421,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "sign-pdf": {
-    title: "Sign PDF â€” E-Sign Documents Online | RovoTools",
+    title: "Sign PDF — E-Sign Documents Online | RovoTools",
     description:
-      "Draw or type your signature and stamp it onto any PDF page. Free, no signup â€” files never leave your device.",
+      "Draw or type your signature and stamp it onto any PDF page. Free, no signup — files never leave your device.",
     intro:
       "Sign a PDF without printing. Draw with your mouse or finger, place the signature where you want it, and download the signed file.",
     benefits: [
@@ -451,9 +451,9 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-word": {
-    title: "PDF to Word â€” Convert PDF to DOCX Online | RovoTools",
+    title: "PDF to Word — Convert PDF to DOCX Online | RovoTools",
     description:
-      "Extract a PDF's text into an editable .docx document. Free, no signup â€” files never leave your device.",
+      "Extract a PDF's text into an editable .docx document. Free, no signup — files never leave your device.",
     intro:
       "Turn a PDF back into editable text. Extract per-page text into a .docx you can open in Word or Google Docs.",
     benefits: [
@@ -481,11 +481,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-excel": {
-    title: "PDF to Excel â€” Convert PDF to XLSX Online | RovoTools",
+    title: "PDF to Excel — Convert PDF to XLSX Online | RovoTools",
     description:
-      "Extract a PDF's text rows into an editable .xlsx spreadsheet. Free, no signup â€” files never leave your device.",
+      "Extract a PDF's text rows into an editable .xlsx spreadsheet. Free, no signup — files never leave your device.",
     intro:
-      "Pull text lines out of a PDF into spreadsheet rows â€” one row per line, page breaks marked â€” ready for Excel or Sheets.",
+      "Pull text lines out of a PDF into spreadsheet rows — one row per line, page breaks marked — ready for Excel or Sheets.",
     benefits: [
       "One spreadsheet row per text line",
       "Page breaks marked for reference",
@@ -500,7 +500,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Does it detect tables?",
         answer:
-          "No â€” lines become rows in reading order. True table detection needs server-side layout analysis; tidy columns in a spreadsheet afterwards.",
+          "No — lines become rows in reading order. True table detection needs server-side layout analysis; tidy columns in a spreadsheet afterwards.",
       },
       {
         question: "Are my PDFs uploaded anywhere?",
@@ -511,20 +511,20 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "json-formatter": {
-    title: "JSON Formatter â€” Format & Beautify JSON Online | RovoTools",
+    title: "JSON Formatter — Format & Beautify JSON Online | RovoTools",
     description:
       "Format, beautify and validate JSON online with clear error messages. Paste JSON, choose indentation and copy the readable result.",
     intro:
       "Pretty-print and validate JSON with clear error messages. Paste raw JSON, choose an indent width and copy the formatted result for development and debugging.",
     benefits: [
-      "Readable pretty-printed output with 0â€“8 space indentation",
+      "Readable pretty-printed output with 0–8 space indentation",
       "Precise parse error messages that point at the problem",
       "Validation result included with every format",
-      "Runs entirely in your browser â€” data stays private",
+      "Runs entirely in your browser — data stays private",
     ],
     howTo: [
       "Paste your JSON into the input box.",
-      "Set the indent width (default 2 spaces, 0â€“8 supported).",
+      "Set the indent width (default 2 spaces, 0–8 supported).",
       "Press Execute to format and validate.",
       "Copy the formatted JSON or fix the reported error and retry.",
     ],
@@ -544,7 +544,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "json-validator": {
-    title: "JSON Validator â€” Check JSON Online | RovoTools",
+    title: "JSON Validator — Check JSON Online | RovoTools",
     description:
       "Check whether text is valid JSON online and see the parsed root type. Instant validation with helpful detail, free.",
     intro:
@@ -552,7 +552,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     benefits: [
       "Instant valid/invalid verdict with the parsed root type",
       "Helpful error detail when parsing fails",
-      "Private by design â€” validation runs on your device",
+      "Private by design — validation runs on your device",
     ],
     howTo: [
       "Paste the JSON text into the input box.",
@@ -570,11 +570,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "base64-encoder": {
-    title: "Base64 Encoder â€” Encode Text Online | RovoTools",
+    title: "Base64 Encoder — Encode Text Online | RovoTools",
     description:
       "Encode any text into Base64 online. Paste text, get the encoded output with its length, instantly and privately.",
     intro:
-      "Encode any text into Base64. Paste your text and get the encoded output with its character length â€” everything happens in your browser.",
+      "Encode any text into Base64. Paste your text and get the encoded output with its character length — everything happens in your browser.",
     benefits: [
       "Standard Base64 encoding of any UTF-8 text",
       "Output length shown for payload planning",
@@ -590,21 +590,21 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Is Base64 encryption?",
         answer:
-          "No. Base64 is an encoding, not encryption â€” anyone can decode it. Never use it to protect secrets or passwords.",
+          "No. Base64 is an encoding, not encryption — anyone can decode it. Never use it to protect secrets or passwords.",
       },
     ],
     related: ["base64-decoder", "url-encoder", "hex-encoder", "jwt-decoder"],
   },
   "jwt-decoder": {
-    title: "JWT Decoder â€” Decode JSON Web Tokens Online | RovoTools",
+    title: "JWT Decoder — Decode JSON Web Tokens Online | RovoTools",
     description:
-      "Decode a JSON Web Token locally to inspect its header and payload. Decoding does not verify the signature â€” free and private.",
+      "Decode a JSON Web Token locally to inspect its header and payload. Decoding does not verify the signature — free and private.",
     intro:
       "Decode a JSON Web Token locally to inspect its header and payload. Decoding does not verify the token's signature or prove that the token is authentic.",
     benefits: [
       "Header and payload shown as readable JSON",
       "Format check requires three dot-separated parts",
-      "Decoded on your device â€” tokens are never sent anywhere",
+      "Decoded on your device — tokens are never sent anywhere",
     ],
     howTo: [
       "Paste the JWT (header.payload.signature) into the input box.",
@@ -626,16 +626,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-decoder", "json-formatter", "json-validator", "hash-generator"],
   },
   "password-generator": {
-    title: "Password Generator â€” Create Strong Passwords | RovoTools",
+    title: "Password Generator — Create Strong Passwords | RovoTools",
     description:
-      "Create strong random passwords online with custom length and character sets. Generated locally with an entropy readout â€” nothing stored.",
+      "Create strong random passwords online with custom length and character sets. Generated locally with an entropy readout — nothing stored.",
     intro:
-      "Create strong random passwords locally. Choose a length from 4 to 128 characters and toggle uppercase, digits and symbols â€” nothing is stored or sent anywhere.",
+      "Create strong random passwords locally. Choose a length from 4 to 128 characters and toggle uppercase, digits and symbols — nothing is stored or sent anywhere.",
     benefits: [
       "Lengths from 4 to 128 characters (default 16)",
       "Toggle uppercase letters, digits and symbols",
       "Entropy readout in bits for every password",
-      "Generated on your device â€” never transmitted or logged",
+      "Generated on your device — never transmitted or logged",
     ],
     howTo: [
       "Set the password length and character sets.",
@@ -662,16 +662,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["password-strength-checker", "random-token-generator", "uuid-generator", "hash-generator"],
   },
   "bmi-calculator": {
-    title: "BMI Calculator â€” Calculate Body Mass Index | RovoTools",
+    title: "BMI Calculator — Calculate Body Mass Index | RovoTools",
     description:
       "Calculate BMI from height and weight using the standard body mass index formula. Get a quick BMI result and understand the calculation.",
     intro:
       "Calculate Body Mass Index using height and weight. Enter your measurements to calculate BMI and see the result based on the standard BMI formula.",
     benefits: [
-      "Standard formula: BMI = weight Ã· heightÂ²",
+      "Standard formula: BMI = weight ÷ height²",
       "Accepts weight in kilograms and height in centimetres",
       "Instant result with its weight category",
-      "Computed on your device â€” measurements stay private",
+      "Computed on your device — measurements stay private",
     ],
     howTo: [
       "Enter your weight in kilograms.",
@@ -682,12 +682,12 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "How is BMI calculated?",
         answer:
-          "BMI divides weight in kilograms by height in metres squared. For example, 70 kg at 1.75 m gives 70 Ã· (1.75 Ã— 1.75) â‰ˆ 22.9.",
+          "BMI divides weight in kilograms by height in metres squared. For example, 70 kg at 1.75 m gives 70 ÷ (1.75 × 1.75) ≈ 22.9.",
       },
       {
         question: "What do the BMI categories mean?",
         answer:
-          "Common adult bands are under 18.5 underweight, 18.5â€“24.9 healthy range, 25â€“29.9 overweight, and 30 or above obesity. They are population screening bands, not personal diagnoses.",
+          "Common adult bands are under 18.5 underweight, 18.5–24.9 healthy range, 25–29.9 overweight, and 30 or above obesity. They are population screening bands, not personal diagnoses.",
       },
       {
         question: "Is BMI a diagnosis?",
@@ -698,7 +698,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["age-calculator", "percentage-calculator", "unit-converter"],
   },
   "loan-calculator": {
-    title: "Loan Calculator â€” Monthly Payment & Interest | RovoTools",
+    title: "Loan Calculator — Monthly Payment & Interest | RovoTools",
     description:
       "Free loan calculator. Estimate the monthly payment, total payable and total interest from the loan amount, annual rate and term.",
     intro:
@@ -707,10 +707,10 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       "Standard amortising-loan formula with full transparency",
       "Monthly payment, total payable and total interest over the term",
       "Loan-type presets (home, personal, car, education, business) plus currency choice",
-      "Compare scenarios privately â€” no signup, no data sharing",
+      "Compare scenarios privately — no signup, no data sharing",
     ],
     howTo: [
-      "Pick a loan type and currency (optional â€” defaults are General and USD).",
+      "Pick a loan type and currency (optional — defaults are General and USD).",
       "Enter the loan amount (principal).",
       "Enter the annual interest rate as a percent.",
       "Enter the term in years, then press Execute.",
@@ -720,7 +720,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "How are monthly payments calculated?",
         answer:
-          "With the standard amortising-loan formula M = P Ã— r(1+r)^n / ((1+r)^n âˆ’ 1), where P is the principal, r the monthly rate and n the number of payments.",
+          "With the standard amortising-loan formula M = P × r(1+r)^n / ((1+r)^n − 1), where P is the principal, r the monthly rate and n the number of payments.",
       },
       {
         question: "What was EMI?",
@@ -736,15 +736,15 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["compound-interest-calculator", "discount-calculator", "percentage-calculator", "tip-calculator"],
   },
   "utm-builder": {
-    title: "UTM URL Builder â€” Campaign Tracking Links | RovoTools",
+    title: "UTM URL Builder — Campaign Tracking Links | RovoTools",
     description:
-      "Build UTM-tagged campaign URLs for Google Analytics. Add source, medium and campaign â€” get a clean tracked link.",
+      "Build UTM-tagged campaign URLs for Google Analytics. Add source, medium and campaign — get a clean tracked link.",
     intro:
       "Tag any link with UTM parameters so Analytics shows exactly which newsletter, ad or post drove each visit.",
     benefits: [
       "Correctly encoded source, medium, campaign, term and content",
       "Keeps existing query strings and page anchors intact",
-      "Runs locally â€” campaign names never leave your device",
+      "Runs locally — campaign names never leave your device",
     ],
     howTo: [
       "Paste the destination page URL.",
@@ -755,7 +755,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Which UTM parameters do I actually need?",
         answer:
-          "Source, medium and campaign â€” they answer where, how and which campaign. Term and content are optional refinements for paid keywords and A/B variants.",
+          "Source, medium and campaign — they answer where, how and which campaign. Term and content are optional refinements for paid keywords and A/B variants.",
       },
       {
         question: "Will it break my existing query string?",
@@ -766,11 +766,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-validator", "meta-tag-generator", "keyword-density-checker"],
   },
   "serp-preview": {
-    title: "SERP Snippet Preview â€” Google Result Preview | RovoTools",
+    title: "SERP Snippet Preview — Google Result Preview | RovoTools",
     description:
       "Preview your Google search snippet before publishing. Check title and description length against truncation limits.",
     intro:
-      "See your title, URL and description the way Google shows them â€” and catch truncation before it costs you clicks.",
+      "See your title, URL and description the way Google shows them — and catch truncation before it costs you clicks.",
     benefits: [
       "Title check against the ~60-character truncation limit",
       "Description check against the ~160-character limit",
@@ -790,17 +790,17 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Does Google always use my description?",
         answer:
-          "No â€” Google rewrites it when the query matches page content better. A good description still wins the click when it is shown.",
+          "No — Google rewrites it when the query matches page content better. A good description still wins the click when it is shown.",
       },
     ],
     related: ["meta-tag-generator", "slug-generator", "keyword-density-checker"],
   },
   "schema-validator": {
-    title: "Schema Markup Validator â€” JSON-LD Checker | RovoTools",
+    title: "Schema Markup Validator — JSON-LD Checker | RovoTools",
     description:
       "Validate JSON-LD structured data. Confirm @context and @type, list declared schema types, catch syntax errors.",
     intro:
-      "Paste JSON-LD structured data and confirm it parses, declares a context and names real schema types â€” before Google sees it.",
+      "Paste JSON-LD structured data and confirm it parses, declares a context and names real schema types — before Google sees it.",
     benefits: [
       "Syntax check with pinpointed JSON errors",
       "Lists every declared @type, including @graph blocks",
@@ -815,22 +815,22 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Does valid markup guarantee rich results?",
         answer:
-          "No â€” validity is the entry ticket. Google decides eligibility per page, type and policy compliance.",
+          "No — validity is the entry ticket. Google decides eligibility per page, type and policy compliance.",
       },
       {
         question: "Can I validate multiple blocks at once?",
         answer:
-          "Yes. Paste an array of blocks or a full @graph document â€” every node is checked.",
+          "Yes. Paste an array of blocks or a full @graph document — every node is checked.",
       },
     ],
     related: ["json-validator", "meta-tag-generator", "code-minifier"],
   },
   "meta-tag-analyzer": {
-    title: "Meta Tag Analyzer â€” Audit Page Tags | RovoTools",
+    title: "Meta Tag Analyzer — Audit Page Tags | RovoTools",
     description:
       "Audit any page's title, meta description, canonical and social tags from its HTML. Find what's missing or too long.",
     intro:
-      "Paste page source and get a complete inventory of its head tags â€” title, description, canonical, robots and every Open Graph and Twitter tag â€” with issues flagged.",
+      "Paste page source and get a complete inventory of its head tags — title, description, canonical, robots and every Open Graph and Twitter tag — with issues flagged.",
     benefits: [
       "Full inventory of title, description, canonical and robots tags",
       "Open Graph and Twitter tag extraction",
@@ -838,14 +838,14 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     howTo: [
       "Open the page, view source and copy the HTML (the <head> is enough).",
-      "Paste it and press Analyze â€” or fetch a live URL in your browser.",
+      "Paste it and press Analyze — or fetch a live URL in your browser.",
       "Work through the flagged issues top to bottom.",
     ],
     faqs: [
       {
         question: "Do I need the whole page source?",
         answer:
-          "No â€” everything this tool reads lives in the <head>. Paste from <head> to </head> for the fastest analysis.",
+          "No — everything this tool reads lives in the <head>. Paste from <head> to </head> for the fastest analysis.",
       },
       {
         question: "How is this different from the Meta Tag Generator?",
@@ -856,11 +856,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "open-graph-checker", "seo-checker"],
   },
   "robots-txt-checker": {
-    title: "Robots.txt Checker â€” Validate Crawler Rules | RovoTools",
+    title: "Robots.txt Checker — Validate Crawler Rules | RovoTools",
     description:
       "Validate robots.txt files. Catch site-wide blocks, malformed lines and missing sitemap references before crawlers do.",
     intro:
-      "Paste a robots.txt and get its groups, rules and sitemap lines parsed â€” with dangerous blocks and syntax slips called out.",
+      "Paste a robots.txt and get its groups, rules and sitemap lines parsed — with dangerous blocks and syntax slips called out.",
     benefits: [
       "Parses User-agent groups, Allow/Disallow and Sitemap lines",
       "Flags site-wide Disallow: / blocks",
@@ -886,20 +886,20 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-generator", "sitemap-checker", "seo-checker"],
   },
   "seo-checker": {
-    title: "Website SEO Checker â€” On-Page Audit | RovoTools",
+    title: "Website SEO Checker — On-Page Audit | RovoTools",
     description:
       "Score any page's on-page SEO from its HTML: title, description, headings, images and social tags in one audit.",
     intro:
-      "Paste page source â€” or fetch a live URL â€” and get a 0â€“100 on-page score with every issue explained in plain language.",
+      "Paste page source — or fetch a live URL — and get a 0–100 on-page score with every issue explained in plain language.",
     benefits: [
-      "Single 0â€“100 score across six on-page checks",
+      "Single 0–100 score across six on-page checks",
       "Heading structure and missing-alt image audit",
       "Open Graph completeness included",
     ],
     howTo: [
       "Paste the page HTML or fetch the live URL above.",
       "Press Audit page.",
-      "Fix the listed issues in order â€” title and headings first.",
+      "Fix the listed issues in order — title and headings first.",
     ],
     faqs: [
       {
@@ -908,7 +908,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
           "Six on-page basics: title, description, one H1, image alt text, canonical and Open Graph completeness. It is a hygiene score, not a ranking prediction.",
       },
       {
-        question: "My page fetches but scores 0 â€” why?",
+        question: "My page fetches but scores 0 — why?",
         answer:
           "JavaScript-rendered pages return an empty shell to simple fetchers. Paste the rendered source (view-source after load) instead.",
       },
@@ -916,11 +916,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-analyzer", "open-graph-checker", "keyword-density-checker"],
   },
   "open-graph-checker": {
-    title: "Open Graph Checker â€” Social Preview Tags | RovoTools",
+    title: "Open Graph Checker — Social Preview Tags | RovoTools",
     description:
       "Verify og:title, og:description, og:image and Twitter card tags so links unfurl correctly on social platforms.",
     intro:
-      "Paste page source â€” or fetch a live URL â€” and confirm the exact tags Facebook, X, LinkedIn and messengers use for link previews.",
+      "Paste page source — or fetch a live URL — and confirm the exact tags Facebook, X, LinkedIn and messengers use for link previews.",
     benefits: [
       "Checks the core trio: title, description, image",
       "Reads og:url, og:type and twitter:card too",
@@ -933,24 +933,24 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     faqs: [
       {
-        question: "I fixed my tags but the preview is stale â€” why?",
+        question: "I fixed my tags but the preview is stale — why?",
         answer:
           "Platforms cache previews aggressively. Re-scrape the URL in the Facebook Sharing Debugger or X Card Validator to refresh.",
       },
       {
         question: "What image size works best?",
         answer:
-          "1200Ã—630 is the safe universal choice â€” it fills large cards on Facebook and LinkedIn without cropping surprises.",
+          "1200×630 is the safe universal choice — it fills large cards on Facebook and LinkedIn without cropping surprises.",
       },
     ],
     related: ["meta-tag-generator", "meta-tag-analyzer", "seo-checker"],
   },
   "sitemap-checker": {
-    title: "XML Sitemap Checker â€” Validate Sitemaps | RovoTools",
+    title: "XML Sitemap Checker — Validate Sitemaps | RovoTools",
     description:
       "Validate XML sitemaps: urlset vs index format, URL counts, lastmod coverage and the 50,000-URL protocol limit.",
     intro:
-      "Paste sitemap XML â€” or fetch a live sitemap URL â€” and confirm crawlers can actually read what you published.",
+      "Paste sitemap XML — or fetch a live sitemap URL — and confirm crawlers can actually read what you published.",
     benefits: [
       "Detects urlset vs sitemapindex (and mixed-up files)",
       "Counts URLs and flags the 50,000-URL limit",
@@ -976,11 +976,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-checker", "robots-txt-generator", "seo-checker"],
   },
   "tag-detector": {
-    title: "Analytics Tag Detector â€” Find Trackers | RovoTools",
+    title: "Analytics Tag Detector — Find Trackers | RovoTools",
     description:
       "Detect Google Analytics, Tag Manager, Meta Pixel, TikTok and LinkedIn tags in any page's HTML.",
     intro:
-      "Paste page source â€” or fetch a live URL â€” and see exactly which analytics and marketing tags fire on the page, with IDs where visible.",
+      "Paste page source — or fetch a live URL — and see exactly which analytics and marketing tags fire on the page, with IDs where visible.",
     benefits: [
       "Finds GA4, GTM, Meta Pixel, TikTok and LinkedIn tags",
       "Shows measurement IDs straight from the markup",
@@ -989,28 +989,28 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     howTo: [
       "Paste the page HTML or fetch the live URL above.",
       "Press Detect tags.",
-      "Compare against your tag plan â€” anything unexpected is worth investigating.",
+      "Compare against your tag plan — anything unexpected is worth investigating.",
     ],
     faqs: [
       {
         question: "Can it see tags loaded by Tag Manager?",
         answer:
-          "Only the GTM container itself is visible in static HTML â€” tags fired inside GTM need the Tag Assistant or network inspection.",
+          "Only the GTM container itself is visible in static HTML — tags fired inside GTM need the Tag Assistant or network inspection.",
       },
       {
         question: "Why do IDs matter?",
         answer:
-          "An unfamiliar measurement ID means data flows somewhere you didn't authorize â€” often leftover agency or theme code.",
+          "An unfamiliar measurement ID means data flows somewhere you didn't authorize — often leftover agency or theme code.",
       },
     ],
     related: ["seo-checker", "meta-tag-analyzer", "performance-analyzer"],
   },
   "performance-analyzer": {
-    title: "Website Performance Analyzer â€” Page Weight Hints | RovoTools",
+    title: "Website Performance Analyzer — Page Weight Hints | RovoTools",
     description:
       "Estimate page-weight performance from HTML: markup size, scripts, stylesheets and image dimensions with fix hints.",
     intro:
-      "Paste page source â€” or fetch a live URL â€” and get honest static hints about what slows the page down, with concrete fixes.",
+      "Paste page source — or fetch a live URL — and get honest static hints about what slows the page down, with concrete fixes.",
     benefits: [
       "HTML weight, script and stylesheet counts",
       "Images missing width/height (layout-shift culprits)",
@@ -1025,29 +1025,29 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Is this a speed score?",
         answer:
-          "No â€” these are static HTML hints, not measured timings. They point at likely problems; PageSpeed Insights gives you lab and field data.",
+          "No — these are static HTML hints, not measured timings. They point at likely problems; PageSpeed Insights gives you lab and field data.",
       },
       {
         question: "Why do image dimensions matter?",
         answer:
-          "Without width and height the browser can't reserve space, so content jumps as images load â€” that is Cumulative Layout Shift.",
+          "Without width and height the browser can't reserve space, so content jumps as images load — that is Cumulative Layout Shift.",
       },
     ],
     related: ["seo-checker", "tag-detector", "image-compressor"],
   },
   "tax-calculator": {
-    title: "Tax Calculator (GST / VAT) â€” Sales Tax Online | RovoTools",
+    title: "Tax Calculator (GST / VAT) — Sales Tax Online | RovoTools",
     description:
-      "Add or remove sales tax worldwide: US states, Canadian provinces, EU/UK VAT and GST â€” or stack your own custom tax rows.",
+      "Add or remove sales tax worldwide: US states, Canadian provinces, EU/UK VAT and GST — or stack your own custom tax rows.",
     intro:
-      "Pick a country or state for its standard rate (editable), or stack extra city and county levies with + â€” works even when your country isn't listed.",
+      "Pick a country or state for its standard rate (editable), or stack extra city and county levies with + — works even when your country isn't listed.",
     benefits: [
       "45 regions across Asia, Europe, the Americas, Africa and Oceania",
       "Stack extra state, county or city taxes additively",
       "CGST/SGST split for India, custom-rate escape hatch for the rest",
     ],
     howTo: [
-      "Enter the amount and pick a country â€” or leave it blank and type a custom rate.",
+      "Enter the amount and pick a country — or leave it blank and type a custom rate.",
       "Press + to stack extra taxes like City = 1.5.",
       "Press Calculate tax and copy the breakdown.",
     ],
@@ -1055,7 +1055,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Can I stack state + city tax?",
         answer:
-          "Yes. Add one row per levy with + and they sum additively on the net amount â€” the standard US approach. Quebec's QST-on-GST compounding is the known exception.",
+          "Yes. Add one row per levy with + and they sum additively on the net amount — the standard US approach. Quebec's QST-on-GST compounding is the known exception.",
       },
       {
         question: "How current are the standard rates?",
@@ -1066,11 +1066,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["loan-calculator", "compound-interest-calculator", "percentage-calculator"],
   },
   "color-picker": {
-    title: "Color Picker â€” HEX, RGB & HSL Codes | RovoTools",
+    title: "Color Picker — HEX, RGB & HSL Codes | RovoTools",
     description:
       "Pick any color and get its HEX, RGB and HSL codes instantly, plus tints, shades and its complementary color.",
     intro:
-      "Choose a color visually or paste a HEX or RGB value â€” get every code format designers and developers need, with click-to-copy swatches.",
+      "Choose a color visually or paste a HEX or RGB value — get every code format designers and developers need, with click-to-copy swatches.",
     benefits: [
       "HEX, RGB and HSL codes for any picked color",
       "Ready-made tints, shades and complementary color",
@@ -1090,15 +1090,15 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "How are tints and shades made?",
         answer:
-          "Tints mix the color toward white and shades toward black in even steps â€” the standard way to build a tonal scale from one brand color.",
+          "Tints mix the color toward white and shades toward black in even steps — the standard way to build a tonal scale from one brand color.",
       },
     ],
     related: ["color-converter", "palette-generator", "color-picker-from-image"],
   },
   "palette-generator": {
-    title: "Color Palette Generator â€” Harmonious Schemes | RovoTools",
+    title: "Color Palette Generator — Harmonious Schemes | RovoTools",
     description:
-      "Generate harmonious color palettes: complementary, analogous, triadic or random â€” with copy-ready CSS variables.",
+      "Generate harmonious color palettes: complementary, analogous, triadic or random — with copy-ready CSS variables.",
     intro:
       "Start from a brand color (or nothing at all) and generate a balanced palette on classic color-wheel harmonies.",
     benefits: [
@@ -1107,7 +1107,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       "Exports HEX list plus :root CSS variables",
     ],
     howTo: [
-      "Enter a base HEX color â€” or leave empty for a random start.",
+      "Enter a base HEX color — or leave empty for a random start.",
       "Choose a harmony and press Generate palette.",
       "Copy the HEX codes or the CSS variables block.",
     ],
@@ -1120,25 +1120,25 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Can I use the palette commercially?",
         answer:
-          "Yes â€” colors themselves aren't copyrightable, and everything is generated locally from your input.",
+          "Yes — colors themselves aren't copyrightable, and everything is generated locally from your input.",
       },
     ],
     related: ["color-picker", "color-converter", "css-gradient-generator"],
   },
   "word-unscrambler": {
-    title: "Word Unscrambler â€” Unscramble Letters Into Words | RovoTools",
+    title: "Word Unscrambler — Unscramble Letters Into Words | RovoTools",
     description:
       "Free word unscrambler: enter scrambled letters and find every valid word with Scrabble and Words With Friends scores. No signup, runs on your device.",
     intro:
-      "Type your tiles and instantly see every dictionary word they can build â€” longest first, each with its Scrabble and Words With Friends point value. Use ? for a blank tile, filter by length, and toggle exact mode for jumble-style puzzles where every letter must be used.",
+      "Type your tiles and instantly see every dictionary word they can build — longest first, each with its Scrabble and Words With Friends point value. Use ? for a blank tile, filter by length, and toggle exact mode for jumble-style puzzles where every letter must be used.",
     benefits: [
       "Subset and exact-anagram modes for Scrabble, Words With Friends, jumbles and crosswords",
       "Blank-tile (?) support for real rack situations",
       "Scrabble and Words With Friends scores on every result",
-      "Runs entirely on your device â€” letters are never sent anywhere",
+      "Runs entirely on your device — letters are never sent anywhere",
     ],
     howTo: [
-      "Enter 2â€“15 scrambled letters (add ? for each blank tile).",
+      "Enter 2–15 scrambled letters (add ? for each blank tile).",
       "Keep All mode for every playable word, or switch to Exact for full-rack anagrams.",
       "Set a minimum length and press Unscramble.",
       "Pick your play from the longest, highest-scoring matches.",
@@ -1152,7 +1152,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Can I use blank tiles?",
         answer:
-          "Yes â€” type ? or * for each blank (up to two). A blank matches any letter, which mirrors how wildcards work in Scrabble and Words With Friends.",
+          "Yes — type ? or * for each blank (up to two). A blank matches any letter, which mirrors how wildcards work in Scrabble and Words With Friends.",
       },
       {
         question: "Is this an official Scrabble dictionary?",
@@ -1162,7 +1162,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "What is the difference between All and Exact mode?",
         answer:
-          "All mode returns every word your tiles can build, including shorter ones â€” usually what you want mid-game. Exact mode only returns words using every tile, ideal for jumbles and bingo hunts.",
+          "All mode returns every word your tiles can build, including shorter ones — usually what you want mid-game. Exact mode only returns words using every tile, ideal for jumbles and bingo hunts.",
       },
       {
         question: "Is my input private?",
@@ -1181,16 +1181,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     },
   },
   "readability-checker": {
-    title: "Readability Checker â€” Flesch Score & Grade Level | RovoTools",
+    title: "Readability Checker — Flesch Score & Grade Level | RovoTools",
     description:
       "Free readability checker: paste text to get Flesch Reading Ease, grade level, word and sentence counts. Private and instant.",
     intro:
-      "Paste any draft and get an instant readability verdict: Flesch Reading Ease, Flesch-Kincaid grade level, plus word and sentence counts â€” everything computed on your device.",
+      "Paste any draft and get an instant readability verdict: Flesch Reading Ease, Flesch-Kincaid grade level, plus word and sentence counts — everything computed on your device.",
     benefits: [
       "Flesch Reading Ease and grade level in one click",
       "Word and sentence counts for context",
       "Plain-English difficulty band with every score",
-      "Runs locally â€” drafts never leave your browser",
+      "Runs locally — drafts never leave your browser",
     ],
     howTo: [
       "Paste your article or essay text.",
@@ -1201,7 +1201,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "What is a good Flesch Reading Ease score?",
         answer:
-          "60â€“70 is plain English most adults read comfortably; 70â€“80 is fairly easy; below 30 is very difficult academic or legal prose. Higher is easier.",
+          "60–70 is plain English most adults read comfortably; 70–80 is fairly easy; below 30 is very difficult academic or legal prose. Higher is easier.",
       },
       {
         question: "How is the grade level calculated?",
@@ -1216,16 +1216,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "text-cleaner", "keyword-density-checker"],
   },
   "invoice-generator": {
-    title: "Invoice Generator â€” Free Online Invoice Maker | RovoTools",
+    title: "Invoice Generator — Free Online Invoice Maker | RovoTools",
     description:
       "Create a clean invoice online: add line items, tax and your business name, then copy the result. Free, no signup.",
     intro:
-      "Type the client name, list items as description, quantity and price, add an optional tax rate â€” and get a tidy invoice with subtotal, tax and total due, ready to copy into an email or document.",
+      "Type the client name, list items as description, quantity and price, add an optional tax rate — and get a tidy invoice with subtotal, tax and total due, ready to copy into an email or document.",
     benefits: [
       "Line-item math with subtotal, tax and total done for you",
       "Any currency symbol and tax/VAT rate",
       "Copy-ready text for emails, docs and PDFs",
-      "Private by design â€” figures stay on your device",
+      "Private by design — figures stay on your device",
     ],
     howTo: [
       "Enter the client name and your business name (optional).",
@@ -1237,12 +1237,12 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "How do I format item lines?",
         answer:
-          "One per line with commas separating description, quantity and price â€” for example: Logo design, 1, 450. Descriptions may contain commas; the last two values are always read as quantity and price.",
+          "One per line with commas separating description, quantity and price — for example: Logo design, 1, 450. Descriptions may contain commas; the last two values are always read as quantity and price.",
       },
       {
         question: "Can I use VAT or GST rates?",
         answer:
-          "Yes â€” enter any percentage in the tax field. The generator applies it to the subtotal and shows tax and total separately.",
+          "Yes — enter any percentage in the tax field. The generator applies it to the subtotal and shows tax and total separately.",
       },
       {
         question: "Is this a legal tax invoice?",
@@ -1253,16 +1253,16 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["tax-calculator", "number-formatter", "pdf-creator", "date-formatter"],
   },
   "text-to-speech": {
-    title: "Text to Speech â€” Read Aloud Online | RovoTools",
+    title: "Text to Speech — Read Aloud Online | RovoTools",
     description:
       "Free text to speech: paste text and listen with your browser's voices, with speed control. No uploads, no signup.",
     intro:
-      "Paste any text, pick a speed, and press Speak â€” your browser reads it aloud using its built-in voices.(decide male/female voices in your system settings). A word count and time estimate help you plan listening sessions.",
+      "Paste any text, pick a speed, and press Speak — your browser reads it aloud using its built-in voices.(decide male/female voices in your system settings). A word count and time estimate help you plan listening sessions.",
     benefits: [
       "One-tap Speak, Pause and Stop player",
-      "Speed control from 0.5Ã— to 2Ã—",
+      "Speed control from 0.5× to 2×",
       "Word count and listening-time estimate",
-      "Nothing uploaded â€” speech uses your device's own voices",
+      "Nothing uploaded — speech uses your device's own voices",
     ],
     howTo: [
       "Paste or type the text to hear.",
@@ -1278,7 +1278,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Is there a text length limit?",
         answer:
-          "Very long pastes are best split into sections â€” browsers handle narration most reliably under a few thousand words at a time.",
+          "Very long pastes are best split into sections — browsers handle narration most reliably under a few thousand words at a time.",
       },
       {
         question: "Does my text leave my device?",
@@ -1289,11 +1289,11 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "readability-checker", "lorem-ipsum-generator"],
   },
   "countdown-timer": {
-    title: "Countdown Timer â€” Count Down to Any Date | RovoTools",
+    title: "Countdown Timer — Count Down to Any Date | RovoTools",
     description:
       "Free countdown timer: enter a target date or a duration in seconds and see the exact time remaining.",
     intro:
-      "Count down to launches, deadlines and holidays â€” enter a target date and time, or simply a duration in seconds, and get the remaining days, hours, minutes and seconds instantly.",
+      "Count down to launches, deadlines and holidays — enter a target date and time, or simply a duration in seconds, and get the remaining days, hours, minutes and seconds instantly.",
     benefits: [
       "Target-date and duration modes",
       "Clear days-hours-minutes-seconds readout",
@@ -1301,7 +1301,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       "Free, instant and private",
     ],
     howTo: [
-      "Enter a target like 2026-12-31 23:59 â€” or a duration in seconds.",
+      "Enter a target like 2026-12-31 23:59 — or a duration in seconds.",
       "Press Start countdown.",
       "Re-run anytime for a fresh remaining figure.",
     ],
@@ -1319,21 +1319,21 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "age-calculator"],
   },
   "random-word-generator": {
-    title: "Random Word Generator â€” Writing & Game Prompts | RovoTools",
+    title: "Random Word Generator — Writing & Game Prompts | RovoTools",
     description:
-      "Draw random English words for writing prompts, vocabulary practice and word games â€” with repeatable seeds. Free.",
+      "Draw random English words for writing prompts, vocabulary practice and word games — with repeatable seeds. Free.",
     intro:
-      "Draw 1â€“50 random English words in one click, optionally fixed to one length. Add a seed to replay the exact same draw â€” perfect for classroom games, writing sprints and unscrambling practice.",
+      "Draw 1–50 random English words in one click, optionally fixed to one length. Add a seed to replay the exact same draw — perfect for classroom games, writing sprints and unscrambling practice.",
     benefits: [
-      "1â€“50 words per draw with optional fixed length",
+      "1–50 words per draw with optional fixed length",
       "Seeds make draws repeatable for classes and games",
       "Draws from the same ENABLE-derived game list as the unscrambler",
-      "Local and instant â€” no signup",
+      "Local and instant — no signup",
     ],
     howTo: [
       "Choose how many words to draw.",
       "Optionally fix the word length for level play.",
-      "Press Draw words â€” add a seed when everyone should get the same set.",
+      "Press Draw words — add a seed when everyone should get the same set.",
     ],
     faqs: [
       {
@@ -1344,13 +1344,13 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Can I practice unscrambling with this?",
         answer:
-          "Yes â€” draw a long word, scramble its letters by hand, then check yourself with the Word Unscrambler.",
+          "Yes — draw a long word, scramble its letters by hand, then check yourself with the Word Unscrambler.",
       },
     ],
     related: ["word-unscrambler", "lorem-ipsum-generator", "word-counter", "readability-checker"],
   },
   "pdf-extract-text": {
-    title: "Extract Text From PDF â€” Free Online | RovoTools",
+    title: "Extract Text From PDF — Free Online | RovoTools",
     description:
       "Copy text out of any PDF in your browser: page-by-page extraction with .txt download. Files never leave your device.",
     intro:
@@ -1359,7 +1359,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       "Page-by-page text extraction in seconds",
       "One-click .txt download",
       "Clear warning for scanned (image-only) PDFs",
-      "100% local â€” documents never leave your browser",
+      "100% local — documents never leave your browser",
     ],
     howTo: [
       "Choose a PDF file.",
@@ -1370,7 +1370,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       {
         question: "Why does my PDF return no text?",
         answer:
-          "It is probably a scan or photo of pages rather than real text. Scanned PDFs need OCR first â€” the tool tells you when this is the case.",
+          "It is probably a scan or photo of pages rather than real text. Scanned PDFs need OCR first — the tool tells you when this is the case.",
       },
       {
         question: "Is there a file size limit?",
@@ -1399,7 +1399,7 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
   const runsLocally = definition.processingMode === "LOCAL" && !definition.requiresNetwork;
   const fallbackBenefits = runsLocally
     ? [
-        "Runs entirely on your device â€” nothing is uploaded",
+        "Runs entirely on your device — nothing is uploaded",
         "Free to use with no signup",
         "Works on mobile, tablet and desktop",
       ]
@@ -1416,7 +1416,7 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
     howTo: deck?.howTo ?? [
       `Enter your details in the inputs panel above.`,
       "Press Execute to compute the result instantly.",
-      "Copy, download or share the result â€” or reset to start over.",
+      "Copy, download or share the result — or reset to start over.",
     ],
     faqs: deck?.faqs ?? [],
     related: deck?.related ?? [],

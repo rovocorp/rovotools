@@ -1,9 +1,14 @@
-# Hostinger Panel Checklist (copy-paste values)
+# Hostinger Panel Checklist (GitHub deploy, SSR)
 
-Use these exact values when configuring this repo in Hostinger's Node.js /
-app-deployment flow. Select / type them **manually** — auto-detect fails on
-this monorepo (the root `package.json` has no `start` script and Next.js
-lives in `apps/web`).
+Use these exact values when connecting this repo to Hostinger's **Node.js web
+app** flow via GitHub (Websites → Add Website → Node.js web app → Import Git
+repository). Auto-detect usually fills them; verify every row — the wrong
+values below have broken builds before.
+
+The app deploys as **SSR** (`next start`-equivalent: Hostinger runs the
+Next standalone server). `apps/web` is self-contained (vendored shared code
+under `apps/web/src/shared`, its own `pnpm-lock.yaml`), so Hostinger builds
+only that subdirectory.
 
 ## Settings
 
@@ -11,27 +16,37 @@ lives in `apps/web`).
 |---|---|
 | Repository | `rovocorp/rovotools` |
 | Branch | `main` |
-| App root | `./` (monorepo root — never `apps/web`, or workspace resolution breaks) |
-| Node.js | `22.x` (matches `.node-version`; `engines` allows `>=20.0.0`) |
-| Package manager | `pnpm` (auto-detected from `pnpm-lock.yaml`) |
-| Framework preset | `next` |
-| Build command | `pnpm run deploy:web` (workspace packages + web static export) |
-| Output directory | `apps/web/out` |
-| Entry file | *(leave empty — `output: "export"` means there is no server to start)* |
-| Environment variables | none required (see below) |
+| Root directory | `apps/web` (monorepo subdirectory — auto-detected on import; **never** `./`) |
+| Application type | `next` (auto-detected from `next` in `apps/web/package.json` dependencies) |
+| Node.js | `22.x` (from `engines.node`; Hostinger supports 18/20/22/24) |
+| Package manager | `pnpm` (auto-detected from `apps/web/pnpm-lock.yaml`) |
+| Build script | `build` (= `next build --webpack`; the `--webpack` flag is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
+| Output directory | `.next` (Hostinger injects `output: "standalone"` itself and starts the bundled server) |
+| Entry file | *(leave empty — ignored for `next` apps)* |
+| Environment variables | all optional (defaults work); recommended for canonical URLs below |
 
-Env vars are only needed when ads go live (all optional, degrade
-gracefully): `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`,
+## Environment variables (hPanel → Environment)
+
+| Variable | Value |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://rovotools.com` |
+| `NEXT_PUBLIC_APP_NAME` | `RovoTools` |
+| `NEXT_PUBLIC_COMPANY_NAME` | `RovoCorp LTD` |
+
+`NEXT_PUBLIC_*` values are baked in at **build** time — after changing one,
+trigger a new deployment. Optional ad vars (degrade gracefully, see
+`apps/web/.env.example`): `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`,
 `NEXT_PUBLIC_ADSENSE_SLOT_ID`, `NEXT_PUBLIC_FUNDING_CHOICES_SRC`.
-Site URL/brand are hardcoded in `packages/config/src/constants.ts`.
 
 ## Do NOT reuse these values from other projects
 
 | Wrong value | Why it breaks here |
 |---|---|
-| Package manager `npm` | npm cannot resolve the 9× `"workspace:*"` deps (`pnpm-workspace.yaml` monorepo) → install fails |
-| Build `npm run build` | The root `build` script shells out to `pnpm -r build`, which doesn't exist under npm |
-| Output `dist` | `dist/` is only the `tsc` output of the internal `packages/*` libraries — the deployable website is `apps/web/out` |
+| Root directory `./` | Builds the monorepo root, where Next.js and the pnpm workspace lockfile do not live — framework detection fails or the build can't find `next` |
+| Build command `pnpm run deploy:web` | **No such script exists** in the root `package.json` (the root has `build:web`, but it is for the workspace, not for Hostinger) |
+| Output directory `apps/web/out` | The app no longer static-exports — there is no `out/` and no server would start from it |
+| Package manager `npm` | The runner must use pnpm; `apps/web` is detected via `pnpm-lock.yaml` |
+| pnpm resolved to `>=11` | Host corepack `<=0.34` cannot execute pnpm `>=11` — do **not** widen `engines` or re-pin to pnpm 12 (that blesses the crashing combination). See `docs/DEPLOY_SSH.md` support text |
 
 ## If install fails with `bin/pnpm.cjs` `MODULE_NOT_FOUND`
 
@@ -40,7 +55,13 @@ Host corepack `<=0.34` cannot execute pnpm `>=11` — do **not** widen
 `engines` or re-pin to pnpm 12 (that blesses the crashing combination).
 Use the support text in `docs/DEPLOY_SSH.md`.
 
+## If the site returns 503
+
+The Node process is not running — either the latest build failed or the app
+crashed on start. hPanel → **Deployments** → open the latest deployment:
+build logs are kept for the last 10 builds. Fix the reported error, redeploy.
+
 ## Other deploy routes
 
-- SSH deploy: `docs/DEPLOY_SSH.md`
+- SSH deploy (vendored pnpm): `docs/DEPLOY_SSH.md`
 - File Manager static upload (`out.zip` → `public_html`): `docs/DEPLOY_STATIC.md`

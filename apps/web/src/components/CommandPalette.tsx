@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { t } from "@/shared/localization";
@@ -74,7 +75,7 @@ function loadTools(): ReadonlyArray<PublicTool> {
       category: entry.definition.category,
       keywords: entry.definition.keywords,
       popular: entry.definition.popular ?? false,
-      path: `/tools/${entry.definition.slug}`,
+      path: entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`,
     }));
   } catch {
     return [];
@@ -82,6 +83,7 @@ function loadTools(): ReadonlyArray<PublicTool> {
 }
 
 export default function CommandPalette(): React.ReactElement {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [tools] = useState<ReadonlyArray<PublicTool>>(loadTools);
@@ -134,12 +136,14 @@ export default function CommandPalette(): React.ReactElement {
         event.preventDefault();
         setActive((i) => Math.max(i - 1, 0));
       } else if (event.key === "Enter" && results[active] !== undefined) {
-        window.location.href = (results[active] as PublicTool).path;
+        const target = (results[active] as PublicTool).path;
+        close();
+        router.push(target);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, results, active, close]);
+  }, [open, results, active, close, router]);
 
   if (!open) {
     return <></>;
@@ -171,7 +175,7 @@ export default function CommandPalette(): React.ReactElement {
               setQuery(event.target.value);
               setActive(0);
             }}
-            placeholder={`${t("en", "common.search")} toolsâ€¦ (try "compress pdf", "jwt", "qr")`}
+            placeholder={`${t("en", "common.search")} tools… (try "compress pdf", "jwt", "qr")`}
             aria-label={t("en", "a11y.searchTools")}
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-zinc-400"
           />

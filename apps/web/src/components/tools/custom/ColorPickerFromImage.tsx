@@ -7,7 +7,7 @@ import {
   extractDominantColors,
   rgbToHex,
   samplePixel,
-} from '@/shared/tools';
+} from '@/shared/tools/images';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { loadImageElement } from './imageUtils';
@@ -107,7 +107,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
       await navigator.clipboard.writeText(hex);
       setCopied(hex);
     } catch {
-      setError('Copying failed â€” select the code and copy it manually.');
+      setError('Copying failed — select the code and copy it manually.');
     }
   }
 
@@ -145,7 +145,7 @@ export default function ColorPickerFromImage(): React.ReactElement {
             <ImagePlus className="h-8 w-8 text-zinc-400" aria-hidden="true" />
             <span className="font-semibold">Drop an image here, or click to browse</span>
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
-              {file === null ? 'JPG Â· PNG Â· WEBP' : file.name}
+              {file === null ? 'JPG · PNG · WEBP' : file.name}
             </span>
           </button>
           <input

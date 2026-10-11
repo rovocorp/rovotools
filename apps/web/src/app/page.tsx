@@ -200,7 +200,7 @@ export default function Home(): React.ReactElement {
                 New
               </span>
               <span className="text-slate-700 dark:text-slate-200">
-                ðŸ›¡ï¸ {t("en", "home.heroBadge")} Â· {totalTools}+ free tools
+                🛡️ {t("en", "home.heroBadge")} · {totalTools}+ free tools
               </span>
             </div>
 
@@ -230,7 +230,7 @@ export default function Home(): React.ReactElement {
                 name="q"
                 type="search"
                 autoComplete="off"
-                placeholder="Try â€œcompress imageâ€, â€œformat JSONâ€ or â€œcalculate BMIâ€â€¦"
+                placeholder="Try “compress image”, “format JSON” or “calculate BMI”…"
                 className="h-11 w-full bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
               />
               <button
@@ -332,7 +332,7 @@ export default function Home(): React.ReactElement {
                   </span>
                   <div>
                     <p className="text-sm font-extrabold text-slate-900 dark:text-white">JSON Formatter</p>
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Validate Â· Format Â· Minify â€” instantly</p>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Validate · Format · Minify — instantly</p>
                   </div>
                   <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                     <Check className="h-3 w-3" aria-hidden="true" /> Valid
@@ -393,7 +393,7 @@ export default function Home(): React.ReactElement {
                   <span key={i} className={cn("h-5 rounded-[4px]", cls)} />
                 ))}
               </div>
-              <p className="mt-2 text-[10px] font-bold text-slate-500 dark:text-slate-400">Scan-ready Â· offline</p>
+              <p className="mt-2 text-[10px] font-bold text-slate-500 dark:text-slate-400">Scan-ready · offline</p>
             </div>
 
             {/* Floating pill */}
@@ -558,7 +558,7 @@ export default function Home(): React.ReactElement {
                 {totalTools}+ tools. Zero sign-up. Zero uploads.
               </h2>
               <p className="mt-2 font-medium text-white/85">
-                Convert, compress, generate and calculate â€” everything runs in your browser.
+                Convert, compress, generate and calculate — everything runs in your browser.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

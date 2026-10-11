@@ -9,11 +9,13 @@ const withAnalyzer = withBundleAnalyzer({
 // next-pwa and the bundle analyzer are webpack plugins. Next 16 builds with
 // Turbopack by default (`next build`), which hard-fails when a `webpack` key
 // exists in the config — so both wrappers apply ONLY to explicit
-// `--webpack` runs. Bare `next build`/`next dev` (Hostinger, Turbopack) get
-// the plain config; PWA shell regeneration happens on `--webpack` builds.
-// Consequence: Hostinger's Turbopack build does not regenerate public/sw.js
-// (the last committed shell is served; precache may be stale — site works
-// online, offline is degraded until the SW pipeline moves off webpack).
+// `--webpack` runs. The `build` script below pins `--webpack` deliberately:
+// it is load-bearing, not nostalgia. next-pwa (workbox-webpack-plugin) only
+// generates public/sw.js under webpack; a Turbopack build silently skips it,
+// leaving a stale shell whose precache manifest 404s — breaking offline,
+// hanging serviceWorker.ready, and storming the server with failed precache
+// fetches (proven by CI: 8 PWA-spec failures + LCP damage). Hostinger just
+// runs the build script, so SSR-from-GitHub is unaffected by the flag.
 const useWebpack = process.argv.includes("--webpack");
 const wrap = useWebpack ? (config: NextConfig): NextConfig => withAnalyzer(pwaConfig(config)) : (config: NextConfig): NextConfig => config;
 

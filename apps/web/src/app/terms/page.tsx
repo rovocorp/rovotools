@@ -46,7 +46,7 @@ export default function TermsPage(): React.ReactElement {
           Liability
         </h2>
         <p>
-          The service is provided â€œas isâ€. To the maximum extent permitted by law, {COMPANY_NAME}{" "}
+          The service is provided “as is”. To the maximum extent permitted by law, {COMPANY_NAME}{" "}
           is not liable for decisions made using these tools.
         </p>
         <h2 className="pt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-100">Contact</h2>

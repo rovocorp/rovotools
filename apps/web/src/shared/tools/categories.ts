@@ -52,7 +52,7 @@ const CATEGORY_COPY: Record<ToolCategory, { title: string; description: string; 
   },
   calculator: {
     title: "Calculators & Converters",
-    description: "Calculate percentages, BMI, age, dates and everyday values â€” plus unit, length, weight and temperature conversions â€” with easy online calculators.",
+    description: "Calculate percentages, BMI, age, dates and everyday values — plus unit, length, weight and temperature conversions — with easy online calculators.",
     keywords: ["online calculators", "free calculators", "unit converter", "measurement converter", "metric imperial", "bmi calculator", "age calculator", "percentage calculator"],
   },
   finance: {

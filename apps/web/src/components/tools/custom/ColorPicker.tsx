@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import { Pipette } from 'lucide-react';
-import { getOutputLabel, registerCoreTools, toolRegistry } from '@/shared/tools';
+import { getOutputLabel } from '@/shared/tools/display';
+import { registerCoreTools } from '@/shared/tools/seed';
+import { toolRegistry } from '@/shared/tools/registry';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 // The generic ToolRunner seeds the client registry at module scope, but this
-// bespoke UI replaces the runner â€” seed here so require() works on this page.
+// bespoke UI replaces the runner — seed here so require() works on this page.
 registerCoreTools(toolRegistry);
 
 function hexCodesIn(text: string): Array<string> {
@@ -57,7 +59,7 @@ export default function ColorPicker(): React.ReactElement {
       await navigator.clipboard.writeText(value);
       setCopied(value);
     } catch {
-      setError('Copying failed â€” select the code and copy it manually.');
+      setError('Copying failed — select the code and copy it manually.');
     }
   }
 
@@ -107,7 +109,7 @@ export default function ColorPicker(): React.ReactElement {
       {result !== null ? (
         <dl className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
           {outputs.map((field, index) => {
-            const value = String(result[field.id] ?? 'â€”');
+            const value = String(result[field.id] ?? '—');
             const codes = hexCodesIn(value);
             return (
               <div key={field.id} className={index % 2 === 0 ? 'bg-white px-4 py-3 dark:bg-zinc-950' : 'bg-zinc-50 px-4 py-3 dark:bg-zinc-900/60'}>

@@ -1,4 +1,4 @@
-﻿import { getAllCategoryMetadata } from "@/shared/tools";
+﻿import { getAllCategoryMetadata } from "@/shared/tools/categories";
 
 /**
  * Display label for a tool category slug.

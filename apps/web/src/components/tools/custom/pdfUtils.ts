@@ -37,7 +37,7 @@ export function isImageFile(file: File): boolean {
 }
 
 /**
- * Transcode any browser-decodable image (WebP, GIF, BMP, â€¦) to PNG bytes
+ * Transcode any browser-decodable image (WebP, GIF, BMP, …) to PNG bytes
  * so it can be embedded into a PDF with pdf-lib (which only embeds
  * JPG/PNG). JPG/PNG inputs should bypass this and embed losslessly.
  */

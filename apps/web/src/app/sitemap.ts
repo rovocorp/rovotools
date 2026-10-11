@@ -1,6 +1,7 @@
 ﻿import type { MetadataRoute } from "next";
 import { WEB_URL } from "@/shared/config";
-import { getAllCategoryMetadata } from "@/shared/tools";
+import { getAllCategoryMetadata } from "@/shared/tools/categories";
+import { toSitemapEntries } from "@/shared/tools/seo";
 import { BLOG_POSTS } from "@/lib/blog";
 import { getToolRegistry } from "@/lib/registry";
 
@@ -29,8 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${WEB_URL}/terms`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  const toolRoutes: MetadataRoute.Sitemap = registry
-    .sitemap(WEB_URL)
+  const toolRoutes: MetadataRoute.Sitemap = toSitemapEntries(registry.getAll(), WEB_URL)
     .filter((entry) => entry.noIndex !== true && entry.url !== undefined)
     .map((entry) => ({
       url: entry.url as string,

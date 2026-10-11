@@ -115,7 +115,7 @@ body {
     linear-gradient(to bottom, rgb(148 163 184 / 0.06) 1px, transparent 1px);
 }
 
-/* Subtle static dot texture for the hero. Decorative only â€” no motion,
+/* Subtle static dot texture for the hero. Decorative only — no motion,
  * no overlaying elements, nothing that can be mistaken for a control. */
 .hero-dots {
   background-image: radial-gradient(circle, rgb(10 26 51 / 0.08) 1px, transparent 1px);

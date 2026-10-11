@@ -30,8 +30,9 @@ export function openGlobalSearch(): void {
   window.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT));
 }
 
+// Home is rendered explicitly next to the logo; this list is the rest of the
+// top-level nav.
 const NAV_LINKS = [
-  { label: t("en", "navigation.home"), href: "/" },
   { label: t("en", "navigation.blog"), href: "/blog" },
 ];
 
@@ -247,7 +248,7 @@ export default function Header(): React.ReactElement {
       <div className="w-full bg-gradient-to-r from-[#0066FF] via-[#7C3AED] to-[#D946EF]">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-1.5 text-xs font-bold text-white sm:px-6 lg:px-8">
           <Lock className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>Most tools run locally in your browser â€” network tools are labelled.</span>
+          <span>Most tools run locally in your browser — network tools are labelled.</span>
         </div>
       </div>
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090B]/80">
@@ -268,7 +269,7 @@ export default function Header(): React.ReactElement {
             {t("en", "navigation.home")}
           </Link>
           <ToolsDropdown />
-          {NAV_LINKS.filter((link) => link.href !== "/").map((link) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               prefetch={false}
@@ -371,7 +372,7 @@ export default function Header(): React.ReactElement {
             ))}
           </div>
 
-          {NAV_LINKS.filter((link) => link.href !== "/").map((link) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               prefetch={false}

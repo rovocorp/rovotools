@@ -9,8 +9,8 @@ function localize(locale: Locale, key: string, fallback: string): string {
 /**
  * Fallback when a labelKey has no translation: dotted key paths
  * ("tools.bmi.weight") collapse to their last segment, but literal
- * display text ("India (GST)", "14.975%") is returned verbatim â€”
- * verbatim â€” splitting it on "." would mangle decimals into fragments
+ * display text ("India (GST)", "14.975%") is returned verbatim —
+ * verbatim — splitting it on "." would mangle decimals into fragments
  * like "975%".
  */
 function fallbackLabel(key: string, id: string): string {

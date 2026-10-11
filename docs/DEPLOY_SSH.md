@@ -1,15 +1,19 @@
 # Deploying RovoTools over SSH (static export)
 
-> Status: this runbook matches the current build — `apps/web/next.config.ts`
-> uses `output: "export"`, so the deploy artifact is the static `apps/web/out/`
-> folder, uploaded to `public_html`. There is **no Node server** to start
-> (any older notes about `.next/standalone/server.js` are obsolete).
+> Status: **partially superseded.** The app now deploys as a self-contained
+> SSR Node application (`next start` on Hostinger's Node.js flow —
+> `apps/web/next.config.ts` has no `output: "export"`; `apps/web` vendors its
+> packages under `src/shared`). This runbook documents the previous
+> static-export pipeline (`apps/web/out/` → `public_html`), which still works
+> for File Manager–based static updates (`DEPLOY_STATIC.md`) but is no longer
+> the primary deploy path. The vendored-pnpm guidance below remains accurate.
 
 ## Requirements on the host
 
 - SSH access to the account.
-- Node.js 22.x preferred (20.19.4+ works; the repo's `engines` field allows
-  `>=20.0.0`).
+- Node.js 22.x required (`engines.node` is `"22.x"`; `.npmrc` sets
+  `engine-strict=false`, so other versions install, but CI and the deploy
+  flows all run 22).
 - Git and outbound registry access (only project *dependencies* are
   downloaded — the package manager itself is vendored, see below).
 - ~2 GB RAM free for the Next.js production build.
@@ -85,21 +89,23 @@ in a browser, in both light and dark mode (logo check).
 | Wrong canonical/metadata | Step 3 env vars were missing at build time | Re-export and re-run steps 4–6 |
 | Old logo/favicon after deploy | Browser/proxy cached the previous assets | Hard-refresh (Ctrl+Shift+R); favicons cache aggressively |
 
-## Hostinger Node.js flow without SSH (manual settings)
+## Hostinger Node.js flow without SSH (GitHub import, manual settings)
 
-Use only when you must deploy through the panel's Node.js flow. Fill the
-build settings **manually** (auto-detect fails on this monorepo: the root
-`package.json` has no `start` script and Next.js lives in `apps/web`):
+Use when you deploy through hPanel's Node.js flow instead of SSH
+(Websites → Add Website → Node.js web app → Import Git repository).
+Fill / verify the build settings **manually** — the copy-paste version of
+this table lives in `docs/HOSTINGER_PANEL.md`:
 
 - Repository: `rovocorp/rovotools`, branch `main`
-- App root: `./` (monorepo root — never `apps/web`, or workspace resolution
-  breaks; `pnpm-lock.yaml` lives at root)
-- Node: `22.x`, package manager: **pnpm** (auto-detected from lockfile)
-- Framework preset: `next`
-- Build: `pnpm run deploy:web` (workspace packages + web static export)
-- Output directory: `apps/web/out`
-- Entry file: none (static export — there is no server to start)
-- Env (all three, never `None`):
+- Root directory: `apps/web` (the monorepo root has no `next` dependency
+  and no workspace lockfile where Hostinger expects one; `apps/web` is
+  self-contained with its own `pnpm-lock.yaml`)
+- Node: `22.x`, package manager: **pnpm** (auto-detected from that lockfile)
+- Framework preset: `next` (Hostinger injects `output: "standalone"` and
+  starts the bundled server; entry file stays empty)
+- Build script: `build` (runs `next build --webpack`)
+- Output directory: `.next`
+- Env (optional — defaults work, but set them for canonical URLs):
   `NEXT_PUBLIC_SITE_URL=https://rovotools.com`,
   `NEXT_PUBLIC_APP_NAME=RovoTools`,
   `NEXT_PUBLIC_COMPANY_NAME=RovoCorp LTD`

@@ -7,12 +7,9 @@ import type {
   ToolCategory,
   ToolCategoryFacet,
   ToolDefinition,
-  ToolPageMetadata,
   ToolPlatform,
   ToolQuery,
   ToolRegistryEntry,
-  ToolRoute,
-  ToolSitemapEntry,
 } from "@/shared/types";
 
 import { getToolCapabilityMatrix } from "./capabilities";
@@ -27,7 +24,12 @@ import {
 } from "./discovery";
 import { addRecent, resolveFavorites, resolveRecents, toggleFavorite } from "./history";
 import { getToolPrivacyModel, type ToolPrivacyModel } from "./privacy";
-import { getToolPageMetadata, getToolRoute, getToolRoutes, toSitemapEntries } from "./seo";
+
+// NOTE: no import from ./seo here on purpose. seo.ts pulls seo-copy.ts
+// (every tool's long-form page copy), and this module is in the client chunk
+// graph (ToolRunner, custom tools, CommandPalette). SEO helpers are server-
+// only: call getToolPageMetadata/getToolRoute/toSitemapEntries from ./seo
+// directly where needed.
 
 export class ToolRegistry {
   private readonly byId = new Map<string, ToolRegistryEntry>();
@@ -145,26 +147,6 @@ export class ToolRegistry {
     limit?: number,
   ): RecentToolIds {
     return limit === undefined ? addRecent(recentIds, toolId) : addRecent(recentIds, toolId, limit);
-  }
-
-  route(toolIdOrSlug: string, basePath?: string): ToolRoute {
-    return getToolRoute(this.require(toolIdOrSlug), basePath);
-  }
-
-  routes(basePath?: string): ReadonlyArray<ToolRoute> {
-    return getToolRoutes(this.getAll(), basePath);
-  }
-
-  pageMetadata(
-    toolIdOrSlug: string,
-    baseUrl?: string,
-    basePath?: string,
-  ): ToolPageMetadata {
-    return getToolPageMetadata(this.require(toolIdOrSlug), baseUrl, basePath);
-  }
-
-  sitemap(baseUrl?: string, basePath?: string): ReadonlyArray<ToolSitemapEntry> {
-    return toSitemapEntries(this.getAll(), baseUrl, basePath);
   }
 
   issues(): ReadonlyArray<RegistryIssue> {

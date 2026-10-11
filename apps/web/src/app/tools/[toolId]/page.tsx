@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { t } from "@/shared/localization";
 import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import ToolDetail from "@/components/tools/ToolDetail";
+import { getToolPageMetadata } from "@/shared/tools/seo";
 import { getToolRegistry } from "@/lib/registry";
 import { getToolStaticParams } from "./generate";
 
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ toolId: s
   if (entry === undefined) {
     return { title: t("en", "errors.notFound") };
   }
-  const page = registry.pageMetadata(toolId, WEB_URL);
+  const page = getToolPageMetadata(entry, WEB_URL);
   return {
     title: page.title,
     description: page.description,

@@ -28,5 +28,5 @@ export default function ToolRunnerLoader({ slug }: { slug: string }): React.Reac
   if (CustomTool !== undefined) {
     return createElement(CustomTool);
   }
-  return <ToolRunner slug={slug} />;
+  return <ToolRunner key={slug} slug={slug} />;
 }

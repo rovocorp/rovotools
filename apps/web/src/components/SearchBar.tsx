@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { t } from "@/shared/localization";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,15 @@ function SearchField({ initialQuery }: { initialQuery: string }): React.ReactEle
   const router = useRouter();
   const searchParams = useSearchParams();
   const [value, setValue] = useState(initialQuery);
+  const mounted = useRef(false);
 
   useEffect(() => {
+    // Skip the initial mount run: it would rewrite the URL the visitor just
+    // landed on (e.g. /tools -> /tools?) before any typing happens.
+    if (!mounted.current) {
+      mounted.current = true;
+      return undefined;
+    }
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
       if (value.trim() === "") {

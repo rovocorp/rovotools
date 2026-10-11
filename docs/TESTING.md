@@ -15,7 +15,7 @@ never rewrite — the vectors.
 | Contract: vectors | `apps/web/.../calculations.vectors.test.ts` (32) | `src/lib/__tests__/vectors.test.ts` (32) | `CALCULATION_VECTORS`, `INVALID_VECTORS`, `compareResult` |
 | Registry/policy | `packages/tools` vitest (30) | jest re-run (4) | same suites |
 | Security | web `security.test.ts` (7) | — | core `security.test.ts` (7) |
-| UI behavior | Playwright (planned) | Maestro (planned) | — |
+| UI behavior | Playwright (15 spec files in `apps/web/e2e`, CI job `e2e`) | Maestro (planned) | — |
 
 ## Per-tool checklist (every important tool)
 
@@ -27,13 +27,14 @@ Unit-testable rows (result, validation, errors, invalid input) are covered by
 vectors + engine tests. UI rows (reset, copy, export, offline, themes,
 accessibility, performance) are E2E rows below.
 
-## E2E plan (not yet implemented)
+## E2E status
 
-- **Web/PWA (Playwright)**: tool runner flows per seed tool (fill → calculate
-  → assert result → reset → copy → export), offline mode via service-worker
-  bypass, axe accessibility pass, dark/light snapshots, Lighthouse budgets.
-- **Mobile (Maestro)**: mirrored flows on Android emulator + iOS simulator,
-  airplane-mode offline run, theme toggle, share-sheet dismissal.
+- **Web/PWA (Playwright) — implemented**: tool runner flows per seed tool
+  (fill → calculate → assert result → reset → copy → export), ad/consent
+  assertions, canonical-URL checks, axe accessibility pass. Run with
+  `pnpm --filter @rovotools/web e2e` (CI: `e2e` job, all three engines).
+- **Mobile (Maestro) — planned**: mirrored flows on Android emulator + iOS
+  simulator, airplane-mode offline run, theme toggle, share-sheet dismissal.
 
 ## Adding a vector
 
