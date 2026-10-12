@@ -30,3 +30,8 @@ overrides:
   # vitest 3.x pins ^1.1.1 and 1.x has no patched release — force 2.x
   # (2.1.2+ reads all options via withNullPrototype: own properties only).
   'tinypool': 2.2.0
+  # GHSA-wq5f-xc86-pv6w / CVE-2026-96889 (high): sharp <0.35.5 ships a
+  # librsvg with a memory bug allowing RCE on glibc Linux. next declares
+  # ^0.35.4 — pin the patched 0.35.5 (librsvg 2.63.2). apps/web standalone
+  # lockfile already resolves 0.35.5 for Hostinger.
+  'sharp': '0.35.5'
