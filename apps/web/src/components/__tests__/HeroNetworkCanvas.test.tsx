@@ -6,6 +6,7 @@ import HeroNetworkCanvas from "../hero/HeroNetworkCanvas";
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe("HeroNetworkCanvas", () => {
@@ -42,15 +43,19 @@ describe("HeroNetworkCanvas", () => {
       vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
         context as unknown as CanvasRenderingContext2D,
       );
-      // Hover-capable device, no reduced motion.
-      vi.spyOn(window, "matchMedia").mockImplementation(
-        (query: string) =>
-          ({
-            matches: query.includes("hover"),
-            media: query,
-            addEventListener: vi.fn(),
-            removeEventListener: vi.fn(),
-          }) as unknown as MediaQueryList,
+      // Hover-capable device, no reduced motion. jsdom ships no matchMedia
+      // (vitest 4 no longer polyfills it), so stub the global outright.
+      vi.stubGlobal(
+        "matchMedia",
+        vi.fn(
+          (query: string) =>
+            ({
+              matches: query.includes("hover"),
+              media: query,
+              addEventListener: vi.fn(),
+              removeEventListener: vi.fn(),
+            }) as unknown as MediaQueryList,
+        ),
       );
       const raf = vi
         .spyOn(window, "requestAnimationFrame")
