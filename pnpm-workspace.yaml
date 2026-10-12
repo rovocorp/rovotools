@@ -35,3 +35,10 @@ overrides:
   # ^0.35.4 — pin the patched 0.35.5 (librsvg 2.63.2). apps/web standalone
   # lockfile already resolves 0.35.5 for Hostinger.
   'sharp': '0.35.5'
+  # GHSA-c475-qrg2-pj4r (high): basic-ftp <=6.2.0 Client.list() Unix parser
+  # (parseListUnix RE_LINE) is quadratic — a malicious FTP server can freeze
+  # the event loop via one crafted listing line. Only consumer is
+  # @lhci/cli > proxy-agent > get-uri (dev chain, ftp:// PAC fetch); get-uri
+  # pins ^5.0.2 with no patched 5.x — force 6.2.3 (same CJS API surface:
+  # Client/access/lastMod/list/downloadTo/close).
+  'basic-ftp': '6.2.3'
