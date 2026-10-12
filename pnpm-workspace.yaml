@@ -23,3 +23,10 @@ overrides:
   # GHSA-pqg4-j6r4-53mv (critical): force patched shell-quote through the
   # mobile react-native > react-devtools-core chain until upstream bumps it.
   'shell-quote': 1.11.0
+  # GHSA-5gmw-xhrv-c9v3 + GHSA-85c8-ppgw-ccpr (critical): tinypool <=2.1.0
+  # is a prototype-pollution RCE gadget — polluted Object.prototype.
+  # execArgv/env reach worker_threads.Worker, and Object.prototype.filename
+  # redirects pool.run(task, options) to an attacker worker (vitest pool).
+  # vitest 3.x pins ^1.1.1 and 1.x has no patched release — force 2.x
+  # (2.1.2+ reads all options via withNullPrototype: own properties only).
+  'tinypool': 2.2.0
