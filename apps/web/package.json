@@ -4,6 +4,13 @@
   "private": true,
   "description": "RovoTools Web Application (Next.js + PWA)",
   "packageManager": "pnpm@10.22.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.22.0",
+      "onFail": "warn"
+    }
+  },
   "engines": {
     "node": "22.x",
     "pnpm": ">=10.0.0 <11.0.0"

@@ -25,11 +25,23 @@ only that subdirectory.
 | Entry file | *(leave empty — ignored for `next` apps)* |
 | Environment variables | all optional (defaults work); recommended for canonical URLs below |
 
-The repo's `.npmrc` (root + `apps/web`) sets `package-manager-strict=false`
-and `package-manager-strict-version=false`: if the panel's runner resolves a
-pnpm other than the pinned `10.22.0` (it has run `12.5.1` on the build step
-while install used `10.22.0`), pnpm warns instead of aborting the build with
-`ERR_PNPM_BAD_PM_VERSION`. The pin in `packageManager` stays — do not widen it.
+The pin in `packageManager` (`pnpm@10.22.0`, root + `apps/web`) stays — do not
+widen it. Hostinger's install step honours it, but its build step has run
+pnpm `12.5.1`, which would hard-fail with `ERR_PNPM_BAD_PM_VERSION`. Two
+repo-side guards keep that a warning:
+
+- `package.json` (root + `apps/web`): `devEngines.packageManager` =
+  `{ name: "pnpm", version: "10.22.0", onFail: "warn" }` — this is the
+  channel pnpm ≥11 actually reads (pnpm's own error text names it); pnpm 10
+  ignores the field entirely. The root manifest governs when the workspace
+  is visible, `apps/web` when Hostinger builds the subdirectory standalone.
+- `.npmrc` (root + `apps/web`): `package-manager-strict=false` +
+  `package-manager-strict-version=false` — the pnpm ≤10 equivalents.
+
+If it still fails, add hPanel env var `pnpm_config_pm_on_fail=warn`
+(Environment → build step receives env vars too). Do **not** use
+`--pm-on-fail` CLI overrides: CLI beats `devEngines`, and a CLI
+`error` would re-raise the hard failure.
 
 ## Environment variables (hPanel → Environment)
 
@@ -52,8 +64,7 @@ trigger a new deployment. Optional ad vars (degrade gracefully, see
 | Build command `pnpm run deploy:web` | **No such script exists** in the root `package.json` (the root has `build:web`, but it is for the workspace, not for Hostinger) |
 | Output directory `apps/web/out` | The app no longer static-exports — there is no `out/` and no server would start from it |
 | Package manager `npm` | The runner must use pnpm; `apps/web` is detected via `pnpm-lock.yaml` |
-| `.npmrc` `pm-on-fail=warn` | Not a pnpm setting — pnpm prints "unknown setting" and ignores it, so the build still dies on `ERR_PNPM_BAD_PM_VERSION` |
-| `devEngines.packageManager` with `onFail: warn` | Valid pnpm syntax but a different check; it does not disable the `packageManager`-field version check that throws `ERR_PNPM_BAD_PM_VERSION` — use `package-manager-strict=false` instead |
+| `.npmrc` `pm-on-fail=warn` | `pm-on-fail`/`pmOnFail` **is** a real pnpm ≥11 setting, but only via `--pm-on-fail`, env `pnpm_config_pm_on_fail`, or `pnpm-workspace.yaml` — pnpm does not read it from `.npmrc`, so the build still dies on `ERR_PNPM_BAD_PM_VERSION`. The working repo channel is `devEngines.packageManager.onFail` (see Settings above) |
 | pnpm resolved to `>=11` | Host corepack `<=0.34` cannot execute pnpm `>=11` — do **not** widen `engines` or re-pin to pnpm 12 (that blesses the crashing combination). See `docs/DEPLOY_SSH.md` support text |
 
 ## If install fails with `bin/pnpm.cjs` `MODULE_NOT_FOUND`
