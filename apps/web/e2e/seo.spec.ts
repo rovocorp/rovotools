@@ -28,12 +28,20 @@ test("tool pages expose canonical URLs and valid JSON-LD", async ({ page }) => {
   expect(orgName).toBe(true);
 });
 
-test("legacy URL redirects are declared for shared hosting", async () => {
-  // Static export has no server: Apache applies public/.htaccess 301s.
-  const fs = await import("node:fs");
-  const htaccess = fs.readFileSync("public/.htaccess", "utf8");
-  for (const from of ["tools/merge-pdf", "tools/jpg-to-pdf", "tools/emi-calculator"] as const) {
-    expect(htaccess, from).toContain(from);
+test("legacy URL redirects are served by the Next server", async ({ request, baseURL }) => {
+  // SSR: redirects() in next.config.ts (public/.htaccess would clobber
+  // Hostinger's Node proxy config and 403 the whole site — never re-add it).
+  // trailingSlash: true — slash-less sources first 308 to the slashed path,
+  // then redirects() fires; follow the chain and assert the final landing.
+  const pairs = [
+    ["tools/merge-pdf", "/tools/pdf/merge-pdf/"],
+    ["tools/jpg-to-pdf", "/tools/pdf/jpg-to-pdf/"],
+    ["tools/emi-calculator", "/tools/loan-calculator/"],
+  ] as const;
+  for (const [from, to] of pairs) {
+    const res = await request.get(`${baseURL}/${from}`);
+    expect(res.status(), `${from} must land on 200 after redirects`).toBe(200);
+    expect(new URL(res.url()).pathname, `${from} final path`).toBe(to);
   }
 });
 

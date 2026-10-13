@@ -23,11 +23,14 @@ const withAnalyzer = withBundleAnalyzer({
 const useWebpack = process.argv.includes("--webpack");
 const wrap = useWebpack ? (config: NextConfig): NextConfig => withAnalyzer(pwaConfig(config)) : (config: NextConfig): NextConfig => config;
 
-// Hostinger "Node.js web app" hosting (SSR via `next start`): no static
-// export — pages render on the server, data URLs resolve at request time.
-// Legacy URL redirects live in `public/.htaccess` for Apache-fronted hosts;
-// `redirects()` is intentionally unused so the config stays valid if the
-// app is ever exported statically again.
+// Hostinger "Node.js web app" hosting (SSR via the standalone server): no
+// static export — pages render on the server. Legacy URL redirects live in
+// `redirects()` below (served by the Next process). They used to live in
+// `public/.htaccess`, but Hostinger auto-generates `public_html/.htaccess`
+// to proxy traffic to the Node process — a repo-shipped `.htaccess`
+// (Options -Indexes, no proxy rules) overwrites it and turns every request
+// into a static 403 ("Access to this resource on the server is denied!").
+// Never reintroduce public/.htaccess while the primary deploy is SSR.
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
@@ -58,6 +61,32 @@ const nextConfig: NextConfig = {
 
   poweredByHeader: false,
   generateEtags: false,
+
+  // Legacy tool URLs → canonical survivors (formerly public/.htaccess
+  // RewriteRules). Permanent, path-only, no query preservation — same
+  // behaviour the static Apache rules had.
+  async redirects() {
+    const permanent = true as const;
+    return [
+      { source: "/tools/emi-calculator", destination: "/tools/loan-calculator/", permanent },
+      { source: "/tools/loan-payment-calculator", destination: "/tools/loan-calculator/", permanent },
+      { source: "/tools/vat-calculator", destination: "/tools/tax-calculator/", permanent },
+      { source: "/tools/character-counter", destination: "/tools/word-counter/", permanent },
+      { source: "/tools/text-to-pdf", destination: "/tools/pdf/pdf-creator/", permanent },
+      { source: "/tools/category/converter", destination: "/tools/category/calculator/", permanent },
+      { source: "/tools/merge-pdf", destination: "/tools/pdf/merge-pdf/", permanent },
+      { source: "/tools/split-pdf", destination: "/tools/pdf/split-pdf/", permanent },
+      { source: "/tools/compress-pdf", destination: "/tools/pdf/compress-pdf/", permanent },
+      { source: "/tools/jpg-to-pdf", destination: "/tools/pdf/jpg-to-pdf/", permanent },
+      { source: "/tools/pdf-to-jpg", destination: "/tools/pdf/pdf-to-jpg/", permanent },
+      { source: "/tools/word-to-pdf", destination: "/tools/pdf/word-to-pdf/", permanent },
+      { source: "/tools/pdf-creator", destination: "/tools/pdf/pdf-creator/", permanent },
+      { source: "/tools/sign-pdf", destination: "/tools/pdf/sign-pdf/", permanent },
+      { source: "/tools/pdf-to-word", destination: "/tools/pdf/pdf-to-word/", permanent },
+      { source: "/tools/pdf-to-excel", destination: "/tools/pdf/pdf-to-excel/", permanent },
+      { source: "/tools/pdf-extract-text", destination: "/tools/pdf/pdf-extract-text/", permanent },
+    ];
+  },
 };
 
 const pwaConfig = withPWA({

@@ -7,9 +7,8 @@ import { dismissCookieBanner } from "./helpers";
 registerCoreTools(toolRegistry);
 // Bespoke UIs (no generic form, no file input) have dedicated tests below.
 // URLs come from the registry canonical path: PDF tools live only at nested
-// canonicals (/tools/pdf/<slug>, flat slugs 404 in the static export — the
-// Apache 301s in public/.htaccess exist only on shared hosting, not under
-// the E2E static server).
+// canonicals (/tools/pdf/<slug>; flat slugs are 301'd by redirects() in
+// next.config.ts — the E2E server is the same SSR `next start` Hostinger runs).
 const targets = toolRegistry
   .query({})
   .filter((entry) => !BESPOKE_TOOL_SLUGS.has(entry.definition.slug))

@@ -57,7 +57,8 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
   }
   const tool = entry.definition;
   // Static export has no server redirects: PDF tools live only at their
-  // nested canonical (/tools/pdf/<slug>, see public/.htaccess for the
+  // nested canonical (/tools/pdf/<slug>, see redirects() in next.config.ts
+  // for the flat-slug 301s).
   // Apache 301s). Flat slugs are excluded from static params above.
   return <ToolDetail slug={tool.slug} />;
 }
