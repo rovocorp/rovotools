@@ -1,6 +1,10 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 import withPWA from "next-pwa";
 import withBundleAnalyzer from "@next/bundle-analyzer";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
 
 const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -27,6 +31,25 @@ const wrap = useWebpack ? (config: NextConfig): NextConfig => withAnalyzer(pwaCo
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
+
+  // Hostinger Node.js apps start `{outputDirectory}/standalone/server.js`.
+  // Their panel injects `output: "standalone"` by wrapping the next.config.*
+  // found at the deploy ROOT directory — but this app deploys from the
+  // monorepo root (root directory `./`, output `apps/web/.next`), so their
+  // wrapper lands at the repo root and never touches the real `next build`
+  // that runs here. Without this field the build produces no standalone
+  // server and the domain 403s (Hostinger edge serves its static "resource
+  // denied" page). Harmless if their injection ever does apply: they
+  // replace any `output` value with the same standalone setting.
+  output: "standalone",
+
+  // Pin tracing to THIS package, not the pnpm-workspace root. Without it
+  // Next auto-detects the monorepo root and emits
+  // `.next/standalone/apps/web/server.js` — Hostinger only looks for
+  // `.next/standalone/server.js`, so the process still never starts.
+  // apps/web is self-contained (own pnpm-lock.yaml, vendored shared code),
+  // so tracing stays complete with this root.
+  outputFileTracingRoot: here,
 
   images: {
     unoptimized: true,

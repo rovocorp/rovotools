@@ -16,12 +16,12 @@ only that subdirectory.
 |---|---|
 | Repository | `rovocorp/rovotools` |
 | Branch | `main` |
-| Root directory | `apps/web` (monorepo subdirectory — auto-detected on import; **never** `./`) |
-| Application type | `next` (auto-detected from `next` in `apps/web/package.json` dependencies) |
+| Root directory | `./` (monorepo root — Hostinger's GitHub flow requires this for this repo; **not** `apps/web`) |
+| Application type | `next` |
 | Node.js | `22.x` (from `engines.node`; Hostinger supports 18/20/22/24) |
-| Package manager | `pnpm` (auto-detected from `apps/web/pnpm-lock.yaml`) |
-| Build script | `build` (= `next build --webpack`; the `--webpack` flag is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
-| Output directory | `.next` (Hostinger injects `output: "standalone"` itself and starts the bundled server) |
+| Package manager | `pnpm` |
+| Build script | `build` (root script → `pnpm build:web`; the `--webpack` flag inside `apps/web` is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
+| Output directory | `apps/web/.next` (relative to root `./`; Hostinger starts `standalone/server.js` inside it — `apps/web/next.config.ts` sets `output: "standalone"` + `outputFileTracingRoot` so the server lands at the path Hostinger expects) |
 | Entry file | *(leave empty — ignored for `next` apps)* |
 | Environment variables | all optional (defaults work); recommended for canonical URLs below |
 
@@ -60,10 +60,11 @@ trigger a new deployment. Optional ad vars (degrade gracefully, see
 
 | Wrong value | Why it breaks here |
 |---|---|
-| Root directory `./` | Builds the monorepo root, where Next.js and the pnpm workspace lockfile do not live — framework detection fails or the build can't find `next` |
+| Root directory `apps/web` | The GitHub import may not accept a monorepo subdirectory here; the working setup is root `./` + output `apps/web/.next` |
 | Build command `pnpm run deploy:web` | **No such script exists** in the root `package.json` (the root has `build:web`, but it is for the workspace, not for Hostinger) |
 | Output directory `apps/web/out` | The app no longer static-exports — there is no `out/` and no server would start from it |
-| Package manager `npm` | The runner must use pnpm; `apps/web` is detected via `pnpm-lock.yaml` |
+| Output directory `.next` (with root `./`) | Relative to the monorepo root — the real build output is `apps/web/.next` |
+| Package manager `npm` | The runner must use pnpm; the root and `apps/web` both use pnpm |
 | `.npmrc` `pm-on-fail=warn` | `pm-on-fail`/`pmOnFail` **is** a real pnpm ≥11 setting, but only via `--pm-on-fail`, env `pnpm_config_pm_on_fail`, or `pnpm-workspace.yaml` — pnpm does not read it from `.npmrc`, so the build still dies on `ERR_PNPM_BAD_PM_VERSION`. The working repo channel is `devEngines.packageManager.onFail` (see Settings above) |
 | pnpm resolved to `>=11` | Host corepack `<=0.34` cannot execute pnpm `>=11` — do **not** widen `engines` or re-pin to pnpm 12 (that blesses the crashing combination). See `docs/DEPLOY_SSH.md` support text |
 
@@ -74,11 +75,17 @@ Host corepack `<=0.34` cannot execute pnpm `>=11` — do **not** widen
 `engines` or re-pin to pnpm 12 (that blesses the crashing combination).
 Use the support text in `docs/DEPLOY_SSH.md`.
 
-## If the site returns 503
+## If the site returns 403 or 503
 
 The Node process is not running — either the latest build failed or the app
-crashed on start. hPanel → **Deployments** → open the latest deployment:
-build logs are kept for the last 10 builds. Fix the reported error, redeploy.
+crashed on start (403 = Hostinger's static edge, nothing is listening;
+503 = proxy found the app but it errored). hPanel → **Deployments** → open
+the latest deployment: build logs are kept for the last 10 builds, and
+**Runtime Logs** show start-phase crashes. Verify
+`apps/web/.next/standalone/server.js` exists in the build output (it must —
+`apps/web/next.config.ts` sets `output: "standalone"` +
+`outputFileTracingRoot` for the root-`./` deploy layout). Fix the reported
+error, redeploy.
 
 ## Other deploy routes
 
