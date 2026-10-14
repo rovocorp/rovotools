@@ -74,6 +74,21 @@ export default function ToolsPage(): React.ReactElement {
         ]}
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("en", "navigation.tools")}</h1>
+      <div className="mt-3 max-w-3xl space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+        <p>
+          Browse every free RovoTools utility in one place. Most tools run entirely in your
+          browser — PDFs, images, JSON, encodings, calculators, QR codes and more — with no
+          signup and no account. Use the search box or category filter to narrow the list, or
+          open a category hub for guided intros and recommended workflows.
+        </p>
+        <p>
+          Popular starting points: JSON Formatter for API payloads, Image Compressor for
+          faster pages, Merge PDF for combining scans, Unit Converter for everyday maths, and
+          URL QR Generator for print-ready codes. Each tool page includes how-to steps,
+          privacy notes and related tools so you can complete multi-step jobs without leaving
+          the site.
+        </p>
+      </div>
       {/* Sticky right rail (xl+ only) + listing column; rail collapses when ads are off. */}
       <div className="xl:flex xl:items-start xl:gap-8">
         <div className="min-w-0 flex-1">

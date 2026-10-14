@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: post.title,
     description: post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
+    robots: post.noIndex === true ? { index: false, follow: false } : undefined,
     openGraph: {
       siteName: BRAND_NAME,
       images: [
@@ -96,11 +97,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">{post.title}</h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{post.date}</p>
       <div className="mt-6 space-y-4 text-zinc-700 dark:text-zinc-300">
-        {post.body.map((paragraph, index) => (
-          <p key={index} className="leading-relaxed">
-            {paragraph}
-          </p>
-        ))}
+        {post.body.map((paragraph, index) =>
+          paragraph.startsWith("## ") ? (
+            <h2 key={index} className="pt-4 text-xl font-bold sm:text-2xl">
+              {paragraph.slice(3)}
+            </h2>
+          ) : (
+            <p key={index} className="leading-relaxed">
+              {paragraph}
+            </p>
+          ),
+        )}
       </div>
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-heading" className="mt-10">

@@ -96,6 +96,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{meta.title}</h1>
       <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">{meta.description}</p>
+      <div className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+        {meta.longDescription.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
+      </div>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         {tools.length === 1
           ? t("en", "tool.oneTool")

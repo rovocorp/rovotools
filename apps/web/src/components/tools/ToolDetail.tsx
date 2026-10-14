@@ -56,16 +56,20 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         }
       : null;
 
-  const howToJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: `How to use ${display.name}`,
-    step: copy.howTo.map((step, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      text: step,
-    })),
-  };
+  // HowTo schema only when steps are hand-written — generic fallback steps
+  // on every tool page look like schema/content mismatch to search engines.
+  const howToJsonLd = copy.hasCustomCopy
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: `How to use ${display.name}`,
+        step: copy.howTo.map((step, index) => ({
+          "@type": "HowToStep",
+          position: index + 1,
+          text: step,
+        })),
+      }
+    : null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -74,7 +78,9 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
       <div className="xl:flex xl:items-start xl:gap-8">
       <div className="min-w-0 flex-1">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      {howToJsonLd !== null ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }} />
+      ) : null}
       {faqJsonLd !== null ? (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }} />
       ) : null}

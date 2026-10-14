@@ -267,8 +267,8 @@ export default function Home(): React.ReactElement {
             <dl className="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
               {[
                 { value: `${totalTools}+`, label: "Free tools", gradient: "from-blue-600 to-indigo-600" },
-                { value: "100%", label: "Private", gradient: "from-emerald-500 to-teal-600" },
-                { value: "0", label: "Sign-ups", gradient: "from-fuchsia-500 to-pink-600" },
+                { value: "Local-first", label: "Privacy", gradient: "from-emerald-500 to-teal-600" },
+                { value: "0", label: "Sign-ups", gradient: "from-fuchsia-500 to-pink-500" },
                 { value: "Offline", label: "Ready", gradient: "from-amber-500 to-orange-600" },
               ].map((stat) => (
                 <div
@@ -555,10 +555,10 @@ export default function Home(): React.ReactElement {
                 <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Private by design
               </p>
               <h2 className="mt-3 text-2xl font-black tracking-tight text-white sm:text-4xl">
-                {totalTools}+ tools. Zero sign-up. Zero uploads.
+                {totalTools}+ tools. Zero sign-up.
               </h2>
               <p className="mt-2 font-medium text-white/85">
-                Convert, compress, generate and calculate — everything runs in your browser.
+                Convert, compress, generate and calculate — most tools run entirely in your browser.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

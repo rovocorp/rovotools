@@ -42,6 +42,8 @@ export interface ResolvedToolPageCopy {
   readonly faqs: ReadonlyArray<ToolFaq>;
   readonly related: ReadonlyArray<string>;
   readonly workflow?: ToolWorkflow;
+  /** True only when a hand-written deck exists — used to suppress HowTo schema on template pages. */
+  readonly hasCustomCopy: boolean;
 }
 
 const IMAGE_WORKFLOW: ToolWorkflow = {
@@ -1392,6 +1394,675 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       ],
     },
   },
+  "age-calculator": {
+    title: "Age Calculator — Exact Age in Years, Months & Days | RovoTools",
+    description:
+      "Free age calculator. Find exact age in years, months and days from a birth date — or the age difference between two dates. Private, instant, no signup.",
+    intro:
+      "Find out how old someone is in years, months and days. Enter a birth date and an optional as-of date (defaults to today) to get a precise age breakdown using calendar-aware arithmetic — not a rough year estimate. Useful for birthdays, forms, HR checks, school enrolment and any situation that needs an exact age.",
+    benefits: [
+      "Exact years, months and days — not a rounded year estimate",
+      "Compare against today or any as-of date",
+      "Handles month-end and leap-day edge cases correctly",
+      "Runs entirely on your device — the dates you enter never leave the browser",
+    ],
+    howTo: [
+      "Enter the birth date in DD/MM/YYYY format.",
+      "Leave the as-of date as today, or enter another date to measure against.",
+      "Press Execute to see the age in years, months and days.",
+      "Change the as-of date to plan a future birthday or verify a form entry.",
+    ],
+    faqs: [
+      {
+        question: "How is age calculated exactly?",
+        answer:
+          "Exact age counts full years between the two dates, then remaining months and leftover days. For example, someone born on 15 March 2000 is 26 full years old on 14 March 2026, and 26 years 11 months 15 days on 14 February 2027.",
+      },
+      {
+        question: "What if the birth day is the 29th of February?",
+        answer:
+          "In non-leap years the anniversary is treated as 1 March (or 28 February, depending on jurisdiction). This calculator uses standard calendar arithmetic so you always get a consistent, explainable result.",
+      },
+      {
+        question: "Can I calculate the age difference between two people?",
+        answer:
+          "Yes. Enter the first person's birth date with today's as-of date, note the result, then repeat for the second — or set both dates relative to a fixed as-of date so the difference is stable.",
+      },
+      {
+        question: "Is my data private?",
+        answer:
+          "Yes. The calculation runs in your browser. The dates you type are not uploaded to a server, logged or stored.",
+      },
+    ],
+    related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "bmi-calculator"],
+  },
+  "unit-converter": {
+    intro:
+      "Convert everyday measurements in one place: kilometres to miles, kilograms to pounds, Celsius to Fahrenheit, inches to centimetres and more. Pick a from-unit and a to-unit from the same family, enter a value, and get the converted result plus the formula used so you can check the maths yourself.",
+    benefits: [
+      "Length, weight and temperature in metric and imperial",
+      "Shows the conversion formula with every result",
+      "Guards against mismatched unit families (e.g. km to kg)",
+      "Instant and private — nothing is sent to a server",
+    ],
+    howTo: [
+      "Enter the numeric value you want to convert.",
+      "Choose the from-unit and to-unit from the dropdowns.",
+      "Press Execute to see the converted value and the formula.",
+      "Swap the units to convert in the other direction.",
+    ],
+    faqs: [
+      {
+        question: "Which units are supported?",
+        answer:
+          "Length includes kilometres, metres, centimetres, millimetres, miles, yards, feet and inches. Weight covers kilograms, grams, milligrams, pounds and ounces. Temperature covers Celsius, Fahrenheit and Kelvin.",
+      },
+      {
+        question: "Why can't I convert kilometres to kilograms?",
+        answer:
+          "Distance and mass are different dimensions. The converter checks unit families and refuses cross-family conversions so you never get a meaningless number.",
+      },
+      {
+        question: "How do you convert Celsius to Fahrenheit?",
+        answer:
+          "Fahrenheit = (Celsius × 9/5) + 32. The tool also handles Kelvin = Celsius + 273.15. The exact formula is shown with every temperature result.",
+      },
+    ],
+    related: ["percentage-calculator", "number-formatter", "color-converter", "age-calculator"],
+  },
+  "word-counter": {
+    title: "Word Counter — Count Words, Characters & Reading Time | RovoTools",
+    description:
+      "Free word counter. Count words, characters (with and without spaces), sentences and paragraphs — plus estimated reading time.",
+    intro:
+      "Paste any text to instantly count words, characters with and without spaces, sentences and paragraphs, and get an estimated reading and speaking time. Useful for essays, meta descriptions, tweets, ad copy, subtitles and any limit that is measured in words or characters.",
+    benefits: [
+      "Words, characters (with/without spaces), sentences and paragraphs",
+      "Reading time and speaking-time estimates",
+      "Live counts as you type or paste",
+      "Text never leaves your browser — safe for confidential drafts",
+    ],
+    howTo: [
+      "Paste or type your text into the text area.",
+      "Read the live word, character, sentence and paragraph counts.",
+      "Use the reading-time estimate to check length against limits.",
+      "Clear the box to start a new draft.",
+    ],
+    faqs: [
+      {
+        question: "Does the word counter count hyphenated words as one or two?",
+        answer:
+          "Hyphenated compounds like 'well-known' count as one word, matching common word-processor behaviour. Numbers and standalone symbols count as words when separated by spaces.",
+      },
+      {
+        question: "How is reading time estimated?",
+        answer:
+          "At an average silent reading speed of about 200–250 words per minute. Speaking time uses roughly 130–150 words per minute, closer to a natural presentation pace.",
+      },
+      {
+        question: "Is my text stored or uploaded?",
+        answer:
+          "No. Counting happens in your browser. Nothing you paste is sent to a server, logged or saved after you leave the page.",
+      },
+    ],
+    related: ["reading-time-calculator", "case-converter", "duplicate-line-remover", "text-cleaner"],
+  },
+  "tip-calculator": {
+    title: "Tip Calculator — Split Bills Fairly | RovoTools",
+    description:
+      "Free tip calculator. Calculate tip percentage, total bill and per-person share when splitting with friends or family.",
+    intro:
+      "Work out the tip and the total without mental arithmetic. Enter the bill amount, the tip percentage and how many people are splitting, then get the tip, the grand total and each person's share. Ideal for restaurants, taxis, delivery and shared holidays.",
+    benefits: [
+      "Tip amount, total bill and per-person share in one result",
+      "Any tip percentage — 10%, 15%, 18%, 20% or custom",
+      "Handles group splits cleanly with rounding awareness",
+      "Private and offline-friendly — no bill data leaves the device",
+    ],
+    howTo: [
+      "Enter the bill amount before tip.",
+      "Enter the tip percentage (for example 15 or 20).",
+      "Enter how many people are splitting the bill.",
+      "Press Execute to see the tip, total and each person's share.",
+    ],
+    faqs: [
+      {
+        question: "What tip percentage should I leave?",
+        answer:
+          "In the US, 15–20% of the pre-tax bill is common for table service; 10–15% for counter service. Elsewhere, check local norms — many countries include service already. Use any custom percentage this calculator accepts.",
+      },
+      {
+        question: "Should tip be calculated on the pre-tax or post-tax bill?",
+        answer:
+          "Customarily on the pre-tax amount, though some people tip on the total. Enter whichever base you prefer as the bill amount — the tool simply applies your percentage.",
+      },
+      {
+        question: "How do I split evenly with a shared bill?",
+        answer:
+          "Set people to the number of diners. The per-person figure is the grand total divided equally. For itemised splits, calculate each person's items separately then tip on their share.",
+      },
+    ],
+    related: ["percentage-calculator", "discount-calculator", "loan-calculator", "age-calculator"],
+  },
+  "url-qr-generator": {
+    title: "URL QR Code Generator — Free, Instant, Private | RovoTools",
+    description:
+      "Generate a QR code for any URL. Customise size and error correction, then download a PNG — no signup, no tracking.",
+    intro:
+      "Turn a website address into a scannable QR code in seconds. Paste the URL, choose size and error-correction level, and download a clean PNG ready for print, slides, menus or packaging. Codes are generated entirely in your browser — no link history is stored.",
+    benefits: [
+      "Works with any http/https URL",
+      "Choose pixel size and error-correction level",
+      "Download as PNG for print or screens",
+      "Generated locally — the URL is not sent to a third-party QR API",
+    ],
+    howTo: [
+      "Paste the full URL, including https://.",
+      "Pick a size (for example 300 px for small print, 1000 px for posters).",
+      "Choose an error-correction level (M is fine for most uses).",
+      "Press Execute, then download the PNG.",
+    ],
+    faqs: [
+      {
+        question: "What error correction level should I use?",
+        answer:
+          "Level M (about 15% recovery) balances density and reliability for most URLs. Use Q or H if the code will be printed small, damaged, or partially obscured (menus, stickers).",
+      },
+      {
+        question: "Will the QR code expire?",
+        answer:
+          "The image itself never expires. Scanners open whatever URL was encoded — if you later change the destination page, the same QR still points at the same address unless you use a redirect you control.",
+      },
+      {
+        question: "Can I make a short-link QR instead of a long URL?",
+        answer:
+          "Yes. Generate the code for your short link (or any redirect you control). Shorter URLs produce denser-looking codes only when the string is long; error correction still applies.",
+      },
+    ],
+    related: ["wifi-qr-generator", "vcard-qr-generator", "text-qr-generator", "url-encoder"],
+  },
+  "percentage-calculator": {
+    title: "Percentage Calculator — Of, Change & Reverse % | RovoTools",
+    description:
+      "Free percentage calculator. Work out X% of Y, percentage change between values, and what number a percentage is of another.",
+    intro:
+      "Solve everyday percentage problems in one tool: what is X% of Y, the percentage change from an old value to a new one, and reverse questions like 'X is what percent of Y'. Enter the numbers, press execute, and get a clear step-by-step result you can trust for discounts, grades, markups and stats.",
+    benefits: [
+      "X% of Y, percentage change and reverse percentage in one place",
+      "Shows the working, not just the number",
+      "Handles zero and negative values safely",
+      "Runs on your device — no data is uploaded",
+    ],
+    howTo: [
+      "Enter the base value (Y) and the percentage (X) for 'X% of Y'.",
+      "Optionally enter an old value to compute percentage change to the new total.",
+      "Press Execute to see all computed percentage results with their formulas.",
+      "Reuse the same inputs after tweaking a number for quick scenarios.",
+    ],
+    faqs: [
+      {
+        question: "How do you calculate percentage change?",
+        answer:
+          "Change = (new − old) ÷ old × 100. A price from 80 to 100 is a 25% increase; from 100 to 80 is a 20% decrease — the bases differ, which is why direction and wording matter.",
+      },
+      {
+        question: "What is 15% of 240?",
+        answer:
+          "0.15 × 240 = 36. The tool shows this as X% of Y so you can verify any similar question.",
+      },
+      {
+        question: "How do I find what percent 45 is of 60?",
+        answer:
+          "45 ÷ 60 × 100 = 75%. Use the reverse-percentage mode with the part and the whole.",
+      },
+    ],
+    related: ["discount-calculator", "roi-calculator", "compound-interest-calculator", "unit-converter"],
+  },
+  "compound-interest-calculator": {
+    title: "Compound Interest Calculator — Growth Over Time | RovoTools",
+    description:
+      "Free compound interest calculator. Project principal growth with annual compounding frequency, years and rate — plus yearly breakdown.",
+    intro:
+      "See how money grows with compound interest. Enter the principal, annual interest rate, number of years and how often interest compounds (annually, semi-annually, quarterly, monthly or daily). Get the future value, total interest earned and a year-by-year table so you can compare scenarios side by side.",
+    benefits: [
+      "Future value with any compounding frequency",
+      "Total interest and yearly growth table",
+      "Compare rates and terms without spreadsheets",
+      "Calculations stay on your device",
+    ],
+    howTo: [
+      "Enter the starting principal (initial investment or loan base).",
+      "Enter the annual interest rate as a percentage.",
+      "Enter how many years the money compounds for.",
+      "Choose compounds per year (12 is a common monthly default).",
+      "Press Execute to see future value, total interest and the yearly table.",
+    ],
+    faqs: [
+      {
+        question: "What is the compound interest formula?",
+        answer:
+          "A = P(1 + r/n)^(n×t), where P is principal, r the annual rate as a decimal, n compounds per year and t years. Total interest is A − P.",
+      },
+      {
+        question: "How does compounding frequency affect the result?",
+        answer:
+          "More frequent compounding grows money slightly faster for the same nominal rate. Monthly (n=12) vs annual (n=1) is a small but real difference over long horizons.",
+      },
+      {
+        question: "Does this include regular monthly deposits?",
+        answer:
+          "This calculator models a single principal with compound growth. For recurring contributions, run yearly scenarios or use a dedicated savings planner with payment schedules.",
+      },
+    ],
+    related: ["roi-calculator", "loan-calculator", "percentage-calculator", "discount-calculator"],
+  },
+  "roi-calculator": {
+    title: "ROI Calculator — Return on Investment | RovoTools",
+    description:
+      "Free ROI calculator. Work out return on investment as a percentage and absolute gain from cost and revenue.",
+    intro:
+      "Measure return on investment the standard way. Enter what you spent (cost) and what you got back (gain or revenue) to get ROI as a percentage plus the absolute profit. Useful for marketing campaigns, freelance projects, side hustles and comparing where money actually works hardest.",
+    benefits: [
+      "Standard ROI = (gain − cost) ÷ cost × 100",
+      "Shows absolute profit and percentage together",
+      "Handles negative ROI when costs exceed returns",
+      "Instant and private in the browser",
+    ],
+    howTo: [
+      "Enter the total cost or investment amount.",
+      "Enter the total gain, revenue or exit value.",
+      "Press Execute to see ROI percentage and absolute profit.",
+      "Swap numbers to compare alternative scenarios quickly.",
+    ],
+    faqs: [
+      {
+        question: "What is a good ROI?",
+        answer:
+          "It depends on the channel and risk. A single campaign that doubles spend (100% ROI) is very different from a diversified portfolio average. Always compare against your own baseline and alternatives, not a universal number.",
+      },
+      {
+        question: "What if ROI is negative?",
+        answer:
+          "The tool reports negative ROI when cost exceeds gain. That is still useful information — it shows which activities destroyed value so you can stop or redesign them.",
+      },
+      {
+        question: "Does this account for time or inflation?",
+        answer:
+          "No. ROI here is a simple cost-vs-return ratio. For multi-year returns, annualise separately or combine with the compound interest tool to compare growth rates.",
+      },
+    ],
+    related: ["compound-interest-calculator", "percentage-calculator", "discount-calculator", "tax-calculator"],
+  },
+  "discount-calculator": {
+    title: "Discount Calculator — Sale Price & Savings | RovoTools",
+    description:
+      "Free discount calculator. Find the sale price and money saved from any percentage discount, with optional tax.",
+    intro:
+      "Work out what you actually pay after a sale. Enter the original price and the discount percentage to get the sale price and the amount saved. Built for shopping, wholesale quotes and clearance maths where mental arithmetic gets sloppy.",
+    benefits: [
+      "Sale price and absolute savings in one result",
+      "Any discount percentage — 10%, 25%, 50% or custom",
+      "Clear formula so you can verify the shop's sticker",
+      "On-device calculation — prices stay private",
+    ],
+    howTo: [
+      "Enter the original price before discount.",
+      "Enter the discount percentage (for example 25 for 25% off).",
+      "Press Execute to see the sale price and how much you saved.",
+      "Compare stacked offers by recalculating with different percentages.",
+    ],
+    faqs: [
+      {
+        question: "How is the sale price calculated?",
+        answer:
+          "Sale price = original × (1 − discount/100). A 20% discount on 150 is 150 × 0.80 = 120, saving 30.",
+      },
+      {
+        question: "How do I compare two discounts?",
+        answer:
+          "Run the calculator once per offer with the same original price, then compare both sale prices and savings. Deeper percentage always wins on the same base price.",
+      },
+      {
+        question: "Does this include sales tax or VAT?",
+        answer:
+          "No — it applies only the discount. Add tax manually on the sale price, or chain it with a percentage calculation for the tax amount.",
+      },
+    ],
+    related: ["percentage-calculator", "roi-calculator", "tax-calculator", "tip-calculator"],
+  },
+  "uuid-generator": {
+    title: "UUID Generator — v4 Random IDs, Batch Up to 50 | RovoTools",
+    description:
+      "Generate cryptographically strong UUID v4 identifiers. Create up to 50 at a time, copy or download as a list — free and private.",
+    intro:
+      "Generate RFC 4122 version 4 UUIDs for database keys, test fixtures, correlation IDs and API samples. Create up to fifty identifiers in one click, copy them to the clipboard or download a plain-text file. Values come from the browser's cryptographic random source — never from a weak PRNG.",
+    benefits: [
+      "UUID v4 using the browser's crypto.getRandomValues",
+      "Batch generate up to 50 IDs at once",
+      "Copy to clipboard or download as a text list",
+      "No server round-trip — IDs never leave the device",
+    ],
+    howTo: [
+      "Choose how many UUIDs you need (1–50).",
+      "Press Execute to generate the batch.",
+      "Copy the list or download it as a text file.",
+      "Generate again if you need a fresh set.",
+    ],
+    faqs: [
+      {
+        question: "What is a UUID v4?",
+        answer:
+          "A 128-bit identifier formatted as eight groups of hex digits (for example 550e8400-e29b-41d4-a716-446655440000). Version 4 fills 122 bits with random data, making collisions astronomically unlikely for typical app use.",
+      },
+      {
+        question: "Are these UUIDs safe for secrets?",
+        answer:
+          "They are strong random values, but they are not a substitute for dedicated secret managers or session tokens with proper expiry. Use them as identifiers, not as sole authentication material.",
+      },
+      {
+        question: "How is this different from a sequential ID?",
+        answer:
+          "Sequential IDs reveal order and volume. UUID v4 values do not encode time or sequence, which avoids leaking growth metrics and reduces collision risk across systems.",
+      },
+    ],
+    related: ["random-token-generator", "hash-generator", "password-generator", "regex-tester"],
+  },
+  "regex-tester": {
+    title: "Regex Tester — Test Regular Expressions Online | RovoTools",
+    description:
+      "Test JavaScript regular expressions against sample text. Live match list with groups and flags — private, in-browser regex playground.",
+    intro:
+      "Write and test JavaScript regular expressions without leaving the browser. Enter a pattern, optional flags (g, i, m, s, u) and sample text to see every match with capture groups highlighted in the results. Ideal for form validation, log parsing, refactors and interview prep.",
+    benefits: [
+      "Live matches with capture groups",
+      "Supports common JS flags (g, i, m, s, u, y)",
+      "Invalid patterns report clear errors instead of failing silently",
+      "Patterns and sample text stay on your device",
+    ],
+    howTo: [
+      "Enter the pattern without surrounding slashes (for example \\d+).",
+      "Optionally add flags such as g for global or i for case-insensitive.",
+      "Paste the text you want to match against.",
+      "Press Execute to list every match and its groups.",
+    ],
+    faqs: [
+      {
+        question: "Which regex flavour is this?",
+        answer:
+          "JavaScript (ECMAScript) regular expressions, the same engine your browser uses. Lookbehind and named groups depend on browser support but are widely available in modern browsers.",
+      },
+      {
+        question: "Why do I get zero matches when the pattern looks correct?",
+        answer:
+          "Check escaping (\\d not d for digits), whether you need the g flag for multiple matches, and whether whitespace or case sensitivity matters. The error panel flags syntax problems.",
+      },
+      {
+        question: "Can I use this regex in Python or Java?",
+        answer:
+          "Many patterns transfer, but flavours differ (lookbehind, word boundaries, flags). Treat this as a JS tester and verify language-specific syntax in your target runtime's docs.",
+      },
+    ],
+    related: ["diff-checker", "json-validator", "email-validator", "uuid-generator"],
+  },
+  "base64-decoder": {
+    title: "Base64 Decoder — Decode Base64 Strings Online | RovoTools",
+    description:
+      "Free Base64 decoder. Decode Base64 (and URL-safe Base64) back to plain text instantly — private, no upload.",
+    intro:
+      "Decode Base64-encoded text back to readable characters. Paste a Base64 string — standard or URL-safe — and get the decoded text immediately. Common for JWT payloads, email attachments, data URIs and API debugging. Decoding runs entirely in your browser.",
+    benefits: [
+      "Handles standard and URL-safe Base64 alphabets",
+      "Ignores whitespace and line breaks in the input",
+      "Shows clear errors for invalid padding or characters",
+      "Nothing is uploaded — safe for tokens and payloads you shouldn't share",
+    ],
+    howTo: [
+      "Paste the Base64 string into the input box.",
+      "Press Execute to decode it to plain text.",
+      "Copy the result, or fix the input if an error is reported.",
+      "Use the paired encoder if you need to go the other way.",
+    ],
+    faqs: [
+      {
+        question: "What is Base64?",
+        answer:
+          "A binary-to-text encoding that maps three bytes to four ASCII characters from a 64-symbol alphabet. It is not encryption — anyone can decode it. Use it for transport safety, not secrecy.",
+      },
+      {
+        question: "Why is my decoded text garbled?",
+        answer:
+          "The payload may be binary (images, compressed data) rather than text, or it may be URL-safe Base64 with - and _ instead of + and /. This tool accepts URL-safe input; binary payloads will still look noisy as text.",
+      },
+      {
+        question: "Is Base64 safe for passwords or secrets?",
+        answer:
+          "No. Base64 is encoding, not encryption. Never store or transmit passwords as 'protected' Base64 — use proper hashing and TLS instead.",
+      },
+    ],
+    related: ["base64-encoder", "url-encoder", "url-decoder", "jwt-decoder"],
+  },
+  "url-encoder": {
+    title: "URL Encoder — Percent-Encode Query Strings | RovoTools",
+    description:
+      "Free URL encoder. Percent-encode text for query strings and URLs — standard encodeURIComponent behaviour, private and instant.",
+    intro:
+      "Percent-encode any text so it is safe inside a URL query string or path segment. Spaces become %20 (or + depending on context), reserved characters like &, ?, # and = are escaped, and unicode is UTF-8 encoded. Essential for building API calls, tracking links and form GET URLs by hand.",
+    benefits: [
+      "Standard encodeURIComponent behaviour",
+      "Safe for query values, path segments and form bodies",
+      "Handles unicode and multi-byte characters correctly",
+      "Encoding runs locally — content is not sent anywhere",
+    ],
+    howTo: [
+      "Paste the raw text you need to place in a URL.",
+      "Press Execute to produce the percent-encoded string.",
+      "Copy the result into your query string or API client.",
+      "Use the decoder if you need to reverse an encoded value.",
+    ],
+    faqs: [
+      {
+        question: "What is the difference between %20 and + for spaces?",
+        answer:
+          "+ is traditional for application/x-www-form-urlencoded bodies. %20 works in both query strings and paths. This encoder uses encodeURIComponent (%20), which is the safer general choice.",
+      },
+      {
+        question: "Which characters must be encoded in a query value?",
+        answer:
+          "At minimum: space, #, &, +, =, ?, %, and non-ASCII. encodeURIComponent escapes all of these plus !, ', (, ) and * — all safe to leave encoded.",
+      },
+      {
+        question: "Can I encode an entire URL?",
+        answer:
+          "You can, but you usually should not. Encode only the parameter values, not the scheme, host or path separators. Encoding a whole URL breaks navigation.",
+      },
+    ],
+    related: ["url-decoder", "base64-encoder", "url-validator", "slug-generator"],
+  },
+  "password-strength-checker": {
+    title: "Password Strength Checker — Entropy & Weak-Pattern Hints | RovoTools",
+    description:
+      "Check password strength offline. Estimates entropy, flags weak patterns and dictionary words — never sends the password anywhere.",
+    intro:
+      "Paste a password to estimate its strength: length, character-class mix, entropy in bits, and warnings for common patterns (sequences, repeats, keyboard runs, dictionary words). The check runs entirely in your browser — the password is never transmitted, logged or stored. Use it to harden passwords before saving them in your manager.",
+    benefits: [
+      "Entropy estimate in bits plus a plain-language rating",
+      "Flags sequences, repeats, years and common words",
+      "Password never leaves the device — safe for real checks",
+      "Works offline once the page has loaded",
+    ],
+    howTo: [
+      "Paste the password you want to evaluate.",
+      "Press Execute to see length, character classes, entropy and warnings.",
+      "Address the listed weak patterns (replace dictionary words, avoid runs).",
+      "Re-check until the rating and entropy meet your policy.",
+    ],
+    faqs: [
+      {
+        question: "How many bits of entropy are enough?",
+        answer:
+          "For online accounts, 60+ bits is a practical floor; 80+ bits is comfortable for high-value secrets. Entropy depends on true randomness — a long passphrase of random words often beats a short 'complex' password.",
+      },
+      {
+        question: "Does this store or send my password?",
+        answer:
+          "No. Analysis happens in JavaScript in your tab. Nothing is sent to a server. Close the tab and the value is gone from the page.",
+      },
+      {
+        question: "Is a strong score safe to reuse everywhere?",
+        answer:
+          "No. Strength does not protect against breach reuse. Generate a unique password per site (see the password generator) and store them in a password manager.",
+      },
+    ],
+    related: ["password-generator", "hash-generator", "random-token-generator", "uuid-generator"],
+  },
+  "hash-generator": {
+    title: "Hash Generator — MD5, SHA-1, SHA-256, SHA-512 Online | RovoTools",
+    description:
+      "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes of any text — entirely in your browser with the Web Crypto API.",
+    intro:
+      "Hash any text string with MD5, SHA-1, SHA-256 or SHA-512. Useful for checksums, verifying file integrity references, comparing cached strings and learning how digests work. Hashing uses your browser's crypto — the input never reaches a server. MD5 and SHA-1 are shown for compatibility only; use SHA-256 or better for security-sensitive work.",
+    benefits: [
+      "MD5, SHA-1, SHA-256 and SHA-512 in one run",
+      "Web Crypto API — fast native hashing in the browser",
+      "Clear warning when a digest is not collision-resistant",
+      "Input stays on the device",
+    ],
+    howTo: [
+      "Paste the text you want to hash.",
+      "Press Execute to compute all supported digests.",
+      "Copy the hash you need (usually SHA-256 or SHA-512).",
+      "Re-run after any input change to get updated digests.",
+    ],
+    faqs: [
+      {
+        question: "Which hash should I use?",
+        answer:
+          "SHA-256 or SHA-512 for anything security-related. MD5 and SHA-1 are included for legacy checksums only — both are broken against deliberate collisions.",
+      },
+      {
+        question: "Is hashing the same as encryption?",
+        answer:
+          "No. Hashing is one-way: you cannot recover the input from the digest. Encryption is reversible with a key. Passwords need slow hashes (bcrypt, argon2), not fast SHA digests alone.",
+      },
+      {
+        question: "Why do two different strings sometimes look related in length?",
+        answer:
+          "All SHA-256 digests are 256 bits (64 hex characters) regardless of input size — that is by design. Same-length output does not mean related content.",
+      },
+    ],
+    related: ["password-strength-checker", "random-token-generator", "uuid-generator", "base64-encoder"],
+  },
+  "email-validator": {
+    title: "Email Validator — Syntax & Structure Check | RovoTools",
+    description:
+      "Validate email address syntax offline. Checks local part, domain shape and common typos — without sending anything.",
+    intro:
+      "Check whether an email address is structurally valid before you add it to a form, CRM or mailing list. The validator checks local-part rules, domain shape, consecutive dots and other common typos. Validation is local to your browser — no verification emails are sent and nothing is stored.",
+    benefits: [
+      "RFC-aware local-part and domain checks",
+      "Flags consecutive dots, missing @ and obvious typos",
+      "No network call — the address never leaves the page",
+      "Fast enough to re-check while typing",
+    ],
+    howTo: [
+      "Paste the email address into the input field.",
+      "Press Execute to run the syntax and structure checks.",
+      "Read any warnings (for example double dots or missing TLD).",
+      "Correct the address and re-validate.",
+    ],
+    faqs: [
+      {
+        question: "Does a valid syntax mean the mailbox exists?",
+        answer:
+          "No. Syntax validation cannot prove delivery. Only a confirmation email (double opt-in) verifies a mailbox actually receives mail.",
+      },
+      {
+        question: "Why are plus-addresses like user+tag@example.com accepted?",
+        answer:
+          "Sub-addressing is a standard feature of many mail systems. A leading or trailing + in the local part is legal; this validator accepts it.",
+      },
+      {
+        question: "Can I validate a list of emails at once?",
+        answer:
+          "This tool checks one address at a time. For bulk lists, run each through the validator or use a spreadsheet formula plus spot checks — never upload a list to an untrusted online service.",
+      },
+    ],
+    related: ["url-validator", "regex-tester", "email-validator", "password-strength-checker"],
+  },
+  "date-difference-calculator": {
+    title: "Date Difference Calculator — Days, Weeks & Months Between Dates | RovoTools",
+    description:
+      "Calculate the exact difference between two dates in days, weeks, months and years. Free, private, calendar-aware.",
+    intro:
+      "Find how many days, weeks, months and years fall between two dates. Useful for project timelines, age gaps, billing periods, leave balances and deadlines. The calculator is calendar-aware so month lengths and leap years are counted correctly — not just a raw day multiply.",
+    benefits: [
+      "Difference in days, weeks, months and years together",
+      "Calendar-aware (handles leap years and uneven months)",
+      "Either date order works — past or future ranges",
+      "Dates stay in your browser",
+    ],
+    howTo: [
+      "Enter the start date in DD/MM/YYYY format.",
+      "Enter the end date in DD/MM/YYYY format.",
+      "Press Execute to see days, weeks, months and years between them.",
+      "Swap the dates if you need the reverse direction.",
+    ],
+    faqs: [
+      {
+        question: "Is the day count inclusive or exclusive?",
+        answer:
+          "The primary day count is exclusive of the end date (standard difference). For inclusive counts (both endpoints counted), add one day to the result.",
+      },
+      {
+        question: "How are months calculated when days don't align?",
+        answer:
+          "Full calendar months are counted first, then leftover days. From 31 January to 28 February is 0 months and 28 days in some conventions, or 1 month in others — this tool reports full months plus remaining days so the breakdown is explicit.",
+      },
+      {
+        question: "Can I use this for business-day only ranges?",
+        answer:
+          "No. This is a calendar difference. Weekends and holidays are not subtracted; compute business days separately if needed.",
+      },
+    ],
+    related: ["age-calculator", "date-formatter", "countdown-timer", "timestamp-converter"],
+  },
+  "json-minifier": {
+    title: "JSON Minifier — Remove Whitespace from JSON | RovoTools",
+    description:
+      "Minify JSON by stripping unnecessary whitespace. Validates structure while compacting — private, in-browser JSON tool.",
+    intro:
+      "Compress JSON by removing indentation and unnecessary whitespace while keeping structure intact. Paste pretty-printed JSON, minify it, and copy the compact payload for APIs, configs or size checks. Invalid JSON is rejected with a clear error before anything is produced. Everything runs locally.",
+    benefits: [
+      "Strips indentation and redundant whitespace only",
+      "Rejects invalid JSON with a readable error",
+      "Ideal for API payloads and config size checks",
+      "Input never leaves the browser",
+    ],
+    howTo: [
+      "Paste your JSON into the input area.",
+      "Press Execute to validate and minify.",
+      "Copy the compact single-line (or tightly spaced) result.",
+      "Fix any reported syntax error and try again.",
+    ],
+    faqs: [
+      {
+        question: "Does minifying change my data?",
+        answer:
+          "No. Only whitespace outside string values is removed. Key order and values are preserved exactly as parsed.",
+      },
+      {
+        question: "Why does my minified JSON fail in an API?",
+        answer:
+          "Some servers expect a specific Content-Type or reject very long single lines. Validate with the JSON formatter/validator first, and check the API docs for size limits.",
+      },
+      {
+        question: "What is the difference from the JSON formatter?",
+        answer:
+          "The formatter pretty-prints for readability. The minifier does the opposite — compact output for transport and storage.",
+      },
+    ],
+    related: ["json-formatter", "json-validator", "csv-to-json", "json-to-yaml"],
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {
@@ -1421,5 +2092,6 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
     faqs: deck?.faqs ?? [],
     related: deck?.related ?? [],
     ...(deck?.workflow === undefined ? {} : { workflow: deck.workflow }),
+    hasCustomCopy: deck !== undefined,
   };
 }
