@@ -17,13 +17,26 @@ only that subdirectory.
 | Repository | `rovocorp/rovotools` |
 | Branch | `main` |
 | Root directory | `./` (monorepo root — Hostinger's GitHub flow requires this for this repo; **not** `apps/web`) |
-| Application type | `next` |
+| Application type | `next` (**critical** — see warning below) |
 | Node.js | `22.x` (from `engines.node`; Hostinger supports 18/20/22/24) |
 | Package manager | `pnpm` |
 | Build script | `build` (root script → `pnpm build:web`; the `--webpack` flag inside `apps/web` is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
 | Output directory | `apps/web/.next` (relative to root `./`; Hostinger starts `standalone/server.js` inside it — `apps/web/next.config.ts` sets `output: "standalone"` + `outputFileTracingRoot` so the server lands at the path Hostinger expects) |
 | Entry file | *(leave empty — ignored for `next` apps)* |
 | Environment variables | all optional (defaults work); recommended for canonical URLs below |
+
+### Application type MUST be `next` (403 with green build + empty logs)
+
+With root `./`, auto-detection reads the **root** `package.json`. Only `next`
+apps get the standalone server started; any other type deploys the output
+directory as **static** — the domain then 403s on `/` (no `index.html`), serves
+Hostinger's *default* `robots.txt`, and the Runtime Logs stay **empty** despite
+a green build. The root manifest therefore declares `"next"` in `dependencies`
+(not used by any root script — kept purely as a detection signal), and the
+panel value must still be verified manually after import:
+
+**hPanel → Node.js app → Settings/Build → Application type → `next` → Save →
+Redeploy.** After that, Runtime Logs must show `▲ Next.js … ✓ Ready`.
 
 The pin in `packageManager` (`pnpm@10.22.0`, root + `apps/web`) stays — do not
 widen it. Hostinger's install step honours it, but its build step has run
