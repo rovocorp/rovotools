@@ -50,12 +50,23 @@ const CATEGORY_COPY: Record<ToolCategory, CategoryCopy> = {
     description:
       "Compress, resize, convert, crop and optimize images for websites, documents, social media and everyday file sharing.",
     longDescription: [
-      "Images dominate page weight and message size. This hub covers the practical image jobs you hit when publishing, emailing or preparing assets: compress for faster pages, resize to display dimensions, convert between formats, and crop to the right aspect ratio for social or product shots.",
+      "Images dominate page weight and message size. This hub covers the practical image jobs you hit when publishing, emailing or preparing assets: compress for faster pages, resize to display dimensions, convert between formats, crop to the right aspect ratio for social or product shots, and work with SVG vectors in both directions.",
       "A reliable order of operations is resize first, then convert or compress. A 4000 px photo shown at 800 px wastes bytes no quality setting can recover. Prefer WebP or AVIF for web delivery when your audience's browsers support them; keep JPEG for broad compatibility with photographs and PNG when you need sharp edges or transparency.",
       "Use Image Compressor to cut file size with minimal visible loss, Image Resizer for exact pixel targets, Image Converter for format changes, and Image Cropper when framing matters more than resolution. Colour Picker From Image helps sample brand colours directly from a screenshot or photo.",
-      "All processing is designed to stay on your device whenever the browser supports it — product shots, ID scans and private photos should not need a remote server.",
+      "The SVG family covers the vector side of everyday work. SVG to PNG/JPG/WebP rasterizes logos and icons at any scale for social, email and documents. Image to SVG Vectorizer traces PNG, JPG and WebP into clean scalable paths — best for high-contrast logos, icons and line art. SVG Viewer previews files with dimensions, viewBox and element counts, and SVG to Base64 encodes markup for CSS and API payloads.",
+      "All processing is designed to stay on your device whenever the browser supports it — product shots, ID scans, private brand assets and unreleased design work should not need a remote server.",
     ],
-    keywords: ["image tools", "image to base64", "base64 to image", "compress image", "resize image", "convert image"],
+    keywords: [
+      "image tools",
+      "image to base64",
+      "base64 to image",
+      "compress image",
+      "resize image",
+      "convert image",
+      "svg to png",
+      "png to svg",
+      "svg converter",
+    ],
   },
   developer: {
     title: "Developer Tools",

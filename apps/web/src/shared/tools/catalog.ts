@@ -3169,6 +3169,148 @@ const SPECS: ReadonlyArray<Spec> = [
     },
   },
   {
+    id: "svg-to-image",
+    slug: "svg-to-image",
+    name: "SVG to PNG/JPG/WebP",
+    description: "Rasterize SVG files to PNG, JPG or WebP at any scale — batch supported, all on your device.",
+    category: "image",
+    icon: "image",
+    browserOnly: true,
+    keywords: [
+      "svg to png",
+      "svg to jpg",
+      "svg to webp",
+      "svg converter",
+      "convert svg to image",
+      "svg to png converter",
+      "vector to raster",
+    ],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "files", type: "file", labelKey: "SVG files (up to 20)", required: true },
+      str("format", "Output format: png (default), jpeg or webp", false),
+      str("scale", "Scale factor 1-8, e.g. 2 for 2× (default 1)", false),
+      str("width", "Exact output width in px (overrides scale)", false),
+      str("quality", "Quality 1-100 for JPEG/WebP (default 90)", false),
+      str("background", "Background colour for JPEG / optional solid bg (e.g. #ffffff)", false),
+    ],
+    outputs: [out("files", "Rasterized files (download in the tool below)"), numOut("count", "Files converted")],
+    validate: (input) => {
+      const files = input["files"];
+      const present = typeof files === "string" ? files.trim() !== "" : files instanceof Blob;
+      return present ? ok() : err("files", "Choose at least one SVG file to convert.");
+    },
+    execute: async () => {
+      throw new Error("SVG rasterization runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "image-to-svg",
+    slug: "image-to-svg",
+    name: "Image to SVG Vectorizer",
+    description: "Trace PNG, JPG or WebP images into clean SVG vectors — best for logos, icons and high-contrast artwork.",
+    category: "image",
+    icon: "pen-tool",
+    browserOnly: true,
+    keywords: [
+      "png to svg",
+      "jpg to svg",
+      "image to svg",
+      "vectorize image",
+      "raster to vector",
+      "svg vectorizer",
+      "trace image to svg",
+    ],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "images", type: "file", labelKey: "Images (PNG, JPG, WebP — up to 10)", required: true },
+      str("threshold", "Brightness threshold 0-255, or auto (default)", false),
+      str("turdsize", "Despeckle size 0-100 (default 2)", false),
+      str("fill", "Fill colour for the traced shape (default #000000)", false),
+      flag("invert", "Invert (trace light pixels on dark backgrounds)", false),
+    ],
+    outputs: [out("files", "SVG files (download in the tool below)"), numOut("count", "Files vectorized")],
+    validate: (input) => {
+      const images = input["images"];
+      const present = typeof images === "string" ? images.trim() !== "" : images instanceof Blob;
+      return present ? ok() : err("images", "Choose at least one image to vectorize.");
+    },
+    execute: async () => {
+      throw new Error("Image vectorization runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "svg-viewer",
+    slug: "svg-viewer",
+    name: "SVG Viewer",
+    description: "Preview SVG files instantly, inspect dimensions, viewBox and element counts — nothing is uploaded.",
+    category: "image",
+    icon: "eye",
+    browserOnly: true,
+    keywords: ["svg viewer", "svg preview", "view svg", "svg inspector", "svg file viewer", "open svg online"],
+    popular: false,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "SVG file", required: true },
+      str("source", "Or paste SVG source (used when no file is chosen)", false),
+    ],
+    outputs: [
+      out("preview", "Live preview (in the tool below)"),
+      out("dimensions", "Dimensions and viewBox"),
+      out("complexity", "Element and path counts"),
+      out("size", "File size"),
+    ],
+    validate: (input) => {
+      const file = input["file"];
+      const source = typeof input["source"] === "string" ? input["source"].trim() : "";
+      const present = file instanceof Blob || source !== "";
+      return present ? ok() : err("file", "Upload an SVG file or paste SVG source.");
+    },
+    execute: async () => {
+      throw new Error("SVG preview runs in the browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "svg-to-base64",
+    slug: "svg-to-base64",
+    name: "SVG to Base64 / Data URI",
+    description: "Encode SVG markup as Base64, data URIs and CSS background snippets — paste a file or upload, all on your device.",
+    category: "image",
+    icon: "code",
+    browserOnly: true,
+    keywords: [
+      "svg to base64",
+      "svg to data uri",
+      "svg base64",
+      "svg data url",
+      "encode svg",
+      "svg to css background",
+    ],
+    popular: false,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "SVG file (optional — paste below instead)", required: false },
+      area("source", "SVG source to encode", false),
+    ],
+    outputs: [
+      out("base64", "Raw Base64"),
+      out("dataUriBase64", "Base64 data URI"),
+      out("dataUriEncoded", "URL-encoded data URI"),
+      out("cssBackground", "CSS background-image snippet"),
+    ],
+    validate: (input) => {
+      const file = input["file"];
+      const source = typeof input["source"] === "string" ? input["source"].trim() : "";
+      const present = file instanceof Blob || source !== "";
+      return present ? ok() : err("source", "Upload an SVG file or paste SVG source.");
+    },
+    execute: async () => {
+      throw new Error("SVG encoding runs in the browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
     id: "merge-pdf",
     slug: "merge-pdf",
     name: "Merge PDF",
@@ -3778,6 +3920,10 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "text-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "meta-tag-generator": { action: "Generate meta tags", running: "Generating..." },
   "svg-placeholder-generator": { action: "Generate placeholder", running: "Generating..." },
+  "svg-to-image": { action: "Convert to image", running: "Converting..." },
+  "image-to-svg": { action: "Vectorize", running: "Vectorizing..." },
+  "svg-viewer": { action: "Preview SVG", running: "Rendering..." },
+  "svg-to-base64": { action: "Encode SVG", running: "Encoding..." },
   "email-validator": { action: "Validate email", running: "Validating..." },
   "url-validator": { action: "Validate URL", running: "Validating..." },
   "number-formatter": { action: "Format number", running: "Formatting..." },

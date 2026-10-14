@@ -2063,6 +2063,172 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     ],
     related: ["json-formatter", "json-validator", "csv-to-json", "json-to-yaml"],
   },
+  "svg-to-image": {
+    title: "SVG to PNG/JPG/WebP Converter — Free, Online | RovoTools",
+    description:
+      "Convert SVG files to PNG, JPG or WebP online. Rasterize vector graphics at any scale (1×–8×) or exact pixel width — batch supported, 100% private, no upload.",
+    intro:
+      "Rasterize SVG files to PNG, JPG or WebP directly in your browser. Drop in one SVG or twenty, choose the output format, set a scale factor or exact pixel width, and download crisp raster images — no account, no server round-trip, nothing leaves your device. Ideal for exporting logos, icons and illustrations for social media, email signatures, documents and platforms that do not accept SVG.",
+    benefits: [
+      "Batch-convert up to 20 SVG files in one run",
+      "Output PNG (keeps transparency), JPG (smallest) or WebP (modern, keeps transparency)",
+      "Scale 1×–8× or set an exact pixel width — aspect ratio is always preserved",
+      "Optional solid background for JPEG or when you need a filled canvas",
+      "Everything runs in the browser: your SVGs are never uploaded",
+    ],
+    howTo: [
+      "Drop your SVG files into the upload area (or click to browse).",
+      "Choose the output format — PNG, JPG or WebP.",
+      "Pick a scale (1×–8×) or type an exact pixel width to override it.",
+      "Optionally set a background colour (recommended for JPEG, which has no transparency).",
+      "Press Convert SVGs, then download each image or all at once.",
+    ],
+    faqs: [
+      {
+        question: "Why is my SVG blurry after converting to PNG?",
+        answer:
+          "SVGs are resolution-independent — the raster size is whatever you choose. If the result looks soft, increase the scale (or exact width) and re-convert. A 2× export is usually enough for retina screens.",
+      },
+      {
+        question: "Does converting SVG to PNG lose quality?",
+        answer:
+          "The vector itself is not modified; you are freezing one rendered size. PNG is lossless for that size. For the smallest file with good quality, try WebP at 80–90% quality.",
+      },
+      {
+        question: "Can I convert SVGs with external images or fonts?",
+        answer:
+          "SVGs that reference external URLs (remote images, web fonts) may render without those assets, because the browser blocks cross-origin loads inside a local preview. Inline everything into the SVG before converting.",
+      },
+      {
+        question: "Is my SVG uploaded to a server?",
+        answer: "No. Rendering happens entirely in your browser via the canvas API — nothing is transmitted.",
+      },
+    ],
+    related: ["image-converter", "image-compressor", "svg-viewer", "svg-to-base64", "favicon-generator"],
+  },
+  "image-to-svg": {
+    title: "Image to SVG Vectorizer — PNG/JPG to SVG Online | RovoTools",
+    description:
+      "Convert PNG, JPG or WebP images to SVG vectors online. Trace logos, icons and line art into clean scalable paths — private, free, no signup.",
+    intro:
+      "Turn raster images (PNG, JPG, WebP) into scalable SVG vectors with an in-browser Potrace engine. Perfect for logos, icons, stamps, signatures and high-contrast line art. Tune the threshold and despeckle, preview the result side by side with the original, and download a clean SVG — all on your device, with no upload and no account.",
+    benefits: [
+      "Trace PNG, JPG and WebP into editable SVG paths (Potrace algorithm, pure TypeScript)",
+      "Auto threshold (Otsu) or manual 0–255 control for dark vs light subjects",
+      "Despeckle slider removes noise and stray dots from the trace",
+      "Optional invert for light shapes on dark backgrounds",
+      "Batch-vectorize up to 10 images; download each SVG or all at once",
+    ],
+    howTo: [
+      "Upload one or more PNG, JPG or WebP images (logos and icons work best).",
+      "Leave threshold on auto, or set a value between 0 and 255 if the trace is too aggressive or too sparse.",
+      "Adjust despeckle to remove small speckles without eating into real detail.",
+      "Optionally set a fill colour for the traced shape and tick Invert for light-on-dark art.",
+      "Press Vectorize, compare the side-by-side preview, then download the SVGs.",
+    ],
+    faqs: [
+      {
+        question: "What images trace well to SVG?",
+        answer:
+          "High-contrast, flat-colour artwork: logos, icons, stamps, signatures, line drawings and silhouettes. Photographs, gradients and noisy images produce large, imperfect vectors — convert a high-contrast or black-and-white version of the image first.",
+      },
+      {
+        question: "Why is my vectorized SVG missing colours?",
+        answer:
+          "This tool produces single-colour (silhouette) traces — it captures shape, not multi-colour fills. For full-colour vectorization you need a multi-layer tracer; for most logo work a clean single-colour path is exactly what you want.",
+      },
+      {
+        question: "How do I fix a noisy or speckled trace?",
+        answer:
+          "Increase the despeckle value to remove small stray paths. If large areas disappear, lower it again. Manual threshold tuning also helps when auto-threshold picks the wrong cut-off.",
+      },
+      {
+        question: "Is my image uploaded anywhere?",
+        answer: "No. Decoding, canvas rendering and tracing all run in your browser — the image never leaves your device.",
+      },
+    ],
+    related: ["svg-to-image", "image-converter", "svg-viewer", "favicon-generator", "image-compressor"],
+  },
+  "svg-viewer": {
+    title: "SVG Viewer — Preview SVG Files Online Free | RovoTools",
+    description:
+      "Preview SVG files instantly in your browser. Inspect dimensions, viewBox, element counts and file size — private, free, no upload required.",
+    intro:
+      "Open and inspect SVG files without installing design software. Upload a file or paste SVG markup to get an instant live preview on a checkerboard (so you can see transparency), plus the dimensions, viewBox, element and path counts and the file size. Copy the cleaned source or download the SVG — everything runs locally in your browser.",
+    benefits: [
+      "Instant live preview with light, dark and checkerboard backgrounds",
+      "Shows intrinsic size, viewBox, element count, path count and file size",
+      "Paste source directly or upload a file — nothing is uploaded either way",
+      "Copy the normalized source or download the SVG in one click",
+      "Useful for QA: catch clipped strokes, missing viewBox and oversized files before shipping",
+    ],
+    howTo: [
+      "Upload an SVG file, or paste the SVG markup into the source box.",
+      "The preview appears immediately — switch backgrounds to check transparency.",
+      "Review the metadata panel: size, intrinsic dimensions, viewBox and element counts.",
+      "Open View SVG source to inspect or copy the markup.",
+      "Copy the source or download the file when you are happy with it.",
+    ],
+    faqs: [
+      {
+        question: "Why does my SVG look blank in the preview?",
+        answer:
+          "The file may use a viewBox with zero-size content, rely on external stylesheets, or draw outside the visible area. Check the source for width/height and viewBox, and make sure all shapes are inside the viewBox bounds.",
+      },
+      {
+        question: "Does this tool edit or optimize SVGs?",
+        answer:
+          "No — the viewer is for inspection only. It shows the source as-is so you can debug it. For encoding to Base64 or data URIs, use the SVG to Base64 tool; for rasterizing, use SVG to PNG/JPG/WebP.",
+      },
+      {
+        question: "Is my SVG file uploaded?",
+        answer: "No. The file is read with the browser File API and rendered locally — it never leaves your device.",
+      },
+    ],
+    related: ["svg-to-image", "svg-to-base64", "image-to-svg", "svg-placeholder-generator"],
+  },
+  "svg-to-base64": {
+    title: "SVG to Base64 & Data URI Converter — Free Online | RovoTools",
+    description:
+      "Encode SVG markup as Base64, data URIs and CSS background snippets. Paste or upload an SVG — get copy-ready encodings instantly, 100% private.",
+    intro:
+      "Convert SVG markup into Base64, data URIs and ready-to-paste CSS background declarations. Paste the source or upload a file, then copy the encoding you need for inline icons, CSS sprites, JSON payloads or API responses. Everything is computed in your browser — your SVG never leaves your device.",
+    benefits: [
+      "Four outputs from one source: raw Base64, Base64 data URI, URL-encoded data URI and CSS background",
+      "URL-encoded URI is often smaller than Base64 for text-heavy SVGs — compare both sizes",
+      "Upload a file or paste markup; preview the SVG before encoding",
+      "Copy any output with one click — no signup, no limits",
+      "Encoding runs locally: private brand assets and client work stay private",
+    ],
+    howTo: [
+      "Upload an SVG file, or paste the SVG markup into the source box.",
+      "The preview and all four encodings update instantly.",
+      "Pick the encoding you need: Base64 for APIs, data URI for <img src> or CSS, CSS background for stylesheets.",
+      "Press Copy on the output you want and paste it into your code.",
+    ],
+    faqs: [
+      {
+        question: "Base64 or URL-encoded data URI — which should I use?",
+        answer:
+          "Base64 is safer inside CSS url() quotes and JSON strings; URL-encoded is often 10–30% smaller for SVGs with lots of text or path data. Compare the two output lengths and pick the smaller one that your context accepts.",
+      },
+      {
+        question: "Why is my Base64 SVG not rendering?",
+        answer:
+          "Common causes: missing xmlns=\"http://www.w3.org/2000/svg\" on the root element, or an encoding error from copying a truncated string. Verify the source in the SVG Viewer first, then re-encode.",
+      },
+      {
+        question: "Does Base64 encoding make my SVG smaller?",
+        answer:
+          "No — Base64 expands data by roughly 33%. Use it for embedding and transport, not compression. For shrinking SVGs, optimize the source (remove metadata, simplify paths) before encoding.",
+      },
+      {
+        question: "Is my SVG uploaded?",
+        answer: "No. Encoding is pure string processing in your browser — nothing is transmitted.",
+      },
+    ],
+    related: ["svg-viewer", "svg-to-image", "image-to-svg", "base64-encoder"],
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {
