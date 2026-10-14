@@ -17,26 +17,40 @@ only that subdirectory.
 | Repository | `rovocorp/rovotools` |
 | Branch | `main` |
 | Root directory | `./` (monorepo root — Hostinger's GitHub flow requires this for this repo; **not** `apps/web`) |
-| Application type | `next` (**critical** — see warning below) |
+| Application type | `other` **+ entry file** (preferred), or `next` if the hPanel framework dropdown offers it — see below |
 | Node.js | `22.x` (from `engines.node`; Hostinger supports 18/20/22/24) |
 | Package manager | `pnpm` |
 | Build script | `build` (root script → `pnpm build:web`; the `--webpack` flag inside `apps/web` is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
-| Output directory | `apps/web/.next` (relative to root `./`; Hostinger starts `standalone/server.js` inside it — `apps/web/next.config.ts` sets `output: "standalone"` + `outputFileTracingRoot` so the server lands at the path Hostinger expects) |
-| Entry file | *(leave empty — ignored for `next` apps)* |
+| Output directory | `apps/web/.next` (relative to root `./`; ignored when the entry file below is set) |
+| Entry file | `apps/web/.next/standalone/server.js` (only for Application type `other`; leave empty for `next`) |
 | Environment variables | all optional (defaults work); recommended for canonical URLs below |
 
-### Application type MUST be `next` (403 with green build + empty logs)
+### Why `other` + entry file (not the `next` preset)
 
-With root `./`, auto-detection reads the **root** `package.json`. Only `next`
-apps get the standalone server started; any other type deploys the output
-directory as **static** — the domain then 403s on `/` (no `index.html`), serves
-Hostinger's *default* `robots.txt`, and the Runtime Logs stay **empty** despite
-a green build. The root manifest therefore declares `"next"` in `dependencies`
-(not used by any root script — kept purely as a detection signal), and the
-panel value must still be verified manually after import:
+hPanel's framework dropdown does not always list Next.js (auto-detection ran
+once at import, before the root manifest declared `next`, and the value sticks
+as `Other`). Two working shapes:
 
-**hPanel → Node.js app → Settings/Build → Application type → `next` → Save →
-Redeploy.** After that, Runtime Logs must show `▲ Next.js … ✓ Ready`.
+1. **`other` + entry file (current, verified):** Hostinger deploys the whole
+   repo and runs `node apps/web/.next/standalone/server.js`. The generated
+   server does `process.chdir(__dirname)` first, so the path works from the
+   repo root. `apps/web/next.config.ts` emits `output: "standalone"` with
+   `outputFileTracingRoot` pinned to `apps/web`, and the `postbuild` hook
+   copies `.next/static` + `public/` into `standalone/` (the `next` preset
+   does this for you; `other` does not — without it every page loads with
+   404 JS/CSS).
+2. **`next` preset:** set Application type to Next.js if the dropdown offers
+   it (or re-import the repo now that the root manifest declares `next`).
+   Entry file stays empty; output stays `apps/web/.next`.
+
+### Application type `other` with NO entry file = static 403
+
+With `other` and an empty entry file, Hostinger runs in **publish mode**:
+it copies `apps/web/.next` to `public_html` as static files. There is no
+`index.html` at the `.next` root, so `/` returns Hostinger's static
+**403** ("Access to this resource on the server is denied!"), `/robots.txt`
+serves Hostinger's *default* placeholder, and Runtime Logs stay **empty**
+despite a green build. That is the bug this file exists to prevent.
 
 The pin in `packageManager` (`pnpm@10.22.0`, root + `apps/web`) stays — do not
 widen it. Hostinger's install step honours it, but its build step has run
@@ -94,11 +108,16 @@ The Node process is not running — either the latest build failed or the app
 crashed on start (403 = Hostinger's static edge, nothing is listening;
 503 = proxy found the app but it errored). hPanel → **Deployments** → open
 the latest deployment: build logs are kept for the last 10 builds, and
-**Runtime Logs** show start-phase crashes. Verify
-`apps/web/.next/standalone/server.js` exists in the build output (it must —
-`apps/web/next.config.ts` sets `output: "standalone"` +
-`outputFileTracingRoot` for the root-`./` deploy layout). Fix the reported
-error, redeploy.
+**Runtime Logs** show start-phase crashes. Verify, in this order:
+
+1. Build log header: **Entry file** = `apps/web/.next/standalone/server.js`
+   (mode must NOT be `publish` — `other` + empty entry publishes `.next` as
+   static files and 403s everything, see settings section above).
+2. `apps/web/.next/standalone/server.js` exists in the build output
+   (`next.config.ts` sets `output: "standalone"` + `outputFileTracingRoot`).
+3. Runtime Logs show `▲ Next.js … ✓ Ready` after "Restarting Node.js server".
+
+Fix the reported error, redeploy.
 
 ## Other deploy routes
 
