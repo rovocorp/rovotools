@@ -9,7 +9,7 @@
     "build:packages": "pnpm --filter \"./packages/*\" build",
     "build:web": "pnpm build:packages && pnpm --filter @rovotools/web build",
     "build:mobile": "pnpm --filter @rovotools/mobile build",
-    "start": "pnpm --filter @rovotools/web start",
+    "start": "node server.js",
     "dev": "pnpm --parallel --filter \"./packages/*\" dev",
     "dev:web": "pnpm --filter @rovotools/web dev",
     "lint": "pnpm -r lint",

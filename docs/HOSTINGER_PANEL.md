@@ -17,40 +17,46 @@ only that subdirectory.
 | Repository | `rovocorp/rovotools` |
 | Branch | `main` |
 | Root directory | `./` (monorepo root — Hostinger's GitHub flow requires this for this repo; **not** `apps/web`) |
-| Application type | `other` **+ entry file** (preferred), or `next` if the hPanel framework dropdown offers it — see below |
+| Application type | `other` (Next.js is absent from the hPanel framework dropdown for this import — Hostinger support confirmed `Other` + a root `server.js` is the supported shape) |
 | Node.js | `22.x` (from `engines.node`; Hostinger supports 18/20/22/24) |
 | Package manager | `pnpm` |
 | Build script | `build` (root script → `pnpm build:web`; the `--webpack` flag inside `apps/web` is load-bearing — it is how `next-pwa` regenerates `public/sw.js`) |
-| Output directory | `apps/web/.next` (relative to root `./`; ignored when the entry file below is set) |
-| Entry file | `apps/web/.next/standalone/server.js` (only for Application type `other`; leave empty for `next`) |
+| Output directory | leave empty (entry file is set — `other` ignores the output dir when an entry exists) |
+| Entry file | `server.js` (committed at the repo root; starts the app from `apps/web/.next` — see root `server.js`) |
 | Environment variables | all optional (defaults work); recommended for canonical URLs below |
 
-### Why `other` + entry file (not the `next` preset)
+### The working shape: `other` + root `server.js`
 
-hPanel's framework dropdown does not always list Next.js (auto-detection ran
-once at import, before the root manifest declared `next`, and the value sticks
-as `Other`). Two working shapes:
+hPanel's framework dropdown does not list Next.js for this import, and
+auto-detection (which only runs at import time) had classified the app as
+`Other`. Hostinger support's recommended fix, adapted for this monorepo:
 
-1. **`other` + entry file (current, verified):** Hostinger deploys the whole
-   repo and runs `node apps/web/.next/standalone/server.js`. The generated
-   server does `process.chdir(__dirname)` first, so the path works from the
-   repo root. `apps/web/next.config.ts` emits `output: "standalone"` with
-   `outputFileTracingRoot` pinned to `apps/web`, and the `postbuild` hook
-   copies `.next/static` + `public/` into `standalone/` (the `next` preset
-   does this for you; `other` does not — without it every page loads with
-   404 JS/CSS).
-2. **`next` preset:** set Application type to Next.js if the dropdown offers
-   it (or re-import the repo now that the root manifest declares `next`).
-   Entry file stays empty; output stays `apps/web/.next`.
+- **Root `server.js`** — `next({ dir: <repo>/apps/web })` + `http` handler.
+  The `dir` option is the monorepo adaptation: support's stock snippet assumes
+  the Next project sits at the repo root; ours lives in `apps/web`, and the
+  default (`process.cwd()`) would look for `.next` at the repo root and crash
+  on a missing BUILD_ID. After `pnpm run build` (which builds `packages/*`
+  then `apps/web`), Hostinger runs `node server.js` from the repo root.
+- **Root `package.json`**: `"start": "node server.js"` (build stays
+  `pnpm build:web` — a literal `"build": "next build"` at the root would run
+  Next in the wrong directory; support's example assumes a single-package repo).
+- Runtime Logs will show a one-line warning
+  `"next start" does not work with "output: standalone"` — **benign**. The
+  custom server still serves everything (`next.config.ts` keeps
+  `output: "standalone"` only as a fallback entry path:
+  `apps/web/.next/standalone/server.js`, with `postbuild` copying
+  `static/` + `public/` into it).
 
-### Application type `other` with NO entry file = static 403
+### Failure mode that produced the original 403
 
-With `other` and an empty entry file, Hostinger runs in **publish mode**:
-it copies `apps/web/.next` to `public_html` as static files. There is no
-`index.html` at the `.next` root, so `/` returns Hostinger's static
-**403** ("Access to this resource on the server is denied!"), `/robots.txt`
-serves Hostinger's *default* placeholder, and Runtime Logs stay **empty**
-despite a green build. That is the bug this file exists to prevent.
+`other` + **empty** entry file = Hostinger runs in **publish mode**: it copies
+`apps/web/.next` to `public_html` as static files. No `index.html` at the
+`.next` root → `/` returns Hostinger's static **403** ("Access to this
+resource on the server is denied!"), `/robots.txt` serves Hostinger's
+*default* placeholder, and Runtime Logs stay **empty** despite a green
+build. An entry file flips the mode to server: deploy whole repo, run
+`node server.js`, proxy to it. Never clear the entry file while the app
+type is `other`.
 
 The pin in `packageManager` (`pnpm@10.22.0`, root + `apps/web`) stays — do not
 widen it. Hostinger's install step honours it, but its build step has run
@@ -110,12 +116,14 @@ crashed on start (403 = Hostinger's static edge, nothing is listening;
 the latest deployment: build logs are kept for the last 10 builds, and
 **Runtime Logs** show start-phase crashes. Verify, in this order:
 
-1. Build log header: **Entry file** = `apps/web/.next/standalone/server.js`
-   (mode must NOT be `publish` — `other` + empty entry publishes `.next` as
-   static files and 403s everything, see settings section above).
-2. `apps/web/.next/standalone/server.js` exists in the build output
-   (`next.config.ts` sets `output: "standalone"` + `outputFileTracingRoot`).
-3. Runtime Logs show `▲ Next.js … ✓ Ready` after "Restarting Node.js server".
+1. Build log header: **Entry file** = `server.js` (mode must NOT be
+   `publish` — `other` + empty entry publishes `.next` as static files and
+   403s everything, see settings section above).
+2. Runtime Logs show `Next.js server running on http://0.0.0.0:<port>`
+   (from root `server.js`); a missing-BUILD_ID crash means `pnpm run build`
+   didn't produce `apps/web/.next` — check the build log.
+3. Fallback: `apps/web/.next/standalone/server.js` exists (entry can be
+   switched to it; `next.config.ts` emits `output: "standalone"`).
 
 Fix the reported error, redeploy.
 
