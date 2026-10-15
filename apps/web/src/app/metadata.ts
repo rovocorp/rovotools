@@ -4,7 +4,12 @@ import { t } from "@/shared/localization";
 
 const DESCRIPTION = t("en", "seo.siteDescription");
 
+const GOOGLE_SITE_VERIFICATION = "";
+
 export const metadata: Metadata = {
+  ...(GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+    : {}),
   metadataBase: new URL(WEB_URL),
   title: {
     default: t("en", "seo.siteTitle"),

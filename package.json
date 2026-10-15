@@ -17,7 +17,8 @@
     "clean": "pnpm -r clean && rm -rf node_modules",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "packageManager": "pnpm@10.22.0",
   "devEngines": {
