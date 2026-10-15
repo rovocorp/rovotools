@@ -1,9 +1,9 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { BRAND_NAME, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | RovoTools",
+  title: "Cookie Policy",
   description: "How RovoTools uses cookies and local storage, and how to control your choice.",
   alternates: { canonical: "/cookie-policy" },
   openGraph: {

@@ -3969,7 +3969,7 @@ export const EXTRA_TOOLS: ReadonlyArray<ToolRegistryEntry> = SPECS.map((spec) =>
     localizationKey: `tools.${spec.id}`,
     relatedTools: [],
     seo: {
-      title: `${spec.name} | RovoTools`,
+      title: spec.name,
       description: `Free ${spec.name.toLowerCase()}. ${spec.description}`,
       keywords: [...spec.keywords, spec.name.toLowerCase(), "free online"],
       ...(spec.canonicalPath === undefined ? {} : { canonicalPath: spec.canonicalPath }),

@@ -1,9 +1,9 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { BRAND_NAME, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | RovoTools",
+  title: "Disclaimer",
   description: "Limitations of liability and accuracy for RovoTools free online utilities.",
   alternates: { canonical: "/disclaimer" },
   openGraph: {

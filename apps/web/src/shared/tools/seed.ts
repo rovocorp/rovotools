@@ -1,4 +1,4 @@
-﻿import {
+import {
   calculateAge,
   calculateBmi,
   calculateLoanPayment,
@@ -154,7 +154,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       localizationKey: "tools.bmi-calculator",
       relatedTools: ["age-calculator"],
       seo: {
-        title: "BMI Calculator | RovoTools",
+        title: "BMI Calculator",
         description: "Free BMI calculator. Compute body mass index from weight and height.",
         keywords: ["bmi calculator", "body mass index", "weight"],
       },
@@ -200,7 +200,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       localizationKey: "tools.age-calculator",
       relatedTools: ["bmi-calculator"],
       seo: {
-        title: "Age Calculator | RovoTools",
+        title: "Age Calculator",
         description: "Free age calculator. Find exact age in years, months, and days.",
         keywords: ["age calculator", "birthday", "date"],
       },
@@ -255,7 +255,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       localizationKey: "tools.tip-calculator",
       relatedTools: ["loan-calculator"],
       seo: {
-        title: "Tip Calculator | RovoTools",
+        title: "Tip Calculator",
         description: "Free tip calculator. Split restaurant bills fairly per person.",
         keywords: ["tip calculator", "bill split", "restaurant"],
       },
@@ -312,7 +312,7 @@ const CORE_TOOLS: ReadonlyArray<ToolRegistryEntry> = [
       localizationKey: "tools.loan-calculator",
       relatedTools: ["tip-calculator"],
       seo: {
-        title: "Loan Calculator | RovoTools",
+        title: "Loan Calculator",
         description: "Free loan calculator. Estimate monthly payments, total payable and total interest.",
         keywords: ["loan calculator", "mortgage", "monthly payment", "home loan", "interest"],
       },

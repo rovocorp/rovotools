@@ -25,9 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   }
   const meta = getCategoryMetadata(category);
   return {
-    title: `${meta.title} | RovoTools`,
+    title: meta.title,
     description: meta.description,
-    keywords: [...meta.keywords],
     alternates: { canonical: meta.path },
     openGraph: {
       siteName: BRAND_NAME,

@@ -35,9 +35,9 @@ import HeroNetwork from "@/components/hero/HeroNetwork";
 import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/seo-copy";
 
 export const metadata: Metadata = {
-  // Brand suffix is explicit: the root layout template does not apply to a
-  // page-level string title in this setup (verified in production HTML).
-  // Copy lives in lib/seo-copy.ts (single source, length-guarded by test).
+  // The root-layout title template only applies to child segments, not to
+  // pages in the layout's own segment ("/") — the homepage must carry the
+  // brand suffix explicitly. Copy: lib/seo-copy.ts (length-guarded by test).
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   alternates: { canonical: "/" },

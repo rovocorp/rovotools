@@ -60,15 +60,21 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",t==="dark");}catch(e){}})()`,
           }}
         />
-        <Script
-          id="org-jsonld"
+        {/* Plain <script> tags: next/script defers emission into the RSC
+            payload only — JSON-LD never reaches crawlers as a real script
+            tag. Static plain scripts render server-side (same pattern as
+            the homepage FAQ schema). */}
+        <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c"),
+          }}
         />
-        <Script
-          id="website-jsonld"
+        <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, "\\u003c"),
+          }}
         />
         <a
           href="#main-content"

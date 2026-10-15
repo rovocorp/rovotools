@@ -1,9 +1,9 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { WEB_URL, SUPPORT_EMAIL, BRAND_NAME } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Contact Us | RovoTools",
+  title: "Contact Us",
   description: "Contact the RovoTools team — support, feedback and business enquiries.",
   alternates: { canonical: "/contact" },
   openGraph: {

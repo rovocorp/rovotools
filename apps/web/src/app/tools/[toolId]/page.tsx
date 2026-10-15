@@ -22,7 +22,6 @@ export async function generateMetadata({ params }: { params: Promise<{ toolId: s
   return {
     title: page.title,
     description: page.description,
-    keywords: page.keywords.split(",").map((keyword) => keyword.trim()),
     alternates: { canonical: page.canonicalPath },
     robots: page.noIndex === true ? { index: false, follow: false } : undefined,
     openGraph: {
@@ -35,14 +34,14 @@ export async function generateMetadata({ params }: { params: Promise<{ toolId: s
           alt: "RovoTools \u2014 Free Online Tools for Everyday Work",
         },
       ],
-      title: page.title,
+      title: `${page.title} | ${BRAND_NAME}`,
       description: page.description,
       type: page.openGraphType ?? "website",
       url: page.canonicalUrl ?? page.canonicalPath,
     },
     twitter: {
       card: page.twitterCard ?? "summary_large_image",
-      title: page.title,
+      title: `${page.title} | ${BRAND_NAME}`,
       description: page.description,
     },
   };

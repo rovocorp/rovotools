@@ -53,5 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...categoryRoutes, ...toolRoutes, ...blogRoutes];
+  return [...staticRoutes, ...categoryRoutes, ...toolRoutes, ...blogRoutes].map((entry) => ({
+    ...entry,
+    // trailingSlash: true — every page canonicalizes to the slash form and
+    // the server 308-redirects the non-slash URL. Sitemap entries must be
+    // the final canonical URLs so crawlers never hit a redirect from a
+    // submitted sitemap URL.
+    url: entry.url.endsWith("/") ? entry.url : `${entry.url}/`,
+  }));
 }

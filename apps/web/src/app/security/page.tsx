@@ -1,9 +1,9 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { BRAND_NAME, SUPPORT_EMAIL, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Security & Privacy | RovoTools",
+  title: "Security & Privacy",
   description: "How RovoTools protects you: local-first processing, secure headers and safe file handling.",
   alternates: { canonical: "/security" },
   openGraph: {

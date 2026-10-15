@@ -1,4 +1,4 @@
-﻿import type { ToolDefinition } from "@/shared/types";
+import type { ToolDefinition } from "@/shared/types";
 
 export interface ToolFaq {
   readonly question: string;
@@ -110,7 +110,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["roi-calculator", "compound-interest-calculator", "loan-calculator", "percentage-calculator"],
   },
   "image-compressor": {
-    title: "Image Compressor — Compress Images Online | RovoTools",
+    title: "Image Compressor — Compress Images Online",
     description:
       "Compress JPG, PNG and WebP images online to reduce file size while maintaining good visual quality. Fast, simple and easy to use.",
     intro:
@@ -153,7 +153,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-resizer": {
-    title: "Image Resizer — Resize Images Online | RovoTools",
+    title: "Image Resizer — Resize Images Online",
     description:
       "Resize JPG, PNG and WebP images by exact pixels or percentage with the aspect ratio locked. Includes presets for YouTube, Instagram and Open Graph.",
     intro:
@@ -186,7 +186,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-converter": {
-    title: "Image Converter — Convert JPG, PNG & WebP | RovoTools",
+    title: "Image Converter — Convert JPG, PNG & WebP",
     description:
       "Convert images between JPG, PNG and WebP online with quality control. Convert one file or up to twenty at a time, free.",
     intro:
@@ -218,7 +218,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "merge-pdf": {
-    title: "Merge PDF — Combine PDF Files Online | RovoTools",
+    title: "Merge PDF — Combine PDF Files Online",
     description:
       "Merge 2-20 PDF files into one document in your chosen order. Free, no signup — files never leave your device.",
     intro:
@@ -247,7 +247,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "split-pdf": {
-    title: "Split PDF — Extract Pages Online | RovoTools",
+    title: "Split PDF — Extract Pages Online",
     description:
       "Split a PDF by extracting the pages you need, e.g. 1-3,5. Free, no signup — files never leave your device.",
     intro:
@@ -276,7 +276,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "compress-pdf": {
-    title: "Compress PDF — Reduce PDF Size Online | RovoTools",
+    title: "Compress PDF — Reduce PDF Size Online",
     description:
       "Shrink a PDF with lossless re-save plus optional image downscaling. Free, no signup — files never leave your device.",
     intro:
@@ -306,7 +306,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "jpg-to-pdf": {
-    title: "JPG to PDF — Convert Images to PDF Online | RovoTools",
+    title: "JPG to PDF — Convert Images to PDF Online",
     description:
       "Turn JPG, PNG or WebP photos into a PDF, one page per image. Free, no signup — files never leave your device.",
     intro:
@@ -335,7 +335,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-jpg": {
-    title: "PDF to JPG — Convert PDF Pages to Images Online | RovoTools",
+    title: "PDF to JPG — Convert PDF Pages to Images Online",
     description:
       "Render PDF pages as JPG images at 1x-3x scale. Free, no signup — files never leave your device.",
     intro:
@@ -364,7 +364,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "word-to-pdf": {
-    title: "Word to PDF — Convert DOCX Online | RovoTools",
+    title: "Word to PDF — Convert DOCX Online",
     description:
       "Convert a .docx document into a clean PDF in your browser. Free, no signup — files never leave your device.",
     intro:
@@ -394,7 +394,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-creator": {
-    title: "PDF Creator — Make a PDF Online Free | RovoTools",
+    title: "PDF Creator — Make a PDF Online Free",
     description:
       "Create a multi-page PDF from text with a title. Free, no signup — everything runs on your device.",
     intro:
@@ -423,7 +423,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "sign-pdf": {
-    title: "Sign PDF — E-Sign Documents Online | RovoTools",
+    title: "Sign PDF — E-Sign Documents Online",
     description:
       "Draw or type your signature and stamp it onto any PDF page. Free, no signup — files never leave your device.",
     intro:
@@ -453,7 +453,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-word": {
-    title: "PDF to Word — Convert PDF to DOCX Online | RovoTools",
+    title: "PDF to Word — Convert PDF to DOCX Online",
     description:
       "Extract a PDF's text into an editable .docx document. Free, no signup — files never leave your device.",
     intro:
@@ -483,7 +483,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-excel": {
-    title: "PDF to Excel — Convert PDF to XLSX Online | RovoTools",
+    title: "PDF to Excel — Convert PDF to XLSX Online",
     description:
       "Extract a PDF's text rows into an editable .xlsx spreadsheet. Free, no signup — files never leave your device.",
     intro:
@@ -513,7 +513,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "json-formatter": {
-    title: "JSON Formatter — Format & Beautify JSON Online | RovoTools",
+    title: "JSON Formatter — Format & Beautify JSON Online",
     description:
       "Format, beautify and validate JSON online with clear error messages. Paste JSON, choose indentation and copy the readable result.",
     intro:
@@ -546,7 +546,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "json-validator": {
-    title: "JSON Validator — Check JSON Online | RovoTools",
+    title: "JSON Validator — Check JSON Online",
     description:
       "Check whether text is valid JSON online and see the parsed root type. Instant validation with helpful detail, free.",
     intro:
@@ -572,7 +572,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "base64-encoder": {
-    title: "Base64 Encoder — Encode Text Online | RovoTools",
+    title: "Base64 Encoder — Encode Text Online",
     description:
       "Encode any text into Base64 online. Paste text, get the encoded output with its length, instantly and privately.",
     intro:
@@ -598,7 +598,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-decoder", "url-encoder", "hex-encoder", "jwt-decoder"],
   },
   "jwt-decoder": {
-    title: "JWT Decoder — Decode JSON Web Tokens Online | RovoTools",
+    title: "JWT Decoder — Decode JSON Web Tokens Online",
     description:
       "Decode a JSON Web Token locally to inspect its header and payload. Decoding does not verify the signature — free and private.",
     intro:
@@ -628,7 +628,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-decoder", "json-formatter", "json-validator", "hash-generator"],
   },
   "password-generator": {
-    title: "Password Generator — Create Strong Passwords | RovoTools",
+    title: "Password Generator — Create Strong Passwords",
     description:
       "Create strong random passwords online with custom length and character sets. Generated locally with an entropy readout — nothing stored.",
     intro:
@@ -664,7 +664,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["password-strength-checker", "random-token-generator", "uuid-generator", "hash-generator"],
   },
   "bmi-calculator": {
-    title: "BMI Calculator — Calculate Body Mass Index | RovoTools",
+    title: "BMI Calculator — Calculate Body Mass Index",
     description:
       "Calculate BMI from height and weight using the standard body mass index formula. Get a quick BMI result and understand the calculation.",
     intro:
@@ -700,7 +700,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["age-calculator", "percentage-calculator", "unit-converter"],
   },
   "loan-calculator": {
-    title: "Loan Calculator — Monthly Payment & Interest | RovoTools",
+    title: "Loan Calculator — Monthly Payment & Interest",
     description:
       "Free loan calculator. Estimate the monthly payment, total payable and total interest from the loan amount, annual rate and term.",
     intro:
@@ -738,7 +738,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["compound-interest-calculator", "discount-calculator", "percentage-calculator", "tip-calculator"],
   },
   "utm-builder": {
-    title: "UTM URL Builder — Campaign Tracking Links | RovoTools",
+    title: "UTM URL Builder — Campaign Tracking Links",
     description:
       "Build UTM-tagged campaign URLs for Google Analytics. Add source, medium and campaign — get a clean tracked link.",
     intro:
@@ -768,7 +768,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-validator", "meta-tag-generator", "keyword-density-checker"],
   },
   "serp-preview": {
-    title: "SERP Snippet Preview — Google Result Preview | RovoTools",
+    title: "SERP Snippet Preview — Google Result Preview",
     description:
       "Preview your Google search snippet before publishing. Check title and description length against truncation limits.",
     intro:
@@ -798,7 +798,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "slug-generator", "keyword-density-checker"],
   },
   "schema-validator": {
-    title: "Schema Markup Validator — JSON-LD Checker | RovoTools",
+    title: "Schema Markup Validator — JSON-LD Checker",
     description:
       "Validate JSON-LD structured data. Confirm @context and @type, list declared schema types, catch syntax errors.",
     intro:
@@ -828,7 +828,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["json-validator", "meta-tag-generator", "code-minifier"],
   },
   "meta-tag-analyzer": {
-    title: "Meta Tag Analyzer — Audit Page Tags | RovoTools",
+    title: "Meta Tag Analyzer — Audit Page Tags",
     description:
       "Audit any page's title, meta description, canonical and social tags from its HTML. Find what's missing or too long.",
     intro:
@@ -858,7 +858,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "open-graph-checker", "seo-checker"],
   },
   "robots-txt-checker": {
-    title: "Robots.txt Checker — Validate Crawler Rules | RovoTools",
+    title: "Robots.txt Checker — Validate Crawler Rules",
     description:
       "Validate robots.txt files. Catch site-wide blocks, malformed lines and missing sitemap references before crawlers do.",
     intro:
@@ -888,7 +888,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-generator", "sitemap-checker", "seo-checker"],
   },
   "seo-checker": {
-    title: "Website SEO Checker — On-Page Audit | RovoTools",
+    title: "Website SEO Checker — On-Page Audit",
     description:
       "Score any page's on-page SEO from its HTML: title, description, headings, images and social tags in one audit.",
     intro:
@@ -918,7 +918,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-analyzer", "open-graph-checker", "keyword-density-checker"],
   },
   "open-graph-checker": {
-    title: "Open Graph Checker — Social Preview Tags | RovoTools",
+    title: "Open Graph Checker — Social Preview Tags",
     description:
       "Verify og:title, og:description, og:image and Twitter card tags so links unfurl correctly on social platforms.",
     intro:
@@ -948,7 +948,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "meta-tag-analyzer", "seo-checker"],
   },
   "sitemap-checker": {
-    title: "XML Sitemap Checker — Validate Sitemaps | RovoTools",
+    title: "XML Sitemap Checker — Validate Sitemaps",
     description:
       "Validate XML sitemaps: urlset vs index format, URL counts, lastmod coverage and the 50,000-URL protocol limit.",
     intro:
@@ -978,7 +978,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-checker", "robots-txt-generator", "seo-checker"],
   },
   "tag-detector": {
-    title: "Analytics Tag Detector — Find Trackers | RovoTools",
+    title: "Analytics Tag Detector — Find Trackers",
     description:
       "Detect Google Analytics, Tag Manager, Meta Pixel, TikTok and LinkedIn tags in any page's HTML.",
     intro:
@@ -1008,7 +1008,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["seo-checker", "meta-tag-analyzer", "performance-analyzer"],
   },
   "performance-analyzer": {
-    title: "Website Performance Analyzer — Page Weight Hints | RovoTools",
+    title: "Website Performance Analyzer — Page Weight Hints",
     description:
       "Estimate page-weight performance from HTML: markup size, scripts, stylesheets and image dimensions with fix hints.",
     intro:
@@ -1038,7 +1038,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["seo-checker", "tag-detector", "image-compressor"],
   },
   "tax-calculator": {
-    title: "Tax Calculator (GST / VAT) — Sales Tax Online | RovoTools",
+    title: "Tax Calculator (GST / VAT) — Sales Tax Online",
     description:
       "Add or remove sales tax worldwide: US states, Canadian provinces, EU/UK VAT and GST — or stack your own custom tax rows.",
     intro:
@@ -1068,7 +1068,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["loan-calculator", "compound-interest-calculator", "percentage-calculator"],
   },
   "color-picker": {
-    title: "Color Picker — HEX, RGB & HSL Codes | RovoTools",
+    title: "Color Picker — HEX, RGB & HSL Codes",
     description:
       "Pick any color and get its HEX, RGB and HSL codes instantly, plus tints, shades and its complementary color.",
     intro:
@@ -1098,7 +1098,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["color-converter", "palette-generator", "color-picker-from-image"],
   },
   "palette-generator": {
-    title: "Color Palette Generator — Harmonious Schemes | RovoTools",
+    title: "Color Palette Generator — Harmonious Schemes",
     description:
       "Generate harmonious color palettes: complementary, analogous, triadic or random — with copy-ready CSS variables.",
     intro:
@@ -1128,7 +1128,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["color-picker", "color-converter", "css-gradient-generator"],
   },
   "word-unscrambler": {
-    title: "Word Unscrambler — Unscramble Letters Into Words | RovoTools",
+    title: "Word Unscrambler — Unscramble Letters Into Words",
     description:
       "Free word unscrambler: enter scrambled letters and find every valid word with Scrabble and Words With Friends scores. No signup, runs on your device.",
     intro:
@@ -1183,7 +1183,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     },
   },
   "readability-checker": {
-    title: "Readability Checker — Flesch Score & Grade Level | RovoTools",
+    title: "Readability Checker — Flesch Score & Grade Level",
     description:
       "Free readability checker: paste text to get Flesch Reading Ease, grade level, word and sentence counts. Private and instant.",
     intro:
@@ -1218,7 +1218,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "text-cleaner", "keyword-density-checker"],
   },
   "invoice-generator": {
-    title: "Invoice Generator — Free Online Invoice Maker | RovoTools",
+    title: "Invoice Generator — Free Online Invoice Maker",
     description:
       "Create a clean invoice online: add line items, tax and your business name, then copy the result. Free, no signup.",
     intro:
@@ -1255,7 +1255,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["tax-calculator", "number-formatter", "pdf-creator", "date-formatter"],
   },
   "text-to-speech": {
-    title: "Text to Speech — Read Aloud Online | RovoTools",
+    title: "Text to Speech — Read Aloud Online",
     description:
       "Free text to speech: paste text and listen with your browser's voices, with speed control. No uploads, no signup.",
     intro:
@@ -1291,7 +1291,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "readability-checker", "lorem-ipsum-generator"],
   },
   "countdown-timer": {
-    title: "Countdown Timer — Count Down to Any Date | RovoTools",
+    title: "Countdown Timer — Count Down to Any Date",
     description:
       "Free countdown timer: enter a target date or a duration in seconds and see the exact time remaining.",
     intro:
@@ -1321,7 +1321,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "age-calculator"],
   },
   "random-word-generator": {
-    title: "Random Word Generator — Writing & Game Prompts | RovoTools",
+    title: "Random Word Generator — Writing & Game Prompts",
     description:
       "Draw random English words for writing prompts, vocabulary practice and word games — with repeatable seeds. Free.",
     intro:
@@ -1352,7 +1352,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-unscrambler", "lorem-ipsum-generator", "word-counter", "readability-checker"],
   },
   "pdf-extract-text": {
-    title: "Extract Text From PDF — Free Online | RovoTools",
+    title: "Extract Text From PDF — Free Online",
     description:
       "Copy text out of any PDF in your browser: page-by-page extraction with .txt download. Files never leave your device.",
     intro:
@@ -1395,7 +1395,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     },
   },
   "age-calculator": {
-    title: "Age Calculator — Exact Age in Years, Months & Days | RovoTools",
+    title: "Age Calculator — Exact Age in Years, Months & Days",
     description:
       "Free age calculator. Find exact age in years, months and days from a birth date — or the age difference between two dates. Private, instant, no signup.",
     intro:
@@ -1471,7 +1471,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["percentage-calculator", "number-formatter", "color-converter", "age-calculator"],
   },
   "word-counter": {
-    title: "Word Counter — Count Words, Characters & Reading Time | RovoTools",
+    title: "Word Counter — Count Words, Characters & Reading Time",
     description:
       "Free word counter. Count words, characters (with and without spaces), sentences and paragraphs — plus estimated reading time.",
     intro:
@@ -1508,7 +1508,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["reading-time-calculator", "case-converter", "duplicate-line-remover", "text-cleaner"],
   },
   "tip-calculator": {
-    title: "Tip Calculator — Split Bills Fairly | RovoTools",
+    title: "Tip Calculator — Split Bills Fairly",
     description:
       "Free tip calculator. Calculate tip percentage, total bill and per-person share when splitting with friends or family.",
     intro:
@@ -1545,7 +1545,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["percentage-calculator", "discount-calculator", "loan-calculator", "age-calculator"],
   },
   "url-qr-generator": {
-    title: "URL QR Code Generator — Free, Instant, Private | RovoTools",
+    title: "URL QR Code Generator — Free, Instant, Private",
     description:
       "Generate a QR code for any URL. Customise size and error correction, then download a PNG — no signup, no tracking.",
     intro:
@@ -1582,7 +1582,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["wifi-qr-generator", "vcard-qr-generator", "text-qr-generator", "url-encoder"],
   },
   "percentage-calculator": {
-    title: "Percentage Calculator — Of, Change & Reverse % | RovoTools",
+    title: "Percentage Calculator — Of, Change & Reverse %",
     description:
       "Free percentage calculator. Work out X% of Y, percentage change between values, and what number a percentage is of another.",
     intro:
@@ -1619,7 +1619,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["discount-calculator", "roi-calculator", "compound-interest-calculator", "unit-converter"],
   },
   "compound-interest-calculator": {
-    title: "Compound Interest Calculator — Growth Over Time | RovoTools",
+    title: "Compound Interest Calculator — Growth Over Time",
     description:
       "Free compound interest calculator. Project principal growth with annual compounding frequency, years and rate — plus yearly breakdown.",
     intro:
@@ -1657,7 +1657,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["roi-calculator", "loan-calculator", "percentage-calculator", "discount-calculator"],
   },
   "roi-calculator": {
-    title: "ROI Calculator — Return on Investment | RovoTools",
+    title: "ROI Calculator — Return on Investment",
     description:
       "Free ROI calculator. Work out return on investment as a percentage and absolute gain from cost and revenue.",
     intro:
@@ -1694,7 +1694,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["compound-interest-calculator", "percentage-calculator", "discount-calculator", "tax-calculator"],
   },
   "discount-calculator": {
-    title: "Discount Calculator — Sale Price & Savings | RovoTools",
+    title: "Discount Calculator — Sale Price & Savings",
     description:
       "Free discount calculator. Find the sale price and money saved from any percentage discount, with optional tax.",
     intro:
@@ -1731,7 +1731,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["percentage-calculator", "roi-calculator", "tax-calculator", "tip-calculator"],
   },
   "uuid-generator": {
-    title: "UUID Generator — v4 Random IDs, Batch Up to 50 | RovoTools",
+    title: "UUID Generator — v4 Random IDs, Batch Up to 50",
     description:
       "Generate cryptographically strong UUID v4 identifiers. Create up to 50 at a time, copy or download as a list — free and private.",
     intro:
@@ -1768,7 +1768,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["random-token-generator", "hash-generator", "password-generator", "regex-tester"],
   },
   "regex-tester": {
-    title: "Regex Tester — Test Regular Expressions Online | RovoTools",
+    title: "Regex Tester — Test Regular Expressions Online",
     description:
       "Test JavaScript regular expressions against sample text. Live match list with groups and flags — private, in-browser regex playground.",
     intro:
@@ -1805,7 +1805,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["diff-checker", "json-validator", "email-validator", "uuid-generator"],
   },
   "base64-decoder": {
-    title: "Base64 Decoder — Decode Base64 Strings Online | RovoTools",
+    title: "Base64 Decoder — Decode Base64 Strings Online",
     description:
       "Free Base64 decoder. Decode Base64 (and URL-safe Base64) back to plain text instantly — private, no upload.",
     intro:
@@ -1842,7 +1842,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-encoder", "url-encoder", "url-decoder", "jwt-decoder"],
   },
   "url-encoder": {
-    title: "URL Encoder — Percent-Encode Query Strings | RovoTools",
+    title: "URL Encoder — Percent-Encode Query Strings",
     description:
       "Free URL encoder. Percent-encode text for query strings and URLs — standard encodeURIComponent behaviour, private and instant.",
     intro:
@@ -1879,7 +1879,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-decoder", "base64-encoder", "url-validator", "slug-generator"],
   },
   "password-strength-checker": {
-    title: "Password Strength Checker — Entropy & Weak-Pattern Hints | RovoTools",
+    title: "Password Strength Checker — Entropy & Weak-Pattern Hints",
     description:
       "Check password strength offline. Estimates entropy, flags weak patterns and dictionary words — never sends the password anywhere.",
     intro:
@@ -1916,7 +1916,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["password-generator", "hash-generator", "random-token-generator", "uuid-generator"],
   },
   "hash-generator": {
-    title: "Hash Generator — MD5, SHA-1, SHA-256, SHA-512 Online | RovoTools",
+    title: "Hash Generator — MD5, SHA-1, SHA-256, SHA-512 Online",
     description:
       "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes of any text — entirely in your browser with the Web Crypto API.",
     intro:
@@ -1953,7 +1953,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["password-strength-checker", "random-token-generator", "uuid-generator", "base64-encoder"],
   },
   "email-validator": {
-    title: "Email Validator — Syntax & Structure Check | RovoTools",
+    title: "Email Validator — Syntax & Structure Check",
     description:
       "Validate email address syntax offline. Checks local part, domain shape and common typos — without sending anything.",
     intro:
@@ -1990,7 +1990,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-validator", "regex-tester", "email-validator", "password-strength-checker"],
   },
   "date-difference-calculator": {
-    title: "Date Difference Calculator — Days, Weeks & Months Between Dates | RovoTools",
+    title: "Date Difference Calculator — Days, Weeks & Months Between Dates",
     description:
       "Calculate the exact difference between two dates in days, weeks, months and years. Free, private, calendar-aware.",
     intro:
@@ -2027,7 +2027,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["age-calculator", "date-formatter", "countdown-timer", "timestamp-converter"],
   },
   "json-minifier": {
-    title: "JSON Minifier — Remove Whitespace from JSON | RovoTools",
+    title: "JSON Minifier — Remove Whitespace from JSON",
     description:
       "Minify JSON by stripping unnecessary whitespace. Validates structure while compacting — private, in-browser JSON tool.",
     intro:
@@ -2064,7 +2064,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["json-formatter", "json-validator", "csv-to-json", "json-to-yaml"],
   },
   "svg-to-image": {
-    title: "SVG to PNG/JPG/WebP Converter — Free, Online | RovoTools",
+    title: "SVG to PNG/JPG/WebP Converter — Free, Online",
     description:
       "Convert SVG files to PNG, JPG or WebP online. Rasterize vector graphics at any scale (1×–8×) or exact pixel width — batch supported, 100% private, no upload.",
     intro:
@@ -2107,7 +2107,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["image-converter", "image-compressor", "svg-viewer", "svg-to-base64", "favicon-generator"],
   },
   "image-to-svg": {
-    title: "Image to SVG Vectorizer — PNG/JPG to SVG Online | RovoTools",
+    title: "Image to SVG Vectorizer — PNG/JPG to SVG Online",
     description:
       "Convert PNG, JPG or WebP images to SVG vectors online. Trace logos, icons and line art into clean scalable paths — private, free, no signup.",
     intro:
@@ -2150,7 +2150,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["svg-to-image", "image-converter", "svg-viewer", "favicon-generator", "image-compressor"],
   },
   "svg-viewer": {
-    title: "SVG Viewer — Preview SVG Files Online Free | RovoTools",
+    title: "SVG Viewer — Preview SVG Files Online Free",
     description:
       "Preview SVG files instantly in your browser. Inspect dimensions, viewBox, element counts and file size — private, free, no upload required.",
     intro:
@@ -2188,7 +2188,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["svg-to-image", "svg-to-base64", "image-to-svg", "svg-placeholder-generator"],
   },
   "svg-to-base64": {
-    title: "SVG to Base64 & Data URI Converter — Free Online | RovoTools",
+    title: "SVG to Base64 & Data URI Converter — Free Online",
     description:
       "Encode SVG markup as Base64, data URIs and CSS background snippets. Paste or upload an SVG — get copy-ready encodings instantly, 100% private.",
     intro:
