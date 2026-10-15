@@ -6,6 +6,7 @@ import { WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
+import IntroWithMore from "@/components/tools/IntroWithMore";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolRunnerLoader from "@/components/tools/ToolRunnerLoader";
 import { Badge } from "@/components/ui/badge";
@@ -116,7 +117,10 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
       </div>
 
       <h1 className="mt-3 text-3xl font-bold sm:text-4xl">{display.name}</h1>
-      <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-300">{copy.intro}</p>
+      <IntroWithMore
+        text={copy.intro}
+        className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-300"
+      />
       <p className="mt-3 text-sm">
         <a
           href={buildCustomSchemeUrl({ kind: "tool", slug: tool.slug }) ?? `/tools/${tool.slug}`}

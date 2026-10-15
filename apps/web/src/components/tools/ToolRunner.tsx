@@ -181,7 +181,7 @@ function TableOutput({ value }: { value: string }): React.ReactElement {
             <th scope="row" className="w-10 px-2 py-1 align-top font-mono text-xs text-zinc-500 dark:text-zinc-400">
               {index + 1}
             </th>
-            <td className="break-words px-2 py-1 font-mono text-zinc-900 dark:text-zinc-100">
+            <td className="wrap-anywhere px-2 py-1 font-mono text-zinc-900 dark:text-zinc-100">
               {line === "" ? <span className="text-zinc-500 dark:text-zinc-400">(blank)</span> : line}
             </td>
           </tr>
@@ -333,7 +333,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <Card>
+      <Card className="min-w-0">
         <CardHeader>
           <CardTitle>{t("en", "tool.inputs")}</CardTitle>
         </CardHeader>
@@ -395,7 +395,7 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
         </CardContent>
       </Card>
 
-      <Card aria-live="polite">
+      <Card aria-live="polite" className="min-w-0">
         <CardHeader>
           <CardTitle>{t("en", "tool.result")}</CardTitle>
         </CardHeader>
@@ -407,12 +407,12 @@ export default function ToolRunner({ slug }: { slug: string }): React.ReactEleme
               {tool.outputs.map((output) => (
                 <div
                   key={output.id}
-                  className="rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900"
+                  className="overflow-hidden rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900"
                 >
                   <dt className="text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                     {getOutputLabel("en", output)}
                   </dt>
-                  <dd className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+                  <dd className="mt-1 wrap-anywhere whitespace-pre-wrap text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     {output.display === "table" ? (
                       <TableOutput value={String(result[output.id] ?? "—")} />
                     ) : (

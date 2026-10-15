@@ -241,7 +241,7 @@ export default function WordUnscrambler(): React.ReactElement {
                           <th scope="row" className="w-10 px-2 py-1.5 align-top font-mono text-xs text-zinc-500 dark:text-zinc-400">
                             {index + 1}
                           </th>
-                          <td className="px-2 py-1.5 font-mono text-base font-bold uppercase text-zinc-900 dark:text-zinc-100">
+                          <td className="wrap-anywhere px-2 py-1.5 font-mono text-base font-bold uppercase text-zinc-900 dark:text-zinc-100">
                             {word.word}
                           </td>
                         </tr>
