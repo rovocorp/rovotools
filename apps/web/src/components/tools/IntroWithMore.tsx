@@ -34,12 +34,15 @@ export default function IntroWithMore({
   return (
     <p className={className}>
       {split.lead} {!open ? <span aria-hidden="true">…</span> : null}{" "}
+      <span id={restId} hidden={!open}>
+        {split.rest}{" "}
+      </span>
       <button
         type="button"
         aria-expanded={open}
         aria-controls={restId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex items-center gap-0.5 align-baseline text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+        className="inline-flex items-center gap-0.5 align-baseline whitespace-nowrap text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
       >
         {open ? "Less" : "More"}
         {open ? (
@@ -47,10 +50,7 @@ export default function IntroWithMore({
         ) : (
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
         )}
-      </button>{" "}
-      <span id={restId} hidden={!open}>
-        {split.rest}
-      </span>
+      </button>
     </p>
   );
 }

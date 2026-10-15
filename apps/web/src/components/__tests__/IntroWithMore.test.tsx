@@ -65,6 +65,7 @@ describe("IntroWithMore", () => {
       ? document.getElementById(less.getAttribute("aria-controls") ?? "")
       : null;
     expect(restExpanded?.hasAttribute("hidden")).toBe(false);
+    expect(less.parentElement?.lastElementChild).toBe(less);
 
     fireEvent.click(less);
     expect(screen.getByRole("button", { name: /More/ }).getAttribute("aria-expanded")).toBe("false");
