@@ -6,6 +6,7 @@ import { WEB_URL, BRAND_NAME } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
+import CategoryIntro from "@/components/tools/CategoryIntro";
 import ToolCard from "@/components/tools/ToolCard";
 import { getAdSlotId } from "@/lib/ads";
 import { getToolRegistry } from "@/lib/registry";
@@ -96,11 +97,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       />
       <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{meta.title}</h1>
       <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">{meta.description}</p>
-      <div className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-        {meta.longDescription.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-      </div>
+      <CategoryIntro
+        paragraphs={meta.longDescription}
+        className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300"
+      />
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         {tools.length === 1
           ? t("en", "tool.oneTool")

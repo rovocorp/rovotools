@@ -6,14 +6,18 @@ import { Minus, Plus } from "lucide-react";
 const MIN_SPLIT_CHARS = 180;
 const MIN_REST_CHARS = 40;
 
-export function splitFirstSentence(text: string): { lead: string; rest: string } | null {
-  if (text.length <= MIN_SPLIT_CHARS) return null;
+export function splitAtFirstSentence(text: string): { lead: string; rest: string } | null {
   const match = /^([^.!?]*[.!?])\s+([\s\S]+)$/.exec(text);
   if (!match) return null;
   const lead = (match[1] ?? "").trim();
   const rest = (match[2] ?? "").trim();
   if (rest.length < MIN_REST_CHARS) return null;
   return { lead, rest };
+}
+
+export function splitFirstSentence(text: string): { lead: string; rest: string } | null {
+  if (text.length <= MIN_SPLIT_CHARS) return null;
+  return splitAtFirstSentence(text);
 }
 
 export default function IntroWithMore({
