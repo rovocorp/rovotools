@@ -12,7 +12,10 @@ import { getAdSlotId } from "@/lib/ads";
 export const metadata: Metadata = {
   title: t("en", "seo.blogTitle"),
   description: t("en", "seo.blogDescription"),
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: { "application/rss+xml": [{ url: "/feed.xml", title: "RovoTools Blog" }] },
+  },
   openGraph: {
     siteName: BRAND_NAME,
     images: [

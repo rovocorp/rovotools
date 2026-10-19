@@ -1395,7 +1395,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     },
   },
   "age-calculator": {
-    title: "Age Calculator — Exact Age in Years, Months & Days",
+    title: "Age Calculator — Exact Years, Months & Days",
     description:
       "Free age calculator. Find exact age in years, months and days from a birth date — or the age difference between two dates. Private, instant, no signup.",
     intro:
@@ -1471,7 +1471,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["percentage-calculator", "number-formatter", "color-converter", "age-calculator"],
   },
   "word-counter": {
-    title: "Word Counter — Count Words, Characters & Reading Time",
+    title: "Word Counter — Words, Characters & Reading Time",
     description:
       "Free word counter. Count words, characters (with and without spaces), sentences and paragraphs — plus estimated reading time.",
     intro:
@@ -1879,7 +1879,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-decoder", "base64-encoder", "url-validator", "slug-generator"],
   },
   "password-strength-checker": {
-    title: "Password Strength Checker — Entropy & Weak-Pattern Hints",
+    title: "Password Strength Checker — Test Password Entropy",
     description:
       "Check password strength offline. Estimates entropy, flags weak patterns and dictionary words — never sends the password anywhere.",
     intro:
@@ -1990,7 +1990,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-validator", "regex-tester", "email-validator", "password-strength-checker"],
   },
   "date-difference-calculator": {
-    title: "Date Difference Calculator — Days, Weeks & Months Between Dates",
+    title: "Date Difference Calculator — Days Between Dates",
     description:
       "Calculate the exact difference between two dates in days, weeks, months and years. Free, private, calendar-aware.",
     intro:
@@ -2228,6 +2228,705 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       },
     ],
     related: ["svg-viewer", "svg-to-image", "image-to-svg", "base64-encoder"],
+  },
+  "url-decoder": {
+    title: "URL Decoder — Turn %20 and %2F Back Into Text",
+    description:
+      "Decode percent-encoded URLs and query strings into readable text. Handles UTF-8, flags malformed sequences and runs entirely in your browser.",
+    intro:
+      "Paste a percent-encoded URL, query string or form value and read it as plain text. Decoding follows the browser's decodeURIComponent rules, so UTF-8 characters, reserved symbols and encoded spaces are restored exactly — with a clear error instead of a silent partial result when a percent sequence is broken.",
+    benefits: [
+      "Decodes %20, %2F, %3F and every other UTF-8 percent sequence",
+      "Reports malformed input instead of returning half-decoded text",
+      "Pairs with the URL Encoder for round-trip checks",
+      "Decoding runs locally — paste internal links without sending them anywhere",
+    ],
+    howTo: [
+      "Paste the encoded URL or query value into the input box.",
+      "Press Execute to decode it.",
+      "Copy the readable result into docs, logs or your address bar.",
+      "Use the URL Encoder to reverse the operation when needed.",
+    ],
+    faqs: [
+      {
+        question: "What does percent-encoding actually do?",
+        answer:
+          "It replaces characters that are unsafe or reserved in a URL with a % sign and two hexadecimal digits. A space becomes %20, a slash inside a query value becomes %2F, and non-ASCII text is encoded as UTF-8 bytes.",
+      },
+      {
+        question: "Does a plus sign become a space?",
+        answer:
+          "Not here. decodeURIComponent leaves + untouched because it is a literal plus in URLs. In application/x-www-form-urlencoded bodies, + conventionally means a space — replace + with %20 first if you are decoding form data.",
+      },
+      {
+        question: "Why does decoding fail with an error?",
+        answer:
+          "A percent sign must be followed by two hexadecimal digits. Truncated input such as %2 or a stray % makes the string invalid, so the tool reports the problem rather than returning a misleading partial decode.",
+      },
+      {
+        question: "Is my URL sent to a server?",
+        answer: "No. Decoding is a single local string operation in your browser — the URL never leaves the page.",
+      },
+    ],
+    related: ["url-encoder", "base64-decoder", "jwt-decoder", "regex-tester"],
+  },
+  "case-converter": {
+    title: "Case Converter — Upper, Lower, Title, Camel & Snake",
+    description:
+      "Convert text to UPPERCASE, lowercase, Title Case, sentence case, camelCase, snake_case and kebab-case instantly — all in your browser.",
+    intro:
+      "Paste any text and get all seven common cases at once: uppercase, lowercase, title case, sentence case, camelCase, snake_case and kebab-case. Useful for cleaning headlines, renaming variables, normalising imported data and turning product names into consistent labels without retyping anything.",
+    benefits: [
+      "Seven formats generated at the same time — no repeated conversions",
+      "Camel, snake and kebab cases split on spaces, hyphens and underscores",
+      "Title Case capitalises every word; sentence case lowercases the rest",
+      "Runs locally, so drafts and internal names stay private",
+    ],
+    howTo: [
+      "Paste or type the text you want to convert.",
+      "Press Execute to generate every case at once.",
+      "Compare the outputs and copy the format you need.",
+      "Edit the source text and run it again for a new batch.",
+    ],
+    faqs: [
+      {
+        question: "How does Title Case decide what to capitalise?",
+        answer:
+          "Every word is lowercased first, then the first letter of each whitespace-, hyphen- or underscore-separated word is capitalised. It is a mechanical transform: brand spellings such as iPhone become Iphone, so fix those by hand.",
+      },
+      {
+        question: "What is the difference between snake_case and kebab-case?",
+        answer:
+          "Both join lowercase words with a separator: snake_case uses underscores (good for Python, SQL and file names) while kebab-case uses hyphens (good for URLs, CSS classes and HTML attributes).",
+      },
+      {
+        question: "Does sentence case keep proper nouns?",
+        answer:
+          "No. It uppercases the first character and lowercases everything after it, which is why names and acronyms need a manual pass. Use it for rough normalisation, not as a grammar tool.",
+      },
+      {
+        question: "Is my text uploaded?",
+        answer: "No. Conversion happens entirely in your browser; nothing you paste is transmitted or stored.",
+      },
+    ],
+    related: ["word-counter", "slug-generator", "text-cleaner", "duplicate-line-remover"],
+  },
+  "color-converter": {
+    title: "Color Converter — HEX, RGB and HSL in One Click",
+    description:
+      "Convert colors between HEX, RGB and HSL. Paste #4f46e5, #fff or rgb(79,70,229) and get every format plus a live preview.",
+    intro:
+      "Paste a HEX code or an rgb()/rgba() value and get the same color as HEX, RGB and HSL. Three-digit shorthand like #fff is expanded, channel values are clamped to 0–255, and the result shows exactly the strings to paste into CSS, design tools or a style guide.",
+    benefits: [
+      "Accepts #fff, #ffffff and rgb()/rgba() input",
+      "Returns HEX, rgb() and hsl() in a single pass",
+      "Live color preview makes it obvious when a value is wrong",
+      "Conversion is pure local maths — brand palettes stay private",
+    ],
+    howTo: [
+      "Enter a HEX value such as #4f46e5 or an rgb()/rgba() string.",
+      "Press Execute to convert it.",
+      "Check the swatch preview against your design.",
+      "Copy the HEX, RGB or HSL output you need.",
+    ],
+    faqs: [
+      {
+        question: "Does the converter support 3-digit HEX?",
+        answer:
+          "Yes. Shorthand like #fff is expanded to #ffffff before conversion. Six-digit values with or without the leading # are also accepted.",
+      },
+      {
+        question: "What happens to alpha transparency?",
+        answer:
+          "Alpha is read but not preserved: rgba(79, 70, 229, 0.5) converts as its RGB triplet, and the output is an opaque color. Re-add the alpha channel in your CSS if you need it.",
+      },
+      {
+        question: "Why do HSL values look rounded?",
+        answer:
+          "Hue is rounded to whole degrees and saturation/lightness to whole percentages. That is enough for CSS work and keeps the output readable; use a design tool if you need fractional precision.",
+      },
+      {
+        question: "Is my color data private?",
+        answer: "Yes. Everything is calculated on your device — no color value is sent to a server.",
+      },
+    ],
+    related: ["color-picker", "color-contrast-checker", "palette-generator", "color-picker-from-image"],
+  },
+  "color-contrast-checker": {
+    title: "Color Contrast Checker — WCAG AA and AAA Ratios",
+    description:
+      "Check text and background contrast against WCAG AA and AAA. Enter two HEX colors and get the ratio plus pass/fail for normal and large text.",
+    intro:
+      "Enter a text color and a background color to see their contrast ratio and whether the pair passes WCAG AA and AAA. The check uses the official relative-luminance formula, so the result matches what accessibility audits and browser devtools report.",
+    benefits: [
+      "Exact ratio (for example 4.62:1) instead of a vague warning",
+      "Separate verdicts for normal text, large text and AAA",
+      "Defaults to black on white for a quick sanity check",
+      "Runs locally — test unpublished brand colors privately",
+    ],
+    howTo: [
+      "Enter the foreground (text) color as HEX.",
+      "Enter the background color as HEX.",
+      "Press Execute to calculate the contrast ratio.",
+      "Adjust one of the colors until both AA lines pass.",
+    ],
+    faqs: [
+      {
+        question: "What ratio counts as accessible?",
+        answer:
+          "WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. These are minimums for body copy, not targets to stop at.",
+      },
+      {
+        question: "What counts as large text?",
+        answer:
+          "Roughly 18pt (24px) regular or 14pt (about 18.66px) bold and larger. The tool reports both thresholds so you can see which one applies to your design.",
+      },
+      {
+        question: "Does contrast apply to borders and icons?",
+        answer:
+          "This checker measures text against its background. Non-text elements such as icons, form borders and focus rings have separate WCAG requirements (3:1 against adjacent colors) and should be checked in context.",
+      },
+      {
+        question: "Are my colors uploaded?",
+        answer: "No. The ratio is computed locally from the two HEX values you enter.",
+      },
+    ],
+    related: ["color-converter", "color-picker", "palette-generator", "seo-checker"],
+  },
+  "timestamp-converter": {
+    title: "Timestamp Converter — Unix Epoch to Date and Back",
+    description:
+      "Convert Unix timestamps in seconds or milliseconds to ISO 8601 and UTC — or parse a date string back into epoch time. Leave empty for now.",
+    intro:
+      "Paste a Unix timestamp and get the ISO 8601 date, UTC string and both second and millisecond values. A date string works in the opposite direction, and an empty input returns the current moment — handy for checking API payloads, log lines and database timestamps.",
+    benefits: [
+      "Accepts seconds or milliseconds and detects which one you pasted",
+      "Shows ISO, UTC and both epoch units at once",
+      "Empty input returns the current timestamp",
+      "Conversion happens in your browser — log values stay private",
+    ],
+    howTo: [
+      "Paste a Unix timestamp (10 digits for seconds, 13 for milliseconds).",
+      "Or paste a date string the browser can parse, such as 2026-10-19T12:00:00Z.",
+      "Press Execute to see every representation.",
+      "Leave the field empty and run it to get the current time.",
+    ],
+    faqs: [
+      {
+        question: "How does the tool tell seconds from milliseconds?",
+        answer:
+          "Values longer than 10 digits are treated as milliseconds; shorter values are multiplied by 1000. That covers today's 10-digit second and 13-digit millisecond timestamps in normal use.",
+      },
+      {
+        question: "Is the output in my local timezone?",
+        answer:
+          "ISO 8601 and the UTC string are timezone-independent. The tool does not print a local-time representation, so use the UTC values when comparing logs from different machines.",
+      },
+      {
+        question: "Why is a date string interpreted differently than expected?",
+        answer:
+          "Date-only strings such as 2026-10-19 are parsed as UTC by the browser, while strings without a timezone may be read as local time. Include an explicit Z or offset when precision matters.",
+      },
+      {
+        question: "Is my timestamp sent anywhere?",
+        answer: "No. Parsing and formatting run locally in your browser.",
+      },
+    ],
+    related: ["date-difference-calculator", "date-formatter", "countdown-timer", "age-calculator"],
+  },
+  "json-to-yaml": {
+    title: "JSON to YAML — Clean, Copy-Ready Configuration",
+    description:
+      "Convert a JSON object to YAML in one click. Simple values become plain YAML, nested values stay readable and parse errors are reported clearly.",
+    intro:
+      "Paste a JSON object and get YAML you can drop into a config file. Top-level keys become YAML keys, strings are quoted safely and nested objects or arrays are kept as an inline JSON value so nothing is silently lost. The input must be an object rather than an array or a bare primitive.",
+    benefits: [
+      "Readable key: value output for flat configuration objects",
+      "Strings are quoted, so colons and hashes stay intact",
+      "Invalid JSON errors include the parser message",
+      "Runs locally — configs with internal hostnames stay private",
+    ],
+    howTo: [
+      "Paste a JSON object into the input box.",
+      "Press Execute to convert it.",
+      "Check that keys and string values look right.",
+      "Copy the YAML into your configuration file.",
+    ],
+    faqs: [
+      {
+        question: "Are nested objects expanded into YAML blocks?",
+        answer:
+          "No. This converter targets flat configuration objects; a nested object or array is emitted as an inline JSON value under its key. That preserves the data, but a full YAML library may produce prettier nesting.",
+      },
+      {
+        question: "Can I convert a JSON array?",
+        answer:
+          "Not directly. Wrap the array in an object, for example {\"items\": [...]}, or use a full YAML converter if the document must remain a top-level array.",
+      },
+      {
+        question: "Why are strings wrapped in quotes?",
+        answer:
+          "Quoting prevents YAML from reinterpreting values such as yes, no, on, off or numbers as booleans and numbers. Embedded double quotes are escaped.",
+      },
+      {
+        question: "Is my JSON uploaded?",
+        answer: "No. Parsing and conversion happen entirely in your browser.",
+      },
+    ],
+    related: ["yaml-to-json", "json-formatter", "json-validator", "json-minifier"],
+  },
+  "yaml-to-json": {
+    title: "YAML to JSON — Convert Key/Value Configs Online",
+    description:
+      "Turn simple key: value YAML into formatted JSON. Handles comments, quoted strings, numbers, booleans and null — instantly and privately.",
+    intro:
+      "Paste flat YAML — one key: value pair per line — and get indented JSON. Comments and blank lines are ignored, quoted values are unquoted, and true, false, null and numeric strings are converted to their JSON types. It is built for the small config files and Kubernetes-style values people actually paste, not for multi-document YAML.",
+    benefits: [
+      "Converts booleans, null and numbers to real JSON types",
+      "Ignores comments and blank lines instead of failing",
+      "Outputs formatted JSON that is ready to paste",
+      "Conversion is local — secrets in config files stay on your device",
+    ],
+    howTo: [
+      "Paste YAML with one key: value pair per line.",
+      "Press Execute to convert it.",
+      "Check strings that look like numbers, which become numbers.",
+      "Copy the formatted JSON output.",
+    ],
+    faqs: [
+      {
+        question: "Does it support nested YAML blocks?",
+        answer:
+          "No. Each line is read as a top-level key: value pair. Indented nested mappings and lists are not expanded, so use a full YAML parser for complex documents.",
+      },
+      {
+        question: "Why did my quoted number become a JSON number?",
+        answer:
+          "Quotes are stripped before type detection. A value like \"42\" is therefore treated as the number 42; keep it as text by adding a non-numeric character or by post-editing the output.",
+      },
+      {
+        question: "Are duplicate keys allowed?",
+        answer:
+          "The last occurrence wins because the result is a JSON object. Rename duplicates before converting if you need both values.",
+      },
+      {
+        question: "Is my YAML private?",
+        answer: "Yes. The conversion runs in your browser and never uploads the input.",
+      },
+    ],
+    related: ["json-to-yaml", "json-formatter", "json-validator", "json-minifier"],
+  },
+  "code-minifier": {
+    title: "Code Minifier — Shrink HTML, CSS and JavaScript",
+    description:
+      "Strip whitespace and comments from HTML, CSS or JavaScript and see the bytes saved. Beautify snippets back into readable code when you are done.",
+    intro:
+      "Paste a snippet, choose HTML, CSS or JavaScript and minify it to remove comments and unnecessary whitespace. The result shows the byte difference so you can judge the saving before shipping, and beautify mode expands cramped code back into something readable. It is a whitespace-and-comment stripper for snippets, not a compiler or bundler.",
+    benefits: [
+      "Works on HTML, CSS and JavaScript snippets",
+      "Reports bytes saved (or added when beautifying)",
+      "Beautify mode makes minified code readable again",
+      "Runs locally — proprietary snippets never leave the page",
+    ],
+    howTo: [
+      "Paste the code you want to process.",
+      "Set the language to html, css or js.",
+      "Choose minify or beautify.",
+      "Press Execute and copy the result.",
+    ],
+    faqs: [
+      {
+        question: "Does minification rename variables or optimise code?",
+        answer:
+          "No. It removes comments and collapses whitespace only. Variable renaming, dead-code removal and bundling are jobs for a real build tool such as esbuild, SWC or webpack.",
+      },
+      {
+        question: "Is it safe for production code?",
+        answer:
+          "Treat the output as a snippet helper, not a build step. Whitespace-sensitive JavaScript (for example certain ASI edge cases) or template literals can change behaviour, so run your tests before shipping minified output.",
+      },
+      {
+        question: "Why did beautify mode increase the size?",
+        answer:
+          "Expanding code adds indentation and line breaks on purpose. The bytes-saved figure goes negative when output is larger than input.",
+      },
+      {
+        question: "Is my code uploaded?",
+        answer: "No. Processing is entirely local in your browser.",
+      },
+    ],
+    related: ["json-minifier", "json-formatter", "regex-tester", "slug-generator"],
+  },
+  "average-calculator": {
+    title: "Average Calculator — Mean, Median, Min and Max",
+    description:
+      "Paste numbers separated by commas, spaces or new lines to get mean, median, min, max, sum and count — computed instantly on your device.",
+    intro:
+      "Drop in a list of numbers and get the mean, median, minimum, maximum, sum and count in one pass. Commas, semicolons, spaces and new lines all work as separators, making it easy to move data from a spreadsheet, log or survey export without reformatting it.",
+    benefits: [
+      "Mean and median side by side, so outliers are obvious",
+      "Accepts commas, semicolons, spaces and new lines",
+      "Shows sum and count for a quick sanity check",
+      "Numbers stay in your browser — no spreadsheet upload",
+    ],
+    howTo: [
+      "Paste numbers separated by commas, spaces or new lines.",
+      "Press Execute to calculate the statistics.",
+      "Compare mean and median to spot skew from outliers.",
+      "Copy the values into your report or notes.",
+    ],
+    faqs: [
+      {
+        question: "When should I use median instead of mean?",
+        answer:
+          "Use median when the list has extreme values — salaries and house prices are classic examples. A single very large number pulls the mean up but barely moves the median.",
+      },
+      {
+        question: "How is the median calculated for an even count?",
+        answer:
+          "The two middle values are averaged after sorting. For an odd count, the middle value itself is the median.",
+      },
+      {
+        question: "What input formats are accepted?",
+        answer:
+          "Numbers separated by commas, semicolons, spaces or line breaks. Blank entries are ignored; any non-numeric token stops the calculation with an error so bad data is not silently skipped.",
+      },
+      {
+        question: "Is my data private?",
+        answer: "Yes. The calculation runs locally; no number list is uploaded or stored.",
+      },
+    ],
+    related: ["percentage-calculator", "number-formatter", "discount-calculator", "unit-converter"],
+  },
+  "date-formatter": {
+    title: "Date Formatter — ISO, Long, Short and UTC Output",
+    description:
+      "Format any date as ISO 8601, long English, short English and UTC in one click. Accepts DD/MM/YYYY or a full ISO timestamp.",
+    intro:
+      "Enter a date — DD/MM/YYYY or a full ISO timestamp — and get four consistent formats at once: ISO 8601, a long English date, a short US date and a UTC string. Leave the field empty to format today. Useful for aligning dates across docs, APIs and international teams.",
+    benefits: [
+      "Four formats generated from a single input",
+      "Accepts DD/MM/YYYY and ISO timestamps",
+      "Empty input uses today's date",
+      "Formatting runs locally — no date data leaves the page",
+    ],
+    howTo: [
+      "Enter a date as DD/MM/YYYY or a full ISO timestamp.",
+      "Leave the field empty to use today.",
+      "Press Execute to see all four formats.",
+      "Copy the format your document or API expects.",
+    ],
+    faqs: [
+      {
+        question: "Which format should I use in an API?",
+        answer:
+          "ISO 8601 (YYYY-MM-DD or a full timestamp with an offset) is the safest choice: it sorts correctly and is unambiguous across locales.",
+      },
+      {
+        question: "Why are the long and short outputs in US English?",
+        answer:
+          "They are fixed to en-US for consistency, so month names and the short date order do not change with the visitor's browser locale. Use ISO or UTC when locale independence matters.",
+      },
+      {
+        question: "Is the date interpreted as UTC or local time?",
+        answer:
+          "A date-only value is treated as a calendar date on your device. The UTC output shows the same instant in UTC, which can shift by a day for dates near midnight in some timezones.",
+      },
+      {
+        question: "Is my date private?",
+        answer: "Yes. Formatting happens in your browser.",
+      },
+    ],
+    related: ["date-difference-calculator", "timestamp-converter", "age-calculator", "countdown-timer"],
+  },
+  "number-formatter": {
+    title: "Number Formatter — Grouping and Compact Notation",
+    description:
+      "Format numbers with the grouping and decimals of any locale, plus compact notation like 1.2M. Powered by Intl.NumberFormat and computed locally.",
+    intro:
+      "Enter a number, choose a locale and pick how many decimal places you want. The tool returns a grouped value, a compact value such as 1.2M and a fixed-decimal string — the three formats most often needed for dashboards, invoices and international copy.",
+    benefits: [
+      "Uses real locale rules (en-US, de-DE, ar-EG and more)",
+      "Shows grouped, compact and fixed outputs together",
+      "Supports 0–10 decimal places",
+      "Formatting is local and instant",
+    ],
+    howTo: [
+      "Enter the number you want to format.",
+      "Optionally set decimal places and a locale such as en-US or de-DE.",
+      "Press Execute to see all three formats.",
+      "Copy the representation that fits your context.",
+    ],
+    faqs: [
+      {
+        question: "Why do grouping separators differ between countries?",
+        answer:
+          "Locales disagree on both the separator and its position: en-US writes 1,234,567.89 while de-DE writes 1.234.567,89. Intl.NumberFormat applies the rules of the locale you enter.",
+      },
+      {
+        question: "What does compact notation do?",
+        answer:
+          "It shortens large values to 1.2K, 3.4M and so on, following the locale's conventions. It is intended for dashboards and summaries, not for exact invoices.",
+      },
+      {
+        question: "Can I control rounding?",
+        answer:
+          "The fixed-decimal output rounds to the number of places you choose. Compact notation uses the locale's default precision, so it is approximate by design.",
+      },
+      {
+        question: "Is my number uploaded?",
+        answer: "No. Formatting happens on your device.",
+      },
+    ],
+    related: ["percentage-calculator", "average-calculator", "unit-converter", "invoice-generator"],
+  },
+  "text-cleaner": {
+    title: "Text Cleaner — Fix Spacing in Pasted Text",
+    description:
+      "Collapse repeated spaces, trim each line and remove excess blank lines from pasted text. One click to tidy copy before publishing or sending.",
+    intro:
+      "Paste text copied from a PDF, email thread or web page and clean up the formatting debris: runs of spaces and tabs collapse to one, every line is trimmed, three or more blank lines become a single blank line and the whole block is trimmed at the edges. The words themselves are left alone.",
+    benefits: [
+      "Fixes double spaces, stray tabs and ragged line endings",
+      "Collapses long runs of blank lines to one",
+      "Preserves paragraph breaks and wording",
+      "Runs locally, so unpublished drafts stay private",
+    ],
+    howTo: [
+      "Paste the messy text into the input box.",
+      "Press Execute to clean it.",
+      "Review paragraph breaks that were preserved.",
+      "Copy the cleaned text into your editor.",
+    ],
+    faqs: [
+      {
+        question: "Does the cleaner remove all line breaks?",
+        answer:
+          "No. It trims each line and limits consecutive blank lines to one, but keeps line breaks. To join everything into one paragraph, run a separate replace or use a single-line export.",
+      },
+      {
+        question: "Does it fix punctuation or spelling?",
+        answer:
+          "No. It only normalises whitespace. Punctuation, casing and wording are untouched, so run a separate proofread for those.",
+      },
+      {
+        question: "What happens to tabs?",
+        answer:
+          "Tabs and runs of spaces are collapsed to a single space, which is what you usually want after pasting from PDFs, spreadsheets or email clients.",
+      },
+      {
+        question: "Is my text uploaded?",
+        answer: "No. Everything runs in your browser.",
+      },
+    ],
+    related: ["word-counter", "empty-line-remover", "duplicate-line-remover", "case-converter"],
+  },
+  "css-gradient-generator": {
+    title: "CSS Gradient Generator — Linear Gradients",
+    description:
+      "Pick two colors and an angle, then copy a ready linear-gradient() declaration. Preview the result and paste it straight into your stylesheet.",
+    intro:
+      "Build a linear gradient from two colors and an angle and copy the exact CSS declaration. Defaults are a purple-to-pink 135° gradient, and every value is editable, so you can match a brand palette and hand the result straight to a developer without redrawing it in a design tool.",
+    benefits: [
+      "Copy-ready background: linear-gradient(...) output",
+      "Any CSS color value works: HEX, rgb() or a named color",
+      "Angle is a plain number in degrees",
+      "No upload — generate gradients offline",
+    ],
+    howTo: [
+      "Enter the starting color and the ending color.",
+      "Set the angle in degrees (0 points up, 90 points right).",
+      "Press Execute to generate the CSS.",
+      "Copy the declaration onto any element.",
+    ],
+    faqs: [
+      {
+        question: "How do gradient angles work in CSS?",
+        answer:
+          "0deg points up, 90deg points right, 180deg points down and 270deg points left. A 135deg gradient runs from the top-left toward the bottom-right.",
+      },
+      {
+        question: "Can I use more than two colors?",
+        answer:
+          "This generator produces two-stop gradients. For three or more stops, extend the output by hand, for example linear-gradient(135deg, #4f46e5, #a855f7 50%, #ec4899).",
+      },
+      {
+        question: "Does it support radial or conic gradients?",
+        answer:
+          "No. It generates linear gradients only. The same color values and angle logic are the most common use case, and the CSS is easy to adapt for other gradient types.",
+      },
+      {
+        question: "Is the gradient saved anywhere?",
+        answer: "No. Generation is local; copy the CSS and keep it in your own project.",
+      },
+    ],
+    related: ["color-picker", "palette-generator", "color-converter", "css-box-shadow-generator"],
+  },
+  "image-cropper": {
+    title: "Image Cropper — 1:1, 4:5, 16:9 and YouTube",
+    description:
+      "Crop JPG, PNG or WebP to square, portrait, widescreen or a 1280×720 thumbnail — drag the box or type exact pixels, all on your device.",
+    intro:
+      "Crop an image to a preset ratio or freeform selection without uploading it. Choose 1:1 for avatars, 4:5 for social portraits, 16:9 for video covers or the YouTube thumbnail preset, then drag the box or enter exact pixel dimensions before downloading the result.",
+    benefits: [
+      "Presets for square, 4:5, 16:9, 4:3 and YouTube thumbnails",
+      "Freeform mode when you need exact pixel dimensions",
+      "Works with JPG, PNG and WebP",
+      "Cropping uses the browser canvas — the photo never leaves your device",
+    ],
+    howTo: [
+      "Choose an image from your device.",
+      "Pick a ratio preset or keep freeform.",
+      "Drag the crop box, or type exact coordinates and size.",
+      "Crop and download the new file.",
+    ],
+    faqs: [
+      {
+        question: "What size is a YouTube thumbnail?",
+        answer:
+          "YouTube thumbnails are 1280×720 pixels (16:9). The YouTube preset locks that ratio so the crop will not be stretched when uploaded.",
+      },
+      {
+        question: "Does cropping reduce image quality?",
+        answer:
+          "The crop re-encodes the selected area as an image file. Keep the original if you might need a larger version later, and use the Image Compressor afterward if the new file is still too heavy.",
+      },
+      {
+        question: "Is the image uploaded to a server?",
+        answer:
+          "No. The file is read locally with the browser's File API and cropped on a canvas; nothing is transmitted.",
+      },
+      {
+        question: "Which formats can I export?",
+        answer:
+          "The cropped result is produced by the browser canvas in a standard image format. Use the Image Converter afterward if you need WebP or a different format.",
+      },
+    ],
+    related: ["image-resizer", "image-compressor", "image-converter", "favicon-generator"],
+  },
+  "meta-tag-generator": {
+    title: "Meta Tag Generator — SEO and Open Graph Tags",
+    description:
+      "Generate title, description, canonical and Open Graph tags with length checks. Copy valid HTML meta tags for any page in seconds.",
+    intro:
+      "Enter a page title, description and optional canonical URL to get a copy-ready block of head tags: the title element, meta description, canonical link, Open Graph title and description, and a Twitter card declaration. Length checks flag titles and descriptions that will be truncated in search results.",
+    benefits: [
+      "Title and description length advice in plain language",
+      "Canonical, Open Graph and Twitter tags generated together",
+      "HTML-escapes quotes and ampersands so the markup is valid",
+      "Runs locally — unpublished URLs stay private",
+    ],
+    howTo: [
+      "Enter the page title and meta description.",
+      "Optionally add the canonical URL.",
+      "Press Execute to generate the tag block.",
+      "Paste the tags into the page head and publish.",
+    ],
+    faqs: [
+      {
+        question: "How long should a title and description be?",
+        answer:
+          "Aim for roughly 30–65 characters for the title and 120–165 for the description. Search engines truncate by pixel width, so shorter is safer on mobile.",
+      },
+      {
+        question: "Does the generator include JSON-LD structured data?",
+        answer:
+          "No. It produces classic meta tags only. Structured data needs a separate JSON-LD block tailored to the page type; use the Schema Validator to check it.",
+      },
+      {
+        question: "Where do these tags go?",
+        answer:
+          "Inside the document head, before the closing head tag. In a framework, use its metadata API where possible so it can manage duplicates and escaping for you.",
+      },
+      {
+        question: "Is my page information uploaded?",
+        answer: "No. Tag generation is local string processing.",
+      },
+    ],
+    related: ["meta-tag-analyzer", "serp-preview", "open-graph-checker", "seo-checker"],
+  },
+  "keyword-density-checker": {
+    title: "Keyword Density Checker — Find Overused Phrases",
+    description:
+      "See the words and 2–3 word phrases that dominate an article, with counts and percentages. A repetition warning, not a target to hit.",
+    intro:
+      "Paste an article to see which single words and short phrases repeat most often, with counts and a percentage of total words. Use it to catch accidental repetition, over-optimised anchors or a term that crowded out clearer wording. There is no magic percentage — modern search reads whole documents, not keyword counts.",
+    benefits: [
+      "Single words and 2–3 word phrases in one report",
+      "Counts and percentages make repetition obvious",
+      "Configurable top-N list and phrase length",
+      "Text stays local — drafts are never uploaded",
+    ],
+    howTo: [
+      "Paste the article or draft into the text box.",
+      "Set how many phrases to show and the maximum phrase length.",
+      "Press Execute to rank the most frequent terms.",
+      "Rewrite repeated phrases where they add no meaning.",
+    ],
+    faqs: [
+      {
+        question: "What is a good keyword density?",
+        answer:
+          "There is no target. Write naturally and treat high density as a warning sign of repetitive copy. Search engines understand synonyms and context; forcing a percentage usually makes writing worse.",
+      },
+      {
+        question: "How are phrases counted?",
+        answer:
+          "The text is tokenised into words and adjacent groups of two or three are counted. Overlapping occurrences count separately, so read the numbers as a relative signal rather than an exact linguistic measure.",
+      },
+      {
+        question: "Does it remove stop words?",
+        answer:
+          "Common words are part of the frequency table, which is intentional — repeated filler such as very or really is exactly what this checker helps reveal. Ignore the stop words you do not care about.",
+      },
+      {
+        question: "Is my article stored?",
+        answer: "No. Analysis happens in your browser; the text is not sent or saved.",
+      },
+    ],
+    related: ["word-counter", "readability-checker", "serp-preview", "meta-tag-generator"],
+  },
+  "slug-generator": {
+    title: "Slug Generator — Clean, URL-Safe Slugs",
+    description:
+      "Turn a title into a lowercase, hyphenated URL slug. Handles accents, punctuation, repeated spaces and long headings — ready for blogs and shops.",
+    intro:
+      "Paste a headline, product name or sentence and get a lowercase, hyphen-separated slug that is safe in a URL. Accents are folded, punctuation is removed, repeated separators collapse and the result is capped at a sensible length so it stays readable in search results and analytics.",
+    benefits: [
+      "Lowercases and hyphenates in one step",
+      "Folds accented characters (Café becomes cafe)",
+      "Collapses repeated spaces, underscores and hyphens",
+      "Runs locally — unpublished titles stay private",
+    ],
+    howTo: [
+      "Type or paste the title you want to turn into a slug.",
+      "Press Execute to generate it.",
+      "Check the result for words you want to keep or drop.",
+      "Use it as the URL path segment in your CMS.",
+    ],
+    faqs: [
+      {
+        question: "Should URLs use hyphens or underscores?",
+        answer:
+          "Hyphens are the convention for web URLs and are treated as word separators by search engines. Underscores are better suited to code identifiers, not public paths.",
+      },
+      {
+        question: "What happens to accents and non-Latin text?",
+        answer:
+          "Accented Latin characters are decomposed and their marks removed, so Café becomes cafe. Letters from other scripts that survive normalisation are kept; emoji and punctuation are dropped.",
+      },
+      {
+        question: "How long should a slug be?",
+        answer:
+          "Short enough to read at a glance: three to six meaningful words is a good target. The generator caps output at 120 characters, but search results and analytics are friendlier when you stay well below that.",
+      },
+      {
+        question: "Can I change a slug after publishing?",
+        answer:
+          "Yes, but add a permanent redirect from the old URL so links and rankings are not lost. Changing slugs without redirects is one of the most common avoidable SEO mistakes.",
+      },
+    ],
+    related: ["word-counter", "meta-tag-generator", "url-encoder", "case-converter"],
   },
 };
 

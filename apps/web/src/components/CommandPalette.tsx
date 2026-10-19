@@ -66,7 +66,7 @@ function rankTools(tools: ReadonlyArray<PublicTool>, query: string): Array<Publi
 
 function loadTools(): ReadonlyArray<PublicTool> {
   try {
-    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name", limit: 100 });
+    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name" });
     return entries.map((entry) => ({
       id: entry.definition.id,
       slug: entry.definition.slug,

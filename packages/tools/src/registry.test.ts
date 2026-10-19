@@ -197,7 +197,7 @@ describe("routes, metadata, and sitemap", () => {
       params: { toolId: "unit-converter" },
     });
     expect(getToolPageMetadata(entry, "https://rovotools.com")).toMatchObject({
-      title: "Unit Converter | RovoTools",
+      title: "Unit Converter",
       canonicalPath: "/tools/unit-converter",
       canonicalUrl: "https://rovotools.com/tools/unit-converter",
     });

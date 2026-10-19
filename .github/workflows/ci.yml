@@ -38,6 +38,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Check vendored tools copy
+        # apps/web vendors the shared tool data for its standalone build.
+        # It is the source of truth; packages/tools must match exactly.
+        run: pnpm check:shared
+
       - name: Build workspace packages
         # Cross-package imports resolve to ./dist (see package.json main
         # entries), so packages must be built before lint/typecheck/tests.

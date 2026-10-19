@@ -27,7 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: post.title,
     description: post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
-    robots: post.noIndex === true ? { index: false, follow: false } : undefined,
+    // noindex keeps thin posts out of the index; `follow` keeps their
+    // outbound internal links crawling.
+    robots: post.noIndex === true ? { index: false, follow: true } : undefined,
     openGraph: {
       siteName: BRAND_NAME,
       images: [

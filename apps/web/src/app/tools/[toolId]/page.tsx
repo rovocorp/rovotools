@@ -23,7 +23,9 @@ export async function generateMetadata({ params }: { params: Promise<{ toolId: s
     title: page.title,
     description: page.description,
     alternates: { canonical: page.canonicalPath },
-    robots: page.noIndex === true ? { index: false, follow: false } : undefined,
+    // noindex keeps thin pages out of the index, but `follow` preserves
+    // internal link equity so related tools are still discovered.
+    robots: page.noIndex === true ? { index: false, follow: true } : undefined,
     openGraph: {
       siteName: BRAND_NAME,
       images: [

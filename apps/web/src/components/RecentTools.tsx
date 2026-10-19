@@ -25,7 +25,7 @@ function loadRecent(): ReadonlyArray<PublicTool> {
     return [];
   }
   try {
-    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name", limit: 100 });
+    const entries = getToolRegistry().query({ platform: "WEB", sortBy: "name" });
     const tools: Array<PublicTool> = entries.map((entry) => ({
       id: entry.definition.id,
       slug: entry.definition.slug,

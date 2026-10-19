@@ -10,6 +10,7 @@ import CookieBanner from "@/components/CookieBanner";
 import PWARegister from "@/components/PWARegister";
 import AdSenseScript from "@/components/ads/AdSenseScript";
 import FundingChoicesScript from "@/components/ads/FundingChoicesScript";
+import AnalyticsScript from "@/components/analytics/AnalyticsScript";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
 import PwaUpdatePrompt from "@/components/pwa/PwaUpdatePrompt";
 import { QueryProvider } from "@/components/query-provider";
@@ -40,6 +41,15 @@ const WEBSITE_JSON_LD = {
   "@type": "WebSite",
   name: BRAND_NAME,
   url: WEB_URL,
+  // Expose the existing /tools?q= search to Google's sitelinks search box.
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${WEB_URL}/tools/?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -86,6 +96,7 @@ export default function RootLayout({
           <QueryProvider>
           <PWARegister />
           <FundingChoicesScript />
+          <AnalyticsScript />
           <AdSenseScript />
           <Header />
             <CommandPalette />

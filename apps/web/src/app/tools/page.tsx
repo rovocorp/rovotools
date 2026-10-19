@@ -36,7 +36,11 @@ export const dynamic = "force-static";
 
 function ToolsJsonLd(): React.ReactElement {
   const registry = getToolRegistry();
-  const entries = registry.query({ platform: "WEB", sortBy: "name", limit: 100 });
+  // Only list indexable tools: ItemList entries pointing at noindex pages
+  // send Google mixed signals about what belongs in the index.
+  const entries = registry
+    .query({ platform: "WEB", sortBy: "name" })
+    .filter((entry) => entry.definition.seo?.noIndex !== true);
   return (
     <script
       type="application/ld+json"
@@ -50,12 +54,15 @@ function ToolsJsonLd(): React.ReactElement {
           mainEntity: {
             "@type": "ItemList",
             numberOfItems: entries.length,
-            itemListElement: entries.map((entry, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              name: entry.definition.name,
-              url: `${WEB_URL}${entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`}`,
-            })),
+            itemListElement: entries.map((entry, index) => {
+              const path = entry.definition.seo?.canonicalPath ?? `/tools/${entry.definition.slug}`;
+              return {
+                "@type": "ListItem",
+                position: index + 1,
+                name: entry.definition.name,
+                url: `${WEB_URL}${path.endsWith("/") ? path : `${path}/`}`,
+              };
+            }),
           },
         }).replace(/</g, "\\u003c"),
       }}

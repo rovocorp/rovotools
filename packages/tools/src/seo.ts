@@ -82,7 +82,7 @@ export function getToolPageMetadata(
       : `${normalizeBaseUrl(baseUrl)}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}`;
 
   return {
-    title: deckCopy.title ?? definition.seo?.title ?? `${definition.name} | RovoTools`,
+    title: deckCopy.title ?? definition.seo?.title ?? definition.name,
     description: deckCopy.description ?? definition.seo?.description ?? definition.description,
     keywords,
     canonicalPath,

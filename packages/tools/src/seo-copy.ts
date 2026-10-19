@@ -42,6 +42,8 @@ export interface ResolvedToolPageCopy {
   readonly faqs: ReadonlyArray<ToolFaq>;
   readonly related: ReadonlyArray<string>;
   readonly workflow?: ToolWorkflow;
+  /** True only when a hand-written deck exists — used to suppress HowTo schema on template pages. */
+  readonly hasCustomCopy: boolean;
 }
 
 const IMAGE_WORKFLOW: ToolWorkflow = {
@@ -108,7 +110,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["roi-calculator", "compound-interest-calculator", "loan-calculator", "percentage-calculator"],
   },
   "image-compressor": {
-    title: "Image Compressor — Compress Images Online | RovoTools",
+    title: "Image Compressor — Compress Images Online",
     description:
       "Compress JPG, PNG and WebP images online to reduce file size while maintaining good visual quality. Fast, simple and easy to use.",
     intro:
@@ -151,7 +153,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-resizer": {
-    title: "Image Resizer — Resize Images Online | RovoTools",
+    title: "Image Resizer — Resize Images Online",
     description:
       "Resize JPG, PNG and WebP images by exact pixels or percentage with the aspect ratio locked. Includes presets for YouTube, Instagram and Open Graph.",
     intro:
@@ -184,7 +186,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "image-converter": {
-    title: "Image Converter — Convert JPG, PNG & WebP | RovoTools",
+    title: "Image Converter — Convert JPG, PNG & WebP",
     description:
       "Convert images between JPG, PNG and WebP online with quality control. Convert one file or up to twenty at a time, free.",
     intro:
@@ -216,7 +218,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: IMAGE_WORKFLOW,
   },
   "merge-pdf": {
-    title: "Merge PDF — Combine PDF Files Online | RovoTools",
+    title: "Merge PDF — Combine PDF Files Online",
     description:
       "Merge 2-20 PDF files into one document in your chosen order. Free, no signup — files never leave your device.",
     intro:
@@ -245,7 +247,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "split-pdf": {
-    title: "Split PDF — Extract Pages Online | RovoTools",
+    title: "Split PDF — Extract Pages Online",
     description:
       "Split a PDF by extracting the pages you need, e.g. 1-3,5. Free, no signup — files never leave your device.",
     intro:
@@ -274,7 +276,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "compress-pdf": {
-    title: "Compress PDF — Reduce PDF Size Online | RovoTools",
+    title: "Compress PDF — Reduce PDF Size Online",
     description:
       "Shrink a PDF with lossless re-save plus optional image downscaling. Free, no signup — files never leave your device.",
     intro:
@@ -304,7 +306,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "jpg-to-pdf": {
-    title: "JPG to PDF — Convert Images to PDF Online | RovoTools",
+    title: "JPG to PDF — Convert Images to PDF Online",
     description:
       "Turn JPG, PNG or WebP photos into a PDF, one page per image. Free, no signup — files never leave your device.",
     intro:
@@ -333,7 +335,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-jpg": {
-    title: "PDF to JPG — Convert PDF Pages to Images Online | RovoTools",
+    title: "PDF to JPG — Convert PDF Pages to Images Online",
     description:
       "Render PDF pages as JPG images at 1x-3x scale. Free, no signup — files never leave your device.",
     intro:
@@ -362,7 +364,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "word-to-pdf": {
-    title: "Word to PDF — Convert DOCX Online | RovoTools",
+    title: "Word to PDF — Convert DOCX Online",
     description:
       "Convert a .docx document into a clean PDF in your browser. Free, no signup — files never leave your device.",
     intro:
@@ -392,7 +394,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-creator": {
-    title: "PDF Creator — Make a PDF Online Free | RovoTools",
+    title: "PDF Creator — Make a PDF Online Free",
     description:
       "Create a multi-page PDF from text with a title. Free, no signup — everything runs on your device.",
     intro:
@@ -421,7 +423,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "sign-pdf": {
-    title: "Sign PDF — E-Sign Documents Online | RovoTools",
+    title: "Sign PDF — E-Sign Documents Online",
     description:
       "Draw or type your signature and stamp it onto any PDF page. Free, no signup — files never leave your device.",
     intro:
@@ -451,7 +453,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-word": {
-    title: "PDF to Word — Convert PDF to DOCX Online | RovoTools",
+    title: "PDF to Word — Convert PDF to DOCX Online",
     description:
       "Extract a PDF's text into an editable .docx document. Free, no signup — files never leave your device.",
     intro:
@@ -481,7 +483,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "pdf-to-excel": {
-    title: "PDF to Excel — Convert PDF to XLSX Online | RovoTools",
+    title: "PDF to Excel — Convert PDF to XLSX Online",
     description:
       "Extract a PDF's text rows into an editable .xlsx spreadsheet. Free, no signup — files never leave your device.",
     intro:
@@ -511,7 +513,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: PDF_WORKFLOW,
   },
   "json-formatter": {
-    title: "JSON Formatter — Format & Beautify JSON Online | RovoTools",
+    title: "JSON Formatter — Format & Beautify JSON Online",
     description:
       "Format, beautify and validate JSON online with clear error messages. Paste JSON, choose indentation and copy the readable result.",
     intro:
@@ -544,7 +546,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "json-validator": {
-    title: "JSON Validator — Check JSON Online | RovoTools",
+    title: "JSON Validator — Check JSON Online",
     description:
       "Check whether text is valid JSON online and see the parsed root type. Instant validation with helpful detail, free.",
     intro:
@@ -570,7 +572,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     workflow: JSON_WORKFLOW,
   },
   "base64-encoder": {
-    title: "Base64 Encoder — Encode Text Online | RovoTools",
+    title: "Base64 Encoder — Encode Text Online",
     description:
       "Encode any text into Base64 online. Paste text, get the encoded output with its length, instantly and privately.",
     intro:
@@ -596,7 +598,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-decoder", "url-encoder", "hex-encoder", "jwt-decoder"],
   },
   "jwt-decoder": {
-    title: "JWT Decoder — Decode JSON Web Tokens Online | RovoTools",
+    title: "JWT Decoder — Decode JSON Web Tokens Online",
     description:
       "Decode a JSON Web Token locally to inspect its header and payload. Decoding does not verify the signature — free and private.",
     intro:
@@ -626,7 +628,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["base64-decoder", "json-formatter", "json-validator", "hash-generator"],
   },
   "password-generator": {
-    title: "Password Generator — Create Strong Passwords | RovoTools",
+    title: "Password Generator — Create Strong Passwords",
     description:
       "Create strong random passwords online with custom length and character sets. Generated locally with an entropy readout — nothing stored.",
     intro:
@@ -662,7 +664,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["password-strength-checker", "random-token-generator", "uuid-generator", "hash-generator"],
   },
   "bmi-calculator": {
-    title: "BMI Calculator — Calculate Body Mass Index | RovoTools",
+    title: "BMI Calculator — Calculate Body Mass Index",
     description:
       "Calculate BMI from height and weight using the standard body mass index formula. Get a quick BMI result and understand the calculation.",
     intro:
@@ -698,7 +700,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["age-calculator", "percentage-calculator", "unit-converter"],
   },
   "loan-calculator": {
-    title: "Loan Calculator — Monthly Payment & Interest | RovoTools",
+    title: "Loan Calculator — Monthly Payment & Interest",
     description:
       "Free loan calculator. Estimate the monthly payment, total payable and total interest from the loan amount, annual rate and term.",
     intro:
@@ -736,7 +738,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["compound-interest-calculator", "discount-calculator", "percentage-calculator", "tip-calculator"],
   },
   "utm-builder": {
-    title: "UTM URL Builder — Campaign Tracking Links | RovoTools",
+    title: "UTM URL Builder — Campaign Tracking Links",
     description:
       "Build UTM-tagged campaign URLs for Google Analytics. Add source, medium and campaign — get a clean tracked link.",
     intro:
@@ -766,7 +768,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["url-validator", "meta-tag-generator", "keyword-density-checker"],
   },
   "serp-preview": {
-    title: "SERP Snippet Preview — Google Result Preview | RovoTools",
+    title: "SERP Snippet Preview — Google Result Preview",
     description:
       "Preview your Google search snippet before publishing. Check title and description length against truncation limits.",
     intro:
@@ -796,7 +798,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "slug-generator", "keyword-density-checker"],
   },
   "schema-validator": {
-    title: "Schema Markup Validator — JSON-LD Checker | RovoTools",
+    title: "Schema Markup Validator — JSON-LD Checker",
     description:
       "Validate JSON-LD structured data. Confirm @context and @type, list declared schema types, catch syntax errors.",
     intro:
@@ -826,7 +828,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["json-validator", "meta-tag-generator", "code-minifier"],
   },
   "meta-tag-analyzer": {
-    title: "Meta Tag Analyzer — Audit Page Tags | RovoTools",
+    title: "Meta Tag Analyzer — Audit Page Tags",
     description:
       "Audit any page's title, meta description, canonical and social tags from its HTML. Find what's missing or too long.",
     intro:
@@ -856,7 +858,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "open-graph-checker", "seo-checker"],
   },
   "robots-txt-checker": {
-    title: "Robots.txt Checker — Validate Crawler Rules | RovoTools",
+    title: "Robots.txt Checker — Validate Crawler Rules",
     description:
       "Validate robots.txt files. Catch site-wide blocks, malformed lines and missing sitemap references before crawlers do.",
     intro:
@@ -886,7 +888,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-generator", "sitemap-checker", "seo-checker"],
   },
   "seo-checker": {
-    title: "Website SEO Checker — On-Page Audit | RovoTools",
+    title: "Website SEO Checker — On-Page Audit",
     description:
       "Score any page's on-page SEO from its HTML: title, description, headings, images and social tags in one audit.",
     intro:
@@ -916,7 +918,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-analyzer", "open-graph-checker", "keyword-density-checker"],
   },
   "open-graph-checker": {
-    title: "Open Graph Checker — Social Preview Tags | RovoTools",
+    title: "Open Graph Checker — Social Preview Tags",
     description:
       "Verify og:title, og:description, og:image and Twitter card tags so links unfurl correctly on social platforms.",
     intro:
@@ -946,7 +948,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["meta-tag-generator", "meta-tag-analyzer", "seo-checker"],
   },
   "sitemap-checker": {
-    title: "XML Sitemap Checker — Validate Sitemaps | RovoTools",
+    title: "XML Sitemap Checker — Validate Sitemaps",
     description:
       "Validate XML sitemaps: urlset vs index format, URL counts, lastmod coverage and the 50,000-URL protocol limit.",
     intro:
@@ -976,7 +978,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["robots-txt-checker", "robots-txt-generator", "seo-checker"],
   },
   "tag-detector": {
-    title: "Analytics Tag Detector — Find Trackers | RovoTools",
+    title: "Analytics Tag Detector — Find Trackers",
     description:
       "Detect Google Analytics, Tag Manager, Meta Pixel, TikTok and LinkedIn tags in any page's HTML.",
     intro:
@@ -1006,7 +1008,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["seo-checker", "meta-tag-analyzer", "performance-analyzer"],
   },
   "performance-analyzer": {
-    title: "Website Performance Analyzer — Page Weight Hints | RovoTools",
+    title: "Website Performance Analyzer — Page Weight Hints",
     description:
       "Estimate page-weight performance from HTML: markup size, scripts, stylesheets and image dimensions with fix hints.",
     intro:
@@ -1036,7 +1038,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["seo-checker", "tag-detector", "image-compressor"],
   },
   "tax-calculator": {
-    title: "Tax Calculator (GST / VAT) — Sales Tax Online | RovoTools",
+    title: "Tax Calculator (GST / VAT) — Sales Tax Online",
     description:
       "Add or remove sales tax worldwide: US states, Canadian provinces, EU/UK VAT and GST — or stack your own custom tax rows.",
     intro:
@@ -1066,7 +1068,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["loan-calculator", "compound-interest-calculator", "percentage-calculator"],
   },
   "color-picker": {
-    title: "Color Picker — HEX, RGB & HSL Codes | RovoTools",
+    title: "Color Picker — HEX, RGB & HSL Codes",
     description:
       "Pick any color and get its HEX, RGB and HSL codes instantly, plus tints, shades and its complementary color.",
     intro:
@@ -1096,7 +1098,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["color-converter", "palette-generator", "color-picker-from-image"],
   },
   "palette-generator": {
-    title: "Color Palette Generator — Harmonious Schemes | RovoTools",
+    title: "Color Palette Generator — Harmonious Schemes",
     description:
       "Generate harmonious color palettes: complementary, analogous, triadic or random — with copy-ready CSS variables.",
     intro:
@@ -1126,7 +1128,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["color-picker", "color-converter", "css-gradient-generator"],
   },
   "word-unscrambler": {
-    title: "Word Unscrambler — Unscramble Letters Into Words | RovoTools",
+    title: "Word Unscrambler — Unscramble Letters Into Words",
     description:
       "Free word unscrambler: enter scrambled letters and find every valid word with Scrabble and Words With Friends scores. No signup, runs on your device.",
     intro:
@@ -1181,7 +1183,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     },
   },
   "readability-checker": {
-    title: "Readability Checker — Flesch Score & Grade Level | RovoTools",
+    title: "Readability Checker — Flesch Score & Grade Level",
     description:
       "Free readability checker: paste text to get Flesch Reading Ease, grade level, word and sentence counts. Private and instant.",
     intro:
@@ -1216,7 +1218,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "text-cleaner", "keyword-density-checker"],
   },
   "invoice-generator": {
-    title: "Invoice Generator — Free Online Invoice Maker | RovoTools",
+    title: "Invoice Generator — Free Online Invoice Maker",
     description:
       "Create a clean invoice online: add line items, tax and your business name, then copy the result. Free, no signup.",
     intro:
@@ -1253,7 +1255,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["tax-calculator", "number-formatter", "pdf-creator", "date-formatter"],
   },
   "text-to-speech": {
-    title: "Text to Speech — Read Aloud Online | RovoTools",
+    title: "Text to Speech — Read Aloud Online",
     description:
       "Free text to speech: paste text and listen with your browser's voices, with speed control. No uploads, no signup.",
     intro:
@@ -1289,7 +1291,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-counter", "reading-time-calculator", "readability-checker", "lorem-ipsum-generator"],
   },
   "countdown-timer": {
-    title: "Countdown Timer — Count Down to Any Date | RovoTools",
+    title: "Countdown Timer — Count Down to Any Date",
     description:
       "Free countdown timer: enter a target date or a duration in seconds and see the exact time remaining.",
     intro:
@@ -1319,7 +1321,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "age-calculator"],
   },
   "random-word-generator": {
-    title: "Random Word Generator — Writing & Game Prompts | RovoTools",
+    title: "Random Word Generator — Writing & Game Prompts",
     description:
       "Draw random English words for writing prompts, vocabulary practice and word games — with repeatable seeds. Free.",
     intro:
@@ -1350,7 +1352,7 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
     related: ["word-unscrambler", "lorem-ipsum-generator", "word-counter", "readability-checker"],
   },
   "pdf-extract-text": {
-    title: "Extract Text From PDF — Free Online | RovoTools",
+    title: "Extract Text From PDF — Free Online",
     description:
       "Copy text out of any PDF in your browser: page-by-page extraction with .txt download. Files never leave your device.",
     intro:
@@ -1392,6 +1394,1540 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
       ],
     },
   },
+  "age-calculator": {
+    title: "Age Calculator — Exact Years, Months & Days",
+    description:
+      "Free age calculator. Find exact age in years, months and days from a birth date — or the age difference between two dates. Private, instant, no signup.",
+    intro:
+      "Find out how old someone is in years, months and days. Enter a birth date and an optional as-of date (defaults to today) to get a precise age breakdown using calendar-aware arithmetic — not a rough year estimate. Useful for birthdays, forms, HR checks, school enrolment and any situation that needs an exact age.",
+    benefits: [
+      "Exact years, months and days — not a rounded year estimate",
+      "Compare against today or any as-of date",
+      "Handles month-end and leap-day edge cases correctly",
+      "Runs entirely on your device — the dates you enter never leave the browser",
+    ],
+    howTo: [
+      "Enter the birth date in DD/MM/YYYY format.",
+      "Leave the as-of date as today, or enter another date to measure against.",
+      "Press Execute to see the age in years, months and days.",
+      "Change the as-of date to plan a future birthday or verify a form entry.",
+    ],
+    faqs: [
+      {
+        question: "How is age calculated exactly?",
+        answer:
+          "Exact age counts full years between the two dates, then remaining months and leftover days. For example, someone born on 15 March 2000 is 26 full years old on 14 March 2026, and 26 years 11 months 15 days on 14 February 2027.",
+      },
+      {
+        question: "What if the birth day is the 29th of February?",
+        answer:
+          "In non-leap years the anniversary is treated as 1 March (or 28 February, depending on jurisdiction). This calculator uses standard calendar arithmetic so you always get a consistent, explainable result.",
+      },
+      {
+        question: "Can I calculate the age difference between two people?",
+        answer:
+          "Yes. Enter the first person's birth date with today's as-of date, note the result, then repeat for the second — or set both dates relative to a fixed as-of date so the difference is stable.",
+      },
+      {
+        question: "Is my data private?",
+        answer:
+          "Yes. The calculation runs in your browser. The dates you type are not uploaded to a server, logged or stored.",
+      },
+    ],
+    related: ["date-difference-calculator", "date-formatter", "timestamp-converter", "bmi-calculator"],
+  },
+  "unit-converter": {
+    intro:
+      "Convert everyday measurements in one place: kilometres to miles, kilograms to pounds, Celsius to Fahrenheit, inches to centimetres and more. Pick a from-unit and a to-unit from the same family, enter a value, and get the converted result plus the formula used so you can check the maths yourself.",
+    benefits: [
+      "Length, weight and temperature in metric and imperial",
+      "Shows the conversion formula with every result",
+      "Guards against mismatched unit families (e.g. km to kg)",
+      "Instant and private — nothing is sent to a server",
+    ],
+    howTo: [
+      "Enter the numeric value you want to convert.",
+      "Choose the from-unit and to-unit from the dropdowns.",
+      "Press Execute to see the converted value and the formula.",
+      "Swap the units to convert in the other direction.",
+    ],
+    faqs: [
+      {
+        question: "Which units are supported?",
+        answer:
+          "Length includes kilometres, metres, centimetres, millimetres, miles, yards, feet and inches. Weight covers kilograms, grams, milligrams, pounds and ounces. Temperature covers Celsius, Fahrenheit and Kelvin.",
+      },
+      {
+        question: "Why can't I convert kilometres to kilograms?",
+        answer:
+          "Distance and mass are different dimensions. The converter checks unit families and refuses cross-family conversions so you never get a meaningless number.",
+      },
+      {
+        question: "How do you convert Celsius to Fahrenheit?",
+        answer:
+          "Fahrenheit = (Celsius × 9/5) + 32. The tool also handles Kelvin = Celsius + 273.15. The exact formula is shown with every temperature result.",
+      },
+    ],
+    related: ["percentage-calculator", "number-formatter", "color-converter", "age-calculator"],
+  },
+  "word-counter": {
+    title: "Word Counter — Words, Characters & Reading Time",
+    description:
+      "Free word counter. Count words, characters (with and without spaces), sentences and paragraphs — plus estimated reading time.",
+    intro:
+      "Paste any text to instantly count words, characters with and without spaces, sentences and paragraphs, and get an estimated reading and speaking time. Useful for essays, meta descriptions, tweets, ad copy, subtitles and any limit that is measured in words or characters.",
+    benefits: [
+      "Words, characters (with/without spaces), sentences and paragraphs",
+      "Reading time and speaking-time estimates",
+      "Live counts as you type or paste",
+      "Text never leaves your browser — safe for confidential drafts",
+    ],
+    howTo: [
+      "Paste or type your text into the text area.",
+      "Read the live word, character, sentence and paragraph counts.",
+      "Use the reading-time estimate to check length against limits.",
+      "Clear the box to start a new draft.",
+    ],
+    faqs: [
+      {
+        question: "Does the word counter count hyphenated words as one or two?",
+        answer:
+          "Hyphenated compounds like 'well-known' count as one word, matching common word-processor behaviour. Numbers and standalone symbols count as words when separated by spaces.",
+      },
+      {
+        question: "How is reading time estimated?",
+        answer:
+          "At an average silent reading speed of about 200–250 words per minute. Speaking time uses roughly 130–150 words per minute, closer to a natural presentation pace.",
+      },
+      {
+        question: "Is my text stored or uploaded?",
+        answer:
+          "No. Counting happens in your browser. Nothing you paste is sent to a server, logged or saved after you leave the page.",
+      },
+    ],
+    related: ["reading-time-calculator", "case-converter", "duplicate-line-remover", "text-cleaner"],
+  },
+  "tip-calculator": {
+    title: "Tip Calculator — Split Bills Fairly",
+    description:
+      "Free tip calculator. Calculate tip percentage, total bill and per-person share when splitting with friends or family.",
+    intro:
+      "Work out the tip and the total without mental arithmetic. Enter the bill amount, the tip percentage and how many people are splitting, then get the tip, the grand total and each person's share. Ideal for restaurants, taxis, delivery and shared holidays.",
+    benefits: [
+      "Tip amount, total bill and per-person share in one result",
+      "Any tip percentage — 10%, 15%, 18%, 20% or custom",
+      "Handles group splits cleanly with rounding awareness",
+      "Private and offline-friendly — no bill data leaves the device",
+    ],
+    howTo: [
+      "Enter the bill amount before tip.",
+      "Enter the tip percentage (for example 15 or 20).",
+      "Enter how many people are splitting the bill.",
+      "Press Execute to see the tip, total and each person's share.",
+    ],
+    faqs: [
+      {
+        question: "What tip percentage should I leave?",
+        answer:
+          "In the US, 15–20% of the pre-tax bill is common for table service; 10–15% for counter service. Elsewhere, check local norms — many countries include service already. Use any custom percentage this calculator accepts.",
+      },
+      {
+        question: "Should tip be calculated on the pre-tax or post-tax bill?",
+        answer:
+          "Customarily on the pre-tax amount, though some people tip on the total. Enter whichever base you prefer as the bill amount — the tool simply applies your percentage.",
+      },
+      {
+        question: "How do I split evenly with a shared bill?",
+        answer:
+          "Set people to the number of diners. The per-person figure is the grand total divided equally. For itemised splits, calculate each person's items separately then tip on their share.",
+      },
+    ],
+    related: ["percentage-calculator", "discount-calculator", "loan-calculator", "age-calculator"],
+  },
+  "url-qr-generator": {
+    title: "URL QR Code Generator — Free, Instant, Private",
+    description:
+      "Generate a QR code for any URL. Customise size and error correction, then download a PNG — no signup, no tracking.",
+    intro:
+      "Turn a website address into a scannable QR code in seconds. Paste the URL, choose size and error-correction level, and download a clean PNG ready for print, slides, menus or packaging. Codes are generated entirely in your browser — no link history is stored.",
+    benefits: [
+      "Works with any http/https URL",
+      "Choose pixel size and error-correction level",
+      "Download as PNG for print or screens",
+      "Generated locally — the URL is not sent to a third-party QR API",
+    ],
+    howTo: [
+      "Paste the full URL, including https://.",
+      "Pick a size (for example 300 px for small print, 1000 px for posters).",
+      "Choose an error-correction level (M is fine for most uses).",
+      "Press Execute, then download the PNG.",
+    ],
+    faqs: [
+      {
+        question: "What error correction level should I use?",
+        answer:
+          "Level M (about 15% recovery) balances density and reliability for most URLs. Use Q or H if the code will be printed small, damaged, or partially obscured (menus, stickers).",
+      },
+      {
+        question: "Will the QR code expire?",
+        answer:
+          "The image itself never expires. Scanners open whatever URL was encoded — if you later change the destination page, the same QR still points at the same address unless you use a redirect you control.",
+      },
+      {
+        question: "Can I make a short-link QR instead of a long URL?",
+        answer:
+          "Yes. Generate the code for your short link (or any redirect you control). Shorter URLs produce denser-looking codes only when the string is long; error correction still applies.",
+      },
+    ],
+    related: ["wifi-qr-generator", "vcard-qr-generator", "text-qr-generator", "url-encoder"],
+  },
+  "percentage-calculator": {
+    title: "Percentage Calculator — Of, Change & Reverse %",
+    description:
+      "Free percentage calculator. Work out X% of Y, percentage change between values, and what number a percentage is of another.",
+    intro:
+      "Solve everyday percentage problems in one tool: what is X% of Y, the percentage change from an old value to a new one, and reverse questions like 'X is what percent of Y'. Enter the numbers, press execute, and get a clear step-by-step result you can trust for discounts, grades, markups and stats.",
+    benefits: [
+      "X% of Y, percentage change and reverse percentage in one place",
+      "Shows the working, not just the number",
+      "Handles zero and negative values safely",
+      "Runs on your device — no data is uploaded",
+    ],
+    howTo: [
+      "Enter the base value (Y) and the percentage (X) for 'X% of Y'.",
+      "Optionally enter an old value to compute percentage change to the new total.",
+      "Press Execute to see all computed percentage results with their formulas.",
+      "Reuse the same inputs after tweaking a number for quick scenarios.",
+    ],
+    faqs: [
+      {
+        question: "How do you calculate percentage change?",
+        answer:
+          "Change = (new − old) ÷ old × 100. A price from 80 to 100 is a 25% increase; from 100 to 80 is a 20% decrease — the bases differ, which is why direction and wording matter.",
+      },
+      {
+        question: "What is 15% of 240?",
+        answer:
+          "0.15 × 240 = 36. The tool shows this as X% of Y so you can verify any similar question.",
+      },
+      {
+        question: "How do I find what percent 45 is of 60?",
+        answer:
+          "45 ÷ 60 × 100 = 75%. Use the reverse-percentage mode with the part and the whole.",
+      },
+    ],
+    related: ["discount-calculator", "roi-calculator", "compound-interest-calculator", "unit-converter"],
+  },
+  "compound-interest-calculator": {
+    title: "Compound Interest Calculator — Growth Over Time",
+    description:
+      "Free compound interest calculator. Project principal growth with annual compounding frequency, years and rate — plus yearly breakdown.",
+    intro:
+      "See how money grows with compound interest. Enter the principal, annual interest rate, number of years and how often interest compounds (annually, semi-annually, quarterly, monthly or daily). Get the future value, total interest earned and a year-by-year table so you can compare scenarios side by side.",
+    benefits: [
+      "Future value with any compounding frequency",
+      "Total interest and yearly growth table",
+      "Compare rates and terms without spreadsheets",
+      "Calculations stay on your device",
+    ],
+    howTo: [
+      "Enter the starting principal (initial investment or loan base).",
+      "Enter the annual interest rate as a percentage.",
+      "Enter how many years the money compounds for.",
+      "Choose compounds per year (12 is a common monthly default).",
+      "Press Execute to see future value, total interest and the yearly table.",
+    ],
+    faqs: [
+      {
+        question: "What is the compound interest formula?",
+        answer:
+          "A = P(1 + r/n)^(n×t), where P is principal, r the annual rate as a decimal, n compounds per year and t years. Total interest is A − P.",
+      },
+      {
+        question: "How does compounding frequency affect the result?",
+        answer:
+          "More frequent compounding grows money slightly faster for the same nominal rate. Monthly (n=12) vs annual (n=1) is a small but real difference over long horizons.",
+      },
+      {
+        question: "Does this include regular monthly deposits?",
+        answer:
+          "This calculator models a single principal with compound growth. For recurring contributions, run yearly scenarios or use a dedicated savings planner with payment schedules.",
+      },
+    ],
+    related: ["roi-calculator", "loan-calculator", "percentage-calculator", "discount-calculator"],
+  },
+  "roi-calculator": {
+    title: "ROI Calculator — Return on Investment",
+    description:
+      "Free ROI calculator. Work out return on investment as a percentage and absolute gain from cost and revenue.",
+    intro:
+      "Measure return on investment the standard way. Enter what you spent (cost) and what you got back (gain or revenue) to get ROI as a percentage plus the absolute profit. Useful for marketing campaigns, freelance projects, side hustles and comparing where money actually works hardest.",
+    benefits: [
+      "Standard ROI = (gain − cost) ÷ cost × 100",
+      "Shows absolute profit and percentage together",
+      "Handles negative ROI when costs exceed returns",
+      "Instant and private in the browser",
+    ],
+    howTo: [
+      "Enter the total cost or investment amount.",
+      "Enter the total gain, revenue or exit value.",
+      "Press Execute to see ROI percentage and absolute profit.",
+      "Swap numbers to compare alternative scenarios quickly.",
+    ],
+    faqs: [
+      {
+        question: "What is a good ROI?",
+        answer:
+          "It depends on the channel and risk. A single campaign that doubles spend (100% ROI) is very different from a diversified portfolio average. Always compare against your own baseline and alternatives, not a universal number.",
+      },
+      {
+        question: "What if ROI is negative?",
+        answer:
+          "The tool reports negative ROI when cost exceeds gain. That is still useful information — it shows which activities destroyed value so you can stop or redesign them.",
+      },
+      {
+        question: "Does this account for time or inflation?",
+        answer:
+          "No. ROI here is a simple cost-vs-return ratio. For multi-year returns, annualise separately or combine with the compound interest tool to compare growth rates.",
+      },
+    ],
+    related: ["compound-interest-calculator", "percentage-calculator", "discount-calculator", "tax-calculator"],
+  },
+  "discount-calculator": {
+    title: "Discount Calculator — Sale Price & Savings",
+    description:
+      "Free discount calculator. Find the sale price and money saved from any percentage discount, with optional tax.",
+    intro:
+      "Work out what you actually pay after a sale. Enter the original price and the discount percentage to get the sale price and the amount saved. Built for shopping, wholesale quotes and clearance maths where mental arithmetic gets sloppy.",
+    benefits: [
+      "Sale price and absolute savings in one result",
+      "Any discount percentage — 10%, 25%, 50% or custom",
+      "Clear formula so you can verify the shop's sticker",
+      "On-device calculation — prices stay private",
+    ],
+    howTo: [
+      "Enter the original price before discount.",
+      "Enter the discount percentage (for example 25 for 25% off).",
+      "Press Execute to see the sale price and how much you saved.",
+      "Compare stacked offers by recalculating with different percentages.",
+    ],
+    faqs: [
+      {
+        question: "How is the sale price calculated?",
+        answer:
+          "Sale price = original × (1 − discount/100). A 20% discount on 150 is 150 × 0.80 = 120, saving 30.",
+      },
+      {
+        question: "How do I compare two discounts?",
+        answer:
+          "Run the calculator once per offer with the same original price, then compare both sale prices and savings. Deeper percentage always wins on the same base price.",
+      },
+      {
+        question: "Does this include sales tax or VAT?",
+        answer:
+          "No — it applies only the discount. Add tax manually on the sale price, or chain it with a percentage calculation for the tax amount.",
+      },
+    ],
+    related: ["percentage-calculator", "roi-calculator", "tax-calculator", "tip-calculator"],
+  },
+  "uuid-generator": {
+    title: "UUID Generator — v4 Random IDs, Batch Up to 50",
+    description:
+      "Generate cryptographically strong UUID v4 identifiers. Create up to 50 at a time, copy or download as a list — free and private.",
+    intro:
+      "Generate RFC 4122 version 4 UUIDs for database keys, test fixtures, correlation IDs and API samples. Create up to fifty identifiers in one click, copy them to the clipboard or download a plain-text file. Values come from the browser's cryptographic random source — never from a weak PRNG.",
+    benefits: [
+      "UUID v4 using the browser's crypto.getRandomValues",
+      "Batch generate up to 50 IDs at once",
+      "Copy to clipboard or download as a text list",
+      "No server round-trip — IDs never leave the device",
+    ],
+    howTo: [
+      "Choose how many UUIDs you need (1–50).",
+      "Press Execute to generate the batch.",
+      "Copy the list or download it as a text file.",
+      "Generate again if you need a fresh set.",
+    ],
+    faqs: [
+      {
+        question: "What is a UUID v4?",
+        answer:
+          "A 128-bit identifier formatted as eight groups of hex digits (for example 550e8400-e29b-41d4-a716-446655440000). Version 4 fills 122 bits with random data, making collisions astronomically unlikely for typical app use.",
+      },
+      {
+        question: "Are these UUIDs safe for secrets?",
+        answer:
+          "They are strong random values, but they are not a substitute for dedicated secret managers or session tokens with proper expiry. Use them as identifiers, not as sole authentication material.",
+      },
+      {
+        question: "How is this different from a sequential ID?",
+        answer:
+          "Sequential IDs reveal order and volume. UUID v4 values do not encode time or sequence, which avoids leaking growth metrics and reduces collision risk across systems.",
+      },
+    ],
+    related: ["random-token-generator", "hash-generator", "password-generator", "regex-tester"],
+  },
+  "regex-tester": {
+    title: "Regex Tester — Test Regular Expressions Online",
+    description:
+      "Test JavaScript regular expressions against sample text. Live match list with groups and flags — private, in-browser regex playground.",
+    intro:
+      "Write and test JavaScript regular expressions without leaving the browser. Enter a pattern, optional flags (g, i, m, s, u) and sample text to see every match with capture groups highlighted in the results. Ideal for form validation, log parsing, refactors and interview prep.",
+    benefits: [
+      "Live matches with capture groups",
+      "Supports common JS flags (g, i, m, s, u, y)",
+      "Invalid patterns report clear errors instead of failing silently",
+      "Patterns and sample text stay on your device",
+    ],
+    howTo: [
+      "Enter the pattern without surrounding slashes (for example \\d+).",
+      "Optionally add flags such as g for global or i for case-insensitive.",
+      "Paste the text you want to match against.",
+      "Press Execute to list every match and its groups.",
+    ],
+    faqs: [
+      {
+        question: "Which regex flavour is this?",
+        answer:
+          "JavaScript (ECMAScript) regular expressions, the same engine your browser uses. Lookbehind and named groups depend on browser support but are widely available in modern browsers.",
+      },
+      {
+        question: "Why do I get zero matches when the pattern looks correct?",
+        answer:
+          "Check escaping (\\d not d for digits), whether you need the g flag for multiple matches, and whether whitespace or case sensitivity matters. The error panel flags syntax problems.",
+      },
+      {
+        question: "Can I use this regex in Python or Java?",
+        answer:
+          "Many patterns transfer, but flavours differ (lookbehind, word boundaries, flags). Treat this as a JS tester and verify language-specific syntax in your target runtime's docs.",
+      },
+    ],
+    related: ["diff-checker", "json-validator", "email-validator", "uuid-generator"],
+  },
+  "base64-decoder": {
+    title: "Base64 Decoder — Decode Base64 Strings Online",
+    description:
+      "Free Base64 decoder. Decode Base64 (and URL-safe Base64) back to plain text instantly — private, no upload.",
+    intro:
+      "Decode Base64-encoded text back to readable characters. Paste a Base64 string — standard or URL-safe — and get the decoded text immediately. Common for JWT payloads, email attachments, data URIs and API debugging. Decoding runs entirely in your browser.",
+    benefits: [
+      "Handles standard and URL-safe Base64 alphabets",
+      "Ignores whitespace and line breaks in the input",
+      "Shows clear errors for invalid padding or characters",
+      "Nothing is uploaded — safe for tokens and payloads you shouldn't share",
+    ],
+    howTo: [
+      "Paste the Base64 string into the input box.",
+      "Press Execute to decode it to plain text.",
+      "Copy the result, or fix the input if an error is reported.",
+      "Use the paired encoder if you need to go the other way.",
+    ],
+    faqs: [
+      {
+        question: "What is Base64?",
+        answer:
+          "A binary-to-text encoding that maps three bytes to four ASCII characters from a 64-symbol alphabet. It is not encryption — anyone can decode it. Use it for transport safety, not secrecy.",
+      },
+      {
+        question: "Why is my decoded text garbled?",
+        answer:
+          "The payload may be binary (images, compressed data) rather than text, or it may be URL-safe Base64 with - and _ instead of + and /. This tool accepts URL-safe input; binary payloads will still look noisy as text.",
+      },
+      {
+        question: "Is Base64 safe for passwords or secrets?",
+        answer:
+          "No. Base64 is encoding, not encryption. Never store or transmit passwords as 'protected' Base64 — use proper hashing and TLS instead.",
+      },
+    ],
+    related: ["base64-encoder", "url-encoder", "url-decoder", "jwt-decoder"],
+  },
+  "url-encoder": {
+    title: "URL Encoder — Percent-Encode Query Strings",
+    description:
+      "Free URL encoder. Percent-encode text for query strings and URLs — standard encodeURIComponent behaviour, private and instant.",
+    intro:
+      "Percent-encode any text so it is safe inside a URL query string or path segment. Spaces become %20 (or + depending on context), reserved characters like &, ?, # and = are escaped, and unicode is UTF-8 encoded. Essential for building API calls, tracking links and form GET URLs by hand.",
+    benefits: [
+      "Standard encodeURIComponent behaviour",
+      "Safe for query values, path segments and form bodies",
+      "Handles unicode and multi-byte characters correctly",
+      "Encoding runs locally — content is not sent anywhere",
+    ],
+    howTo: [
+      "Paste the raw text you need to place in a URL.",
+      "Press Execute to produce the percent-encoded string.",
+      "Copy the result into your query string or API client.",
+      "Use the decoder if you need to reverse an encoded value.",
+    ],
+    faqs: [
+      {
+        question: "What is the difference between %20 and + for spaces?",
+        answer:
+          "+ is traditional for application/x-www-form-urlencoded bodies. %20 works in both query strings and paths. This encoder uses encodeURIComponent (%20), which is the safer general choice.",
+      },
+      {
+        question: "Which characters must be encoded in a query value?",
+        answer:
+          "At minimum: space, #, &, +, =, ?, %, and non-ASCII. encodeURIComponent escapes all of these plus !, ', (, ) and * — all safe to leave encoded.",
+      },
+      {
+        question: "Can I encode an entire URL?",
+        answer:
+          "You can, but you usually should not. Encode only the parameter values, not the scheme, host or path separators. Encoding a whole URL breaks navigation.",
+      },
+    ],
+    related: ["url-decoder", "base64-encoder", "url-validator", "slug-generator"],
+  },
+  "password-strength-checker": {
+    title: "Password Strength Checker — Test Password Entropy",
+    description:
+      "Check password strength offline. Estimates entropy, flags weak patterns and dictionary words — never sends the password anywhere.",
+    intro:
+      "Paste a password to estimate its strength: length, character-class mix, entropy in bits, and warnings for common patterns (sequences, repeats, keyboard runs, dictionary words). The check runs entirely in your browser — the password is never transmitted, logged or stored. Use it to harden passwords before saving them in your manager.",
+    benefits: [
+      "Entropy estimate in bits plus a plain-language rating",
+      "Flags sequences, repeats, years and common words",
+      "Password never leaves the device — safe for real checks",
+      "Works offline once the page has loaded",
+    ],
+    howTo: [
+      "Paste the password you want to evaluate.",
+      "Press Execute to see length, character classes, entropy and warnings.",
+      "Address the listed weak patterns (replace dictionary words, avoid runs).",
+      "Re-check until the rating and entropy meet your policy.",
+    ],
+    faqs: [
+      {
+        question: "How many bits of entropy are enough?",
+        answer:
+          "For online accounts, 60+ bits is a practical floor; 80+ bits is comfortable for high-value secrets. Entropy depends on true randomness — a long passphrase of random words often beats a short 'complex' password.",
+      },
+      {
+        question: "Does this store or send my password?",
+        answer:
+          "No. Analysis happens in JavaScript in your tab. Nothing is sent to a server. Close the tab and the value is gone from the page.",
+      },
+      {
+        question: "Is a strong score safe to reuse everywhere?",
+        answer:
+          "No. Strength does not protect against breach reuse. Generate a unique password per site (see the password generator) and store them in a password manager.",
+      },
+    ],
+    related: ["password-generator", "hash-generator", "random-token-generator", "uuid-generator"],
+  },
+  "hash-generator": {
+    title: "Hash Generator — MD5, SHA-1, SHA-256, SHA-512 Online",
+    description:
+      "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes of any text — entirely in your browser with the Web Crypto API.",
+    intro:
+      "Hash any text string with MD5, SHA-1, SHA-256 or SHA-512. Useful for checksums, verifying file integrity references, comparing cached strings and learning how digests work. Hashing uses your browser's crypto — the input never reaches a server. MD5 and SHA-1 are shown for compatibility only; use SHA-256 or better for security-sensitive work.",
+    benefits: [
+      "MD5, SHA-1, SHA-256 and SHA-512 in one run",
+      "Web Crypto API — fast native hashing in the browser",
+      "Clear warning when a digest is not collision-resistant",
+      "Input stays on the device",
+    ],
+    howTo: [
+      "Paste the text you want to hash.",
+      "Press Execute to compute all supported digests.",
+      "Copy the hash you need (usually SHA-256 or SHA-512).",
+      "Re-run after any input change to get updated digests.",
+    ],
+    faqs: [
+      {
+        question: "Which hash should I use?",
+        answer:
+          "SHA-256 or SHA-512 for anything security-related. MD5 and SHA-1 are included for legacy checksums only — both are broken against deliberate collisions.",
+      },
+      {
+        question: "Is hashing the same as encryption?",
+        answer:
+          "No. Hashing is one-way: you cannot recover the input from the digest. Encryption is reversible with a key. Passwords need slow hashes (bcrypt, argon2), not fast SHA digests alone.",
+      },
+      {
+        question: "Why do two different strings sometimes look related in length?",
+        answer:
+          "All SHA-256 digests are 256 bits (64 hex characters) regardless of input size — that is by design. Same-length output does not mean related content.",
+      },
+    ],
+    related: ["password-strength-checker", "random-token-generator", "uuid-generator", "base64-encoder"],
+  },
+  "email-validator": {
+    title: "Email Validator — Syntax & Structure Check",
+    description:
+      "Validate email address syntax offline. Checks local part, domain shape and common typos — without sending anything.",
+    intro:
+      "Check whether an email address is structurally valid before you add it to a form, CRM or mailing list. The validator checks local-part rules, domain shape, consecutive dots and other common typos. Validation is local to your browser — no verification emails are sent and nothing is stored.",
+    benefits: [
+      "RFC-aware local-part and domain checks",
+      "Flags consecutive dots, missing @ and obvious typos",
+      "No network call — the address never leaves the page",
+      "Fast enough to re-check while typing",
+    ],
+    howTo: [
+      "Paste the email address into the input field.",
+      "Press Execute to run the syntax and structure checks.",
+      "Read any warnings (for example double dots or missing TLD).",
+      "Correct the address and re-validate.",
+    ],
+    faqs: [
+      {
+        question: "Does a valid syntax mean the mailbox exists?",
+        answer:
+          "No. Syntax validation cannot prove delivery. Only a confirmation email (double opt-in) verifies a mailbox actually receives mail.",
+      },
+      {
+        question: "Why are plus-addresses like user+tag@example.com accepted?",
+        answer:
+          "Sub-addressing is a standard feature of many mail systems. A leading or trailing + in the local part is legal; this validator accepts it.",
+      },
+      {
+        question: "Can I validate a list of emails at once?",
+        answer:
+          "This tool checks one address at a time. For bulk lists, run each through the validator or use a spreadsheet formula plus spot checks — never upload a list to an untrusted online service.",
+      },
+    ],
+    related: ["url-validator", "regex-tester", "email-validator", "password-strength-checker"],
+  },
+  "date-difference-calculator": {
+    title: "Date Difference Calculator — Days Between Dates",
+    description:
+      "Calculate the exact difference between two dates in days, weeks, months and years. Free, private, calendar-aware.",
+    intro:
+      "Find how many days, weeks, months and years fall between two dates. Useful for project timelines, age gaps, billing periods, leave balances and deadlines. The calculator is calendar-aware so month lengths and leap years are counted correctly — not just a raw day multiply.",
+    benefits: [
+      "Difference in days, weeks, months and years together",
+      "Calendar-aware (handles leap years and uneven months)",
+      "Either date order works — past or future ranges",
+      "Dates stay in your browser",
+    ],
+    howTo: [
+      "Enter the start date in DD/MM/YYYY format.",
+      "Enter the end date in DD/MM/YYYY format.",
+      "Press Execute to see days, weeks, months and years between them.",
+      "Swap the dates if you need the reverse direction.",
+    ],
+    faqs: [
+      {
+        question: "Is the day count inclusive or exclusive?",
+        answer:
+          "The primary day count is exclusive of the end date (standard difference). For inclusive counts (both endpoints counted), add one day to the result.",
+      },
+      {
+        question: "How are months calculated when days don't align?",
+        answer:
+          "Full calendar months are counted first, then leftover days. From 31 January to 28 February is 0 months and 28 days in some conventions, or 1 month in others — this tool reports full months plus remaining days so the breakdown is explicit.",
+      },
+      {
+        question: "Can I use this for business-day only ranges?",
+        answer:
+          "No. This is a calendar difference. Weekends and holidays are not subtracted; compute business days separately if needed.",
+      },
+    ],
+    related: ["age-calculator", "date-formatter", "countdown-timer", "timestamp-converter"],
+  },
+  "json-minifier": {
+    title: "JSON Minifier — Remove Whitespace from JSON",
+    description:
+      "Minify JSON by stripping unnecessary whitespace. Validates structure while compacting — private, in-browser JSON tool.",
+    intro:
+      "Compress JSON by removing indentation and unnecessary whitespace while keeping structure intact. Paste pretty-printed JSON, minify it, and copy the compact payload for APIs, configs or size checks. Invalid JSON is rejected with a clear error before anything is produced. Everything runs locally.",
+    benefits: [
+      "Strips indentation and redundant whitespace only",
+      "Rejects invalid JSON with a readable error",
+      "Ideal for API payloads and config size checks",
+      "Input never leaves the browser",
+    ],
+    howTo: [
+      "Paste your JSON into the input area.",
+      "Press Execute to validate and minify.",
+      "Copy the compact single-line (or tightly spaced) result.",
+      "Fix any reported syntax error and try again.",
+    ],
+    faqs: [
+      {
+        question: "Does minifying change my data?",
+        answer:
+          "No. Only whitespace outside string values is removed. Key order and values are preserved exactly as parsed.",
+      },
+      {
+        question: "Why does my minified JSON fail in an API?",
+        answer:
+          "Some servers expect a specific Content-Type or reject very long single lines. Validate with the JSON formatter/validator first, and check the API docs for size limits.",
+      },
+      {
+        question: "What is the difference from the JSON formatter?",
+        answer:
+          "The formatter pretty-prints for readability. The minifier does the opposite — compact output for transport and storage.",
+      },
+    ],
+    related: ["json-formatter", "json-validator", "csv-to-json", "json-to-yaml"],
+  },
+  "svg-to-image": {
+    title: "SVG to PNG/JPG/WebP Converter — Free, Online",
+    description:
+      "Convert SVG files to PNG, JPG or WebP online. Rasterize vector graphics at any scale (1×–8×) or exact pixel width — batch supported, 100% private, no upload.",
+    intro:
+      "Rasterize SVG files to PNG, JPG or WebP directly in your browser. Drop in one SVG or twenty, choose the output format, set a scale factor or exact pixel width, and download crisp raster images — no account, no server round-trip, nothing leaves your device. Ideal for exporting logos, icons and illustrations for social media, email signatures, documents and platforms that do not accept SVG.",
+    benefits: [
+      "Batch-convert up to 20 SVG files in one run",
+      "Output PNG (keeps transparency), JPG (smallest) or WebP (modern, keeps transparency)",
+      "Scale 1×–8× or set an exact pixel width — aspect ratio is always preserved",
+      "Optional solid background for JPEG or when you need a filled canvas",
+      "Everything runs in the browser: your SVGs are never uploaded",
+    ],
+    howTo: [
+      "Drop your SVG files into the upload area (or click to browse).",
+      "Choose the output format — PNG, JPG or WebP.",
+      "Pick a scale (1×–8×) or type an exact pixel width to override it.",
+      "Optionally set a background colour (recommended for JPEG, which has no transparency).",
+      "Press Convert SVGs, then download each image or all at once.",
+    ],
+    faqs: [
+      {
+        question: "Why is my SVG blurry after converting to PNG?",
+        answer:
+          "SVGs are resolution-independent — the raster size is whatever you choose. If the result looks soft, increase the scale (or exact width) and re-convert. A 2× export is usually enough for retina screens.",
+      },
+      {
+        question: "Does converting SVG to PNG lose quality?",
+        answer:
+          "The vector itself is not modified; you are freezing one rendered size. PNG is lossless for that size. For the smallest file with good quality, try WebP at 80–90% quality.",
+      },
+      {
+        question: "Can I convert SVGs with external images or fonts?",
+        answer:
+          "SVGs that reference external URLs (remote images, web fonts) may render without those assets, because the browser blocks cross-origin loads inside a local preview. Inline everything into the SVG before converting.",
+      },
+      {
+        question: "Is my SVG uploaded to a server?",
+        answer: "No. Rendering happens entirely in your browser via the canvas API — nothing is transmitted.",
+      },
+    ],
+    related: ["image-converter", "image-compressor", "svg-viewer", "svg-to-base64", "favicon-generator"],
+  },
+  "image-to-svg": {
+    title: "Image to SVG Vectorizer — PNG/JPG to SVG Online",
+    description:
+      "Convert PNG, JPG or WebP images to SVG vectors online. Trace logos, icons and line art into clean scalable paths — private, free, no signup.",
+    intro:
+      "Turn raster images (PNG, JPG, WebP) into scalable SVG vectors with an in-browser Potrace engine. Perfect for logos, icons, stamps, signatures and high-contrast line art. Tune the threshold and despeckle, preview the result side by side with the original, and download a clean SVG — all on your device, with no upload and no account.",
+    benefits: [
+      "Trace PNG, JPG and WebP into editable SVG paths (Potrace algorithm, pure TypeScript)",
+      "Auto threshold (Otsu) or manual 0–255 control for dark vs light subjects",
+      "Despeckle slider removes noise and stray dots from the trace",
+      "Optional invert for light shapes on dark backgrounds",
+      "Batch-vectorize up to 10 images; download each SVG or all at once",
+    ],
+    howTo: [
+      "Upload one or more PNG, JPG or WebP images (logos and icons work best).",
+      "Leave threshold on auto, or set a value between 0 and 255 if the trace is too aggressive or too sparse.",
+      "Adjust despeckle to remove small speckles without eating into real detail.",
+      "Optionally set a fill colour for the traced shape and tick Invert for light-on-dark art.",
+      "Press Vectorize, compare the side-by-side preview, then download the SVGs.",
+    ],
+    faqs: [
+      {
+        question: "What images trace well to SVG?",
+        answer:
+          "High-contrast, flat-colour artwork: logos, icons, stamps, signatures, line drawings and silhouettes. Photographs, gradients and noisy images produce large, imperfect vectors — convert a high-contrast or black-and-white version of the image first.",
+      },
+      {
+        question: "Why is my vectorized SVG missing colours?",
+        answer:
+          "This tool produces single-colour (silhouette) traces — it captures shape, not multi-colour fills. For full-colour vectorization you need a multi-layer tracer; for most logo work a clean single-colour path is exactly what you want.",
+      },
+      {
+        question: "How do I fix a noisy or speckled trace?",
+        answer:
+          "Increase the despeckle value to remove small stray paths. If large areas disappear, lower it again. Manual threshold tuning also helps when auto-threshold picks the wrong cut-off.",
+      },
+      {
+        question: "Is my image uploaded anywhere?",
+        answer: "No. Decoding, canvas rendering and tracing all run in your browser — the image never leaves your device.",
+      },
+    ],
+    related: ["svg-to-image", "image-converter", "svg-viewer", "favicon-generator", "image-compressor"],
+  },
+  "svg-viewer": {
+    title: "SVG Viewer — Preview SVG Files Online Free",
+    description:
+      "Preview SVG files instantly in your browser. Inspect dimensions, viewBox, element counts and file size — private, free, no upload required.",
+    intro:
+      "Open and inspect SVG files without installing design software. Upload a file or paste SVG markup to get an instant live preview on a checkerboard (so you can see transparency), plus the dimensions, viewBox, element and path counts and the file size. Copy the cleaned source or download the SVG — everything runs locally in your browser.",
+    benefits: [
+      "Instant live preview with light, dark and checkerboard backgrounds",
+      "Shows intrinsic size, viewBox, element count, path count and file size",
+      "Paste source directly or upload a file — nothing is uploaded either way",
+      "Copy the normalized source or download the SVG in one click",
+      "Useful for QA: catch clipped strokes, missing viewBox and oversized files before shipping",
+    ],
+    howTo: [
+      "Upload an SVG file, or paste the SVG markup into the source box.",
+      "The preview appears immediately — switch backgrounds to check transparency.",
+      "Review the metadata panel: size, intrinsic dimensions, viewBox and element counts.",
+      "Open View SVG source to inspect or copy the markup.",
+      "Copy the source or download the file when you are happy with it.",
+    ],
+    faqs: [
+      {
+        question: "Why does my SVG look blank in the preview?",
+        answer:
+          "The file may use a viewBox with zero-size content, rely on external stylesheets, or draw outside the visible area. Check the source for width/height and viewBox, and make sure all shapes are inside the viewBox bounds.",
+      },
+      {
+        question: "Does this tool edit or optimize SVGs?",
+        answer:
+          "No — the viewer is for inspection only. It shows the source as-is so you can debug it. For encoding to Base64 or data URIs, use the SVG to Base64 tool; for rasterizing, use SVG to PNG/JPG/WebP.",
+      },
+      {
+        question: "Is my SVG file uploaded?",
+        answer: "No. The file is read with the browser File API and rendered locally — it never leaves your device.",
+      },
+    ],
+    related: ["svg-to-image", "svg-to-base64", "image-to-svg", "svg-placeholder-generator"],
+  },
+  "svg-to-base64": {
+    title: "SVG to Base64 & Data URI Converter — Free Online",
+    description:
+      "Encode SVG markup as Base64, data URIs and CSS background snippets. Paste or upload an SVG — get copy-ready encodings instantly, 100% private.",
+    intro:
+      "Convert SVG markup into Base64, data URIs and ready-to-paste CSS background declarations. Paste the source or upload a file, then copy the encoding you need for inline icons, CSS sprites, JSON payloads or API responses. Everything is computed in your browser — your SVG never leaves your device.",
+    benefits: [
+      "Four outputs from one source: raw Base64, Base64 data URI, URL-encoded data URI and CSS background",
+      "URL-encoded URI is often smaller than Base64 for text-heavy SVGs — compare both sizes",
+      "Upload a file or paste markup; preview the SVG before encoding",
+      "Copy any output with one click — no signup, no limits",
+      "Encoding runs locally: private brand assets and client work stay private",
+    ],
+    howTo: [
+      "Upload an SVG file, or paste the SVG markup into the source box.",
+      "The preview and all four encodings update instantly.",
+      "Pick the encoding you need: Base64 for APIs, data URI for <img src> or CSS, CSS background for stylesheets.",
+      "Press Copy on the output you want and paste it into your code.",
+    ],
+    faqs: [
+      {
+        question: "Base64 or URL-encoded data URI — which should I use?",
+        answer:
+          "Base64 is safer inside CSS url() quotes and JSON strings; URL-encoded is often 10–30% smaller for SVGs with lots of text or path data. Compare the two output lengths and pick the smaller one that your context accepts.",
+      },
+      {
+        question: "Why is my Base64 SVG not rendering?",
+        answer:
+          "Common causes: missing xmlns=\"http://www.w3.org/2000/svg\" on the root element, or an encoding error from copying a truncated string. Verify the source in the SVG Viewer first, then re-encode.",
+      },
+      {
+        question: "Does Base64 encoding make my SVG smaller?",
+        answer:
+          "No — Base64 expands data by roughly 33%. Use it for embedding and transport, not compression. For shrinking SVGs, optimize the source (remove metadata, simplify paths) before encoding.",
+      },
+      {
+        question: "Is my SVG uploaded?",
+        answer: "No. Encoding is pure string processing in your browser — nothing is transmitted.",
+      },
+    ],
+    related: ["svg-viewer", "svg-to-image", "image-to-svg", "base64-encoder"],
+  },
+  "url-decoder": {
+    title: "URL Decoder — Turn %20 and %2F Back Into Text",
+    description:
+      "Decode percent-encoded URLs and query strings into readable text. Handles UTF-8, flags malformed sequences and runs entirely in your browser.",
+    intro:
+      "Paste a percent-encoded URL, query string or form value and read it as plain text. Decoding follows the browser's decodeURIComponent rules, so UTF-8 characters, reserved symbols and encoded spaces are restored exactly — with a clear error instead of a silent partial result when a percent sequence is broken.",
+    benefits: [
+      "Decodes %20, %2F, %3F and every other UTF-8 percent sequence",
+      "Reports malformed input instead of returning half-decoded text",
+      "Pairs with the URL Encoder for round-trip checks",
+      "Decoding runs locally — paste internal links without sending them anywhere",
+    ],
+    howTo: [
+      "Paste the encoded URL or query value into the input box.",
+      "Press Execute to decode it.",
+      "Copy the readable result into docs, logs or your address bar.",
+      "Use the URL Encoder to reverse the operation when needed.",
+    ],
+    faqs: [
+      {
+        question: "What does percent-encoding actually do?",
+        answer:
+          "It replaces characters that are unsafe or reserved in a URL with a % sign and two hexadecimal digits. A space becomes %20, a slash inside a query value becomes %2F, and non-ASCII text is encoded as UTF-8 bytes.",
+      },
+      {
+        question: "Does a plus sign become a space?",
+        answer:
+          "Not here. decodeURIComponent leaves + untouched because it is a literal plus in URLs. In application/x-www-form-urlencoded bodies, + conventionally means a space — replace + with %20 first if you are decoding form data.",
+      },
+      {
+        question: "Why does decoding fail with an error?",
+        answer:
+          "A percent sign must be followed by two hexadecimal digits. Truncated input such as %2 or a stray % makes the string invalid, so the tool reports the problem rather than returning a misleading partial decode.",
+      },
+      {
+        question: "Is my URL sent to a server?",
+        answer: "No. Decoding is a single local string operation in your browser — the URL never leaves the page.",
+      },
+    ],
+    related: ["url-encoder", "base64-decoder", "jwt-decoder", "regex-tester"],
+  },
+  "case-converter": {
+    title: "Case Converter — Upper, Lower, Title, Camel & Snake",
+    description:
+      "Convert text to UPPERCASE, lowercase, Title Case, sentence case, camelCase, snake_case and kebab-case instantly — all in your browser.",
+    intro:
+      "Paste any text and get all seven common cases at once: uppercase, lowercase, title case, sentence case, camelCase, snake_case and kebab-case. Useful for cleaning headlines, renaming variables, normalising imported data and turning product names into consistent labels without retyping anything.",
+    benefits: [
+      "Seven formats generated at the same time — no repeated conversions",
+      "Camel, snake and kebab cases split on spaces, hyphens and underscores",
+      "Title Case capitalises every word; sentence case lowercases the rest",
+      "Runs locally, so drafts and internal names stay private",
+    ],
+    howTo: [
+      "Paste or type the text you want to convert.",
+      "Press Execute to generate every case at once.",
+      "Compare the outputs and copy the format you need.",
+      "Edit the source text and run it again for a new batch.",
+    ],
+    faqs: [
+      {
+        question: "How does Title Case decide what to capitalise?",
+        answer:
+          "Every word is lowercased first, then the first letter of each whitespace-, hyphen- or underscore-separated word is capitalised. It is a mechanical transform: brand spellings such as iPhone become Iphone, so fix those by hand.",
+      },
+      {
+        question: "What is the difference between snake_case and kebab-case?",
+        answer:
+          "Both join lowercase words with a separator: snake_case uses underscores (good for Python, SQL and file names) while kebab-case uses hyphens (good for URLs, CSS classes and HTML attributes).",
+      },
+      {
+        question: "Does sentence case keep proper nouns?",
+        answer:
+          "No. It uppercases the first character and lowercases everything after it, which is why names and acronyms need a manual pass. Use it for rough normalisation, not as a grammar tool.",
+      },
+      {
+        question: "Is my text uploaded?",
+        answer: "No. Conversion happens entirely in your browser; nothing you paste is transmitted or stored.",
+      },
+    ],
+    related: ["word-counter", "slug-generator", "text-cleaner", "duplicate-line-remover"],
+  },
+  "color-converter": {
+    title: "Color Converter — HEX, RGB and HSL in One Click",
+    description:
+      "Convert colors between HEX, RGB and HSL. Paste #4f46e5, #fff or rgb(79,70,229) and get every format plus a live preview.",
+    intro:
+      "Paste a HEX code or an rgb()/rgba() value and get the same color as HEX, RGB and HSL. Three-digit shorthand like #fff is expanded, channel values are clamped to 0–255, and the result shows exactly the strings to paste into CSS, design tools or a style guide.",
+    benefits: [
+      "Accepts #fff, #ffffff and rgb()/rgba() input",
+      "Returns HEX, rgb() and hsl() in a single pass",
+      "Live color preview makes it obvious when a value is wrong",
+      "Conversion is pure local maths — brand palettes stay private",
+    ],
+    howTo: [
+      "Enter a HEX value such as #4f46e5 or an rgb()/rgba() string.",
+      "Press Execute to convert it.",
+      "Check the swatch preview against your design.",
+      "Copy the HEX, RGB or HSL output you need.",
+    ],
+    faqs: [
+      {
+        question: "Does the converter support 3-digit HEX?",
+        answer:
+          "Yes. Shorthand like #fff is expanded to #ffffff before conversion. Six-digit values with or without the leading # are also accepted.",
+      },
+      {
+        question: "What happens to alpha transparency?",
+        answer:
+          "Alpha is read but not preserved: rgba(79, 70, 229, 0.5) converts as its RGB triplet, and the output is an opaque color. Re-add the alpha channel in your CSS if you need it.",
+      },
+      {
+        question: "Why do HSL values look rounded?",
+        answer:
+          "Hue is rounded to whole degrees and saturation/lightness to whole percentages. That is enough for CSS work and keeps the output readable; use a design tool if you need fractional precision.",
+      },
+      {
+        question: "Is my color data private?",
+        answer: "Yes. Everything is calculated on your device — no color value is sent to a server.",
+      },
+    ],
+    related: ["color-picker", "color-contrast-checker", "palette-generator", "color-picker-from-image"],
+  },
+  "color-contrast-checker": {
+    title: "Color Contrast Checker — WCAG AA and AAA Ratios",
+    description:
+      "Check text and background contrast against WCAG AA and AAA. Enter two HEX colors and get the ratio plus pass/fail for normal and large text.",
+    intro:
+      "Enter a text color and a background color to see their contrast ratio and whether the pair passes WCAG AA and AAA. The check uses the official relative-luminance formula, so the result matches what accessibility audits and browser devtools report.",
+    benefits: [
+      "Exact ratio (for example 4.62:1) instead of a vague warning",
+      "Separate verdicts for normal text, large text and AAA",
+      "Defaults to black on white for a quick sanity check",
+      "Runs locally — test unpublished brand colors privately",
+    ],
+    howTo: [
+      "Enter the foreground (text) color as HEX.",
+      "Enter the background color as HEX.",
+      "Press Execute to calculate the contrast ratio.",
+      "Adjust one of the colors until both AA lines pass.",
+    ],
+    faqs: [
+      {
+        question: "What ratio counts as accessible?",
+        answer:
+          "WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. These are minimums for body copy, not targets to stop at.",
+      },
+      {
+        question: "What counts as large text?",
+        answer:
+          "Roughly 18pt (24px) regular or 14pt (about 18.66px) bold and larger. The tool reports both thresholds so you can see which one applies to your design.",
+      },
+      {
+        question: "Does contrast apply to borders and icons?",
+        answer:
+          "This checker measures text against its background. Non-text elements such as icons, form borders and focus rings have separate WCAG requirements (3:1 against adjacent colors) and should be checked in context.",
+      },
+      {
+        question: "Are my colors uploaded?",
+        answer: "No. The ratio is computed locally from the two HEX values you enter.",
+      },
+    ],
+    related: ["color-converter", "color-picker", "palette-generator", "seo-checker"],
+  },
+  "timestamp-converter": {
+    title: "Timestamp Converter — Unix Epoch to Date and Back",
+    description:
+      "Convert Unix timestamps in seconds or milliseconds to ISO 8601 and UTC — or parse a date string back into epoch time. Leave empty for now.",
+    intro:
+      "Paste a Unix timestamp and get the ISO 8601 date, UTC string and both second and millisecond values. A date string works in the opposite direction, and an empty input returns the current moment — handy for checking API payloads, log lines and database timestamps.",
+    benefits: [
+      "Accepts seconds or milliseconds and detects which one you pasted",
+      "Shows ISO, UTC and both epoch units at once",
+      "Empty input returns the current timestamp",
+      "Conversion happens in your browser — log values stay private",
+    ],
+    howTo: [
+      "Paste a Unix timestamp (10 digits for seconds, 13 for milliseconds).",
+      "Or paste a date string the browser can parse, such as 2026-10-19T12:00:00Z.",
+      "Press Execute to see every representation.",
+      "Leave the field empty and run it to get the current time.",
+    ],
+    faqs: [
+      {
+        question: "How does the tool tell seconds from milliseconds?",
+        answer:
+          "Values longer than 10 digits are treated as milliseconds; shorter values are multiplied by 1000. That covers today's 10-digit second and 13-digit millisecond timestamps in normal use.",
+      },
+      {
+        question: "Is the output in my local timezone?",
+        answer:
+          "ISO 8601 and the UTC string are timezone-independent. The tool does not print a local-time representation, so use the UTC values when comparing logs from different machines.",
+      },
+      {
+        question: "Why is a date string interpreted differently than expected?",
+        answer:
+          "Date-only strings such as 2026-10-19 are parsed as UTC by the browser, while strings without a timezone may be read as local time. Include an explicit Z or offset when precision matters.",
+      },
+      {
+        question: "Is my timestamp sent anywhere?",
+        answer: "No. Parsing and formatting run locally in your browser.",
+      },
+    ],
+    related: ["date-difference-calculator", "date-formatter", "countdown-timer", "age-calculator"],
+  },
+  "json-to-yaml": {
+    title: "JSON to YAML — Clean, Copy-Ready Configuration",
+    description:
+      "Convert a JSON object to YAML in one click. Simple values become plain YAML, nested values stay readable and parse errors are reported clearly.",
+    intro:
+      "Paste a JSON object and get YAML you can drop into a config file. Top-level keys become YAML keys, strings are quoted safely and nested objects or arrays are kept as an inline JSON value so nothing is silently lost. The input must be an object rather than an array or a bare primitive.",
+    benefits: [
+      "Readable key: value output for flat configuration objects",
+      "Strings are quoted, so colons and hashes stay intact",
+      "Invalid JSON errors include the parser message",
+      "Runs locally — configs with internal hostnames stay private",
+    ],
+    howTo: [
+      "Paste a JSON object into the input box.",
+      "Press Execute to convert it.",
+      "Check that keys and string values look right.",
+      "Copy the YAML into your configuration file.",
+    ],
+    faqs: [
+      {
+        question: "Are nested objects expanded into YAML blocks?",
+        answer:
+          "No. This converter targets flat configuration objects; a nested object or array is emitted as an inline JSON value under its key. That preserves the data, but a full YAML library may produce prettier nesting.",
+      },
+      {
+        question: "Can I convert a JSON array?",
+        answer:
+          "Not directly. Wrap the array in an object, for example {\"items\": [...]}, or use a full YAML converter if the document must remain a top-level array.",
+      },
+      {
+        question: "Why are strings wrapped in quotes?",
+        answer:
+          "Quoting prevents YAML from reinterpreting values such as yes, no, on, off or numbers as booleans and numbers. Embedded double quotes are escaped.",
+      },
+      {
+        question: "Is my JSON uploaded?",
+        answer: "No. Parsing and conversion happen entirely in your browser.",
+      },
+    ],
+    related: ["yaml-to-json", "json-formatter", "json-validator", "json-minifier"],
+  },
+  "yaml-to-json": {
+    title: "YAML to JSON — Convert Key/Value Configs Online",
+    description:
+      "Turn simple key: value YAML into formatted JSON. Handles comments, quoted strings, numbers, booleans and null — instantly and privately.",
+    intro:
+      "Paste flat YAML — one key: value pair per line — and get indented JSON. Comments and blank lines are ignored, quoted values are unquoted, and true, false, null and numeric strings are converted to their JSON types. It is built for the small config files and Kubernetes-style values people actually paste, not for multi-document YAML.",
+    benefits: [
+      "Converts booleans, null and numbers to real JSON types",
+      "Ignores comments and blank lines instead of failing",
+      "Outputs formatted JSON that is ready to paste",
+      "Conversion is local — secrets in config files stay on your device",
+    ],
+    howTo: [
+      "Paste YAML with one key: value pair per line.",
+      "Press Execute to convert it.",
+      "Check strings that look like numbers, which become numbers.",
+      "Copy the formatted JSON output.",
+    ],
+    faqs: [
+      {
+        question: "Does it support nested YAML blocks?",
+        answer:
+          "No. Each line is read as a top-level key: value pair. Indented nested mappings and lists are not expanded, so use a full YAML parser for complex documents.",
+      },
+      {
+        question: "Why did my quoted number become a JSON number?",
+        answer:
+          "Quotes are stripped before type detection. A value like \"42\" is therefore treated as the number 42; keep it as text by adding a non-numeric character or by post-editing the output.",
+      },
+      {
+        question: "Are duplicate keys allowed?",
+        answer:
+          "The last occurrence wins because the result is a JSON object. Rename duplicates before converting if you need both values.",
+      },
+      {
+        question: "Is my YAML private?",
+        answer: "Yes. The conversion runs in your browser and never uploads the input.",
+      },
+    ],
+    related: ["json-to-yaml", "json-formatter", "json-validator", "json-minifier"],
+  },
+  "code-minifier": {
+    title: "Code Minifier — Shrink HTML, CSS and JavaScript",
+    description:
+      "Strip whitespace and comments from HTML, CSS or JavaScript and see the bytes saved. Beautify snippets back into readable code when you are done.",
+    intro:
+      "Paste a snippet, choose HTML, CSS or JavaScript and minify it to remove comments and unnecessary whitespace. The result shows the byte difference so you can judge the saving before shipping, and beautify mode expands cramped code back into something readable. It is a whitespace-and-comment stripper for snippets, not a compiler or bundler.",
+    benefits: [
+      "Works on HTML, CSS and JavaScript snippets",
+      "Reports bytes saved (or added when beautifying)",
+      "Beautify mode makes minified code readable again",
+      "Runs locally — proprietary snippets never leave the page",
+    ],
+    howTo: [
+      "Paste the code you want to process.",
+      "Set the language to html, css or js.",
+      "Choose minify or beautify.",
+      "Press Execute and copy the result.",
+    ],
+    faqs: [
+      {
+        question: "Does minification rename variables or optimise code?",
+        answer:
+          "No. It removes comments and collapses whitespace only. Variable renaming, dead-code removal and bundling are jobs for a real build tool such as esbuild, SWC or webpack.",
+      },
+      {
+        question: "Is it safe for production code?",
+        answer:
+          "Treat the output as a snippet helper, not a build step. Whitespace-sensitive JavaScript (for example certain ASI edge cases) or template literals can change behaviour, so run your tests before shipping minified output.",
+      },
+      {
+        question: "Why did beautify mode increase the size?",
+        answer:
+          "Expanding code adds indentation and line breaks on purpose. The bytes-saved figure goes negative when output is larger than input.",
+      },
+      {
+        question: "Is my code uploaded?",
+        answer: "No. Processing is entirely local in your browser.",
+      },
+    ],
+    related: ["json-minifier", "json-formatter", "regex-tester", "slug-generator"],
+  },
+  "average-calculator": {
+    title: "Average Calculator — Mean, Median, Min and Max",
+    description:
+      "Paste numbers separated by commas, spaces or new lines to get mean, median, min, max, sum and count — computed instantly on your device.",
+    intro:
+      "Drop in a list of numbers and get the mean, median, minimum, maximum, sum and count in one pass. Commas, semicolons, spaces and new lines all work as separators, making it easy to move data from a spreadsheet, log or survey export without reformatting it.",
+    benefits: [
+      "Mean and median side by side, so outliers are obvious",
+      "Accepts commas, semicolons, spaces and new lines",
+      "Shows sum and count for a quick sanity check",
+      "Numbers stay in your browser — no spreadsheet upload",
+    ],
+    howTo: [
+      "Paste numbers separated by commas, spaces or new lines.",
+      "Press Execute to calculate the statistics.",
+      "Compare mean and median to spot skew from outliers.",
+      "Copy the values into your report or notes.",
+    ],
+    faqs: [
+      {
+        question: "When should I use median instead of mean?",
+        answer:
+          "Use median when the list has extreme values — salaries and house prices are classic examples. A single very large number pulls the mean up but barely moves the median.",
+      },
+      {
+        question: "How is the median calculated for an even count?",
+        answer:
+          "The two middle values are averaged after sorting. For an odd count, the middle value itself is the median.",
+      },
+      {
+        question: "What input formats are accepted?",
+        answer:
+          "Numbers separated by commas, semicolons, spaces or line breaks. Blank entries are ignored; any non-numeric token stops the calculation with an error so bad data is not silently skipped.",
+      },
+      {
+        question: "Is my data private?",
+        answer: "Yes. The calculation runs locally; no number list is uploaded or stored.",
+      },
+    ],
+    related: ["percentage-calculator", "number-formatter", "discount-calculator", "unit-converter"],
+  },
+  "date-formatter": {
+    title: "Date Formatter — ISO, Long, Short and UTC Output",
+    description:
+      "Format any date as ISO 8601, long English, short English and UTC in one click. Accepts DD/MM/YYYY or a full ISO timestamp.",
+    intro:
+      "Enter a date — DD/MM/YYYY or a full ISO timestamp — and get four consistent formats at once: ISO 8601, a long English date, a short US date and a UTC string. Leave the field empty to format today. Useful for aligning dates across docs, APIs and international teams.",
+    benefits: [
+      "Four formats generated from a single input",
+      "Accepts DD/MM/YYYY and ISO timestamps",
+      "Empty input uses today's date",
+      "Formatting runs locally — no date data leaves the page",
+    ],
+    howTo: [
+      "Enter a date as DD/MM/YYYY or a full ISO timestamp.",
+      "Leave the field empty to use today.",
+      "Press Execute to see all four formats.",
+      "Copy the format your document or API expects.",
+    ],
+    faqs: [
+      {
+        question: "Which format should I use in an API?",
+        answer:
+          "ISO 8601 (YYYY-MM-DD or a full timestamp with an offset) is the safest choice: it sorts correctly and is unambiguous across locales.",
+      },
+      {
+        question: "Why are the long and short outputs in US English?",
+        answer:
+          "They are fixed to en-US for consistency, so month names and the short date order do not change with the visitor's browser locale. Use ISO or UTC when locale independence matters.",
+      },
+      {
+        question: "Is the date interpreted as UTC or local time?",
+        answer:
+          "A date-only value is treated as a calendar date on your device. The UTC output shows the same instant in UTC, which can shift by a day for dates near midnight in some timezones.",
+      },
+      {
+        question: "Is my date private?",
+        answer: "Yes. Formatting happens in your browser.",
+      },
+    ],
+    related: ["date-difference-calculator", "timestamp-converter", "age-calculator", "countdown-timer"],
+  },
+  "number-formatter": {
+    title: "Number Formatter — Grouping and Compact Notation",
+    description:
+      "Format numbers with the grouping and decimals of any locale, plus compact notation like 1.2M. Powered by Intl.NumberFormat and computed locally.",
+    intro:
+      "Enter a number, choose a locale and pick how many decimal places you want. The tool returns a grouped value, a compact value such as 1.2M and a fixed-decimal string — the three formats most often needed for dashboards, invoices and international copy.",
+    benefits: [
+      "Uses real locale rules (en-US, de-DE, ar-EG and more)",
+      "Shows grouped, compact and fixed outputs together",
+      "Supports 0–10 decimal places",
+      "Formatting is local and instant",
+    ],
+    howTo: [
+      "Enter the number you want to format.",
+      "Optionally set decimal places and a locale such as en-US or de-DE.",
+      "Press Execute to see all three formats.",
+      "Copy the representation that fits your context.",
+    ],
+    faqs: [
+      {
+        question: "Why do grouping separators differ between countries?",
+        answer:
+          "Locales disagree on both the separator and its position: en-US writes 1,234,567.89 while de-DE writes 1.234.567,89. Intl.NumberFormat applies the rules of the locale you enter.",
+      },
+      {
+        question: "What does compact notation do?",
+        answer:
+          "It shortens large values to 1.2K, 3.4M and so on, following the locale's conventions. It is intended for dashboards and summaries, not for exact invoices.",
+      },
+      {
+        question: "Can I control rounding?",
+        answer:
+          "The fixed-decimal output rounds to the number of places you choose. Compact notation uses the locale's default precision, so it is approximate by design.",
+      },
+      {
+        question: "Is my number uploaded?",
+        answer: "No. Formatting happens on your device.",
+      },
+    ],
+    related: ["percentage-calculator", "average-calculator", "unit-converter", "invoice-generator"],
+  },
+  "text-cleaner": {
+    title: "Text Cleaner — Fix Spacing in Pasted Text",
+    description:
+      "Collapse repeated spaces, trim each line and remove excess blank lines from pasted text. One click to tidy copy before publishing or sending.",
+    intro:
+      "Paste text copied from a PDF, email thread or web page and clean up the formatting debris: runs of spaces and tabs collapse to one, every line is trimmed, three or more blank lines become a single blank line and the whole block is trimmed at the edges. The words themselves are left alone.",
+    benefits: [
+      "Fixes double spaces, stray tabs and ragged line endings",
+      "Collapses long runs of blank lines to one",
+      "Preserves paragraph breaks and wording",
+      "Runs locally, so unpublished drafts stay private",
+    ],
+    howTo: [
+      "Paste the messy text into the input box.",
+      "Press Execute to clean it.",
+      "Review paragraph breaks that were preserved.",
+      "Copy the cleaned text into your editor.",
+    ],
+    faqs: [
+      {
+        question: "Does the cleaner remove all line breaks?",
+        answer:
+          "No. It trims each line and limits consecutive blank lines to one, but keeps line breaks. To join everything into one paragraph, run a separate replace or use a single-line export.",
+      },
+      {
+        question: "Does it fix punctuation or spelling?",
+        answer:
+          "No. It only normalises whitespace. Punctuation, casing and wording are untouched, so run a separate proofread for those.",
+      },
+      {
+        question: "What happens to tabs?",
+        answer:
+          "Tabs and runs of spaces are collapsed to a single space, which is what you usually want after pasting from PDFs, spreadsheets or email clients.",
+      },
+      {
+        question: "Is my text uploaded?",
+        answer: "No. Everything runs in your browser.",
+      },
+    ],
+    related: ["word-counter", "empty-line-remover", "duplicate-line-remover", "case-converter"],
+  },
+  "css-gradient-generator": {
+    title: "CSS Gradient Generator — Linear Gradients",
+    description:
+      "Pick two colors and an angle, then copy a ready linear-gradient() declaration. Preview the result and paste it straight into your stylesheet.",
+    intro:
+      "Build a linear gradient from two colors and an angle and copy the exact CSS declaration. Defaults are a purple-to-pink 135° gradient, and every value is editable, so you can match a brand palette and hand the result straight to a developer without redrawing it in a design tool.",
+    benefits: [
+      "Copy-ready background: linear-gradient(...) output",
+      "Any CSS color value works: HEX, rgb() or a named color",
+      "Angle is a plain number in degrees",
+      "No upload — generate gradients offline",
+    ],
+    howTo: [
+      "Enter the starting color and the ending color.",
+      "Set the angle in degrees (0 points up, 90 points right).",
+      "Press Execute to generate the CSS.",
+      "Copy the declaration onto any element.",
+    ],
+    faqs: [
+      {
+        question: "How do gradient angles work in CSS?",
+        answer:
+          "0deg points up, 90deg points right, 180deg points down and 270deg points left. A 135deg gradient runs from the top-left toward the bottom-right.",
+      },
+      {
+        question: "Can I use more than two colors?",
+        answer:
+          "This generator produces two-stop gradients. For three or more stops, extend the output by hand, for example linear-gradient(135deg, #4f46e5, #a855f7 50%, #ec4899).",
+      },
+      {
+        question: "Does it support radial or conic gradients?",
+        answer:
+          "No. It generates linear gradients only. The same color values and angle logic are the most common use case, and the CSS is easy to adapt for other gradient types.",
+      },
+      {
+        question: "Is the gradient saved anywhere?",
+        answer: "No. Generation is local; copy the CSS and keep it in your own project.",
+      },
+    ],
+    related: ["color-picker", "palette-generator", "color-converter", "css-box-shadow-generator"],
+  },
+  "image-cropper": {
+    title: "Image Cropper — 1:1, 4:5, 16:9 and YouTube",
+    description:
+      "Crop JPG, PNG or WebP to square, portrait, widescreen or a 1280×720 thumbnail — drag the box or type exact pixels, all on your device.",
+    intro:
+      "Crop an image to a preset ratio or freeform selection without uploading it. Choose 1:1 for avatars, 4:5 for social portraits, 16:9 for video covers or the YouTube thumbnail preset, then drag the box or enter exact pixel dimensions before downloading the result.",
+    benefits: [
+      "Presets for square, 4:5, 16:9, 4:3 and YouTube thumbnails",
+      "Freeform mode when you need exact pixel dimensions",
+      "Works with JPG, PNG and WebP",
+      "Cropping uses the browser canvas — the photo never leaves your device",
+    ],
+    howTo: [
+      "Choose an image from your device.",
+      "Pick a ratio preset or keep freeform.",
+      "Drag the crop box, or type exact coordinates and size.",
+      "Crop and download the new file.",
+    ],
+    faqs: [
+      {
+        question: "What size is a YouTube thumbnail?",
+        answer:
+          "YouTube thumbnails are 1280×720 pixels (16:9). The YouTube preset locks that ratio so the crop will not be stretched when uploaded.",
+      },
+      {
+        question: "Does cropping reduce image quality?",
+        answer:
+          "The crop re-encodes the selected area as an image file. Keep the original if you might need a larger version later, and use the Image Compressor afterward if the new file is still too heavy.",
+      },
+      {
+        question: "Is the image uploaded to a server?",
+        answer:
+          "No. The file is read locally with the browser's File API and cropped on a canvas; nothing is transmitted.",
+      },
+      {
+        question: "Which formats can I export?",
+        answer:
+          "The cropped result is produced by the browser canvas in a standard image format. Use the Image Converter afterward if you need WebP or a different format.",
+      },
+    ],
+    related: ["image-resizer", "image-compressor", "image-converter", "favicon-generator"],
+  },
+  "meta-tag-generator": {
+    title: "Meta Tag Generator — SEO and Open Graph Tags",
+    description:
+      "Generate title, description, canonical and Open Graph tags with length checks. Copy valid HTML meta tags for any page in seconds.",
+    intro:
+      "Enter a page title, description and optional canonical URL to get a copy-ready block of head tags: the title element, meta description, canonical link, Open Graph title and description, and a Twitter card declaration. Length checks flag titles and descriptions that will be truncated in search results.",
+    benefits: [
+      "Title and description length advice in plain language",
+      "Canonical, Open Graph and Twitter tags generated together",
+      "HTML-escapes quotes and ampersands so the markup is valid",
+      "Runs locally — unpublished URLs stay private",
+    ],
+    howTo: [
+      "Enter the page title and meta description.",
+      "Optionally add the canonical URL.",
+      "Press Execute to generate the tag block.",
+      "Paste the tags into the page head and publish.",
+    ],
+    faqs: [
+      {
+        question: "How long should a title and description be?",
+        answer:
+          "Aim for roughly 30–65 characters for the title and 120–165 for the description. Search engines truncate by pixel width, so shorter is safer on mobile.",
+      },
+      {
+        question: "Does the generator include JSON-LD structured data?",
+        answer:
+          "No. It produces classic meta tags only. Structured data needs a separate JSON-LD block tailored to the page type; use the Schema Validator to check it.",
+      },
+      {
+        question: "Where do these tags go?",
+        answer:
+          "Inside the document head, before the closing head tag. In a framework, use its metadata API where possible so it can manage duplicates and escaping for you.",
+      },
+      {
+        question: "Is my page information uploaded?",
+        answer: "No. Tag generation is local string processing.",
+      },
+    ],
+    related: ["meta-tag-analyzer", "serp-preview", "open-graph-checker", "seo-checker"],
+  },
+  "keyword-density-checker": {
+    title: "Keyword Density Checker — Find Overused Phrases",
+    description:
+      "See the words and 2–3 word phrases that dominate an article, with counts and percentages. A repetition warning, not a target to hit.",
+    intro:
+      "Paste an article to see which single words and short phrases repeat most often, with counts and a percentage of total words. Use it to catch accidental repetition, over-optimised anchors or a term that crowded out clearer wording. There is no magic percentage — modern search reads whole documents, not keyword counts.",
+    benefits: [
+      "Single words and 2–3 word phrases in one report",
+      "Counts and percentages make repetition obvious",
+      "Configurable top-N list and phrase length",
+      "Text stays local — drafts are never uploaded",
+    ],
+    howTo: [
+      "Paste the article or draft into the text box.",
+      "Set how many phrases to show and the maximum phrase length.",
+      "Press Execute to rank the most frequent terms.",
+      "Rewrite repeated phrases where they add no meaning.",
+    ],
+    faqs: [
+      {
+        question: "What is a good keyword density?",
+        answer:
+          "There is no target. Write naturally and treat high density as a warning sign of repetitive copy. Search engines understand synonyms and context; forcing a percentage usually makes writing worse.",
+      },
+      {
+        question: "How are phrases counted?",
+        answer:
+          "The text is tokenised into words and adjacent groups of two or three are counted. Overlapping occurrences count separately, so read the numbers as a relative signal rather than an exact linguistic measure.",
+      },
+      {
+        question: "Does it remove stop words?",
+        answer:
+          "Common words are part of the frequency table, which is intentional — repeated filler such as very or really is exactly what this checker helps reveal. Ignore the stop words you do not care about.",
+      },
+      {
+        question: "Is my article stored?",
+        answer: "No. Analysis happens in your browser; the text is not sent or saved.",
+      },
+    ],
+    related: ["word-counter", "readability-checker", "serp-preview", "meta-tag-generator"],
+  },
+  "slug-generator": {
+    title: "Slug Generator — Clean, URL-Safe Slugs",
+    description:
+      "Turn a title into a lowercase, hyphenated URL slug. Handles accents, punctuation, repeated spaces and long headings — ready for blogs and shops.",
+    intro:
+      "Paste a headline, product name or sentence and get a lowercase, hyphen-separated slug that is safe in a URL. Accents are folded, punctuation is removed, repeated separators collapse and the result is capped at a sensible length so it stays readable in search results and analytics.",
+    benefits: [
+      "Lowercases and hyphenates in one step",
+      "Folds accented characters (Café becomes cafe)",
+      "Collapses repeated spaces, underscores and hyphens",
+      "Runs locally — unpublished titles stay private",
+    ],
+    howTo: [
+      "Type or paste the title you want to turn into a slug.",
+      "Press Execute to generate it.",
+      "Check the result for words you want to keep or drop.",
+      "Use it as the URL path segment in your CMS.",
+    ],
+    faqs: [
+      {
+        question: "Should URLs use hyphens or underscores?",
+        answer:
+          "Hyphens are the convention for web URLs and are treated as word separators by search engines. Underscores are better suited to code identifiers, not public paths.",
+      },
+      {
+        question: "What happens to accents and non-Latin text?",
+        answer:
+          "Accented Latin characters are decomposed and their marks removed, so Café becomes cafe. Letters from other scripts that survive normalisation are kept; emoji and punctuation are dropped.",
+      },
+      {
+        question: "How long should a slug be?",
+        answer:
+          "Short enough to read at a glance: three to six meaningful words is a good target. The generator caps output at 120 characters, but search results and analytics are friendlier when you stay well below that.",
+      },
+      {
+        question: "Can I change a slug after publishing?",
+        answer:
+          "Yes, but add a permanent redirect from the old URL so links and rankings are not lost. Changing slugs without redirects is one of the most common avoidable SEO mistakes.",
+      },
+    ],
+    related: ["word-counter", "meta-tag-generator", "url-encoder", "case-converter"],
+  },
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {
@@ -1421,5 +2957,6 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
     faqs: deck?.faqs ?? [],
     related: deck?.related ?? [],
     ...(deck?.workflow === undefined ? {} : { workflow: deck.workflow }),
+    hasCustomCopy: deck !== undefined,
   };
 }

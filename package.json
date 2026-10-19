@@ -18,7 +18,9 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "indexnow": "node scripts/indexnow.mjs"
+    "indexnow": "node scripts/indexnow.mjs",
+    "sync:shared": "node scripts/sync-shared-tools.mjs",
+    "check:shared": "node scripts/sync-shared-tools.mjs --check"
   },
   "packageManager": "pnpm@10.22.0",
   "devEngines": {

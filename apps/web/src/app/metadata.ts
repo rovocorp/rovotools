@@ -4,11 +4,19 @@ import { t } from "@/shared/localization";
 
 const DESCRIPTION = t("en", "seo.siteDescription");
 
-const GOOGLE_SITE_VERIFICATION = "";
+// Search-console ownership tokens come from the hosting env (never commit
+// them). Empty values render nothing, so local builds stay clean.
+const GOOGLE_SITE_VERIFICATION = process.env["NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION"] ?? "";
+const BING_SITE_VERIFICATION = process.env["NEXT_PUBLIC_BING_SITE_VERIFICATION"] ?? "";
 
 export const metadata: Metadata = {
-  ...(GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+  ...(GOOGLE_SITE_VERIFICATION || BING_SITE_VERIFICATION
+    ? {
+        verification: {
+          ...(GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : {}),
+          ...(BING_SITE_VERIFICATION ? { other: { "msvalidate.01": BING_SITE_VERIFICATION } } : {}),
+        },
+      }
     : {}),
   metadataBase: new URL(WEB_URL),
   title: {

@@ -1,0 +1,25 @@
+name: IndexNow
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "Space-separated paths or absolute URLs (leave empty to submit the whole sitemap)"
+        required: false
+        default: ""
+
+# Run this after a successful Hostinger deploy to push changed URLs to
+# Bing/Yandex/Seznam/Naver immediately (Google ignores IndexNow; use Search
+# Console for Google). Manual on purpose: the live sitemap must already
+# contain the new URLs when the ping fires.
+jobs:
+  submit:
+    name: Submit URLs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Submit to IndexNow
+        run: node scripts/indexnow.mjs ${{ github.event.inputs.urls }}

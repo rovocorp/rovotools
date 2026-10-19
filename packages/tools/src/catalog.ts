@@ -1,4 +1,4 @@
-﻿import { calculateDateDifference, normalizeLetters, parseFlexibleDate, randomCoreWords, unscrambleLetters } from "@rovotools/calculations";
+import { calculateDateDifference, normalizeLetters, parseFlexibleDate, randomCoreWords, unscrambleLetters } from "@rovotools/calculations";
 import type {
   ToolCategory,
   ToolInputField,
@@ -605,6 +605,9 @@ interface Spec {
   // Pretty canonical URL served via Next.js rewrites, e.g. /tools/pdf/merge-pdf
   // for the flat merge-pdf slug. Sitemap and page metadata use it when set.
   canonicalPath?: string;
+  // Thin/template pages stay functional for users but out of the search index
+  // until a hand-written SEO deck exists (AdSense thin-content policy).
+  noIndex?: boolean;
   inputs: ReadonlyArray<ToolInputField>;
   outputs: ReadonlyArray<ToolOutputField>;
   validate: (input: Record<string, unknown>) => ValidationResult;
@@ -1059,6 +1062,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["json to typescript", "interface generator", "types"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("json", "Sample JSON object"), str("name", "Interface name (default Root)", false)],
     outputs: [out("typescript", "TypeScript interface")],
     validate: (input) => (req(input, "json") === "" ? err("json", "Paste a JSON object.") : ok()),
@@ -1108,6 +1112,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["csv to json", "convert csv"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("csv", "CSV input (first row = headers)")],
     outputs: [out("json", "JSON array")],
     validate: (input) => (req(input, "csv") === "" ? err("csv", "Paste CSV to convert.") : ok()),
@@ -1141,6 +1146,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["json to csv", "export csv"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("json", "JSON array input")],
     outputs: [out("csv", "CSV output")],
     validate: (input) => (req(input, "json") === "" ? err("json", "Paste a JSON array.") : ok()),
@@ -1312,6 +1318,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["diff", "compare text", "difference checker"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("original", "Original text"), area("modified", "Modified text")],
     outputs: [out("summary", "Summary"), linesOut("diff", "Line diff (- removed, + added)")],
     validate: (input) => {
@@ -1481,6 +1488,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["remove duplicates", "dedupe", "unique lines"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("text", "Lines (one per line)"), flag("caseSensitive", "Case sensitive", true)],
     outputs: [linesOut("cleaned", "Deduplicated lines"), numOut("removed", "Duplicates removed")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some lines.") : ok()),
@@ -1508,6 +1516,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["remove empty lines", "blank lines", "clean text"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("text", "Text input"), flag("trim", "Trim each line", true)],
     outputs: [linesOut("cleaned", "Cleaned text"), numOut("removed", "Lines removed")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter some text.") : ok()),
@@ -1578,6 +1587,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["lorem ipsum", "placeholder text", "dummy text"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("count", "How many (default 3)", false), str("unit", "Unit: paragraphs (default), sentences or words", false)],
     outputs: [linesOut("text", "Generated text")],
     validate: () => ok(),
@@ -1626,6 +1636,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["reading time", "read time", "words per minute"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("text", "Article text"), str("wpm", "Words per minute (default 200)", false)],
     outputs: [out("readingTime", "Reading time"), numOut("words", "Words")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Paste article text.") : ok()),
@@ -2010,6 +2021,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["random token", "api key", "secret generator", "hex token"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("bytes", "Bytes (default 32, max 256)", false)],
     outputs: [out("token", "Hex token")],
     validate: () => ok(),
@@ -2030,6 +2042,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["hex encode", "hex decode", "hexadecimal"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("text", "Text or hex input"), str("mode", "Mode: encode (default) or decode", false)],
     outputs: [out("result", "Result")],
     validate: (input) => (req(input, "text") === "" ? err("text", "Enter input.") : ok()),
@@ -2084,6 +2097,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["box shadow", "css shadow", "elevation"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("x", "X offset px (default 0)", false), str("y", "Y offset px (default 8)", false), str("blur", "Blur px (default 24)", false), str("spread", "Spread px (default 0)", false), str("color", "Color (default rgba(0,0,0,0.15))", false)],
     outputs: [out("css", "CSS")],
     validate: () => ok(),
@@ -2113,6 +2127,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["border radius", "rounded corners", "css radius"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("all", "All corners px (default 12)", false), str("topLeft", "Top-left px (optional)", false), str("topRight", "Top-right px (optional)", false), str("bottomRight", "Bottom-right px (optional)", false), str("bottomLeft", "Bottom-left px (optional)", false)],
     outputs: [out("css", "CSS")],
     validate: () => ok(),
@@ -2137,6 +2152,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["css button", "button style", "cta style"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("bg", "Background (default #4f46e5)", false), str("color", "Text color (default #ffffff)", false), str("padding", "Padding (default 12px 24px)", false), str("radius", "Radius px (default 8)", false)],
     outputs: [out("css", "CSS block")],
     validate: () => ok(),
@@ -2376,6 +2392,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["wifi qr", "wifi password qr", "network qr"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("ssid", "Network name (SSID)"), str("password", "Password (empty for open network)", false), str("security", "Security: WPA (default), WEP or nopass", false)],
     outputs: [out("qrPayload", "QR payload (preview renders below)"), out("note", "How to use")],
     validate: (input) => (req(input, "ssid") === "" ? err("ssid", "Enter the network name.") : ok()),
@@ -2396,6 +2413,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["vcard qr", "contact qr", "business card qr"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("name", "Full name"), str("phone", "Phone (optional)", false), str("email", "Email (optional)", false), str("org", "Organization (optional)", false)],
     outputs: [out("qrPayload", "vCard payload (preview renders below)"), out("note", "How to use")],
     validate: (input) => (req(input, "name") === "" ? err("name", "Enter a name.") : ok()),
@@ -2422,6 +2440,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["text qr", "qr generator", "plain text qr"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [area("text", "Text (up to ~500 chars)")],
     outputs: [out("qrPayload", "QR payload (preview renders below)"), out("note", "How to use")],
     validate: (input) => {
@@ -2484,6 +2503,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["svg placeholder", "placeholder image", "dummy image", "data url"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("width", "Width px (default 600)", false), str("height", "Height px (default 400)", false), str("bg", "Background (default #e5e7eb)", false), str("fg", "Text color (default #6b7280)", false), str("label", "Label text (optional)", false)],
     outputs: [out("dataUrl", "SVG data URL"), out("html", "HTML snippet")],
     validate: () => ok(),
@@ -2584,6 +2604,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["url validator", "validate url", "link check"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("url", "URL to validate")],
     outputs: [out("valid", "Valid"), out("protocol", "Protocol"), out("host", "Host"), out("detail", "Detail")],
     validate: (input) => (req(input, "url") === "" ? err("url", "Enter a URL.") : ok()),
@@ -2683,6 +2704,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["random number", "rng", "random integer", "secure random"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("min", "Minimum (default 1)", false), str("max", "Maximum (default 100)", false), str("count", "How many (default 1, max 50)", false)],
     outputs: [linesOut("numbers", "Random numbers (one per line)")],
     validate: () => ok(),
@@ -2775,6 +2797,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["robots.txt generator", "robots txt", "crawler rules", "wordpress robots.txt", "allow disallow"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [str("preset", "Preset: wordpress (default), blogger, shopify or custom", false), str("sitemap", "Sitemap URL (optional)", false), area("disallow", "Extra Disallow paths, one per line (optional)", false), area("allow", "Extra Allow paths, one per line (optional)", false)],
     outputs: [linesOut("robotsTxt", "robots.txt"), numOut("rules", "Allow/Disallow lines")],
     validate: () => ok(),
@@ -2943,6 +2966,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["youtube thumbnail", "thumbnail downloader", "yt thumbnail grabber", "maxresdefault", "video thumbnail"],
     popular: true,
     featured: false,
+    noIndex: true,
     inputs: [str("url", "YouTube URL or 11-character video ID")],
     outputs: [out("maxres", "Full HD 1280×720"), out("sd", "SD 640×480"), out("hq", "High 480×360"), out("mq", "Medium 320×180"), out("default", "Default 120×90"), out("note", "How to use")],
     validate: (input) => {
@@ -3063,6 +3087,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["favicon generator", "favicon maker", "apple touch icon", "site icon", "create favicon"],
     popular: false,
     featured: false,
+    noIndex: true,
     inputs: [
       { id: "image", type: "file", labelKey: "Source image (square works best)", required: true },
     ],
@@ -3087,6 +3112,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["color picker", "eyedropper", "image color picker", "hex from image", "dominant colors"],
     popular: true,
     featured: false,
+    noIndex: true,
     inputs: [
       { id: "image", type: "file", labelKey: "Image to sample colors from", required: true },
     ],
@@ -3123,6 +3149,148 @@ const SPECS: ReadonlyArray<Spec> = [
     },
     execute: async () => {
       throw new Error("Image cropping runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "svg-to-image",
+    slug: "svg-to-image",
+    name: "SVG to PNG/JPG/WebP",
+    description: "Rasterize SVG files to PNG, JPG or WebP at any scale — batch supported, all on your device.",
+    category: "image",
+    icon: "image",
+    browserOnly: true,
+    keywords: [
+      "svg to png",
+      "svg to jpg",
+      "svg to webp",
+      "svg converter",
+      "convert svg to image",
+      "svg to png converter",
+      "vector to raster",
+    ],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "files", type: "file", labelKey: "SVG files (up to 20)", required: true },
+      str("format", "Output format: png (default), jpeg or webp", false),
+      str("scale", "Scale factor 1-8, e.g. 2 for 2× (default 1)", false),
+      str("width", "Exact output width in px (overrides scale)", false),
+      str("quality", "Quality 1-100 for JPEG/WebP (default 90)", false),
+      str("background", "Background colour for JPEG / optional solid bg (e.g. #ffffff)", false),
+    ],
+    outputs: [out("files", "Rasterized files (download in the tool below)"), numOut("count", "Files converted")],
+    validate: (input) => {
+      const files = input["files"];
+      const present = typeof files === "string" ? files.trim() !== "" : files instanceof Blob;
+      return present ? ok() : err("files", "Choose at least one SVG file to convert.");
+    },
+    execute: async () => {
+      throw new Error("SVG rasterization runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "image-to-svg",
+    slug: "image-to-svg",
+    name: "Image to SVG Vectorizer",
+    description: "Trace PNG, JPG or WebP images into clean SVG vectors — best for logos, icons and high-contrast artwork.",
+    category: "image",
+    icon: "pen-tool",
+    browserOnly: true,
+    keywords: [
+      "png to svg",
+      "jpg to svg",
+      "image to svg",
+      "vectorize image",
+      "raster to vector",
+      "svg vectorizer",
+      "trace image to svg",
+    ],
+    popular: true,
+    featured: true,
+    inputs: [
+      { id: "images", type: "file", labelKey: "Images (PNG, JPG, WebP — up to 10)", required: true },
+      str("threshold", "Brightness threshold 0-255, or auto (default)", false),
+      str("turdsize", "Despeckle size 0-100 (default 2)", false),
+      str("fill", "Fill colour for the traced shape (default #000000)", false),
+      flag("invert", "Invert (trace light pixels on dark backgrounds)", false),
+    ],
+    outputs: [out("files", "SVG files (download in the tool below)"), numOut("count", "Files vectorized")],
+    validate: (input) => {
+      const images = input["images"];
+      const present = typeof images === "string" ? images.trim() !== "" : images instanceof Blob;
+      return present ? ok() : err("images", "Choose at least one image to vectorize.");
+    },
+    execute: async () => {
+      throw new Error("Image vectorization runs on the browser canvas. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "svg-viewer",
+    slug: "svg-viewer",
+    name: "SVG Viewer",
+    description: "Preview SVG files instantly, inspect dimensions, viewBox and element counts — nothing is uploaded.",
+    category: "image",
+    icon: "eye",
+    browserOnly: true,
+    keywords: ["svg viewer", "svg preview", "view svg", "svg inspector", "svg file viewer", "open svg online"],
+    popular: false,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "SVG file", required: true },
+      str("source", "Or paste SVG source (used when no file is chosen)", false),
+    ],
+    outputs: [
+      out("preview", "Live preview (in the tool below)"),
+      out("dimensions", "Dimensions and viewBox"),
+      out("complexity", "Element and path counts"),
+      out("size", "File size"),
+    ],
+    validate: (input) => {
+      const file = input["file"];
+      const source = typeof input["source"] === "string" ? input["source"].trim() : "";
+      const present = file instanceof Blob || source !== "";
+      return present ? ok() : err("file", "Upload an SVG file or paste SVG source.");
+    },
+    execute: async () => {
+      throw new Error("SVG preview runs in the browser. Open this tool on the RovoTools website — it cannot run here.");
+    },
+  },
+  {
+    id: "svg-to-base64",
+    slug: "svg-to-base64",
+    name: "SVG to Base64 / Data URI",
+    description: "Encode SVG markup as Base64, data URIs and CSS background snippets — paste a file or upload, all on your device.",
+    category: "image",
+    icon: "code",
+    browserOnly: true,
+    keywords: [
+      "svg to base64",
+      "svg to data uri",
+      "svg base64",
+      "svg data url",
+      "encode svg",
+      "svg to css background",
+    ],
+    popular: false,
+    featured: false,
+    inputs: [
+      { id: "file", type: "file", labelKey: "SVG file (optional — paste below instead)", required: false },
+      area("source", "SVG source to encode", false),
+    ],
+    outputs: [
+      out("base64", "Raw Base64"),
+      out("dataUriBase64", "Base64 data URI"),
+      out("dataUriEncoded", "URL-encoded data URI"),
+      out("cssBackground", "CSS background-image snippet"),
+    ],
+    validate: (input) => {
+      const file = input["file"];
+      const source = typeof input["source"] === "string" ? input["source"].trim() : "";
+      const present = file instanceof Blob || source !== "";
+      return present ? ok() : err("source", "Upload an SVG file or paste SVG source.");
+    },
+    execute: async () => {
+      throw new Error("SVG encoding runs in the browser. Open this tool on the RovoTools website — it cannot run here.");
     },
   },
   {
@@ -3513,6 +3681,8 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["seo checker", "website seo audit", "on-page seo", "seo score", "site audit"],
     popular: false,
     featured: false,
+    // UI can fetch a public URL in the browser before analysis (FetchAnalyzer).
+    requiresNetwork: true,
     inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
     outputs: [
       numOut("score", "SEO score (/100)"),
@@ -3549,6 +3719,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["open graph checker", "og tags", "social preview", "twitter card checker", "facebook preview"],
     popular: false,
     featured: false,
+    requiresNetwork: true,
     inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
     outputs: [
       out("ogTitle", "og:title"),
@@ -3585,6 +3756,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["sitemap checker", "xml sitemap validator", "sitemap.xml", "urlset checker"],
     popular: false,
     featured: false,
+    requiresNetwork: true,
     inputs: [area("xml", "Sitemap XML")],
     outputs: [
       out("format", "Format"),
@@ -3617,6 +3789,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["tag detector", "google analytics checker", "tag manager detector", "pixel checker", "tracker detector"],
     popular: false,
     featured: false,
+    requiresNetwork: true,
     inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
     outputs: [
       out("googleAnalytics4", "Google Analytics 4"),
@@ -3649,6 +3822,7 @@ const SPECS: ReadonlyArray<Spec> = [
     keywords: ["performance analyzer", "page speed", "website speed test", "page weight", "core web vitals hints"],
     popular: false,
     featured: false,
+    requiresNetwork: true,
     inputs: [area("html", "Page HTML (paste view-source, or fetch a live URL in your browser)")],
     outputs: [
       numOut("weightKb", "HTML weight (KB)"),
@@ -3729,6 +3903,10 @@ const ACTION_LABELS: Readonly<Record<string, { action: string; running: string }
   "text-qr-generator": { action: "Generate QR code", running: "Generating..." },
   "meta-tag-generator": { action: "Generate meta tags", running: "Generating..." },
   "svg-placeholder-generator": { action: "Generate placeholder", running: "Generating..." },
+  "svg-to-image": { action: "Convert to image", running: "Converting..." },
+  "image-to-svg": { action: "Vectorize", running: "Vectorizing..." },
+  "svg-viewer": { action: "Preview SVG", running: "Rendering..." },
+  "svg-to-base64": { action: "Encode SVG", running: "Encoding..." },
   "email-validator": { action: "Validate email", running: "Validating..." },
   "url-validator": { action: "Validate URL", running: "Validating..." },
   "number-formatter": { action: "Format number", running: "Formatting..." },
@@ -3774,10 +3952,11 @@ export const EXTRA_TOOLS: ReadonlyArray<ToolRegistryEntry> = SPECS.map((spec) =>
     localizationKey: `tools.${spec.id}`,
     relatedTools: [],
     seo: {
-      title: `${spec.name} | RovoTools`,
+      title: spec.name,
       description: `Free ${spec.name.toLowerCase()}. ${spec.description}`,
       keywords: [...spec.keywords, spec.name.toLowerCase(), "free online"],
       ...(spec.canonicalPath === undefined ? {} : { canonicalPath: spec.canonicalPath }),
+      ...(spec.noIndex === true ? { noIndex: true } : {}),
     },
     nameKey: `tools.${spec.id}.name`,
     descriptionKey: `tools.${spec.id}.description`,
