@@ -18,6 +18,10 @@ publicHoistPattern:
   - '*eslint*'
   - '*prettier*'
 
+# Vitest resolves Vite as an auto-installed peer, so a pnpm override only
+# rewrites the peer range and leaves the vulnerable version installed. The
+# root package.json pins vite 7.3.7 directly (GHSA-587h-7wmj-h5pm /
+# CVE-2026-112942); keep it while Vitest uses Vite as a peer.
 overrides:
   '@types/react': 19.2.18
   # GHSA-pqg4-j6r4-53mv (critical): force patched shell-quote through the
