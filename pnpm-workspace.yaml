@@ -47,6 +47,10 @@ overrides:
   # Client/access/lastMod/list/downloadTo/close).
   'basic-ftp': '6.2.3'
   # --- batch audit remediation (29 findings: 24 fixed, 5 accepted) -----------
+  # GHSA-rxp7-6hxx-x8q5 (moderate): ip-address <=10.7.3 Address6 zone regex
+  # is quadratic on many `%` characters before a line terminator. Dev-only
+  # chain: @lhci/cli > proxy-agent > socks; 10.7.4 reads the input once.
+  'ip-address': '10.7.4'
   # GHSA-5c6j-r48x-rmvq (high, RCE): serialize-javascript RegExp.flags/Date
   # prototype gadget. Chain: next-pwa>workbox>rollup-plugin-terser (pins ^4/^6);
   # 7.x keeps the CJS serialize() API.
