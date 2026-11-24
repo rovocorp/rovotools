@@ -4,9 +4,11 @@ import { t } from "@/shared/localization";
 
 const DESCRIPTION = t("en", "seo.siteDescription");
 
-// Search-console ownership tokens come from the hosting env (never commit
-// them). Empty values render nothing, so local builds stay clean.
-const GOOGLE_SITE_VERIFICATION = process.env["NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION"] ?? "";
+// Search-console ownership tokens. The hosting env overrides the committed
+// fallback; these are public values (they ship in the page <head> anyway).
+const GOOGLE_SITE_VERIFICATION =
+  process.env["NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION"] ??
+  "to3yA4As5pboCIhIpkvIjhmlnR1i-QeuxHQjcGz7DtE";
 const BING_SITE_VERIFICATION = process.env["NEXT_PUBLIC_BING_SITE_VERIFICATION"] ?? "";
 
 export const metadata: Metadata = {
