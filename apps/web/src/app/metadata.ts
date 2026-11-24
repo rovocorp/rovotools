@@ -8,7 +8,7 @@ const DESCRIPTION = t("en", "seo.siteDescription");
 // fallback; these are public values (they ship in the page <head> anyway).
 const GOOGLE_SITE_VERIFICATION =
   process.env["NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION"] ??
-  "to3yA4As5pboCIhIpkvIjhmlnR1i-QeuxHQjcGz7DtE";
+  "FAPkw9pkh2sqUoYpkDzXORbjTZOjMz_cNWXr5-y90SU";
 const BING_SITE_VERIFICATION = process.env["NEXT_PUBLIC_BING_SITE_VERIFICATION"] ?? "";
 
 export const metadata: Metadata = {
