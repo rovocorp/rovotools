@@ -1,7 +1,7 @@
 import type { ToolInputField, ToolDefinition, ValidationResult, ValidationError } from "@rovotools/types";
 import { z } from "zod";
 
-export function createInputSchema(fields: ReadonlyArray<ToolInputField>): z.AnyZodObject {
+export function createInputSchema(fields: ReadonlyArray<ToolInputField>): z.ZodObject<z.ZodRawShape> {
   const shape: Record<string, z.ZodTypeAny> = {};
 
   for (const field of fields) {
@@ -69,7 +69,7 @@ export function validateToolInput<T extends Record<string, unknown>>(
   const issues = result.error.issues;
 
   for (const issue of issues) {
-    const path = issue.path.map((p) => (typeof p === "string" ? p : "")).join(".");
+    const path = issue.path.map((p: PropertyKey) => (typeof p === "string" ? p : "")).join(".");
     errors.push({
       fieldId: path || "unknown",
       code: issue.code as string,

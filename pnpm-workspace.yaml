@@ -45,7 +45,19 @@ overrides:
   # @lhci/cli > proxy-agent > get-uri (dev chain, ftp:// PAC fetch); get-uri
   # pins ^5.0.2 with no patched 5.x — force 6.2.3 (same CJS API surface:
   # Client/access/lastMod/list/downloadTo/close).
-  'basic-ftp': '6.2.3'
+  # GHSA-5pm8-86m8-9m6r / CVE-2026-126345: MLSD parser TypeError via a
+  # __proto__ fact name DoS. 6.2.4 is patched; 6.2.6 is latest on the 6.x line.
+  'basic-ftp': '6.2.6'
+  # GHSA-27r3-jxmh-p828 / CVE-2026-111181: body-parser DoS via trailing bytes
+  # after a compressed request body. Chain: @lhci/cli > express 4 (dev-only,
+  # Lighthouse). 1.20.9 is the patched 1.x release express 4 depends on.
+  'body-parser': '1.20.9'
+  # GHSA-mrhx-c7xc-m3w5 / CVE-2023-54404: zod unbounded array/Set/Map
+  # validation (resource exhaustion). No 3.x fix exists - the patch landed in
+  # v4 only, so force 4.6.7. Direct deps (web + @rovotools/validation) move to
+  # ^4.6.7; the remaining 3.x consumer is @expo/cli, whose surface here is just
+  # z.object/string/enum/array/optional/.strict (all stable across the major).
+  'zod': '4.6.7'
   # --- batch audit remediation (29 findings: 24 fixed, 5 accepted) -----------
   # GHSA-rxp7-6hxx-x8q5 (moderate): ip-address <=10.7.3 Address6 zone regex
   # is quadratic on many `%` characters before a line terminator. Dev-only
@@ -66,8 +78,15 @@ overrides:
   # brace-expansion recursion/quadratic DoS (mobile eslint>minimatch chain).
   'brace-expansion': '1.1.21'
   # GHSA-vcc3-ghjq-m6fr (moderate): decode-uri-component exponential decoding
-  # (expo-router>query-string pins ^0.2).
-  'decode-uri-component': '0.5.0'
+  # (expo-router>query-string pins ^0.2). GHSA-qr28-fpjm-wq7f / CVE-2026-118664,
+  # quadratic replacement of percent-encoded runs: 0.5.1 is the patched release.
+  'decode-uri-component': '0.5.1'
+  # GHSA-2m5v-pch6-74hx (CVE-2026-109383), GHSA-4w7w-5xrc-9h26 (CVE-2026-109829),
+  # GHSA-55wc-3pg8-jfw6/GHSA-qrxm-fqhp-jwvm/GHSA-4qv8-2p9j-2685/GHSA-9fm3-97px-rjf6/
+  # GHSA-f72v-6w45-q472/GHSA-xjj6-f33q-929c: TLS-validation bypass, cache poisoning
+  # and assorted response-parsing DoS. Chain: dev-only jsdom > undici. Same-major
+  # 8.13.1 is latest and clears every published undici advisory for the 8.x line.
+  'undici': '8.13.1'
   # GHSA-w5hq-g745-h8pq (moderate): uuid v3/v5 buffer bounds. 11.1.1 is the
   # first patched and stays dual CJS/ESM (lighthouse + @expo/config-plugins>xcode).
   'uuid': '11.1.1'
@@ -87,6 +106,25 @@ overrides:
   # with a Buffer and 2.x CJS sets `exports.default = imageSize`, and both
   # return {width, height, type} — call site unchanged; 2.x drops `queue`.
   'image-size': '2.0.4'
+  # GHSA-rhr8-3pm8-cq29 / CVE-2026-119191: asn1.fromDer BIT STRING decoding
+  # ignores maxDepth and recursively decodes nested BIT STRINGs, so crafted
+  # DER/PEM aborts Node (incomplete fix of CVE-2025-66031). node-forge 1.4.0
+  # also carries ~20 other 2026 forge advisories; 1.4.4 is latest and clears
+  # all of them. Chain: mobile expo > expo-server / @expo/code-signing-certificates.
+  'node-forge': '1.4.4'
+  # GHSA-3g3m-2fjr-6pw4 / CVE-2026-118773: glob AbortSignal cancellation bypass.
+  # GHSA-g3hv-75wg-m249 / CVE-2026-118764: minimatch globparts amplification DoS.
+  # Both are reached only through the mobile @expo/* build tooling (glob 13 ->
+  # minimatch 10). glob 14 pulls minimatch ^11, so this scoped bump clears both
+  # without touching the legacy glob 7 / minimatch 3+5 consumers.
+  'glob@^13.0.0': '14.0.6'
+  # minimatch is also a direct dep of @expo/fingerprint and
+  # @typescript-eslint/typescript-estree; scope the fix to the vulnerable 10.x
+  # line so minimatch 3/5 (legacy glob/jest) stay untouched.
+  'minimatch@^10.0.0': '11.0.9'
+  # GHSA-6pq8-jhm2-2vcw / CVE-2026-110816: qs.stringify arrayFormat=comma
+  # TypeError on non-coercible array elements. 6.17.1 is latest 6.x.
+  'qs': '6.17.1'
   # GHSA-4r6h-8v6p-xvw6 (high, PP) + GHSA-5pgg-2g8v-p4x9 (high, ReDoS):
   # SheetJS never publishes fixes to npm — official patched builds ship only
   # on cdn.sheetjs.com. xlsx used client-side (PdfToExcel) via `import * as XLSX`.
