@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
 import { ArrowRight, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-import { COMPANY_NAME, SOCIAL_LINKS } from "@/shared/config";
+import { COMPANY_NAME, SOCIAL_LINKS, SUPPORT_EMAIL } from "@/shared/config";
 import { t } from "@/shared/localization";
 import { RovoToolsImageLogo } from "@/components/RovoToolsLogo";
 import CookieSettingsButton from "@/components/CookieSettingsButton";
@@ -126,6 +126,12 @@ export default function Footer(): React.ReactElement {
           <p className="mt-3 text-sm text-[#5B6B82] dark:text-[#A7A7B3]">
             Questions, bug reports or suggestions? We usually reply within a few business days.
           </p>
+          <a
+            href={`mailto:${SUPPORT_EMAIL}`}
+            className={`mt-2 inline-block text-sm font-medium text-[#0066FF] hover:underline dark:text-[#5C9CFF] ${FOOTER_UNDERLINE}`}
+          >
+            {SUPPORT_EMAIL}
+          </a>
           <Link
             prefetch={false}
             href="/contact"

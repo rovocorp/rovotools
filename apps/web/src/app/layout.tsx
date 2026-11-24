@@ -1,13 +1,14 @@
 ﻿import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
-import { BRAND_NAME, COMPANY_NAME, WEB_URL } from "@/shared/config";
+import { BRAND_NAME, COMPANY_NAME, SOCIAL_LINKS, SUPPORT_EMAIL, WEB_URL } from "@/shared/config";
 import { t } from "@/shared/localization";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import CommandPalette from "@/components/CommandPalette";
 import CookieBanner from "@/components/CookieBanner";
 import PWARegister from "@/components/PWARegister";
+import WebMcpTools from "@/components/agent/WebMcpTools";
 import AdSenseScript from "@/components/ads/AdSenseScript";
 import FundingChoicesScript from "@/components/ads/FundingChoicesScript";
 import AnalyticsScript from "@/components/analytics/AnalyticsScript";
@@ -27,6 +28,10 @@ export const metadata: Metadata = baseMetadata;
 
 export const viewport: Viewport = baseViewport;
 
+// Only emit sameAs when real profiles exist (SOCIAL_LINKS ships empty on
+// purpose). Keeping it conditional avoids advertising fabricated identities.
+const SAME_AS = SOCIAL_LINKS.map((social) => social.href).filter((href) => href.length > 0);
+
 const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -34,6 +39,15 @@ const ORGANIZATION_JSON_LD = {
   alternateName: BRAND_NAME,
   url: WEB_URL,
   logo: `${WEB_URL}/logo.png`,
+  email: SUPPORT_EMAIL,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: SUPPORT_EMAIL,
+    url: `${WEB_URL}/contact/`,
+    availableLanguage: ["en"],
+  },
+  ...(SAME_AS.length > 0 ? { sameAs: SAME_AS } : {}),
 };
 
 const WEBSITE_JSON_LD = {
@@ -95,6 +109,7 @@ export default function RootLayout({
         <ThemeProvider>
           <QueryProvider>
           <PWARegister />
+          <WebMcpTools />
           <FundingChoicesScript />
           <AnalyticsScript />
           <AdSenseScript />

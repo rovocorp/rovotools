@@ -62,6 +62,21 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   generateEtags: false,
 
+  // Agent discovery documents live in /.well-known. SEP-1649 requires them to
+  // be readable by browser-based agents (permissive CORS) and cacheable.
+  async headers() {
+    return [
+      {
+        source: "/.well-known/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET" },
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=3600" },
+        ],
+      },
+    ];
+  },
+
   // Legacy tool URLs → canonical survivors (formerly public/.htaccess
   // RewriteRules). Permanent, path-only, no query preservation — same
   // behaviour the static Apache rules had.

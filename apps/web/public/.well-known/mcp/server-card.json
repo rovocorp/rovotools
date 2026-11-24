@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+  "version": "1.0",
+  "protocolVersion": "2025-06-18",
+  "serverInfo": {
+    "name": "com.rovotools/web",
+    "title": "RovoTools",
+    "version": "0.1.0"
+  },
+  "description": "RovoTools is a free online tools site. It registers a WebMCP search tool for in-browser agents.",
+  "documentationUrl": "https://rovotools.com/llms.txt",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://rovotools.com/mcp"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    }
+  },
+  "tools": [
+    {
+      "name": "search_rovotools",
+      "title": "Search RovoTools",
+      "description": "Search RovoTools' free online tools by keyword and return a deep link to the matching results.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "What the user wants to do, for example 'merge PDFs' or 'generate a QR code'."
+          }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "_meta": {
+    "com.rovotools/webmcp": {
+      "registration": "navigator.modelContext.registerTool",
+      "tool": "search_rovotools"
+    }
+  }
+}

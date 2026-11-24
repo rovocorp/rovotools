@@ -1,3 +1,6 @@
+# Content Signals: how automated clients may use this content.
+Content-Signal: search=yes, ai-train=no
+
 User-agent: *
 Allow: /
 Disallow: /api/
