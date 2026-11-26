@@ -15,6 +15,12 @@ export const WEB_URL: string =
 
 export const SUPPORT_EMAIL = `support@${DOMAIN}` as const;
 
+// Editorial freshness markers. Bump these when the static/legal/editorial
+// pages are actually reviewed, and mirror the date in the sitemap and in
+// structured data (`dateModified`). Do not auto-bump on every deploy.
+export const SITE_LAST_REVIEWED = "November 2026" as const;
+export const SITE_LAST_REVIEWED_ISO = "2026-11-26" as const;
+
 export interface SocialLink {
   readonly label: string;
   /** Official profile URL. Empty string = not configured yet (rendered as a muted placeholder, never a fake link). */

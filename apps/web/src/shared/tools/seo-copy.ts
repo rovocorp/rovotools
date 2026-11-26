@@ -1,4 +1,5 @@
 import type { ToolDefinition } from "@/shared/types";
+import { CATEGORY_LIMITATIONS, CATEGORY_USE_CASES, EXTRA_TOOL_COPY, TOOL_DEPTH } from "./tool-depth";
 
 export interface ToolFaq {
   readonly question: string;
@@ -13,6 +14,21 @@ export interface ToolWorkflowStep {
 export interface ToolWorkflow {
   readonly title: string;
   readonly steps: ReadonlyArray<ToolWorkflowStep>;
+}
+
+export interface ToolWorkedExample {
+  readonly title?: string;
+  /** The inputs or steps a reader can follow. */
+  readonly steps: ReadonlyArray<string>;
+  /** The output and how to read it. */
+  readonly result: string;
+}
+
+/** Optional depth sections that explain a result and set expectations. */
+export interface ToolDepth {
+  readonly example?: ToolWorkedExample;
+  readonly useCases?: ReadonlyArray<string>;
+  readonly limitations?: ReadonlyArray<string>;
 }
 
 /**
@@ -31,6 +47,9 @@ export interface ToolPageCopy {
   readonly faqs: ReadonlyArray<ToolFaq>;
   readonly related?: ReadonlyArray<string>;
   readonly workflow?: ToolWorkflow;
+  readonly example?: ToolWorkedExample;
+  readonly useCases?: ReadonlyArray<string>;
+  readonly limitations?: ReadonlyArray<string>;
 }
 
 export interface ResolvedToolPageCopy {
@@ -42,6 +61,9 @@ export interface ResolvedToolPageCopy {
   readonly faqs: ReadonlyArray<ToolFaq>;
   readonly related: ReadonlyArray<string>;
   readonly workflow?: ToolWorkflow;
+  readonly example?: ToolWorkedExample;
+  readonly useCases: ReadonlyArray<string>;
+  readonly limitations: ReadonlyArray<string>;
   /** True only when a hand-written deck exists — used to suppress HowTo schema on template pages. */
   readonly hasCustomCopy: boolean;
 }
@@ -2931,7 +2953,8 @@ const TOOL_PAGE_COPY: Record<string, ToolPageCopy> = {
 };
 
 export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCopy {
-  const deck = TOOL_PAGE_COPY[definition.id];
+  const deck = TOOL_PAGE_COPY[definition.id] ?? EXTRA_TOOL_COPY[definition.id];
+  const depth = TOOL_DEPTH[definition.id];
   const runsLocally = definition.processingMode === "LOCAL" && !definition.requiresNetwork;
   const fallbackBenefits = runsLocally
     ? [
@@ -2944,6 +2967,11 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
         "Privacy-conscious: only the data needed for the task leaves your device",
         "Works on mobile, tablet and desktop",
       ];
+  const example = deck?.example ?? depth?.example;
+  const useCases =
+    deck?.useCases ?? depth?.useCases ?? CATEGORY_USE_CASES[definition.category] ?? [];
+  const limitations =
+    deck?.limitations ?? depth?.limitations ?? CATEGORY_LIMITATIONS[definition.category] ?? [];
   return {
     ...(deck?.title === undefined ? {} : { title: deck.title }),
     ...(deck?.description === undefined ? {} : { description: deck.description }),
@@ -2957,6 +2985,9 @@ export function getToolPageCopy(definition: ToolDefinition): ResolvedToolPageCop
     faqs: deck?.faqs ?? [],
     related: deck?.related ?? [],
     ...(deck?.workflow === undefined ? {} : { workflow: deck.workflow }),
+    ...(example === undefined ? {} : { example }),
+    useCases,
+    limitations,
     hasCustomCopy: deck !== undefined,
   };
 }

@@ -19,6 +19,8 @@ const TOOL_LINKS = [
 
 const COMPANY_LINKS = [
   { label: t("en", "navigation.about"), href: "/about" },
+  { label: "How we build tools", href: "/editorial" },
+  { label: "Changelog", href: "/changelog" },
   { label: t("en", "navigation.categories"), href: "/tools#categories" },
   { label: t("en", "navigation.blog"), href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -33,7 +35,13 @@ const LEGAL_LINKS = [
   { label: "Security", href: "/security" },
 ];
 
-const SOCIAL_ICONS = [Linkedin, Twitter, Facebook, Instagram];
+// Map by label so filtering out unconfigured profiles never shifts the icon.
+const SOCIAL_ICONS: Record<string, typeof Linkedin> = {
+  LinkedIn: Linkedin,
+  X: Twitter,
+  Facebook,
+  Instagram,
+};
 
 // Signature logo gradient underline: grows left -> right on hover/focus.
 const FOOTER_UNDERLINE =
@@ -46,33 +54,25 @@ export default function Footer(): React.ReactElement {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-5 lg:px-8">
         <div>
           <RovoToolsImageLogo height={44} />
-          <div className="mt-6 flex items-center gap-2" aria-label="Social media">
-            {SOCIAL_LINKS.map((social, index) => {
-              const Icon = SOCIAL_ICONS[index % SOCIAL_ICONS.length] ?? Linkedin;
-              return social.href === "" ? (
-                <span
-                  key={social.label}
-                  role="img"
-                  title={`${social.label} — coming soon`}
-                  aria-label={`${social.label} (coming soon)`}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] dark:text-[#A7A7B3]"
-                >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-              ) : (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
-                >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </a>
-              );
-            })}
-          </div>
+          {SOCIAL_LINKS.some((social) => social.href !== "") ? (
+            <div className="mt-6 flex items-center gap-2" aria-label="Social media">
+              {SOCIAL_LINKS.filter((social) => social.href !== "").map((social) => {
+                const Icon = SOCIAL_ICONS[social.label] ?? Linkedin;
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-[#5B6B82] hover:bg-[#EFF3F9] hover:text-[#0066FF] dark:text-[#A7A7B3] dark:hover:bg-[#1E1E24] dark:hover:text-[#5C9CFF]"
+                  >
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
         <nav aria-label={t("en", "footer.tools")}>
           <p className="text-xs font-bold uppercase tracking-wider text-[#0A1A33] dark:text-[#F1F5F9]">

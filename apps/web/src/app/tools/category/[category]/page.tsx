@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllCategoryMetadata, getCategoryMetadata } from "@/shared/tools";
 import { t, tx } from "@/shared/localization";
@@ -9,6 +10,7 @@ import AdSlot from "@/components/ads/AdSlot";
 import CategoryIntro from "@/components/tools/CategoryIntro";
 import ToolCard from "@/components/tools/ToolCard";
 import { getAdSlotId } from "@/lib/ads";
+import { BLOG_POSTS } from "@/lib/blog";
 import { getToolRegistry } from "@/lib/registry";
 
 const CATEGORIES = getAllCategoryMetadata().map((meta) => meta.category);
@@ -65,6 +67,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     .query({ category, platform: "WEB", sortBy: "name" })
     .slice()
     .sort((a, b) => Number(b.definition.popular) - Number(a.definition.popular));
+  const toolIds = new Set(tools.map((entry) => entry.definition.id));
+  const guides = BLOG_POSTS.filter(
+    (post) => post.noIndex !== true && post.relatedTools.some((id) => toolIds.has(id)),
+  ).slice(0, 3);
+  const siblingCategories = getAllCategoryMetadata().filter((item) => item.category !== category);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -119,6 +126,46 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
               ))}
             </div>
           )}
+          {guides.length > 0 ? (
+            <section aria-labelledby="category-guides-heading" className="mt-10">
+              <h2 id="category-guides-heading" className="text-xl font-bold sm:text-2xl">
+                Guides for these tools
+              </h2>
+              <ul className="mt-4 space-y-2 text-sm">
+                {guides.map((post) => (
+                  <li key={post.slug}>
+                    <Link
+                      prefetch={false}
+                      href={`/blog/${post.slug}`}
+                      className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
+                    >
+                      {post.title}
+                    </Link>
+                    <span className="text-zinc-600 dark:text-zinc-400"> — {post.excerpt}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section aria-labelledby="related-categories-heading" className="mt-10">
+            <h2 id="related-categories-heading" className="text-xl font-bold sm:text-2xl">
+              Browse other tool categories
+            </h2>
+            <div className="mt-4 flex flex-wrap gap-2 text-sm">
+              {siblingCategories.map((item) => (
+                <Link
+                  key={item.slug}
+                  prefetch={false}
+                  href={item.path}
+                  className="rounded-full border border-zinc-200 px-4 py-2 font-semibold text-indigo-600 hover:border-indigo-300 hover:underline dark:border-zinc-700 dark:text-indigo-400"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </section>
+
           <AdSlot placement="content-bottom" slotId={getAdSlotId("content-bottom")} />
         </div>
         <AdRail placement="listing-rail-right" slotId={getAdSlotId("listing-rail-right")} />

@@ -2,7 +2,7 @@
 import { ArrowLeft, Wifi, WifiOff } from "lucide-react";
 import { buildCustomSchemeUrl, getToolDisplay, getToolPageCopy } from "@/shared/tools";
 import { t } from "@/shared/localization";
-import { WEB_URL } from "@/shared/config";
+import { SITE_LAST_REVIEWED, SITE_LAST_REVIEWED_ISO, WEB_URL } from "@/shared/config";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import AdRail from "@/components/ads/AdRail";
 import AdSlot from "@/components/ads/AdSlot";
@@ -11,6 +11,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolRunnerLoader from "@/components/tools/ToolRunnerLoader";
 import { Badge } from "@/components/ui/badge";
 import { getAdSlotId } from "@/lib/ads";
+import { BLOG_POSTS } from "@/lib/blog";
 import { getCategoryLabel } from "@/lib/category-label";
 import { getToolRegistry } from "@/lib/registry";
 
@@ -32,6 +33,9 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
       : registry.related(tool.id, 3);
   const matrix = registry.capabilityMatrix(tool.id);
   const runsLocally = tool.processingMode === "LOCAL" && !tool.requiresNetwork;
+  const guides = BLOG_POSTS.filter(
+    (post) => post.noIndex !== true && post.relatedTools.includes(tool.id),
+  ).slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -41,6 +45,8 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
     url: `${WEB_URL}${tool.seo?.canonicalPath ?? `/tools/${tool.slug}`}`,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: tool.supportedPlatforms.join(", "),
+    softwareVersion: tool.metadata.version,
+    dateModified: SITE_LAST_REVIEWED_ISO,
     offers: { "@type": "Offer", price: "0" },
   };
 
@@ -180,6 +186,49 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
         ) : null}
       </section>
 
+      {copy.example !== undefined ? (
+        <section aria-labelledby="example-heading" className="mt-12 max-w-3xl">
+          <h2 id="example-heading" className="text-xl font-bold sm:text-2xl">
+            Worked example
+            {copy.example.title !== undefined ? `: ${copy.example.title}` : ""}
+          </h2>
+          <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
+            {copy.example.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+          <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">
+            <strong>Result:</strong> {copy.example.result}
+          </p>
+        </section>
+      ) : null}
+
+      {copy.useCases.length > 0 ? (
+        <section aria-labelledby="use-cases-heading" className="mt-12 max-w-3xl">
+          <h2 id="use-cases-heading" className="text-xl font-bold sm:text-2xl">
+            Common use cases
+          </h2>
+          <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
+            {copy.useCases.map((useCase) => (
+              <li key={useCase}>{useCase}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {copy.limitations.length > 0 ? (
+        <section aria-labelledby="limitations-heading" className="mt-12 max-w-3xl">
+          <h2 id="limitations-heading" className="text-xl font-bold sm:text-2xl">
+            Limitations to keep in mind
+          </h2>
+          <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
+            {copy.limitations.map((limitation) => (
+              <li key={limitation}>{limitation}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {copy.faqs.length > 0 ? (
         <section aria-labelledby="faq-heading" className="mt-12 max-w-3xl">
           <h2 id="faq-heading" className="text-xl font-bold sm:text-2xl">
@@ -280,6 +329,40 @@ export default function ToolDetail({ slug }: { slug: string }): React.ReactEleme
           </div>
         </section>
       ) : null}
+
+      {guides.length > 0 ? (
+        <section aria-labelledby="guides-heading" className="mt-12 max-w-3xl">
+          <h2 id="guides-heading" className="text-xl font-bold sm:text-2xl">
+            Guides and further reading
+          </h2>
+          <ul className="mt-4 space-y-2 text-sm">
+            {guides.map((post) => (
+              <li key={post.slug}>
+                <Link
+                  prefetch={false}
+                  href={`/blog/${post.slug}`}
+                  className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400"
+                >
+                  {post.title}
+                </Link>
+                <span className="text-zinc-600 dark:text-zinc-400"> — {post.excerpt}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      <p className="mt-8 text-xs text-zinc-500 dark:text-zinc-400">
+        Page last reviewed {SITE_LAST_REVIEWED} · Tool version {tool.metadata.version}.{" "}
+        <Link href="/editorial" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
+          How we build and test tools
+        </Link>{" "}
+        ·{" "}
+        <Link href="/changelog" className="underline hover:text-indigo-600 dark:hover:text-indigo-300">
+          Changelog
+        </Link>
+      </p>
+
       <AdSlot placement="tool-footer" slotId={getAdSlotId("tool-footer")} />
       </div>
       <AdRail placement="tool-rail-right" slotId={getAdSlotId("tool-rail-right")} />

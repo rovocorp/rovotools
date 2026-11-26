@@ -1,5 +1,5 @@
 ﻿import type { MetadataRoute } from "next";
-import { WEB_URL } from "@/shared/config";
+import { SITE_LAST_REVIEWED_ISO, WEB_URL } from "@/shared/config";
 import { getAllCategoryMetadata } from "@/shared/tools/categories";
 import { toSitemapEntries } from "@/shared/tools/seo";
 import { BLOG_POSTS } from "@/lib/blog";
@@ -15,19 +15,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // and tripping shared-hosting 429s. Bump this only when page content
   // actually changes. Blog posts keep their own per-post dates below.
   const stableLastModified = new Date("2026-10-01T00:00:00.000Z");
+  // Static/editorial pages share the last-review date so it matches the date
+  // shown on the page. Bump SITE_LAST_REVIEWED_ISO when those pages change.
+  const staticReviewDate = new Date(`${SITE_LAST_REVIEWED_ISO}T00:00:00.000Z`);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: WEB_URL, lastModified: stableLastModified, changeFrequency: "daily", priority: 1 },
     { url: `${WEB_URL}/tools`, lastModified: stableLastModified, changeFrequency: "daily", priority: 0.9 },
     { url: `${WEB_URL}/blog`, lastModified: stableLastModified, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${WEB_URL}/about`, lastModified: stableLastModified, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${WEB_URL}/contact`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.4 },
-    { url: `${WEB_URL}/security`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.4 },
-    { url: `${WEB_URL}/accessibility`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${WEB_URL}/cookie-policy`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${WEB_URL}/disclaimer`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${WEB_URL}/privacy`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${WEB_URL}/terms`, lastModified: stableLastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${WEB_URL}/about`, lastModified: staticReviewDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${WEB_URL}/editorial`, lastModified: staticReviewDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${WEB_URL}/changelog`, lastModified: staticReviewDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${WEB_URL}/contact`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.4 },
+    { url: `${WEB_URL}/security`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.4 },
+    { url: `${WEB_URL}/accessibility`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${WEB_URL}/cookie-policy`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${WEB_URL}/disclaimer`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${WEB_URL}/privacy`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${WEB_URL}/terms`, lastModified: staticReviewDate, changeFrequency: "yearly", priority: 0.3 },
   ];
 
   const toolRoutes: MetadataRoute.Sitemap = toSitemapEntries(registry.getAll(), WEB_URL)

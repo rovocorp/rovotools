@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
+  Braces,
+  Calculator,
+  CheckCheck,
   ChevronDown,
   Code2,
   FileText,
@@ -11,10 +14,14 @@ import {
   Lock,
   Menu,
   Moon,
+  Palette,
+  PenTool,
+  QrCode,
   Search,
   ShieldCheck,
   Sun,
   Type,
+  Wallet,
   X,
 } from "lucide-react";
 import { BRAND_NAME } from "@/shared/config";
@@ -90,6 +97,62 @@ const TOOLS_SUBMENU: ReadonlyArray<ToolsSubmenuItem> = [
     description: "Passwords and hashes, fully local",
     icon: ShieldCheck,
     gradient: "from-[#10B981] to-[#0EA5E9]",
+  },
+  {
+    label: "Calculator Tools",
+    href: "/tools/category/calculator",
+    description: "Percentages, dates and everyday maths",
+    icon: Calculator,
+    gradient: "from-[#F97316] to-[#FACC15]",
+  },
+  {
+    label: "Finance Tools",
+    href: "/tools/category/finance",
+    description: "Loans, interest, discounts and invoices",
+    icon: Wallet,
+    gradient: "from-[#059669] to-[#22C55E]",
+  },
+  {
+    label: "SEO Tools",
+    href: "/tools/category/seo",
+    description: "Metadata, crawl rules and site checks",
+    icon: Search,
+    gradient: "from-[#2563EB] to-[#38BDF8]",
+  },
+  {
+    label: "Design Tools",
+    href: "/tools/category/design",
+    description: "CSS effects and component snippets",
+    icon: PenTool,
+    gradient: "from-[#DB2777] to-[#F472B6]",
+  },
+  {
+    label: "Colour Tools",
+    href: "/tools/category/color",
+    description: "Pick, convert and check contrast",
+    icon: Palette,
+    gradient: "from-[#7C3AED] to-[#EC4899]",
+  },
+  {
+    label: "QR Tools",
+    href: "/tools/category/qr",
+    description: "Links, text, WiFi and contact codes",
+    icon: QrCode,
+    gradient: "from-[#0F172A] to-[#475569]",
+  },
+  {
+    label: "Validators",
+    href: "/tools/category/validator",
+    description: "Check URLs and email addresses",
+    icon: CheckCheck,
+    gradient: "from-[#0EA5E9] to-[#2DD4BF]",
+  },
+  {
+    label: "Formatters",
+    href: "/tools/category/formatter",
+    description: "Dates and numbers, formatted cleanly",
+    icon: Braces,
+    gradient: "from-[#6366F1] to-[#A855F7]",
   },
 ];
 
